@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DailyPost365 - Crypto & Cricket Updates</title>
+    <!-- Font Awesome for Icons (v6 free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #0a0f1e 0%, #0b1425 100%);
+            color: #e9f1fc;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        .glass-card {
+            max-width: 1200px;
+            width: 100%;
+            background: rgba(18, 26, 40, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(74, 144, 226, 0.2);
+            border-radius: 3rem;
+            padding: 3rem 2.5rem;
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(0, 255, 255, 0.1) inset;
+            transition: all 0.3s ease;
+        }
+
+        /* Header Section */
+        .header {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+
+        .logo {
+            font-size: 3.2rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            background: linear-gradient(130deg, #ffb347, #3b82f6, #a855f7);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+        }
+
+        .tagline {
+            font-size: 1.3rem;
+            color: #9bb4d8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .tagline span {
+            background: rgba(59, 130, 246, 0.15);
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 1rem;
+            border: 1px solid #3b82f6;
+            color: #b3d0ff;
+        }
+
+        /* Main Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            margin: 3rem 0 2.5rem 0;
+        }
+
+        .info-panel {
+            background: rgba(10, 18, 30, 0.7);
+            border-radius: 2rem;
+            padding: 2rem 1.8rem;
+            border: 1px solid rgba(0, 191, 255, 0.15);
+            box-shadow: 0 15px 30px -15px #000000;
+        }
+
+        .panel-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px solid #3b82f6;
+            padding-bottom: 0.6rem;
+        }
+
+        .panel-title i {
+            color: #fbbf24;
+        }
+
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-list li {
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 1.1rem;
+        }
+
+        .feature-list li i {
+            color: #3b82f6;
+            font-size: 1.3rem;
+            margin-top: 0.2rem;
+            min-width: 1.5rem;
+        }
+
+        .feature-list strong {
+            color: #ffb347;
+        }
+
+        /* Channel Cards */
+        .channels-section {
+            margin: 3.5rem 0 2rem 0;
+        }
+
+        .section-subhead {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: #d1e0ff;
+        }
+
+        .channel-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .channel-card {
+            background: linear-gradient(145deg, #111c2e, #0a1424);
+            border-radius: 2rem;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            border: 1px solid #2a3a55;
+            transition: transform 0.2s, border-color 0.2s;
+            box-shadow: 0 15px 25px -15px black;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .channel-card:hover {
+            transform: translateY(-6px);
+            border-color: #3b82f6;
+            box-shadow: 0 20px 30px -10px #1e3a8a;
+        }
+
+        .channel-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .youtube-icon { color: #ff4d4d; }
+        .tiktok-icon { color: #25f4ee; text-shadow: 2px 2px 0 #fe2c55; }
+
+        .channel-card h3 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .channel-card p {
+            color: #a0b8d9;
+            font-size: 1rem;
+        }
+
+        .channel-card .handle {
+            font-family: monospace;
+            background: #1e2a3a;
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+            display: inline-block;
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            border: 1px dashed #4a6fa5;
+        }
+
+        /* Call to Action */
+        .cta-box {
+            background: rgba(0, 255, 255, 0.03);
+            border-radius: 3rem;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            margin: 3rem 0 1.5rem 0;
+            border: 1px solid #3b82f6;
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.2);
+        }
+
+        .cta-box h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(120deg, #fff, #b3d9ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .cta-box p {
+            font-size: 1.2rem;
+            color: #cbd5e1;
+            max-width: 650px;
+            margin: 0 auto 2rem auto;
+        }
+
+        .btn {
+            background: linear-gradient(145deg, #3b82f6, #2563eb);
+            border: none;
+            color: white;
+            font-size: 1.3rem;
+            font-weight: 600;
+            padding: 1rem 3rem;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: transform 0.1s, box-shadow 0.2s;
+            border: 1px solid #60a5fa;
+            box-shadow: 0 10px 20px -8px #1e3a8a;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 15px 25px -5px #1e40af;
+        }
+
+        .btn i {
+            margin-right: 10px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3.5rem;
+            color: #60758b;
+            font-size: 0.95rem;
+            border-top: 1px solid #1f3147;
+            padding-top: 2rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 750px) {
+            .glass-card { padding: 2rem 1.2rem; border-radius: 2rem; }
+            .content-grid { grid-template-columns: 1fr; }
+            .logo { font-size: 2.5rem; }
+            .cta-box h2 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="glass-card">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">DailyPost365</div>
+            <div class="tagline">
+                <span><i class="fas fa-chart-line" style="color: #f7931a;"></i> Crypto Audits</span>
+                <span><i class="fas fa-baseball-ball" style="color: #6c5ce7;"></i> Cricket Pulse</span>
+                <span><i class="fas fa-bolt" style="color: #fbbf24;"></i> Daily</span>
+            </div>
+        </div>
+
+        <!-- Main value proposition grid (inspired by your 15-Tier Crypto Audit) -->
+        <div class="content-grid">
+            <div class="info-panel">
+                <div class="panel-title">
+                    <i class="fas fa-shield-halved"></i> Institutional Crypto Analysis
+                </div>
+                <ul class="feature-list">
+                    <li><i class="fas fa-check-circle"></i> <strong>15-Tier Daily Audit</strong> – No hype, just structure</li>
+                    <li><i class="fas fa-check-circle"></i> Market depth, on-chain metrics & risk tiers</li>
+                    <li><i class="fas fa-check-circle"></i> Bitcoin dominance & altcoin rotation tracker</li>
+                    <li><i class="fas fa-check-circle"></i> Whale wallet movements (24h)</li>
+                    <li><i class="fas fa-check-circle"></i> Fear & Greed index + derivatives data</li>
+                </ul>
+            </div>
+            <div class="info-panel">
+                <div class="panel-title">
+                    <i class="fas fa-trophy"></i> Cricket Pulse Updates
+                </div>
+                <ul class="feature-list">
+                    <li><i class="fas fa-check-circle"></i> <strong>Live scores</strong> – Intl. & T20 leagues (IPL, BBL, CPL)</li>
+                    <li><i class="fas fa-check-circle"></i> Match predictions & fantasy tips</li>
+                    <li><i class="fas fa-check-circle"></i> Player form tracker & injury news</li>
+                    <li><i class="fas fa-check-circle"></i> Historical stats & record alerts</li>
+                    <li><i class="fas fa-check-circle"></i> Venue & weather impact analysis</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Your Channels (Directly from your request) -->
+        <div class="channels-section">
+            <h2 class="section-subhead"><i class="fas fa-bullhorn" style="margin-right: 10px;"></i>Follow Our Channels</h2>
+            <div class="channel-grid">
+                <!-- YouTube -->
+                <a href="https://www.youtube.com/@DailyPostWizard" target="_blank" rel="noopener noreferrer" class="channel-card">
+                    <div class="channel-icon youtube-icon"><i class="fab fa-youtube"></i></div>
+                    <h3>YouTube</h3>
+                    <p>Institutional crypto audits & cricket analysis videos</p>
+                    <div class="handle">@DailyPostWizard</div>
+                    <p style="margin-top: 12px; font-size: 0.9rem;">▶️ 174 videos • 84 subscribers</p>
+                </a>
+                <!-- TikTok (using your provided handle, link works globally) -->
+                <a href="https://www.tiktok.com/@dailypostwizard6" target="_blank" rel="noopener noreferrer" class="channel-card">
+                    <div class="channel-icon tiktok-icon"><i class="fab fa-tiktok"></i></div>
+                    <h3>TikTok</h3>
+                    <p>Quick crypto breakdowns & cricket moments</p>
+                    <div class="handle">@dailypostwizard6</div>
+                    <p style="margin-top: 12px; font-size: 0.9rem;">⚡ Daily shorts & updates</p>
+                </a>
+                <!-- Bonus: Suggested Twitter/X placeholder (can be replaced later) -->
+                <a href="#" class="channel-card" style="opacity: 0.8; border-style: dashed;">
+                    <div class="channel-icon" style="color: #1DA1F2;"><i class="fab fa-x-twitter"></i></div>
+                    <h3>X (Twitter)</h3>
+                    <p>Live alerts & threads (Coming soon)</p>
+                    <div class="handle">@ComingSoon</div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Call to action: why subscribe -->
+        <div class="cta-box">
+            <h2><i class="fas fa-crown" style="color: #fbbf24;"></i> Get the Edge</h2>
+            <p>Join 1,000+ readers who start their day with our combined crypto-cricket briefing. No noise, just what moves markets and matches.</p>
+            <a href="#" class="btn"><i class="fas fa-envelope-open-text"></i> Subscribe (Free)</a>
+            <p style="margin-top: 1.5rem; font-size: 0.95rem;">📲 Also available on Telegram • WhatsApp • Discord</p>
+        </div>
+
+        <!-- Footer / trust signal -->
+        <footer>
+            <p>© 2026 DailyPost365 • Independent analysis since 2023 • Not financial advice • Cricket with conviction</p>
+            <p style="margin-top: 0.8rem;">
+                <i class="fas fa-shield-alt"></i> 15-Tier Crypto Audit is a DailyPost365 original method
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
