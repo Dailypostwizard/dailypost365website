@@ -17,41 +17,71 @@
 
         body {
             min-height: 100vh;
-            background: #0a0c15;
-            color: #edf2fb;
+            background: linear-gradient(145deg, #f0f5ff 0%, #e6ecf8 100%);
+            color: #1e2a3a;
             line-height: 1.5;
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 1.5rem;
+            overflow-x: hidden;
         }
 
-        /* ===== WORLD-CLASS BACKGROUND: ANIMATED PARTICLE NETWORK ===== */
-        #network-canvas {
+        /* ===== PLEASANT BACKGROUND WITH FLOATING ICONS ===== */
+        .floating-icons {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
-            background: radial-gradient(circle at 30% 40%, #141b33 0%, #070b17 100%);
-            display: block;
+            z-index: 0;
+            pointer-events: none; /* so clicks pass through to card */
+            overflow: hidden;
         }
 
-        /* ===== MAIN CONTENT CARD ===== */
+        .floating-icons i {
+            position: absolute;
+            color: rgba(0, 100, 200, 0.08);
+            font-size: 3rem;
+            user-select: none;
+            animation: float 20s infinite linear;
+        }
+
+        /* Different sizes, opacities, and speeds */
+        .floating-icons i:nth-child(1) { top: 10%; left: 5%; font-size: 4rem; animation-duration: 25s; opacity: 0.1; }
+        .floating-icons i:nth-child(2) { top: 70%; left: 15%; font-size: 5rem; animation-duration: 30s; opacity: 0.07; }
+        .floating-icons i:nth-child(3) { top: 40%; left: 80%; font-size: 3.5rem; animation-duration: 22s; opacity: 0.12; }
+        .floating-icons i:nth-child(4) { top: 85%; left: 70%; font-size: 4.5rem; animation-duration: 28s; opacity: 0.09; }
+        .floating-icons i:nth-child(5) { top: 20%; left: 90%; font-size: 3rem; animation-duration: 26s; opacity: 0.15; }
+        .floating-icons i:nth-child(6) { top: 55%; left: 30%; font-size: 4rem; animation-duration: 24s; opacity: 0.1; }
+        .floating-icons i:nth-child(7) { top: 15%; left: 45%; font-size: 5rem; animation-duration: 32s; opacity: 0.08; }
+        .floating-icons i:nth-child(8) { top: 75%; left: 55%; font-size: 3.5rem; animation-duration: 27s; opacity: 0.12; }
+        .floating-icons i:nth-child(9) { top: 30%; left: 20%; font-size: 4.2rem; animation-duration: 29s; opacity: 0.1; }
+        .floating-icons i:nth-child(10) { top: 90%; left: 40%; font-size: 4rem; animation-duration: 23s; opacity: 0.09; }
+        .floating-icons i:nth-child(11) { top: 45%; left: 65%; font-size: 5rem; animation-duration: 31s; opacity: 0.07; }
+        .floating-icons i:nth-child(12) { top: 5%; left: 75%; font-size: 3.8rem; animation-duration: 26s; opacity: 0.11; }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+        /* ===== MAIN CONTENT CARD (Light, pleasant) ===== */
         .main-card {
             position: relative;
             z-index: 10;
             max-width: 1300px;
             width: 100%;
-            background: rgba(5, 10, 24, 0.65);
-            backdrop-filter: blur(12px) saturate(180%);
-            -webkit-backdrop-filter: blur(12px) saturate(180%);
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(15px) saturate(180%);
+            -webkit-backdrop-filter: blur(15px) saturate(180%);
             border-radius: 3.5rem;
-            border: 1px solid rgba(255, 215, 0, 0.2);
-            box-shadow: 0 30px 60px rgba(0, 10, 30, 0.8), 0 0 0 1px rgba(0, 200, 255, 0.2) inset;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 0 30px 50px rgba(0, 20, 40, 0.2), 0 0 0 1px rgba(255, 215, 0, 0.1) inset;
             padding: 3rem 2.5rem;
+            color: #1e2e4a;
         }
 
         /* ===== HEADER ===== */
@@ -63,12 +93,12 @@
             font-size: 3.8rem;
             font-weight: 800;
             letter-spacing: -0.02em;
-            background: linear-gradient(145deg, #ffb347, #3b82f6, #a855f7, #f43f5e);
+            background: linear-gradient(145deg, #f7931a, #3b82f6, #8b5cf6);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             line-height: 1.2;
-            text-shadow: 0 0 30px #3b82f6;
+            text-shadow: 0 4px 10px rgba(59,130,246,0.2);
         }
         .tagline {
             display: flex;
@@ -76,14 +106,15 @@
             justify-content: center;
             flex-wrap: wrap;
             font-size: 1.25rem;
-            color: #b3c7f0;
+            color: #2c3e5e;
         }
         .tagline span {
-            background: rgba(59, 130, 246, 0.15);
+            background: rgba(255, 255, 255, 0.5);
             border: 1px solid #3b82f6;
             padding: 0.3rem 1.4rem;
             border-radius: 40px;
             font-weight: 500;
+            backdrop-filter: blur(4px);
         }
 
         /* ===== CONTENT GRID ===== */
@@ -94,11 +125,12 @@
             margin: 3rem 0 2.5rem;
         }
         .insight-panel {
-            background: rgba(0, 5, 15, 0.5);
+            background: rgba(255, 255, 255, 0.5);
             border-radius: 2.2rem;
             padding: 2rem 2rem;
-            border: 1px solid #2d3a5e;
+            border: 1px solid rgba(59, 130, 246, 0.2);
             backdrop-filter: blur(4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.02);
         }
         .panel-header {
             font-size: 2rem;
@@ -109,6 +141,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            color: #0f1e3a;
         }
         .panel-header i { color: #fbbf24; }
         .feature-list {
@@ -120,13 +153,14 @@
             gap: 12px;
             align-items: flex-start;
             font-size: 1.05rem;
+            color: #1f2e48;
         }
         .feature-list i {
             color: #3b82f6;
             font-size: 1.3rem;
             min-width: 1.8rem;
         }
-        .feature-list strong { color: #ffb347; }
+        .feature-list strong { color: #f7931a; }
 
         /* ===== SOCIAL CHANNELS ===== */
         .social-section {
@@ -137,6 +171,7 @@
             text-align: center;
             margin-bottom: 2rem;
             font-weight: 600;
+            color: #0f1e3a;
         }
         .social-grid {
             display: grid;
@@ -145,26 +180,27 @@
             justify-items: center;
         }
         .social-card {
-            background: rgba(16, 24, 40, 0.7);
-            backdrop-filter: blur(4px);
-            border: 1px solid #3b4e77;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(59, 130, 246, 0.2);
             border-radius: 2rem;
             padding: 1.2rem 0.8rem;
             width: 100%;
             text-align: center;
             text-decoration: none;
-            color: white;
+            color: #1e2e4a;
             transition: 0.2s;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 6px;
-            box-shadow: 0 8px 15px rgba(0,0,0,0.5);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.05);
         }
         .social-card:hover {
             transform: translateY(-5px);
             border-color: #fbbf24;
-            background: #1f2a44;
+            background: white;
+            box-shadow: 0 15px 25px rgba(0,0,0,0.1);
         }
         .social-card i {
             font-size: 2.2rem;
@@ -172,7 +208,7 @@
         .social-card .handle {
             font-size: 0.8rem;
             opacity: 0.8;
-            background: #0b1425;
+            background: rgba(255,255,255,0.6);
             padding: 0.2rem 0.8rem;
             border-radius: 30px;
             max-width: 90%;
@@ -182,44 +218,45 @@
 
         /* Platform-specific colors */
         .yt-crypto i, .yt-cricket i { color: #ff4d4d; }
-        .tiktok i { color: #25f4ee; text-shadow: 0 2px 2px #fe2c55; }
-        .x i { color: #fff; }
+        .tiktok i { color: #000000; } /* TikTok logo in dark */
+        .x i { color: #000000; }
         .instagram i { color: #e1306c; }
         .linkedin i { color: #0a66c2; }
 
         /* ===== CALL TO ACTION ===== */
         .cta-block {
-            background: linear-gradient(145deg, #0f1a2f, #0b1428);
+            background: linear-gradient(145deg, rgba(255,255,240,0.7), rgba(255,255,255,0.5));
             border-radius: 3rem;
             padding: 2.5rem 2rem;
             text-align: center;
             margin: 3rem 0 1.5rem;
             border: 1px solid #fbbf24;
+            backdrop-filter: blur(4px);
         }
         .cta-block h2 {
             font-size: 2.5rem;
             font-weight: 700;
             margin-bottom: 1rem;
-            background: linear-gradient(120deg, #fff, #c7d9ff);
+            background: linear-gradient(120deg, #0f1e3a, #3b5e9c);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
         }
         .cta-block p {
             font-size: 1.2rem;
-            color: #b3caf5;
+            color: #1e3a5f;
             max-width: 700px;
             margin: 0 auto 2rem;
         }
         .btn {
             background: linear-gradient(145deg, #fbbf24, #f59e0b);
-            color: #0a0f1a;
+            color: #0f1e3a;
             font-weight: 700;
             font-size: 1.4rem;
             padding: 1rem 3rem;
             border-radius: 60px;
             border: none;
-            box-shadow: 0 10px 25px #fbbf24;
+            box-shadow: 0 10px 20px rgba(251,191,36,0.3);
             cursor: pointer;
             transition: 0.1s;
             display: inline-block;
@@ -227,15 +264,15 @@
         }
         .btn:hover {
             transform: scale(1.02);
-            box-shadow: 0 15px 35px #fbbf24;
+            box-shadow: 0 15px 30px rgba(251,191,36,0.5);
         }
 
         footer {
             text-align: center;
-            color: #6679a3;
+            color: #4a5b7a;
             margin-top: 2rem;
             font-size: 0.9rem;
-            border-top: 1px solid #1f3147;
+            border-top: 1px solid #cbd5e1;
             padding-top: 1.8rem;
         }
 
@@ -248,8 +285,24 @@
 </head>
 <body>
 
-    <!-- Canvas for animated particle network background -->
-    <canvas id="network-canvas"></canvas>
+    <!-- Floating Icons Background (Cricket & Crypto) -->
+    <div class="floating-icons">
+        <!-- Cricket icons -->
+        <i class="fas fa-baseball-ball"></i>
+        <i class="fas fa-cricket"></i>
+        <i class="fas fa-hockey-puck"></i>  <!-- close to cricket ball shape -->
+        <i class="fas fa-baseball-bat-ball"></i>
+        <i class="fas fa-circle-notch"></i>  <!-- abstract ball -->
+        <!-- Crypto icons -->
+        <i class="fab fa-bitcoin"></i>
+        <i class="fab fa-ethereum"></i>
+        <i class="fas fa-cube"></i>  <!-- blockchain cube -->
+        <i class="fas fa-link"></i>   <!-- chain link -->
+        <i class="fas fa-chart-line"></i>
+        <i class="fas fa-coins"></i>
+        <i class="fas fa-chart-pie"></i>
+        <!-- Repeat to fill space (more will be added via CSS nth-child, but we have 12 already) -->
+    </div>
 
     <div class="main-card">
         <!-- Header -->
@@ -286,7 +339,7 @@
             </div>
         </div>
 
-        <!-- SOCIAL CHANNELS – ALL LINKS NOW UPDATED -->
+        <!-- SOCIAL CHANNELS – ALL LINKS (Updated) -->
         <div class="social-section">
             <h2 class="section-title"><i class="fas fa-bullhorn" style="margin-right: 12px;"></i>Follow Our Channels</h2>
             <div class="social-grid">
@@ -314,13 +367,13 @@
                     <span>X (Twitter)</span>
                     <span class="handle">@DailyPostW92945</span>
                 </a>
-                <!-- LinkedIn (UPDATED with your new link) -->
+                <!-- LinkedIn -->
                 <a href="https://www.linkedin.com/in/dailypostwizard-undefined-5742813ab/" target="_blank" rel="noopener noreferrer" class="social-card linkedin">
                     <i class="fab fa-linkedin-in"></i>
                     <span>LinkedIn</span>
                     <span class="handle">dailypostwizard</span>
                 </a>
-                <!-- Instagram (UPDATED with your new link) -->
+                <!-- Instagram -->
                 <a href="https://www.instagram.com/dailypostwizard2026/" target="_blank" rel="noopener noreferrer" class="social-card instagram">
                     <i class="fab fa-instagram"></i>
                     <span>Instagram</span>
@@ -344,7 +397,7 @@
             </p>
         </div>
 
-        <!-- Call to Action -->
+        <!-- Call to Action (placeholder link) -->
         <div class="cta-block">
             <h2><i class="fas fa-crown" style="color: #fbbf24;"></i> Get the Edge</h2>
             <p>Join 1,000+ readers who start their day with our combined crypto-cricket briefing. No noise, just what moves markets and matches.</p>
@@ -358,104 +411,9 @@
         </footer>
     </div>
 
-    <!-- JavaScript for Animated Particle Network Background -->
-    <script>
-        (function() {
-            const canvas = document.getElementById('network-canvas');
-            const ctx = canvas.getContext('2d');
-            let width, height;
-            let particles = [];
-            const PARTICLE_COUNT = 90;
-            const MAX_DIST = 170;
-            const MOUSE_RADIUS = 110;
-
-            let mouseX = null, mouseY = null;
-
-            function initParticles() {
-                particles = [];
-                for (let i = 0; i < PARTICLE_COUNT; i++) {
-                    particles.push({
-                        x: Math.random() * width,
-                        y: Math.random() * height,
-                        vx: (Math.random() - 0.5) * 0.35,
-                        vy: (Math.random() - 0.5) * 0.35,
-                        radius: Math.random() * 2 + 1.5,
-                    });
-                }
-            }
-
-            function resizeCanvas() {
-                width = window.innerWidth;
-                height = window.innerHeight;
-                canvas.width = width;
-                canvas.height = height;
-                initParticles();
-            }
-
-            function draw() {
-                if (!ctx) return;
-                ctx.clearRect(0, 0, width, height);
-
-                for (let i = 0; i < particles.length; i++) {
-                    let p = particles[i];
-                    p.x += p.vx;
-                    p.y += p.vy;
-
-                    if (p.x < 0 || p.x > width) { p.vx *= -0.98; p.x = Math.min(width, Math.max(0, p.x)); }
-                    if (p.y < 0 || p.y > height) { p.vy *= -0.98; p.y = Math.min(height, Math.max(0, p.y)); }
-
-                    if (mouseX !== null && mouseY !== null) {
-                        let dx = p.x - mouseX;
-                        let dy = p.y - mouseY;
-                        let dist = Math.sqrt(dx*dx + dy*dy);
-                        if (dist < MOUSE_RADIUS) {
-                            let force = (MOUSE_RADIUS - dist) / MOUSE_RADIUS * 0.8;
-                            let angle = Math.atan2(dy, dx);
-                            p.x += Math.cos(angle) * force * 2;
-                            p.y += Math.sin(angle) * force * 2;
-                        }
-                    }
-
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-                    ctx.fillStyle = 'rgba(150, 200, 255, 0.7)';
-                    ctx.fill();
-                }
-
-                ctx.strokeStyle = 'rgba(100, 160, 255, 0.2)';
-                ctx.lineWidth = 1.2;
-                for (let i = 0; i < particles.length; i++) {
-                    for (let j = i + 1; j < particles.length; j++) {
-                        let dx = particles[i].x - particles[j].x;
-                        let dy = particles[i].y - particles[j].y;
-                        let dist = Math.sqrt(dx*dx + dy*dy);
-                        if (dist < MAX_DIST) {
-                            let opacity = (1 - dist / MAX_DIST) * 0.5;
-                            ctx.beginPath();
-                            ctx.strokeStyle = `rgba(120, 180, 255, ${opacity})`;
-                            ctx.moveTo(particles[i].x, particles[i].y);
-                            ctx.lineTo(particles[j].x, particles[j].y);
-                            ctx.stroke();
-                        }
-                    }
-                }
-
-                requestAnimationFrame(draw);
-            }
-
-            window.addEventListener('mousemove', (e) => {
-                mouseX = e.clientX;
-                mouseY = e.clientY;
-            });
-            window.addEventListener('mouseleave', () => {
-                mouseX = null;
-                mouseY = null;
-            });
-
-            window.addEventListener('resize', resizeCanvas);
-            resizeCanvas();
-            draw();
-        })();
-    </script>
+    <!-- ======================================================= -->
+    <!-- NOTE: This is a static website. No data is collected.   -->
+    <!-- All links open external profiles – view‑only.           -->
+    <!-- ======================================================= -->
 </body>
 </html>
