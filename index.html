@@ -1,230 +1,420 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DailyPost365 | Institutional Crypto & Cricket Intelligence</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>DailyPost365 - Crypto & Cricket Intelligence</title>
+    <!-- Font Awesome 6 (Free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        :root {
-            --bg-primary: #0a0e17;
-            --bg-secondary: #131a28;
-            --accent-gold: #f7931a;
-            --accent-blue: #3b82f6;
-            --accent-green: #10b981;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --border-glow: rgba(59, 130, 246, 0.3);
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', system-ui, sans-serif; }
-
         body {
-            background-color: var(--bg-primary);
-            color: var(--text-main);
-            line-height: 1.6;
+            min-height: 100vh;
+            background: linear-gradient(145deg, #f0f5ff 0%, #e6ecf8 100%);
+            color: #1e2a3a;
+            line-height: 1.5;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
             overflow-x: hidden;
         }
 
-        /* Top Navigation Bar */
-        nav {
-            background: rgba(19, 26, 40, 0.8);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
+        /* ===== PLEASANT BACKGROUND WITH FLOATING ICONS ===== */
+        .floating-icons {
+            position: fixed;
             top: 0;
-            z-index: 100;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none; /* so clicks pass through to card */
+            overflow: hidden;
         }
 
-        .logo { font-size: 1.8rem; font-weight: 800; letter-spacing: -1px; }
-        .logo span { color: var(--accent-gold); }
+        .floating-icons i {
+            position: absolute;
+            color: rgba(0, 100, 200, 0.08);
+            font-size: 3rem;
+            user-select: none;
+            animation: float 20s infinite linear;
+        }
 
-        .status-indicators { display: flex; gap: 1.5rem; font-size: 0.85rem; font-weight: 600; }
-        .status-item { display: flex; align-items: center; gap: 0.5rem; }
-        .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-green); box-shadow: 0 0 8px var(--accent-green); }
+        /* Different sizes, opacities, and speeds */
+        .floating-icons i:nth-child(1) { top: 10%; left: 5%; font-size: 4rem; animation-duration: 25s; opacity: 0.1; }
+        .floating-icons i:nth-child(2) { top: 70%; left: 15%; font-size: 5rem; animation-duration: 30s; opacity: 0.07; }
+        .floating-icons i:nth-child(3) { top: 40%; left: 80%; font-size: 3.5rem; animation-duration: 22s; opacity: 0.12; }
+        .floating-icons i:nth-child(4) { top: 85%; left: 70%; font-size: 4.5rem; animation-duration: 28s; opacity: 0.09; }
+        .floating-icons i:nth-child(5) { top: 20%; left: 90%; font-size: 3rem; animation-duration: 26s; opacity: 0.15; }
+        .floating-icons i:nth-child(6) { top: 55%; left: 30%; font-size: 4rem; animation-duration: 24s; opacity: 0.1; }
+        .floating-icons i:nth-child(7) { top: 15%; left: 45%; font-size: 5rem; animation-duration: 32s; opacity: 0.08; }
+        .floating-icons i:nth-child(8) { top: 75%; left: 55%; font-size: 3.5rem; animation-duration: 27s; opacity: 0.12; }
+        .floating-icons i:nth-child(9) { top: 30%; left: 20%; font-size: 4.2rem; animation-duration: 29s; opacity: 0.1; }
+        .floating-icons i:nth-child(10) { top: 90%; left: 40%; font-size: 4rem; animation-duration: 23s; opacity: 0.09; }
+        .floating-icons i:nth-child(11) { top: 45%; left: 65%; font-size: 5rem; animation-duration: 31s; opacity: 0.07; }
+        .floating-icons i:nth-child(12) { top: 5%; left: 75%; font-size: 3.8rem; animation-duration: 26s; opacity: 0.11; }
 
-        /* Main Container */
-        .container { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
 
-        /* Hero Section */
-        .hero { text-align: center; margin: 3rem 0; }
-        .hero h1 { font-size: 3.5rem; margin-bottom: 1rem; background: linear-gradient(to right, #fff, #94a3b8); -webkit-background-clip: text; color: transparent; }
-        .hero p { color: var(--text-muted); font-size: 1.2rem; max-width: 600px; margin: 0 auto; }
+        /* ===== MAIN CONTENT CARD (Light, pleasant) ===== */
+        .main-card {
+            position: relative;
+            z-index: 10;
+            max-width: 1300px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(15px) saturate(180%);
+            -webkit-backdrop-filter: blur(15px) saturate(180%);
+            border-radius: 3.5rem;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 0 30px 50px rgba(0, 20, 40, 0.2), 0 0 0 1px rgba(255, 215, 0, 0.1) inset;
+            padding: 3rem 2.5rem;
+            color: #1e2e4a;
+        }
 
-        /* Markets Ticker (TradingView Widget Container) */
-        .ticker-container { height: 72px; margin-bottom: 2rem; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); }
+        /* ===== HEADER ===== */
+        .logo-area {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+        .logo {
+            font-size: 3.8rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            background: linear-gradient(145deg, #f7931a, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1.2;
+            text-shadow: 0 4px 10px rgba(59,130,246,0.2);
+        }
+        .tagline {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            font-size: 1.25rem;
+            color: #2c3e5e;
+        }
+        .tagline span {
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid #3b82f6;
+            padding: 0.3rem 1.4rem;
+            border-radius: 40px;
+            font-weight: 500;
+            backdrop-filter: blur(4px);
+        }
 
-        /* Grid Layout for Content */
-        .dashboard-grid {
+        /* ===== CONTENT GRID ===== */
+        .insight-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 2rem;
-            margin-bottom: 3rem;
+            margin: 3rem 0 2.5rem;
         }
-
-        /* Cards */
-        .card {
-            background: var(--bg-secondary);
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 20px;
-            padding: 1.5rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        .insight-panel {
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 2.2rem;
+            padding: 2rem 2rem;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            backdrop-filter: blur(4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.02);
         }
-        .card:hover { border-color: var(--border-glow); box-shadow: 0 10px 40px rgba(59, 130, 246, 0.15); }
+        .panel-header {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            border-bottom: 3px solid #fbbf24;
+            padding-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #0f1e3a;
+        }
+        .panel-header i { color: #fbbf24; }
+        .feature-list {
+            list-style: none;
+        }
+        .feature-list li {
+            margin-bottom: 1rem;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            font-size: 1.05rem;
+            color: #1f2e48;
+        }
+        .feature-list i {
+            color: #3b82f6;
+            font-size: 1.3rem;
+            min-width: 1.8rem;
+        }
+        .feature-list strong { color: #f7931a; }
 
-        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .card-header h2 { font-size: 1.4rem; display: flex; align-items: center; gap: 0.8rem; }
-        .card-header i { color: var(--accent-blue); }
-
-        /* Video Embed Aspect Ratio Box */
-        .video-wrapper {
-            position: relative;
-            padding-bottom: 56.25%; /* 16:9 */
-            height: 0;
-            border-radius: 12px;
+        /* ===== SOCIAL CHANNELS ===== */
+        .social-section {
+            margin: 3.5rem 0 2rem;
+        }
+        .section-title {
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-weight: 600;
+            color: #0f1e3a;
+        }
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 1.2rem;
+            justify-items: center;
+        }
+        .social-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 2rem;
+            padding: 1.2rem 0.8rem;
+            width: 100%;
+            text-align: center;
+            text-decoration: none;
+            color: #1e2e4a;
+            transition: 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.05);
+        }
+        .social-card:hover {
+            transform: translateY(-5px);
+            border-color: #fbbf24;
+            background: white;
+            box-shadow: 0 15px 25px rgba(0,0,0,0.1);
+        }
+        .social-card i {
+            font-size: 2.2rem;
+        }
+        .social-card .handle {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            background: rgba(255,255,255,0.6);
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+            max-width: 90%;
             overflow: hidden;
-            background: #000;
+            text-overflow: ellipsis;
         }
-        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
 
-        /* Cricket Schedule List */
-        .match-list { list-style: none; }
-        .match-item {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 1rem; background: rgba(0,0,0,0.2); border-radius: 10px; margin-bottom: 0.8rem;
-            border-left: 4px solid var(--accent-blue);
+        /* Platform-specific colors */
+        .yt-crypto i, .yt-cricket i { color: #ff4d4d; }
+        .tiktok i { color: #000000; } /* TikTok logo in dark */
+        .x i { color: #000000; }
+        .instagram i { color: #e1306c; }
+        .linkedin i { color: #0a66c2; }
+
+        /* ===== CALL TO ACTION ===== */
+        .cta-block {
+            background: linear-gradient(145deg, rgba(255,255,240,0.7), rgba(255,255,255,0.5));
+            border-radius: 3rem;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            margin: 3rem 0 1.5rem;
+            border: 1px solid #fbbf24;
+            backdrop-filter: blur(4px);
         }
-        .match-teams { font-weight: 600; font-size: 1.1rem; }
-        .match-meta { color: var(--text-muted); font-size: 0.9rem; display: flex; flex-direction: column; align-items: flex-end;}
-        .live-badge { background: rgba(239, 68, 68, 0.2); color: #ef4444; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.8rem; font-weight: bold; animation: pulse 2s infinite; }
+        .cta-block h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(120deg, #0f1e3a, #3b5e9c);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .cta-block p {
+            font-size: 1.2rem;
+            color: #1e3a5f;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+        .btn {
+            background: linear-gradient(145deg, #fbbf24, #f59e0b);
+            color: #0f1e3a;
+            font-weight: 700;
+            font-size: 1.4rem;
+            padding: 1rem 3rem;
+            border-radius: 60px;
+            border: none;
+            box-shadow: 0 10px 20px rgba(251,191,36,0.3);
+            cursor: pointer;
+            transition: 0.1s;
+            display: inline-block;
+            text-decoration: none;
+        }
+        .btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 15px 30px rgba(251,191,36,0.5);
+        }
 
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        footer {
+            text-align: center;
+            color: #4a5b7a;
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            border-top: 1px solid #cbd5e1;
+            padding-top: 1.8rem;
+        }
 
-        @media (max-width: 968px) { .dashboard-grid { grid-template-columns: 1fr; } .status-indicators { display: none; } }
+        @media (max-width: 650px) {
+            .main-card { padding: 2rem 1.2rem; }
+            .insight-grid { grid-template-columns: 1fr; }
+            .logo { font-size: 2.8rem; }
+        }
     </style>
 </head>
 <body>
 
-    <nav>
-        <div class="logo">DailyPost<span>365</span></div>
-        <div class="status-indicators">
-            <div class="status-item"><div class="dot"></div> Crypto Nodes Active</div>
-            <div class="status-item"><div class="dot" style="background:#3b82f6; box-shadow: 0 0 8px #3b82f6;"></div> Sports Feed Synced</div>
+    <!-- Floating Icons Background (Cricket & Crypto) -->
+    <div class="floating-icons">
+        <!-- Cricket icons -->
+        <i class="fas fa-baseball-ball"></i>
+        <i class="fas fa-cricket"></i>
+        <i class="fas fa-hockey-puck"></i>  <!-- close to cricket ball shape -->
+        <i class="fas fa-baseball-bat-ball"></i>
+        <i class="fas fa-circle-notch"></i>  <!-- abstract ball -->
+        <!-- Crypto icons -->
+        <i class="fab fa-bitcoin"></i>
+        <i class="fab fa-ethereum"></i>
+        <i class="fas fa-cube"></i>  <!-- blockchain cube -->
+        <i class="fas fa-link"></i>   <!-- chain link -->
+        <i class="fas fa-chart-line"></i>
+        <i class="fas fa-coins"></i>
+        <i class="fas fa-chart-pie"></i>
+        <!-- Repeat to fill space (more will be added via CSS nth-child, but we have 12 already) -->
+    </div>
+
+    <div class="main-card">
+        <!-- Header -->
+        <div class="logo-area">
+            <div class="logo">DailyPost365</div>
+            <div class="tagline">
+                <span><i class="fas fa-chart-line" style="color: #f7931a;"></i> Crypto Intelligence</span>
+                <span><i class="fas fa-baseball-ball" style="color: #6c5ce7;"></i> Cricket Coverage</span>
+                <span><i class="fas fa-bolt" style="color: #fbbf24;"></i> Daily Edge</span>
+            </div>
         </div>
-    </nav>
 
-    <div class="container">
-        <div class="hero">
-            <h1>Intelligence Redefined.</h1>
-            <p>Institutional-grade crypto analysis and elite cricket strategy, delivered daily without the noise.</p>
-        </div>
-
-        <div class="ticker-container">
-            <div class="tradingview-widget-container">
-                <div class="tradingview-widget-container__widget"></div>
-                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/tv-widget-ticker-tape.js" async>
-                {
-                "symbols": [
-                    { "proName": "BINANCE:BTCUSDT", "title": "Bitcoin" },
-                    { "proName": "BINANCE:ETHUSDT", "title": "Ethereum" },
-                    { "proName": "BINANCE:SOLUSDT", "title": "Solana" },
-                    { "proName": "BINANCE:UNIUSDT", "title": "Uniswap" },
-                    { "proName": "BINANCE:SUIUSDT", "title": "SUI" },
-                    { "proName": "BINANCE:LINKUSDT", "title": "Chainlink" }
-                ],
-                "showSymbolLogo": true,
-                "isTransparent": true,
-                "displayMode": "adaptive",
-                "colorTheme": "dark",
-                "locale": "en"
-                }
-                </script>
-            </div>
-            </div>
-
-        <div class="dashboard-grid">
-            
-            <div class="card">
-                <div class="card-header">
-                    <h2><i class="fa-solid fa-chart-line"></i> Market Alpha Analysis</h2>
-                    <span style="color: var(--text-muted); font-size: 0.9rem;">15-Tier Audit</span>
-                </div>
-                <div class="video-wrapper">
-                    <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID?rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                </div>
-                <p style="margin-top: 1rem; color: var(--text-muted); font-size: 0.95rem;">
-                    Latest on-chain movements, whale tracking, and macro analysis from @DailyPostWizard.
-                </p>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <h2><i class="fa-solid fa-baseball-bat-ball"></i> Match Strategy & Intelligence</h2>
-                    <a href="https://www.youtube.com/@CoverDriveCricket-c5z" target="_blank" style="color: var(--accent-blue); text-decoration: none; font-size: 0.9rem;">View Channel</a>
-                </div>
-                
-                <ul class="match-list">
-                    <li class="match-item">
-                        <div class="match-teams">India vs Australia <span class="live-badge">LIVE</span></div>
-                        <div class="match-meta">
-                            <span>T20 World Cup</span>
-                            <span>Inning 2 • 14.2 Overs</span>
-                        </div>
-                    </li>
-                    <li class="match-item" style="border-color: var(--text-muted);">
-                        <div class="match-teams">Pakistan vs Sri Lanka</div>
-                        <div class="match-meta">
-                            <span>Upcoming • Tomorrow</span>
-                            <span>Dambulla Stadium</span>
-                        </div>
-                    </li>
-                     <li class="match-item" style="border-color: var(--text-muted);">
-                        <div class="match-teams">England vs West Indies</div>
-                        <div class="match-meta">
-                            <span>Upcoming • Friday</span>
-                            <span>Kensington Oval</span>
-                        </div>
-                    </li>
+        <!-- Crypto & Cricket panels -->
+        <div class="insight-grid">
+            <div class="insight-panel">
+                <div class="panel-header"><i class="fas fa-shield-halved"></i> Institutional Crypto Analysis</div>
+                <ul class="feature-list">
+                    <li><i class="fas fa-check-circle"></i> <strong>15-Tier Daily Audit</strong> – No hype, just structure</li>
+                    <li><i class="fas fa-check-circle"></i> Market depth, on-chain metrics & risk tiers</li>
+                    <li><i class="fas fa-check-circle"></i> Bitcoin dominance & altcoin rotation tracker</li>
+                    <li><i class="fas fa-check-circle"></i> Whale wallet movements (24h)</li>
+                    <li><i class="fas fa-check-circle"></i> Fear & Greed index + derivatives data</li>
                 </ul>
             </div>
-            
-        </div>
-        
-        <div class="card" style="margin-bottom: 2rem;">
-            <div class="card-header">
-                <h2><i class="fa-solid fa-crosshairs"></i> Technical Architecture (BTC/USDT)</h2>
+            <div class="insight-panel">
+                <div class="panel-header"><i class="fas fa-trophy"></i> Cricket Pulse Updates</div>
+                <ul class="feature-list">
+                    <li><i class="fas fa-check-circle"></i> <strong>Live scores</strong> – Intl. & T20 leagues (IPL, BBL, CPL)</li>
+                    <li><i class="fas fa-check-circle"></i> Match predictions & fantasy tips</li>
+                    <li><i class="fas fa-check-circle"></i> Player form tracker & injury news</li>
+                    <li><i class="fas fa-check-circle"></i> Historical stats & record alerts</li>
+                    <li><i class="fas fa-check-circle"></i> Venue & weather impact analysis</li>
+                </ul>
             </div>
-            <div style="height: 400px; width: 100%;">
-                <div class="tradingview-widget-container" style="height:100%;width:100%">
-                    <div class="tradingview-widget-container__widget" style="height:calc(100% - 32px);width:100%"></div>
-                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/tv-widget-advanced-chart.js" async>
-                    {
-                    "autosize": true,
-                    "symbol": "BINANCE:BTCUSDT",
-                    "interval": "D",
-                    "timezone": "Etc/UTC",
-                    "theme": "dark",
-                    "style": "1",
-                    "locale": "en",
-                    "enable_publishing": false,
-                    "backgroundColor": "rgba(19, 26, 40, 1)",
-                    "gridColor": "rgba(255, 255, 255, 0.05)",
-                    "hide_top_toolbar": true,
-                    "hide_legend": true,
-                    "save_image": false,
-                    "calendar": false,
-                    "support_host": "https://www.tradingview.com"
-                    }
-                    </script>
-                </div>
-                </div>
         </div>
 
+        <!-- SOCIAL CHANNELS – ALL LINKS (Updated) -->
+        <div class="social-section">
+            <h2 class="section-title"><i class="fas fa-bullhorn" style="margin-right: 12px;"></i>Follow Our Channels</h2>
+            <div class="social-grid">
+                <!-- YouTube Crypto -->
+                <a href="https://www.youtube.com/@DailyPostWizard" target="_blank" rel="noopener noreferrer" class="social-card yt-crypto">
+                    <i class="fab fa-youtube"></i>
+                    <span>YouTube Crypto</span>
+                    <span class="handle">@DailyPostWizard</span>
+                </a>
+                <!-- YouTube Cricket -->
+                <a href="https://www.youtube.com/@CoverDriveCricket-c5z" target="_blank" rel="noopener noreferrer" class="social-card yt-cricket">
+                    <i class="fab fa-youtube"></i>
+                    <span>YouTube Cricket</span>
+                    <span class="handle">@CoverDriveCricket</span>
+                </a>
+                <!-- TikTok -->
+                <a href="https://www.tiktok.com/@dailypostwizard6" target="_blank" rel="noopener noreferrer" class="social-card tiktok">
+                    <i class="fab fa-tiktok"></i>
+                    <span>TikTok</span>
+                    <span class="handle">@dailypostwizard6</span>
+                </a>
+                <!-- X (Twitter) -->
+                <a href="https://x.com/DailyPostW92945" target="_blank" rel="noopener noreferrer" class="social-card x">
+                    <i class="fab fa-x-twitter"></i>
+                    <span>X (Twitter)</span>
+                    <span class="handle">@DailyPostW92945</span>
+                </a>
+                <!-- LinkedIn -->
+                <a href="https://www.linkedin.com/in/dailypostwizard-undefined-5742813ab/" target="_blank" rel="noopener noreferrer" class="social-card linkedin">
+                    <i class="fab fa-linkedin-in"></i>
+                    <span>LinkedIn</span>
+                    <span class="handle">dailypostwizard</span>
+                </a>
+                <!-- Instagram -->
+                <a href="https://www.instagram.com/dailypostwizard2026/" target="_blank" rel="noopener noreferrer" class="social-card instagram">
+                    <i class="fab fa-instagram"></i>
+                    <span>Instagram</span>
+                    <span class="handle">@dailypostwizard2026</span>
+                </a>
+                <!-- Telegram (bonus) -->
+                <a href="#" class="social-card" style="border-color: #26A5E4;">
+                    <i class="fab fa-telegram"></i>
+                    <span>Telegram</span>
+                    <span class="handle">@DailyPost365</span>
+                </a>
+                <!-- WhatsApp (bonus) -->
+                <a href="#" class="social-card" style="border-color: #25D366;">
+                    <i class="fab fa-whatsapp"></i>
+                    <span>WhatsApp</span>
+                    <span class="handle">Channel (soon)</span>
+                </a>
+            </div>
+            <p style="text-align: center; margin-top: 1.5rem; opacity: 0.7;">
+                <i class="fas fa-globe"></i> More platforms coming: Discord • Threads
+            </p>
+        </div>
+
+        <!-- Call to Action (placeholder link) -->
+        <div class="cta-block">
+            <h2><i class="fas fa-crown" style="color: #fbbf24;"></i> Get the Edge</h2>
+            <p>Join 1,000+ readers who start their day with our combined crypto-cricket briefing. No noise, just what moves markets and matches.</p>
+            <a href="#" class="btn"><i class="fas fa-envelope-open-text"></i> Subscribe (Free)</a>
+            <p style="margin-top: 1.5rem;">📲 Also available on Telegram • WhatsApp • Discord</p>
+        </div>
+
+        <footer>
+            <p>© 2026 DailyPost365 • Independent analysis since 2023 • Not financial advice • Cricket with conviction</p>
+            <p style="margin-top: 0.6rem;">15-Tier Crypto Audit® is a DailyPost365 original method</p>
+        </footer>
     </div>
+
+    <!-- ======================================================= -->
+    <!-- NOTE: This is a static website. No data is collected.   -->
+    <!-- All links open external profiles – view‑only.           -->
+    <!-- ======================================================= -->
 </body>
 </html>
+
