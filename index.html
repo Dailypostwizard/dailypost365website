@@ -1,178 +1,176 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DAILYPOST365 | Automated Intelligence Node</title>
+    <title>DAILYPOST365 | Dual-Intelligence Terminal</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;700&family=Outfit:wght@400;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;900&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg: #010409;
-            --accent: #3b82f6;
-            --crypto-gold: #f59e0b;
-            --cricket-green: #10b981;
-            --glass: rgba(13, 17, 23, 0.85);
-            --border: rgba(255, 255, 255, 0.08);
-            --rotate-x: 0deg; --rotate-y: 0deg;
+            /* Dark Theme (Default) */
+            --bg: #010409; --text: #f0f6fc; --glass: rgba(13, 17, 23, 0.85);
+            --border: rgba(255, 255, 255, 0.08); --accent: #3b82f6;
+            --cricket: #10b981; --crypto: #f59e0b;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            background: var(--bg); color: #f0f6fc; 
-            font-family: 'Outfit', sans-serif; overflow-x: hidden;
-            perspective: 1200px;
+        [data-theme="light"] {
+            --bg: #f6f8fa; --text: #1f2328; --glass: rgba(255, 255, 255, 0.9);
+            --border: rgba(0, 0, 0, 0.1); --accent: #0969da;
         }
 
-        /* DORA.RUN 3D INTERACTIVE BACKGROUND */
-        .parallax-bg {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
-            background: radial-gradient(circle at 50% 50%, #0d1117 0%, #010409 100%);
-            transform: rotateX(var(--rotate-x)) rotateY(var(--rotate-y));
-            transition: transform 0.3s ease-out;
-            will-change: transform;
-        }
-        .mesh {
-            position: absolute; width: 150%; height: 150%; top: -25%; left: -25%;
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.12) 0, transparent 50%), 
-                radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.08) 0, transparent 50%);
-            filter: blur(120px); opacity: 0.7;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; transition: background 0.3s, color 0.3s; }
+        body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; overflow-x: hidden; }
 
-        /* NAVIGATION */
+        /* HEADER & THEME TOGGLE */
         nav {
-            padding: 1.2rem 5%; display: flex; justify-content: space-between; align-items: center;
-            backdrop-filter: blur(30px); border-bottom: 1px solid var(--border);
-            position: sticky; top: 0; z-index: 1000; background: rgba(1, 4, 9, 0.75);
+            padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center;
+            backdrop-filter: blur(20px); border-bottom: 1px solid var(--border);
+            position: sticky; top: 0; z-index: 1000; background: var(--glass);
         }
-        .logo { font-size: 1.6rem; font-weight: 900; color: #fff; text-decoration: none; letter-spacing: -1.5px; }
-        .logo span { color: var(--accent); }
-
-        /* LAYOUT STRUCTURE */
-        .layout-grid {
-            display: grid; grid-template-columns: 320px 1fr 350px; gap: 24px;
-            padding: 24px 5%; max-width: 1900px; margin: 0 auto;
+        .theme-btn {
+            background: var(--accent); color: #fff; border: none; padding: 8px 15px;
+            border-radius: 20px; cursor: pointer; font-weight: 700; font-size: 12px;
         }
 
-        /* SIDEBARS */
-        .sidebar {
-            position: sticky; top: 100px; height: calc(100vh - 140px);
-            background: var(--glass); border: 1px solid var(--border); border-radius: 24px;
-            overflow-y: auto;
-        }
-        .section-label { 
-            padding: 15px 20px; background: rgba(255,255,255,0.03); 
-            border-bottom: 1px solid var(--border); font-size: 10px; font-weight: 800; 
-            letter-spacing: 2px; text-transform: uppercase; color: var(--accent);
+        /* DUAL TERMINAL LAYOUT */
+        .main-container {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 20px 5%;
         }
 
-        /* VIDEO HISTORY LIST */
+        .terminal-block {
+            background: var(--glass); border: 1px solid var(--border);
+            border-radius: 24px; padding: 25px; display: flex; flex-direction: column; gap: 20px;
+        }
+
+        /* SPOTLIGHT VIDEO */
+        .spotlight-card {
+            width: 100%; height: 300px; border-radius: 16px; position: relative;
+            overflow: hidden; background-size: cover; background-position: center;
+            display: flex; flex-direction: column; justify-content: flex-end; padding: 20px;
+            text-decoration: none; color: #fff; border: 1px solid var(--border);
+        }
+        .spotlight-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, #000 70%, transparent); z-index: 1; }
+        .spotlight-card * { position: relative; z-index: 2; }
+
+        /* HORIZONTAL SCROLLING ARCHIVES */
+        .archive-scroll {
+            display: flex; gap: 15px; overflow-x: auto; padding-bottom: 10px;
+            scrollbar-width: thin; scrollbar-color: var(--accent) transparent;
+        }
+        .archive-scroll::-webkit-scrollbar { height: 4px; }
         .archive-item {
-            display: flex; gap: 12px; padding: 15px; border-bottom: 1px solid var(--border);
-            text-decoration: none; color: #8b949e; font-size: 0.8rem; transition: 0.3s;
+            flex: 0 0 160px; height: 100px; border-radius: 12px; border: 1px solid var(--border);
+            background-size: cover; background-position: center; transition: 0.3s;
         }
-        .archive-item:hover { background: rgba(255,255,255,0.05); color: #fff; }
-        .archive-thumb { width: 80px; height: 45px; border-radius: 4px; object-fit: cover; }
+        .archive-item:hover { transform: scale(1.05); border-color: var(--accent); }
 
-        /* MAIN CONTENT */
-        .content-main { display: flex; flex-direction: column; gap: 24px; }
-        .hero-banner {
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), transparent);
-            border: 1px solid var(--border); border-radius: 32px; padding: 40px;
-        }
+        /* CRYPTO WIDGET AREA */
+        .crypto-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
-        /* TACTICAL FIELDING DIAGRAM */
-        .fielding-diagram {
-            background: var(--glass); border: 1px solid var(--border); border-radius: 24px; padding: 30px;
+        /* SOCIAL MEDIA TABS */
+        .social-bar {
+            grid-column: span 2; display: flex; justify-content: center; gap: 15px; padding: 20px;
         }
-        .pitch-visual {
-            width: 100%; height: 260px; background: #1a2f1a; border-radius: 130px;
-            border: 2px solid rgba(255,255,255,0.1); position: relative; margin: 20px 0;
-            display: flex; justify-content: center; align-items: center;
+        .social-tab {
+            width: 50px; height: 50px; border-radius: 12px; background: var(--glass);
+            border: 1px solid var(--border); display: flex; align-items: center;
+            justify-content: center; color: var(--text); font-size: 1.4rem; text-decoration: none;
         }
-        .pitch-strip { width: 15px; height: 110px; background: #d4a373; transform: rotate(45deg); border-radius: 2px; }
+        .social-tab:hover { background: var(--accent); color: #fff; transform: translateY(-5px); }
 
-        /* VIDEO CARDS (DYNAMIC) */
-        .v-card {
-            height: 400px; border-radius: 24px; border: 1px solid var(--border);
-            position: relative; overflow: hidden; background-size: cover; background-position: center;
-            display: flex; flex-direction: column; justify-content: flex-end; padding: 25px;
-            text-decoration: none; color: #fff; transition: 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-        }
-        .v-card:hover { transform: translateY(-8px); border-color: var(--accent); }
-        .v-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, #000 0%, transparent 80%); z-index: 1; }
-        .v-card * { position: relative; z-index: 2; }
-
-        .social-dock { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-        .social-link {
-            background: var(--glass); border: 1px solid var(--border); border-radius: 16px;
-            padding: 15px; text-align: center; color: #fff; font-size: 1.2rem; transition: 0.3s;
-        }
-        .social-link:hover { background: #fff; color: #000; transform: translateY(-5px); }
-
-        @media (max-width: 1250px) { .layout-grid { grid-template-columns: 1fr; } .sidebar { height: auto; position: relative; top: 0; } }
+        @media (max-width: 1000px) { .main-container { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
-    <div class="parallax-bg" id="bg"><div class="mesh"></div></div>
-
     <nav>
-        <a href="#" class="logo">DAILYPOST<span>365</span></a>
-        <div style="font-size: 10px; font-weight: 900; letter-spacing: 1px; color: var(--cricket-green);">
-            <i class="fas fa-sync-alt fa-spin"></i> AUTO-SYNC ENABLED
-        </div>
+        <div style="font-weight: 900; font-size: 1.5rem;">DAILYPOST<span>365</span></div>
+        <button class="theme-btn" onclick="toggleTheme()"><i class="fas fa-adjust"></i> SWITCH MODE</button>
     </nav>
 
-    <div class="layout-grid">
+    <div class="main-container">
         
-        <aside class="sidebar">
-            <div class="section-label">Cricket Intel Archive</div>
-            <div id="cricket-archive">
-                <div style="padding: 20px; font-size: 0.8rem; color: #4b5563;">Syncing historical data...</div>
-            </div>
-        </aside>
-
-        <main class="content-main">
-            <section class="hero-banner">
-                <h1 style="font-size: 2.8rem; font-weight: 900; letter-spacing: -2px;">Latest <span>Intelligence.</span></h1>
-                <p style="color: #8b949e; margin-top: 8px;">15-Point QA Protocol active. Real-time data feed synchronized.</p>
-            </section>
-
-            <div id="latest-video-container">
-                <a id="latest-v-link" href="https://www.youtube.com/shorts/bc35pOB6P7Y" class="v-card" style="background-image: url('https://img.youtube.com/vi/bc35pOB6P7Y/maxresdefault.jpg');" target="_blank">
-                    <span id="v-tag" style="font-size: 9px; font-weight: 900; background: var(--cricket-green); color: #000; padding: 4px 8px; border-radius: 4px; margin-bottom: 12px; width: fit-content;">LATEST UPLOAD</span>
-                    <h3 id="v-title">Tactical Breakdown: New Match Intel</h3>
-                    <p id="v-desc" style="font-size: 0.8rem; color: #94a3b8;">High-fidelity analysis of current tournament dynamics.</p>
-                </a>
+        <section class="terminal-block" style="border-top: 4px solid var(--cricket);">
+            <div style="display: flex; justify-content: space-between;">
+                <h2 style="font-weight: 900;"><i class="fas fa-baseball-ball"></i> CRICKET FEED</h2>
+                <span style="font-size: 10px; color: var(--cricket);">LATEST UPLOAD</span>
             </div>
 
-            <div class="fielding-diagram">
-                <h3 style="font-weight: 900; font-size: 1.1rem; margin-bottom: 15px;">Fielding Intelligence Overlay</h3>
-                <div class="pitch-visual">
-                    <div style="width: 80%; height: 75%; border: 1px dashed rgba(255,255,255,0.2); border-radius: 120px; position: absolute;"></div>
-                    <div class="pitch-strip"></div>
-                    <div style="position: absolute; top: 15%; left: 35%; font-size: 7px; background: rgba(255,0,0,0.6); padding: 2px 4px; border-radius: 2px;">SLIP CORDON</div>
-                    <div style="position: absolute; bottom: 25%; right: 20%; font-size: 7px; background: rgba(59,130,246,0.6); padding: 2px 4px; border-radius: 2px;">DEEP MID-WICKET</div>
+            <a href="https://www.youtube.com/shorts/bc35pOB6P7Y" class="spotlight-card" style="background-image: url('https://img.youtube.com/vi/bc35pOB6P7Y/maxresdefault.jpg');">
+                <h3>Tactical Masterclass</h3>
+                <p style="font-size: 0.8rem; opacity: 0.8;">Analyzing the latest match dynamics and fielding setups.</p>
+            </a>
+
+            <p style="font-size: 11px; font-weight: 700; color: var(--accent);">PREVIOUS 15 TACTICALS</p>
+            <div class="archive-scroll" id="cricket-scroll">
                 </div>
+        </section>
+
+        <section class="terminal-block" style="border-top: 4px solid var(--crypto);">
+            <div style="display: flex; justify-content: space-between;">
+                <h2 style="font-weight: 900;"><i class="fas fa-chart-line"></i> CRYPTO WHALE FEED</h2>
+                <span style="font-size: 10px; color: var(--crypto);">LIVE MARKET SYNC</span>
             </div>
 
-            <div class="social-dock">
-                <a href="https://www.youtube.com/@CoverDriveCricket-c5z" target="_blank" class="social-link"><i class="fab fa-youtube"></i></a>
-                <a href="https://x.com/DailyPostW92945" target="_blank" class="social-link"><i class="fab fa-x-twitter"></i></a>
-                <a href="https://www.tiktok.com/@dailypostwizard6" target="_blank" class="social-link"><i class="fab fa-tiktok"></i></a>
-                <a href="https://www.instagram.com/dailypostwizard2026/" target="_blank" class="social-link"><i class="fab fa-instagram"></i></a>
-            </div>
-        </main>
+            <a href="https://www.youtube.com/@DailyPostWizard" class="spotlight-card" style="background-image: url('https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&w=600');">
+                <h3>Whale Wallet Tracker</h3>
+                <p style="font-size: 0.8rem; opacity: 0.8;">Monitoring institutional flows for BTC & SOL.</p>
+            </a>
 
-        <aside class="sidebar">
-            <div class="section-label">Institutional Markets</div>
-            <div style="padding: 15px;">
-                <script src="https://widgets.coingecko.com/coingecko-coin-price-static-headline-widget.js"></script>
-                <coingecko-coin-price-static-headline-widget coin-ids="bitcoin,ethereum,solana,sui,uniswap,chainlink" currency="usd" locale="en" background-color="#0d1117" text-color="#ffffff"></coingecko-coin-price-static-headline-widget>
+            <div class="crypto-grid">
+                <script src="https://widgets.coingecko.com/coingecko-coin-price-chart-widget.js"></script>
+                <coingecko-coin-price-chart-widget coin-id="bitcoin" currency="usd" height="150" locale="en" background-color="#0d1117"></coingecko-coin-price-chart-widget>
+                <coingecko-coin-price-chart-widget coin-id="solana" currency="usd" height="150" locale="en" background-color="#0d1117"></coingecko-coin-price-chart-widget>
             </div>
-            <div class="section-label" style="border-top: 1px solid var(--border);">Live News Feed</div>
-            <iframe src="https://rss.app/embed/v1/ticker/tRqP1v1zV1z1z1z1" frameborder="0" style="width: 100%; height: 350px;">
+
+            <p style="font-size: 11px; font-weight: 700; color: var(--accent);">CRYPTO ARCHIVE</p>
+            <div class="archive-scroll" id="crypto-scroll">
+                </div>
+        </section>
+
+        <div class="social-bar">
+            <a href="https://www.youtube.com/@DailyPostWizard" class="social-tab" title="Crypto YouTube"><i class="fab fa-youtube" style="color:#FF0000;"></i></a>
+            <a href="https://www.youtube.com/@CoverDriveCricket-c5z" class="social-tab" title="Cricket YouTube"><i class="fas fa-video"></i></a>
+            <a href="https://x.com/DailyPostW92945" class="social-tab"><i class="fab fa-x-twitter"></i></a>
+            <a href="https://www.instagram.com/dailypostwizard2026/" class="social-tab"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.tiktok.com/@dailypostwizard6" class="social-tab"><i class="fab fa-tiktok"></i></a>
+            <a href="#" class="social-tab"><i class="fab fa-telegram"></i></a>
+        </div>
+    </div>
+
+    <script>
+        // 1. Theme Toggle Logic
+        function toggleTheme() {
+            const html = document.documentElement;
+            const current = html.getAttribute('data-theme');
+            html.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+        }
+
+        // 2. Populate Archives (15 slots each)
+        function populateArchives() {
+            const cricket = document.getElementById('cricket-scroll');
+            const crypto = document.getElementById('crypto-scroll');
+
+            for(let i=1; i<=15; i++) {
+                // Cricket Slots
+                let crk = document.createElement('a');
+                crk.className = 'archive-item';
+                crk.href = "#";
+                crk.style.backgroundImage = `url('https://images.unsplash.com/photo-1531415074968-036ba1b575da?auto=format&fit=crop&w=200&q=80')`;
+                cricket.appendChild(crk);
+
+                // Crypto Slots
+                let cry = document.createElement('a');
+                cry.className = 'archive-item';
+                cry.href = "#";
+                cry.style.backgroundImage = `url('https://images.unsplash.com/photo-1621761191319-c6fb62004040?auto=format&fit=crop&w=200&q=80')`;
+                crypto.appendChild(cry);
+            }
+        }
+        populateArchives();
+    </script>
+</body>
+</html>
