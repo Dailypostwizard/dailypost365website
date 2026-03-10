@@ -21,21 +21,13 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { 
       font-family: 'Plus Jakarta Sans', sans-serif; 
-      background: var(--primary); 
-      color: white; 
-      line-height: 1.6;
-      overflow-x: hidden;
+      background: var(--primary); color: white; line-height: 1.6; overflow-x: hidden;
     }
 
     /* Top Intelligence Ticker */
     .ticker-bar {
-      background: #0f172a;
-      border-bottom: 1px solid var(--border-color);
-      padding: 10px 0;
-      font-size: 0.7rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 1px;
+      background: #0f172a; border-bottom: 1px solid var(--border-color);
+      padding: 10px 0; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
     }
     .ticker-content { display: flex; white-space: nowrap; animation: marquee 30s linear infinite; }
     .ticker-content span { padding: 0 40px; color: var(--crypto-gold); }
@@ -43,170 +35,143 @@
 
     /* Navigation */
     nav {
-      padding: 1.5rem 5%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid var(--border-color);
-      background: rgba(2, 6, 23, 0.9);
-      backdrop-filter: blur(15px);
-      position: sticky;
-      top: 0; z-index: 1000;
+      padding: 1.5rem 5%; display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 1px solid var(--border-color); background: rgba(2, 6, 23, 0.9);
+      backdrop-filter: blur(15px); position: sticky; top: 0; z-index: 1000;
     }
     .logo { font-size: 1.6rem; font-weight: 800; letter-spacing: -1px; color: white; text-decoration: none; }
     .live-status { font-size: 0.75rem; font-weight: 700; background: #fee2e2; color: #dc2626; padding: 5px 15px; border-radius: 50px; display: flex; align-items: center; gap: 8px; }
     .pulse { width: 8px; height: 8px; background: #dc2626; border-radius: 50%; animation: pulse 1.5s infinite; }
 
-    /* Hero Section */
+    /* Hero */
     .hero { padding: 6rem 5% 4rem; text-align: center; }
     .hero h1 { font-size: clamp(2.5rem, 7vw, 4.5rem); font-weight: 800; line-height: 1; margin-bottom: 1.5rem; letter-spacing: -0.04em; }
     .hero h1 span { color: var(--crypto-gold); }
-    .hero p { color: var(--text-muted); font-size: 1.2rem; max-width: 750px; margin: 0 auto; font-weight: 500; }
+    .hero p { color: var(--text-muted); font-size: 1.2rem; max-width: 750px; margin: 0 auto; }
 
     /* Terminal Grid */
     .container { max-width: 1400px; margin: 0 auto; padding: 0 5% 5rem; }
     .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 2.5rem; }
 
     .card {
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 35px;
-      padding: 4rem 3rem;
-      text-decoration: none;
-      color: white;
+      background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 35px;
+      padding: 4rem 3rem; text-decoration: none; color: white;
       transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      min-height: 450px;
-      overflow: hidden;
+      position: relative; display: flex; flex-direction: column; justify-content: flex-end;
+      min-height: 480px; overflow: hidden;
     }
     .card:hover { transform: translateY(-15px); border-color: #334155; box-shadow: 0 40px 80px rgba(0,0,0,0.5); }
-    
-    .card::after {
-      content: ''; position: absolute; inset: 0;
-      background: radial-gradient(circle at top right, rgba(251, 191, 36, 0.05), transparent);
-      z-index: 0;
-    }
-
-    .tag { position: absolute; top: 2.5rem; left: 3rem; padding: 8px 18px; border-radius: 10px; font-size: 0.7rem; font-weight: 800; background: rgba(255,255,255,0.05); text-transform: uppercase; letter-spacing: 0.05em; }
-    .card h2 { font-size: 2.2rem; font-weight: 800; margin-bottom: 1.5rem; line-height: 1.2; position: relative; z-index: 1; }
-    .card p { font-size: 1rem; color: var(--text-muted); margin-bottom: 2.5rem; position: relative; z-index: 1; }
-    
+    .tag { position: absolute; top: 2.5rem; left: 3rem; padding: 8px 18px; border-radius: 10px; font-size: 0.7rem; font-weight: 800; background: rgba(255,255,255,0.05); text-transform: uppercase; }
+    .card h2 { font-size: 2.2rem; font-weight: 800; margin-bottom: 1.2rem; line-height: 1.2; z-index: 1; }
+    .card p { font-size: 1rem; color: var(--text-muted); margin-bottom: 2.5rem; z-index: 1; }
     .action { font-weight: 800; font-size: 0.95rem; color: var(--crypto-gold); display: flex; align-items: center; gap: 12px; }
     .cricket .action { color: var(--cricket-green); }
 
-    /* Full Social Media Ecosystem Hub */
+    /* Social Ecosystem Hub */
     .ecosystem { 
-      margin-top: 6rem; 
-      padding: 5rem 3rem; 
-      background: linear-gradient(180deg, #0f172a 0%, #020617 100%); 
-      border-radius: 50px; 
-      text-align: center;
-      border: 1px solid var(--border-color);
+      margin-top: 6rem; padding: 5rem 3rem; background: linear-gradient(180deg, #0f172a 0%, #020617 100%); 
+      border-radius: 50px; text-align: center; border: 1px solid var(--border-color);
     }
-    .ecosystem h2 { font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; }
     .social-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; margin-top: 3rem; }
-    
     .social-item {
-      background: rgba(255,255,255,0.03); 
-      color: white; 
-      text-decoration: none; 
-      padding: 18px 32px; 
-      border-radius: 20px; 
-      font-weight: 700; 
-      display: flex; 
-      align-items: center; 
-      gap: 15px; 
-      border: 1px solid rgba(255,255,255,0.05);
-      transition: all 0.3s ease;
+      background: rgba(255,255,255,0.03); color: white; text-decoration: none; padding: 18px 32px; 
+      border-radius: 20px; font-weight: 700; display: flex; align-items: center; gap: 15px; 
+      border: 1px solid rgba(255,255,255,0.05); transition: 0.3s;
     }
     .social-item:hover { background: white; color: var(--primary); transform: translateY(-5px); }
-    .social-item i { font-size: 1.4rem; }
 
     @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
     @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
-
-    @media (max-width: 900px) {
-      .grid { grid-template-columns: 1fr; }
-      .hero h1 { font-size: 2.8rem; }
-      .card { padding: 3rem 2rem; min-height: 400px; }
-    }
+    @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
 
   <div class="ticker-bar">
     <div class="ticker-content">
-      <span><i class="fab fa-bitcoin"></i> BTC AUDIT: INSTITUTIONAL ACCUMULATION DETECTED</span>
-      <span class="alt"><i class="fas fa-cricket-bat-ball"></i> IPL STRATEGY: T20 WORLD CUP DATA SYNCED</span>
-      <span><i class="fab fa-ethereum"></i> ETHEREUM NETWORK STRENGTH: 98.4%</span>
-      <span class="alt"><i class="fas fa-trophy"></i> INDIA DOMINATION: POST-MATCH ANALYSIS LIVE</span>
-      <span><i class="fab fa-bitcoin"></i> BTC AUDIT: INSTITUTIONAL ACCUMULATION DETECTED</span>
-      <span class="alt"><i class="fas fa-cricket-bat-ball"></i> IPL STRATEGY: T20 WORLD CUP DATA SYNCED</span>
+      <span><i class="fab fa-bitcoin"></i> AUTOMATED CRYPTO AUDIT NODE: ACTIVE</span>
+      <span class="alt"><i class="fas fa-cricket-bat-ball"></i> WORLD CUP TACTICAL FEED: SYNCED</span>
+      <span><i class="fab fa-ethereum"></i> ETHEREUM DATA ANALYTICS: LIVE</span>
+      <span class="alt"><i class="fas fa-trophy"></i> IPL MATCH STRATEGY: REAL-TIME UPDATE</span>
     </div>
   </div>
 
   <nav>
     <a href="#" class="logo">DAILYPOST365</a>
-    <div class="live-status"><div class="pulse"></div> GLOBAL DATA LIVE</div>
+    <div class="live-status"><div class="pulse"></div> TERMINAL AUTO-SYNC ACTIVE</div>
   </nav>
 
   <section class="hero">
     <h1>Intelligence <span>Redefined.</span></h1>
-    <p>Professional market audits and tactical sports strategy. High-fidelity insights for the global strategist.</p>
+    <p>Real-time institutional analysis and match strategies, automatically synced from our YouTube networks.</p>
   </section>
 
   <div class="container">
     <div class="grid">
-      <a href="https://www.youtube.com/@DailyPostWizard" class="card crypto" target="_blank">
+      <a id="latest-crypto-btn" href="https://www.youtube.com/@DailyPostWizard" class="card crypto" target="_blank">
         <span class="tag" style="color:var(--crypto-gold)">Market Alpha</span>
-        <h2>Institutional Crypto Audits & Market Alerts</h2>
-        <p>Direct access to 15-tier technical audits on BTC, HBAR, and emerging digital assets. Real-time whale tracking and liquidity analysis.</p>
-        <div class="action">ACCESS TERMINAL <i class="fas fa-arrow-right"></i></div>
+        <h2 id="crypto-title">Latest Crypto Audit</h2>
+        <p id="crypto-desc">Access the newest institutional report from DailyPostWizard. Updated automatically every time a new audit is published.</p>
+        <div class="action">WATCH NEWEST AUDIT <i class="fas fa-play-circle"></i></div>
       </a>
 
-      <a href="https://www.youtube.com/@CoverDriveCricket-c5z" class="card cricket" target="_blank">
+      <a id="latest-cricket-btn" href="https://www.youtube.com/@CoverDriveCricket-c5z" class="card cricket" target="_blank">
         <span class="tag" style="color:var(--cricket-green)">Match Strategy</span>
-        <h2>Precision Cricket Data & Victory Analysis</h2>
-        <p>Deep-dive match strategies, IPL infographics, and T20 World Cup tactical breakdowns. Calculated insights for the global cricket fan.</p>
-        <div class="action">VIEW STRATEGY <i class="fas fa-arrow-right"></i></div>
+        <h2 id="cricket-title">Latest Match Strategy</h2>
+        <p id="cricket-desc">The most recent tactical breakdown from CoverDriveCricket. Automatic sync for 2026 World Cup and IPL insights.</p>
+        <div class="action">WATCH NEWEST STRATEGY <i class="fas fa-play-circle"></i></div>
       </a>
     </div>
 
     <section class="ecosystem">
-      <h2>Join the Network</h2>
-      <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto;">Connect with @DailyPostWizard across all intelligence nodes for real-time updates.</p>
-      
+      <h2 style="font-size: 2.5rem; font-weight: 800;">Join the Network</h2>
       <div class="social-grid">
-        <a href="https://www.youtube.com/@DailyPostWizard" class="social-item" target="_blank">
-          <i class="fab fa-youtube" style="color: #ff0000;"></i> YouTube Crypto
-        </a>
-        <a href="https://www.youtube.com/@CoverDriveCricket-c5z" class="social-item" target="_blank">
-          <i class="fab fa-youtube" style="color: #ff0000;"></i> YouTube Cricket
-        </a>
-        <a href="https://x.com/DailyPostW92945" class="social-item" target="_blank">
-          <i class="fab fa-x-twitter"></i> X / Twitter
-        </a>
-        <a href="https://www.tiktok.com/@dailypostwizard6" class="social-item" target="_blank">
-          <i class="fab fa-tiktok"></i> TikTok
-        </a>
-        <a href="https://www.instagram.com/dailypostwizard2026/" class="social-item" target="_blank">
-          <i class="fab fa-instagram" style="color: #e1306c;"></i> Instagram
-        </a>
-        <a href="https://www.linkedin.com/in/dailypostwizard-undefined-5742813ab/" class="social-item" target="_blank">
-          <i class="fab fa-linkedin" style="color: #0077b5;"></i> LinkedIn
-        </a>
-        <a href="https://www.reddit.com/user/GuessSlight2454/" class="social-item" target="_blank">
-          <i class="fab fa-reddit-alien" style="color: #ff4500;"></i> Reddit Profile
-        </a>
+        <a href="https://www.youtube.com/@DailyPostWizard" class="social-item" target="_blank"><i class="fab fa-youtube" style="color:#ff0000"></i> Crypto YT</a>
+        <a href="https://www.youtube.com/@CoverDriveCricket-c5z" class="social-item" target="_blank"><i class="fab fa-youtube" style="color:#ff0000"></i> Cricket YT</a>
+        <a href="https://x.com/DailyPostW92945" class="social-item" target="_blank"><i class="fab fa-x-twitter"></i> X / Twitter</a>
+        <a href="https://www.tiktok.com/@dailypostwizard6" class="social-item" target="_blank"><i class="fab fa-tiktok"></i> TikTok</a>
+        <a href="https://www.instagram.com/dailypostwizard2026/" class="social-item" target="_blank"><i class="fab fa-instagram" style="color:#e1306c"></i> Instagram</a>
+        <a href="https://www.linkedin.com/in/dailypostwizard-undefined-5742813ab/" class="social-item" target="_blank"><i class="fab fa-linkedin" style="color:#0077b5"></i> LinkedIn</a>
+        <a href="https://www.reddit.com/user/GuessSlight2454/" class="social-item" target="_blank"><i class="fab fa-reddit-alien" style="color:#ff4500"></i> Reddit</a>
       </div>
     </section>
   </div>
 
+  <script>
+    // CHANNEL IDS FOR AUTO-PICKING
+    const CRYPTO_CHANNEL_ID = 'UC-DOZDiiyP85pK8BCWiLP3pw'; // DailyPostWizard
+    const CRICKET_CHANNEL_ID = 'UCkKz8Zyj0E86_4zdA-teM0w'; // CoverDriveCricket
+
+    async function fetchLatestVideo(channelId, btnId, titleId, descId) {
+      try {
+        const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
+        const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
+        
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+        
+        if (data.items && data.items.length > 0) {
+          const latest = data.items[0];
+          document.getElementById(btnId).href = latest.link;
+          document.getElementById(titleId).innerText = latest.title;
+          
+          if (latest.description) {
+            document.getElementById(descId).innerText = latest.description.substring(0, 120) + "...";
+          }
+        }
+      } catch (error) {
+        console.error("Auto-sync error for channel " + channelId, error);
+      }
+    }
+
+    window.onload = () => {
+      fetchLatestVideo(CRYPTO_CHANNEL_ID, 'latest-crypto-btn', 'crypto-title', 'crypto-desc');
+      fetchLatestVideo(CRICKET_CHANNEL_ID, 'latest-cricket-btn', 'cricket-title', 'cricket-desc');
+    };
+  </script>
+
   <footer style="text-align: center; padding: 5rem; color: #475569; font-size: 0.85rem; border-top: 1px solid var(--border-color);">
-    &copy; 2026 DAILYPOST365 INTELLIGENCE NETWORK. ALL DATA SYNCED VIA SECURE NODES.
+    &copy; 2026 DAILYPOST365 TERMINAL • AUTOMATIC YOUTUBE API SYNC ENABLED
   </footer>
 
 </body>
