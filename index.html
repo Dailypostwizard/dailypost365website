@@ -160,4 +160,35 @@
             const icon = document.querySelector('.theme-toggle i');
             
             if (html.getAttribute('data-theme') === 'dark') {
-                html.setAttribute('data-theme
+                html.setAttribute('data-theme', 'light');
+                modeText.innerText = 'LIGHT MODE';
+                icon.className = 'fas fa-sun';
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                modeText.innerText = 'DARK MODE';
+                icon.className = 'fas fa-moon';
+            }
+        }
+
+        // 2. Generate Archive Slots (15 slots each, cloned for loop)
+        function buildArchives() {
+            const crick = document.getElementById('cricket-archive');
+            const crypt = document.getElementById('crypto-archive');
+            
+            // Create 15 unique cards for each side
+            for(let i=0; i<30; i++) { // 15 original + 15 clones for seamless scroll
+                const card1 = document.createElement('div');
+                card1.className = 'archive-card';
+                card1.style.background = `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://picsum.photos/seed/${i+10}/200/120')`;
+                crick.appendChild(card1);
+
+                const card2 = document.createElement('div');
+                card2.className = 'archive-card';
+                card2.style.background = `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://picsum.photos/seed/${i+50}/200/120')`;
+                crypt.appendChild(card2);
+            }
+        }
+        buildArchives();
+    </script>
+</body>
+</html>
