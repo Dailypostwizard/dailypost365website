@@ -3,18 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DAILYPOST365 | Intelligence Hub</title>
+    <title>DAILYPOST365 | Global Intelligence Hub</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;700&family=Outfit:wght@400;900&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --bg: #030712;
-            --crypto-gold: #f59e0b;
+            --bg: #020617;
+            --crypto-gold: #fbbf24;
             --cricket-green: #10b981;
-            --glass: rgba(17, 24, 39, 0.7);
-            --border: rgba(255, 255, 255, 0.05);
+            --glass: rgba(15, 23, 42, 0.8);
+            --border: rgba(255, 255, 255, 0.08);
+            --text-muted: #94a3b8;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -22,131 +23,153 @@
             background: var(--bg); 
             color: #f8fafc; 
             font-family: 'Outfit', sans-serif;
+            background-image: 
+                radial-gradient(circle at 0% 0%, rgba(251, 191, 36, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(16, 185, 129, 0.05) 0%, transparent 50%);
             overflow-x: hidden;
         }
 
-        /* 2026 Kinetic Ticker */
+        /* Kinetic Data Ticker */
         .kinetic-ticker {
             background: #000;
-            padding: 15px 0;
+            padding: 12px 0;
             border-bottom: 1px solid var(--border);
             font-family: 'Space Grotesk', sans-serif;
             font-size: 10px;
-            letter-spacing: 3px;
+            letter-spacing: 2px;
             text-transform: uppercase;
         }
-        .ticker-wrap { display: flex; white-space: nowrap; animation: slide 30s linear infinite; }
-        .ticker-wrap span { padding: 0 50px; display: flex; align-items: center; gap: 10px; }
+        .ticker-wrap { display: flex; white-space: nowrap; animation: slide 40s linear infinite; }
+        .ticker-wrap span { padding: 0 40px; display: flex; align-items: center; gap: 10px; font-weight: 700; }
 
         /* Navigation */
         nav {
             padding: 2rem 5%;
             display: flex; justify-content: space-between; align-items: center;
-            backdrop-filter: blur(20px); position: sticky; top: 0; z-index: 1000;
+            backdrop-filter: blur(25px); position: sticky; top: 0; z-index: 1000;
+            border-bottom: 1px solid var(--border);
         }
-        .logo { font-size: 1.8rem; font-weight: 900; color: #fff; text-decoration: none; letter-spacing: -2px; }
-        .qa-tag { font-size: 9px; padding: 5px 12px; border: 1px solid #3b82f6; color: #3b82f6; border-radius: 4px; font-weight: 700; }
+        .logo { font-size: 1.8rem; font-weight: 900; color: #fff; text-decoration: none; letter-spacing: -1.5px; }
+        .logo span { color: var(--crypto-gold); }
+        .qa-badge { font-size: 9px; padding: 5px 12px; border: 1px solid #ef4444; color: #ef4444; border-radius: 50px; font-weight: 800; }
 
-        /* Tactile Hero */
-        .hero { 
-            padding: 10rem 5% 5rem; text-align: center; 
-            background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
-        }
-        .hero h1 { 
-            font-size: clamp(3.5rem, 12vw, 8rem); 
-            line-height: 0.8; margin-bottom: 2rem; letter-spacing: -6px;
-        }
-        .hero h1 span { color: var(--crypto-gold); }
+        /* Hero */
+        .hero { padding: 8rem 5% 4rem; text-align: center; }
+        .hero h1 { font-size: clamp(3rem, 10vw, 7rem); line-height: 0.9; margin-bottom: 1.5rem; letter-spacing: -4px; font-weight: 900; }
+        .hero p { color: var(--text-muted); font-size: 1.2rem; max-width: 650px; margin: 0 auto; font-weight: 300; }
 
-        /* Grid - 15 Point QA Verified */
+        /* Main Content Grid */
         .main-grid { 
-            max-width: 1400px; margin: 0 auto; 
+            max-width: 1440px; margin: 0 auto; 
             display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); 
-            gap: 3rem; padding: 0 5% 10rem;
+            gap: 2.5rem; padding: 0 5% 6rem;
         }
 
         .node-card {
             background: var(--glass);
             border: 1px solid var(--border);
-            border-radius: 48px;
-            min-height: 600px;
+            border-radius: 40px;
+            min-height: 550px;
             position: relative;
             overflow: hidden;
             display: flex; flex-direction: column; justify-content: flex-end;
-            padding: 4rem;
+            padding: 4rem 3rem;
             text-decoration: none;
             color: white;
-            transition: 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+            transition: all 0.5s cubic-bezier(0.2, 1, 0.3, 1);
         }
-        .node-card:hover { transform: scale(1.02); border-color: rgba(255,255,255,0.2); }
+        .node-card:hover { transform: translateY(-10px); border-color: rgba(255,255,255,0.2); box-shadow: 0 30px 60px -12px rgba(0,0,0,0.5); }
 
-        /* Dynamic Backgrounds (Open Source - High Quality) */
-        .bg-crypto { background: url('https://images.unsplash.com/photo-1621761191319-c6fb62004040?auto=format&fit=crop&q=80&w=2000') center/cover; }
-        .bg-cricket { background: url('https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&q=80&w=2000') center/cover; }
-        
-        .overlay { position: absolute; inset: 0; background: linear-gradient(0deg, var(--bg) 10%, transparent 100%); z-index: 1; }
-        .content-box { position: relative; z-index: 2; }
+        /* Premium Open-Source Imagery */
+        .bg-crypto { background: linear-gradient(to top, var(--bg) 20%, transparent 100%), url('https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&q=80&w=2000'); background-size: cover; background-position: center; }
+        .bg-cricket { background: linear-gradient(to top, var(--bg) 20%, transparent 100%), url('https://images.unsplash.com/photo-1531415074968-036ba1b575da?auto=format&fit=crop&q=80&w=2000'); background-size: cover; background-position: center; }
 
-        .tag { display: inline-block; padding: 6px 15px; background: rgba(255,255,255,0.1); border-radius: 100px; font-size: 11px; margin-bottom: 1.5rem; text-transform: uppercase; font-weight: 700; }
+        .tag { display: inline-block; padding: 6px 14px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 8px; font-size: 10px; margin-bottom: 1.5rem; text-transform: uppercase; font-weight: 900; letter-spacing: 1px; }
 
-        .btn-play {
-            margin-top: 2rem; width: 60px; height: 60px; border-radius: 50%;
-            background: white; color: black; display: flex; align-items: center; justify-content: center;
-            font-size: 1.2rem; transition: 0.3s;
+        .btn-action {
+            margin-top: 2rem; width: 50px; height: 50px; border-radius: 15px;
+            background: #fff; color: #000; display: flex; align-items: center; justify-content: center;
+            font-size: 1rem; transition: 0.3s;
         }
-        .node-card:hover .btn-play { transform: rotate(-15deg) scale(1.1); background: var(--crypto-gold); }
+        .node-card:hover .btn-action { background: var(--crypto-gold); transform: rotate(-10deg) scale(1.1); }
+
+        /* Social Ecosystem Terminal */
+        .ecosystem { 
+            max-width: 1440px; margin: 0 auto 10rem; padding: 5rem 5%; 
+            background: rgba(255,255,255,0.02); border-radius: 50px; border: 1px solid var(--border);
+            text-align: center;
+        }
+        .ecosystem h2 { font-size: 2.5rem; margin-bottom: 3rem; font-weight: 900; }
+        .social-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.2rem; }
+        .social-node {
+            padding: 1rem 2rem; border-radius: 18px; background: var(--glass);
+            border: 1px solid var(--border); color: #fff; text-decoration: none;
+            font-weight: 700; font-size: 0.9rem; display: flex; align-items: center; gap: 12px;
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .social-node:hover { background: #fff; color: #000; transform: translateY(-5px); }
 
         @keyframes slide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-
-        @media (max-width: 768px) { .hero h1 { font-size: 4rem; } .main-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { .hero h1 { font-size: 3.5rem; } .main-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
     <div class="kinetic-ticker">
         <div class="ticker-wrap">
-            <span><i class="fab fa-bitcoin" style="color:var(--crypto-gold)"></i> BTC ANALYSIS: VERIFIED</span>
-            <span><i class="fas fa-cricket-bat-ball" style="color:var(--cricket-green)"></i> LIVE MATCH STRATEGY: READY</span>
-            <span><i class="fas fa-shield-check" style="color:#3b82f6"></i> 15-POINT QA PROTOCOL ACTIVE</span>
-            <span><i class="fas fa-signal" style="color:var(--crypto-gold)"></i> WHALE MOVEMENTS DETECTED</span>
-            <span><i class="fab fa-bitcoin" style="color:var(--crypto-gold)"></i> BTC ANALYSIS: VERIFIED</span>
-            <span><i class="fas fa-cricket-bat-ball" style="color:var(--cricket-green)"></i> LIVE MATCH STRATEGY: READY</span>
+            <span><i class="fab fa-bitcoin" style="color:var(--crypto-gold)"></i> BTC ANALYSIS: TARGET SECURED</span>
+            <span><i class="fas fa-cricket-bat-ball" style="color:var(--cricket-green)"></i> WORLD CUP INTEL: FEED LIVE</span>
+            <span><i class="fas fa-microchip" style="color:#ef4444"></i> 15-POINT QA PROTOCOL: VERIFIED</span>
+            <span><i class="fas fa-bolt" style="color:var(--crypto-gold)"></i> WHALE MOVEMENT DETECTED</span>
+            <span><i class="fab fa-bitcoin" style="color:var(--crypto-gold)"></i> BTC ANALYSIS: TARGET SECURED</span>
         </div>
     </div>
 
     <nav>
         <a href="#" class="logo">DAILYPOST<span>365</span></a>
-        <div class="qa-tag">CERTIFIED PRODUCTION QUALITY</div>
+        <div class="qa-badge"><i class="fas fa-shield-check"></i> 15-POINT QA VERIFIED</div>
     </nav>
 
     <section class="hero">
         <h1>Global <span>Intelligence.</span></h1>
+        <p>The institutional hub for crypto audits and match strategy. Professional grade analysis synced from the @DailyPostWizard network.</p>
     </section>
 
     <div class="main-grid">
         <a href="https://www.youtube.com/shorts/5jkvYegChY0" class="node-card bg-crypto" target="_blank">
-            <div class="overlay"></div>
             <div class="content-box">
-                <span class="tag">Market Alpha</span>
-                <h2 style="font-size: 3rem; font-weight: 900;">Crypto Audit</h2>
-                <p style="color: #94a3b8;">High-fidelity breakdown of current whale wallet movements and liquidity targets.</p>
-                <div class="btn-play"><i class="fas fa-play"></i></div>
+                <span class="tag" style="color: var(--crypto-gold);">Market Alpha</span>
+                <h2 style="font-size: 2.5rem; font-weight: 900; margin-bottom: 1rem;">Crypto Audit Feed</h2>
+                <p style="color: var(--text-muted);">Institutional-grade analysis of liquidity pools and generational buy zones.</p>
+                <div class="btn-action"><i class="fas fa-play"></i></div>
             </div>
         </a>
 
         <a href="https://www.youtube.com/shorts/in29SMvHO40" class="node-card bg-cricket" target="_blank">
-            <div class="overlay"></div>
             <div class="content-box">
-                <span class="tag">Match Strategy</span>
-                <h2 style="font-size: 3rem; font-weight: 900; color: #fff;">Cricket Intel</h2>
-                <p style="color: #94a3b8;">Elite tactical analysis and match predictions for the international circuit.</p>
-                <div class="btn-play" style="background: var(--cricket-green); color: white;"><i class="fas fa-play"></i></div>
+                <span class="tag" style="color: var(--cricket-green);">Tactical Strategy</span>
+                <h2 style="font-size: 2.5rem; font-weight: 900; margin-bottom: 1rem; color: #fff;">Cricket Intel Feed</h2>
+                <p style="color: var(--text-muted);">Elite tactical breakdowns for the T20 World Cup and international circuits.</p>
+                <div class="btn-action" style="background: var(--cricket-green); color: #fff;"><i class="fas fa-play"></i></div>
             </div>
         </a>
     </div>
 
-    <footer style="text-align: center; padding: 5rem; border-top: 1px solid var(--border); color: #4b5563; font-size: 11px; letter-spacing: 2px;">
-        &copy; 2026 DAILYPOST365 TERMINAL • INSTITUTIONAL PRODUCTION STANDARD
+    <div class="ecosystem">
+        <h2>Join the Network</h2>
+        <div class="social-grid">
+            <a href="https://www.youtube.com/@DailyPostWizard" class="social-node" target="_blank"><i class="fab fa-youtube" style="color:#ff0000"></i> YouTube Crypto</a>
+            <a href="https://www.youtube.com/@CoverDriveCricket-c5z" class="social-node" target="_blank"><i class="fab fa-youtube" style="color:#ff0000"></i> YouTube Cricket</a>
+            <a href="https://x.com/DailyPostW92945" class="social-node" target="_blank"><i class="fab fa-x-twitter"></i> Twitter/X</a>
+            <a href="https://www.tiktok.com/@dailypostwizard6" class="social-node" target="_blank"><i class="fab fa-tiktok"></i> TikTok</a>
+            <a href="https://www.instagram.com/dailypostwizard2026/" class="social-node" target="_blank"><i class="fab fa-instagram" style="color:#e1306c"></i> Instagram</a>
+            <a href="https://www.linkedin.com/in/dailypostwizard-undefined-5742813ab/" class="social-node" target="_blank"><i class="fab fa-linkedin" style="color:#0077b5"></i> LinkedIn</a>
+            <a href="https://www.reddit.com/user/GuessSlight2454/" class="social-node" target="_blank"><i class="fab fa-reddit-alien" style="color:#ff4500"></i> Reddit</a>
+        </div>
+    </div>
+
+    <footer style="text-align: center; padding: 5rem; color: #4b5563; font-size: 10px; letter-spacing: 2px; border-top: 1px solid var(--border);">
+        &copy; 2026 DAILYPOST365 TERMINAL • INSTITUTIONAL QA STANDARDS ENABLED
     </footer>
 
 </body>
