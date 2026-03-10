@@ -1,194 +1,187 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DAILYPOST365 | Dual-Intelligence Terminal</title>
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&display=swap" rel="stylesheet">
-    
+    <title>DailyPost365 | Intelligence Redefined</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            /* Dark Theme (Default) */
-            --bg: #05070a; --card-bg: #0d1117; --text: #f0f6fc; 
-            --border: rgba(255, 255, 255, 0.1); --accent: #3b82f6;
-            --cricket-glow: #10b981; --crypto-glow: #f59e0b;
+            --bg-dark: #050a18;
+            --card-dark: #0f172a;
+            --accent-gold: #fbbf24;
+            --accent-blue: #3b82f6;
+            --text-main: #ffffff;
+            --text-dim: #94a3b8;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         [data-theme="light"] {
-            --bg: #f6f8fa; --card-bg: #ffffff; --text: #1f2328; 
-            --border: rgba(0, 0, 0, 0.1); --accent: #0969da;
+            --bg-dark: #f8fafc;
+            --card-dark: #ffffff;
+            --text-main: #0f172a;
+            --text-dim: #64748b;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; overflow-x: hidden; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
 
-        /* NAVBAR */
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            transition: var(--transition);
+            overflow-x: hidden;
+        }
+
+        /* Top Status Ticker */
+        .status-bar {
+            background: #000;
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-around;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .status-item { display: flex; align-items: center; gap: 8px; }
+        .dot { height: 8px; width: 8px; background: #22c55e; border-radius: 50%; display: inline-block; box-shadow: 0 0 8px #22c55e; }
+
+        /* Navbar */
         nav {
-            padding: 1.2rem 5%; display: flex; justify-content: space-between; align-items: center;
-            backdrop-filter: blur(20px); border-bottom: 1px solid var(--border);
-            position: sticky; top: 0; z-index: 1000; background: var(--bg);
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .logo { font-size: 1.8rem; font-weight: 900; letter-spacing: -1px; }
-        .logo span { color: var(--accent); }
-
+        .logo { font-size: 24px; font-weight: 900; letter-spacing: -1px; }
         .theme-toggle {
-            background: var(--card-bg); color: var(--text); border: 1px solid var(--border);
-            padding: 10px 20px; border-radius: 30px; cursor: pointer; font-weight: 700;
-            display: flex; align-items: center; gap: 10px; font-size: 0.8rem;
+            background: var(--accent-blue);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            border: none;
+            font-weight: bold;
+            display: flex; align-items: center; gap: 8px;
         }
 
-        /* MAIN LAYOUT */
-        .dashboard {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 30px; padding: 40px 5%;
-            max-width: 1600px; margin: 0 auto;
+        /* Hero Section */
+        .hero { text-align: center; padding: 80px 5%; }
+        .hero h1 { font-size: clamp(40px, 8vw, 90px); line-height: 1; margin-bottom: 20px; }
+        .hero h1 span { color: var(--accent-gold); }
+        .hero p { color: var(--text-dim); font-size: 18px; max-width: 600px; margin: 0 auto; }
+
+        /* Content Grid */
+        .main-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            padding: 0 5% 50px;
         }
 
-        .terminal-panel {
-            background: var(--card-bg); border: 1px solid var(--border);
-            border-radius: 32px; padding: 30px; position: relative; overflow: hidden;
+        .portal-card {
+            background: var(--card-dark);
+            border-radius: 24px;
+            padding: 40px;
+            border: 1px solid rgba(255,255,255,0.05);
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        .portal-card:hover { transform: translateY(-10px); border-color: var(--accent-blue); }
+
+        .badge {
+            background: rgba(251, 191, 36, 0.1);
+            color: var(--accent-gold);
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 60px;
         }
 
-        .panel-glow {
-            position: absolute; top: 0; left: 0; width: 100%; height: 5px;
-        }
-
-        /* VIDEO SLOTS */
-        .main-video-slot {
-            width: 100%; aspect-ratio: 16/9; border-radius: 20px; margin: 20px 0;
-            background: #000; overflow: hidden; border: 1px solid var(--border);
-        }
-        iframe { width: 100%; height: 100%; border: none; }
-
-        /* OPPOSITE SCROLLING ARCHIVES */
-        .archive-container { margin-top: 25px; overflow: hidden; }
-        .archive-title { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; opacity: 0.6; margin-bottom: 15px; }
+        .portal-card h2 { font-size: 32px; margin-bottom: 20px; line-height: 1.2; }
         
-        .scroll-wrapper { display: flex; gap: 15px; padding-bottom: 10px; cursor: grab; }
-        
-        /* Cricket scrolls left-to-right, Crypto scrolls right-to-left */
-        .scroll-left { animation: scrollLeft 40s linear infinite; }
-        .scroll-right { animation: scrollRight 40s linear infinite; }
-
-        @keyframes scrollLeft { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        @keyframes scrollRight { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
-
-        .archive-card {
-            flex: 0 0 180px; height: 110px; border-radius: 12px; background: #1a1f26;
-            border: 1px solid var(--border); position: relative; overflow: hidden;
+        .action-link {
+            color: var(--accent-gold);
+            text-decoration: none;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
         }
 
-        /* SOCIAL MEDIA TABS */
-        .social-dock {
-            grid-column: span 2; display: flex; justify-content: center; gap: 20px;
-            padding: 40px 0; border-top: 1px solid var(--border); margin-top: 20px;
+        /* Footer/Socials */
+        .social-bar {
+            padding: 40px 5%;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
         }
-        .dock-tab {
-            width: 60px; height: 60px; border-radius: 18px; background: var(--card-bg);
-            border: 1px solid var(--border); display: flex; align-items: center;
-            justify-content: center; color: var(--text); font-size: 1.5rem; text-decoration: none;
-        }
-        .dock-tab:hover { transform: translateY(-10px); border-color: var(--accent); color: var(--accent); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+        .social-icons { display: flex; justify-content: center; gap: 25px; margin-top: 20px; }
+        .social-icons a { color: var(--text-dim); font-size: 24px; transition: var(--transition); }
+        .social-icons a:hover { color: var(--accent-gold); }
 
-        @media (max-width: 1100px) { .dashboard { grid-template-columns: 1fr; } .social-dock { grid-column: span 1; } }
+        @media (max-width: 768px) {
+            .main-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
-<body>
+<body data-theme="dark">
+
+    <div class="status-bar">
+        <div class="status-item"><span class="dot"></span> Crypto Audit Node: Active</div>
+        <div class="status-item"><span class="dot"></span> Cricket Strategy: Synced</div>
+        <div class="status-item"><span class="dot"></span> Ethereum Data: Live</div>
+    </div>
 
     <nav>
-        <div class="logo">DAILYPOST<span>365</span></div>
+        <div class="logo">DAILYPOST365</div>
         <button class="theme-toggle" onclick="toggleTheme()">
-            <i class="fas fa-moon"></i> <span id="mode-text">DARK MODE</span>
+            <i class="fas fa-adjust"></i> SWITCH MODE
         </button>
     </nav>
 
-    <main class="dashboard">
-        
-        <section class="terminal-panel">
-            <div class="panel-glow" style="background: var(--cricket-glow);"></div>
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <h2 style="font-weight: 700;"><i class="fas fa-bat-ball"></i> Cricket Strategy</h2>
-                <span style="color: var(--cricket-glow); font-size: 0.7rem; font-weight: 900;">LIVE UPDATES</span>
-            </div>
+    <section class="hero">
+        <h1>Intelligence <span>Redefined.</span></h1>
+        <p>Professional analysis and strategies, automatically synced from @DailyPostWizard.</p>
+    </section>
 
-            <div class="main-video-slot">
-                <iframe src="https://www.youtube.com/embed/bc35pOB6P7Y" title="Cricket Analysis"></iframe>
-            </div>
+    <main class="main-grid">
+        <div class="portal-card">
+            <span class="badge">MARKET ALPHA</span>
+            <h2>BITCOIN’S $68,000 LINE IN THE SAND: Institutional Trap or Generational Buy?</h2>
+            <p style="color: var(--text-dim);">Deep dive into 15-tier quality checks and whale movement patterns.</p>
+            <a href="https://www.youtube.com/@DailyPostWizard" class="action-link">ACCESS FULL AUDIT <i class="fas fa-chevron-right"></i></a>
+        </div>
 
-            <div class="archive-container">
-                <p class="archive-title">Historical Match Analysis</p>
-                <div class="scroll-wrapper scroll-left" id="cricket-archive">
-                    </div>
-            </div>
-        </section>
-
-        <section class="terminal-panel">
-            <div class="panel-glow" style="background: var(--crypto-glow);"></div>
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <h2 style="font-weight: 700;"><i class="fas fa-chart-line"></i> Crypto Audit</h2>
-                <span style="color: var(--crypto-glow); font-size: 0.7rem; font-weight: 900;">NODE ACTIVE</span>
-            </div>
-
-            <div class="main-video-slot">
-                <iframe src="https://www.youtube.com/embed/videoseries?list=UUfJInO00zG_x7mU_fDqA3iQ" title="Crypto Analysis"></iframe>
-            </div>
-
-            <div class="archive-container">
-                <p class="archive-title" style="text-align: right;">Institutional Whale Tracker</p>
-                <div class="scroll-wrapper scroll-right" id="crypto-archive">
-                    </div>
-            </div>
-        </section>
-
-        <div class="social-dock">
-            <a href="https://www.youtube.com/@DailyPostWizard" class="dock-tab" title="Crypto YouTube"><i class="fab fa-bitcoin"></i></a>
-            <a href="https://www.youtube.com/@CoverDriveCricket-c5z" class="dock-tab" title="Cricket YouTube"><i class="fas fa-cricket-bat-ball"></i></a>
-            <a href="https://x.com/DailyPostW92945" class="dock-tab"><i class="fab fa-x-twitter"></i></a>
-            <a href="https://www.instagram.com/dailypostwizard2026/" class="dock-tab"><i class="fab fa-instagram"></i></a>
-            <a href="https://www.tiktok.com/@dailypostwizard6" class="dock-tab"><i class="fab fa-tiktok"></i></a>
-            <a href="https://www.linkedin.com/in/dailypostwizard-undefined-5742813ab/" class="dock-tab"><i class="fab fa-linkedin"></i></a>
-            <a href="#" class="dock-tab"><i class="fab fa-telegram"></i></a>
+        <div class="portal-card" style="border-left: 4px solid #22c55e;">
+            <span class="badge" style="color: #22c55e; background: rgba(34, 197, 94, 0.1);">MATCH STRATEGY</span>
+            <h2>INDIA WORLD CHAMPIONS! India Demolishes NZ in T20 World Cup...</h2>
+            <p style="color: var(--text-dim);">Fielding setup analysis and tactical masterclass for the 2026 series.</p>
+            <a href="https://www.youtube.com/@CoverDriveCricket-c5z" class="action-link" style="color: #22c55e;">VIEW STRATEGY <i class="fas fa-chevron-right"></i></a>
         </div>
     </main>
 
+    <footer class="social-bar">
+        <h3>Connect with the Network</h3>
+        <div class="social-icons">
+            <a href="https://www.youtube.com/@DailyPostWizard"><i class="fab fa-youtube"></i></a>
+            <a href="https://x.com/DailyPostW92945"><i class="fab fa-x-twitter"></i></a>
+            <a href="https://www.instagram.com/dailypostwizard2026/"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.tiktok.com/@dailypostwizard6"><i class="fab fa-tiktok"></i></a>
+            <a href="#"><i class="fab fa-telegram"></i></a>
+        </div>
+        <p style="margin-top: 30px; font-size: 12px; color: var(--text-dim);">© 2026 DailyPost365 | Powered by @GuessSlight2454 network.</p>
+    </footer>
+
     <script>
-        // 1. Theme Switcher Logic
         function toggleTheme() {
-            const html = document.documentElement;
-            const modeText = document.getElementById('mode-text');
-            const icon = document.querySelector('.theme-toggle i');
-            
-            if (html.getAttribute('data-theme') === 'dark') {
-                html.setAttribute('data-theme', 'light');
-                modeText.innerText = 'LIGHT MODE';
-                icon.className = 'fas fa-sun';
-            } else {
-                html.setAttribute('data-theme', 'dark');
-                modeText.innerText = 'DARK MODE';
-                icon.className = 'fas fa-moon';
-            }
+            const body = document.body;
+            const currentTheme = body.getAttribute('data-theme');
+            body.setAttribute('data-theme', currentTheme === 'dark' ? 'light' : 'dark');
         }
-
-        // 2. Generate Archive Slots (15 slots each, cloned for loop)
-        function buildArchives() {
-            const crick = document.getElementById('cricket-archive');
-            const crypt = document.getElementById('crypto-archive');
-            
-            // Create 15 unique cards for each side
-            for(let i=0; i<30; i++) { // 15 original + 15 clones for seamless scroll
-                const card1 = document.createElement('div');
-                card1.className = 'archive-card';
-                card1.style.background = `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://picsum.photos/seed/${i+10}/200/120')`;
-                crick.appendChild(card1);
-
-                const card2 = document.createElement('div');
-                card2.className = 'archive-card';
-                card2.style.background = `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://picsum.photos/seed/${i+50}/200/120')`;
-                crypt.appendChild(card2);
-            }
-        }
-        buildArchives();
     </script>
 </body>
 </html>
