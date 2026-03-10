@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DailyPost365 | Institutional Intelligence Terminal</title>
+    <title>DailyPost365 | Global Intelligence Terminal</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
@@ -13,8 +13,8 @@
             --bg-deep: #020617;
             --accent-gold: #fbbf24;
             --accent-green: #10b981;
-            --glass: rgba(15, 23, 42, 0.8);
-            --border: rgba(255, 255, 255, 0.08);
+            --glass-card: rgba(15, 23, 42, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -23,30 +23,30 @@
             font-family: 'Inter', sans-serif; 
             background-color: var(--bg-deep);
             background-image: 
-                radial-gradient(circle at 10% 20%, rgba(251, 191, 36, 0.05) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(16, 185, 129, 0.05) 0%, transparent 40%);
+                radial-gradient(circle at 0% 0%, rgba(251, 191, 36, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(16, 185, 129, 0.08) 0%, transparent 50%);
             color: white;
-            line-height: 1.5;
+            line-height: 1.6;
             overflow-x: hidden;
         }
 
-        /* Institutional Ticker */
-        .ticker-wrap {
+        /* Institutional Ticker Bar */
+        .ticker-bar {
             background: #000;
-            border-bottom: 1px solid var(--border);
-            padding: 8px 0;
+            border-bottom: 1px solid var(--glass-border);
+            padding: 10px 0;
             font-family: 'Space Grotesk', sans-serif;
-            font-weight: 700;
             font-size: 11px;
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 2px;
         }
-        .ticker { display: flex; white-space: nowrap; animation: marquee 40s linear infinite; }
-        .ticker span { padding: 0 50px; display: flex; align-items: center; gap: 8px; }
-        .gold-txt { color: var(--accent-gold); }
-        .green-txt { color: var(--accent-green); }
+        .ticker-content { display: flex; white-space: nowrap; animation: marquee 40s linear infinite; }
+        .ticker-content span { padding: 0 40px; display: flex; align-items: center; gap: 8px; }
+        .gold { color: var(--accent-gold); }
+        .green { color: var(--accent-green); }
 
-        /* Navbar */
+        /* Navigation */
         nav {
             padding: 2rem 5%;
             display: flex;
@@ -55,150 +55,143 @@
             backdrop-filter: blur(20px);
             position: sticky; top: 0; z-index: 1000;
         }
-        .logo { font-size: 1.5rem; font-weight: 900; letter-spacing: -1px; text-decoration: none; color: white; }
+        .logo { font-size: 1.5rem; font-weight: 900; letter-spacing: -1.5px; color: white; text-decoration: none; }
+        .live-tag { font-size: 10px; font-weight: 800; border: 1px solid #ef4444; color: #ef4444; padding: 4px 12px; border-radius: 20px; text-transform: uppercase; }
 
-        /* Hero Section */
-        .hero { padding: 10rem 5% 6rem; text-align: center; max-width: 1000px; margin: 0 auto; }
+        /* Hero */
+        .hero { padding: 8rem 5% 4rem; text-align: center; max-width: 1100px; margin: 0 auto; }
         .hero h1 { 
             font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(3rem, 8vw, 6rem); 
+            font-size: clamp(3rem, 8vw, 5.5rem); 
             font-weight: 700; line-height: 0.9;
-            margin-bottom: 2rem; letter-spacing: -3px;
+            margin-bottom: 1.5rem; letter-spacing: -4px;
         }
-        .hero h1 span {
-            background: linear-gradient(90deg, var(--accent-gold), #fff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .hero p { color: #94a3b8; font-size: 1.25rem; max-width: 600px; margin: 0 auto; }
+        .hero h1 span { color: var(--accent-gold); }
+        .hero p { color: #94a3b8; font-size: 1.2rem; max-width: 700px; margin: 0 auto; }
 
-        /* Terminal Grid */
-        .container { max-width: 1400px; margin: 0 auto; padding: 0 5% 10rem; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem; }
+        /* Main Grid */
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 5% 8rem; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 2.5rem; }
 
-        .terminal-card {
-            background: var(--glass);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            padding: 3.5rem;
+        .intel-card {
+            background: var(--glass-card);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 4rem 3rem;
             text-decoration: none;
             color: white;
-            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
-            overflow: hidden;
-            display: flex; flex-direction: column; justify-content: flex-end; min-height: 500px;
+            display: flex; flex-direction: column; justify-content: flex-end;
+            min-height: 520px; overflow: hidden;
         }
-        .terminal-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            border-color: rgba(255,255,255,0.2);
-            background: rgba(30, 41, 59, 0.5);
-        }
-        .terminal-card::before {
-            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(180deg, transparent 0%, rgba(2, 6, 23, 0.9) 100%);
-            z-index: 1;
+        .intel-card:hover { transform: translateY(-12px); border-color: rgba(255,255,255,0.3); background: rgba(30, 41, 59, 0.4); }
+        
+        .card-tag { 
+            position: absolute; top: 2.5rem; left: 3rem;
+            padding: 6px 16px; border-radius: 8px; font-size: 10px; font-weight: 900;
+            background: rgba(255,255,255,0.05); text-transform: uppercase; letter-spacing: 1px;
         }
 
-        .tag { 
-            position: absolute; top: 2.5rem; left: 3rem; z-index: 2;
-            padding: 6px 14px; border-radius: 6px; font-size: 10px; font-weight: 900;
-            text-transform: uppercase; letter-spacing: 1.5px; border: 1px solid var(--border);
-        }
-        .terminal-card h2 { font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem; position: relative; z-index: 2; }
-        .terminal-card p { color: #94a3b8; margin-bottom: 2rem; position: relative; z-index: 2; }
-        .btn-label { font-weight: 900; font-size: 0.9rem; display: flex; align-items: center; gap: 10px; position: relative; z-index: 2; color: var(--accent-gold); }
+        .intel-card h2 { font-size: 2.4rem; font-weight: 800; margin-bottom: 1rem; line-height: 1.1; }
+        .intel-card p { color: #94a3b8; margin-bottom: 2.5rem; }
+        .action-link { font-weight: 900; font-size: 0.9rem; color: var(--accent-gold); display: flex; align-items: center; gap: 12px; }
+        .cricket .action-link { color: var(--accent-green); }
 
-        /* Social Ecosystem */
-        .social-hub { margin-top: 4rem; text-align: center; }
-        .social-grid { display: flex; justify-content: center; flex-wrap: wrap; gap: 1rem; margin-top: 2rem; }
-        .social-link { 
-            padding: 1rem 2rem; border-radius: 12px; background: var(--glass); 
-            border: 1px solid var(--border); color: white; text-decoration: none; 
-            font-weight: 700; transition: 0.3s;
+        /* Social Grid */
+        .social-hub { margin-top: 6rem; text-align: center; }
+        .social-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 1rem; margin-top: 2rem; }
+        .s-item { 
+            width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;
+            border-radius: 15px; background: var(--glass-card); border: 1px solid var(--glass-border);
+            color: white; text-decoration: none; font-size: 1.2rem; transition: 0.3s;
         }
-        .social-link:hover { background: white; color: black; }
+        .s-item:hover { background: white; color: black; transform: scale(1.1); }
 
         @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } .hero h1 { font-size: 3.5rem; } }
     </style>
 </head>
 <body>
 
-    <div class="ticker-wrap">
-        <div class="ticker">
-            <span><i class="fab fa-bitcoin gold-txt"></i> BTC/USD: LOADING INSTITUTIONAL ALPHA</span>
-            <span><i class="fas fa-cricket-bat-ball green-txt"></i> WORLD CUP STRATEGY: LIVE SYNC ACTIVE</span>
-            <span><i class="fab fa-ethereum gold-txt"></i> ETH AUDIT: NETWORK VITALITY STABLE</span>
-            <span><i class="fas fa-chart-line green-txt"></i> IPL MARKET CAP: ANALYSIS COMMENCING</span>
-            <span><i class="fab fa-bitcoin gold-txt"></i> BTC/USD: LOADING INSTITUTIONAL ALPHA</span>
-            <span><i class="fas fa-cricket-bat-ball green-txt"></i> WORLD CUP STRATEGY: LIVE SYNC ACTIVE</span>
+    <div class="ticker-bar">
+        <div class="ticker-content">
+            <span><i class="fab fa-bitcoin gold"></i> BTC ANALYSIS: TARGETING LIQUIDITY NODES</span>
+            <span><i class="fas fa-cricket-bat-ball green"></i> T20 WORLD CUP: STRATEGY ENGINE ONLINE</span>
+            <span><i class="fab fa-ethereum gold"></i> ETH/USD: INSTITUTIONAL FLOW DETECTED</span>
+            <span><i class="fas fa-chart-line green"></i> MATCH PREDICTION: DATA SYNC COMPLETE</span>
+            <span><i class="fab fa-bitcoin gold"></i> BTC ANALYSIS: TARGETING LIQUIDITY NODES</span>
+            <span><i class="fas fa-cricket-bat-ball green"></i> T20 WORLD CUP: STRATEGY ENGINE ONLINE</span>
         </div>
     </div>
 
     <nav>
         <a href="#" class="logo">DAILYPOST365</a>
-        <div style="font-size: 10px; font-weight: 800; border: 1px solid var(--border); padding: 5px 12px; border-radius: 20px;">
-            <i class="fas fa-circle" style="color: #ef4444; font-size: 7px; margin-right: 5px;"></i> LIVE INTEL SYNC
-        </div>
+        <div class="live-tag"><i class="fas fa-circle" style="font-size: 6px; margin-right: 6px;"></i> Live Intel</div>
     </nav>
 
     <section class="hero">
         <h1>Intelligence <span>Redefined.</span></h1>
-        <p>The global hub for institutional crypto audits and precision match strategy. Powered by the @DailyPostWizard network.</p>
+        <p>Institutional analysis for the modern strategist. Daily crypto audits and cricket match intelligence, synced from @DailyPostWizard.</p>
     </section>
 
     <div class="container">
         <div class="grid">
-            <a id="latest-crypto-btn" href="https://www.youtube.com/@DailyPostWizard" class="terminal-card" target="_blank">
-                <span class="tag" style="color: var(--accent-gold);">Market Alpha</span>
-                <h2 id="crypto-title">Analyzing Market Depth...</h2>
-                <p id="crypto-desc">Institutional analysis for the modern strategist. Updated live from the crypto network.</p>
-                <div class="btn-label">READ FULL AUDIT <i class="fas fa-arrow-right"></i></div>
+            <a id="crypto-link" href="https://www.youtube.com/shorts/5jkvYegChY0" class="intel-card crypto" target="_blank">
+                <span class="card-tag" style="color: var(--accent-gold);">Market Alpha</span>
+                <h2 id="crypto-title">Latest Crypto Audit</h2>
+                <p>Decoding the newest whale movements and institutional traps in the crypto market.</p>
+                <div class="action-link">WATCH LATEST SHORT <i class="fas fa-play-circle"></i></div>
             </a>
 
-            <a id="latest-cricket-btn" href="https://www.youtube.com/@CoverDriveCricket-c5z" class="terminal-card" target="_blank">
-                <span class="tag" style="color: var(--accent-green);">Tactical Feed</span>
-                <h2 id="cricket-title">Scanning Match Conditions...</h2>
-                <p id="cricket-desc">Precision sports strategy and data visualization. Syncing latest match intelligence.</p>
-                <div class="btn-label" style="color: var(--accent-green);">VIEW STRATEGY <i class="fas fa-arrow-right"></i></div>
+            <a id="cricket-link" href="https://www.youtube.com/shorts/in29SMvHO40" class="intel-card cricket" target="_blank">
+                <span class="card-tag" style="color: var(--accent-green);">Match Strategy</span>
+                <h2 id="cricket-title">Latest Match Strategy</h2>
+                <p>Real-time tactical breakdowns for the T20 World Cup and international match-ups.</p>
+                <div class="action-link">WATCH LATEST SHORT <i class="fas fa-play-circle"></i></div>
             </a>
         </div>
 
         <div class="social-hub">
-            <div class="social-grid">
-                <a href="https://x.com/DailyPostW92945" class="social-link" target="_blank"><i class="fab fa-x-twitter"></i></a>
-                <a href="https://www.tiktok.com/@dailypostwizard6" class="social-link" target="_blank"><i class="fab fa-tiktok"></i></a>
-                <a href="https://www.instagram.com/dailypostwizard2026/" class="social-link" target="_blank"><i class="fab fa-instagram"></i></a>
-                <a href="https://www.linkedin.com/in/dailypostwizard-undefined-5742813ab/" class="social-link" target="_blank"><i class="fab fa-linkedin"></i></a>
-                <a href="https://www.reddit.com/user/GuessSlight2454/" class="social-link" target="_blank"><i class="fab fa-reddit"></i></a>
+            <div class="social-links">
+                <a href="https://www.youtube.com/@DailyPostWizard" class="s-item" target="_blank"><i class="fab fa-youtube"></i></a>
+                <a href="https://www.youtube.com/@CoverDriveCricket-c5z" class="s-item" target="_blank"><i class="fas fa-bat"></i></a>
+                <a href="https://x.com/DailyPostW92945" class="s-item" target="_blank"><i class="fab fa-x-twitter"></i></a>
+                <a href="https://www.tiktok.com/@dailypostwizard6" class="s-item" target="_blank"><i class="fab fa-tiktok"></i></a>
+                <a href="https://www.instagram.com/dailypostwizard2026/" class="s-item" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.linkedin.com/in/dailypostwizard-undefined-5742813ab/" class="s-item" target="_blank"><i class="fab fa-linkedin"></i></a>
+                <a href="https://www.reddit.com/user/GuessSlight2454/" class="s-item" target="_blank"><i class="fab fa-reddit-alien"></i></a>
             </div>
         </div>
     </div>
 
     <script>
-        const CRYPTO_CID = 'UC-DOZDiiyP85pK8BCWiLP3pw'; 
-        const CRICKET_CID = 'UCkKz8Zyj0E86_4zdA-teM0w';
+        // BACKEND AUTO-SYNC (Ensures if you don't update code, it tries to find the newest video)
+        const CID_CRYPTO = 'UC-DOZDiiyP85pK8BCWiLP3pw'; 
+        const CID_CRICKET = 'UCkKz8Zyj0E86_4zdA-teM0w';
 
-        async function syncLatestContent(channelId, linkId, titleId, descId) {
+        async function syncLatest(cid, linkId, titleId) {
             try {
                 const proxy = 'https://api.rss2json.com/v1/api.json?rss_url=';
-                const feed = encodeURIComponent(`https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`);
+                const feed = encodeURIComponent(`https://www.youtube.com/feeds/videos.xml?channel_id=${cid}`);
                 const res = await fetch(proxy + feed);
                 const data = await res.json();
                 
                 if (data.items && data.items.length > 0) {
-                    const video = data.items[0];
-                    document.getElementById(linkId).href = video.link;
-                    document.getElementById(titleId).innerText = video.title;
-                    document.getElementById(descId).innerText = video.description.substring(0, 100) + "...";
+                    const latest = data.items[0];
+                    document.getElementById(linkId).href = latest.link;
+                    document.getElementById(titleId).innerText = latest.title;
                 }
-            } catch (e) { console.error("Sync failed, using defaults."); }
+            } catch (e) { console.log("Direct links active."); }
         }
 
         window.onload = () => {
-            syncLatestContent(CRYPTO_CID, 'latest-crypto-btn', 'crypto-title', 'crypto-desc');
-            syncLatestContent(CRICKET_CID, 'latest-cricket-btn', 'cricket-title', 'cricket-desc');
+            syncLatest(CID_CRYPTO, 'crypto-link', 'crypto-title');
+            syncLatest(CID_CRICKET, 'cricket-link', 'cricket-title');
         };
     </script>
+
+    <footer style="text-align: center; padding: 4rem; color: #475569; font-size: 11px; letter-spacing: 1px; border-top: 1px solid var(--glass-border);">
+        &copy; 2026 DAILYPOST365 TERMINAL • INSTITUTIONAL GRADE SYNC ENABLED
+    </footer>
 </body>
 </html>
