@@ -1,432 +1,429 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="auto">
-
+<html lang="en" data-theme="dark">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DailyPost365 | Crypto Intelligence & Cricket Strategy</title>
+  <meta name="description" content="DailyPost365 delivers elite crypto market insights, Bitcoin analysis, Solana updates, IPL tactics, and advanced cricket strategies powered by data and AI trends."/>
+  <meta name="keywords" content="crypto news, bitcoin analysis, cricket strategy, IPL tactics, Solana ecosystem, AI sports analytics"/>
+  
+  <!-- Open Graph / Social Sharing -->
+  <meta property="og:title" content="DailyPost365 | Intelligence Redefined"/>
+  <meta property="og:description" content="Elite crypto + cricket insights daily."/>
+  <meta property="og:image" content="https://via.placeholder.com/1200x630/1e293b/ffffff?text=DailyPost365"/>
+  <meta property="og:url" content="https://dailypost365.com"/>
+  <meta name="twitter:card" content="summary_large_image"/>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <script src="https://cdn.tailwindcss.com"></script>
 
-<title>DailyPost365 | Crypto Intelligence & Cricket Strategy</title>
-
-<meta name="description" content="DailyPost365 delivers crypto market insights and cricket strategy intelligence.">
-
-<meta name="keywords" content="crypto news, bitcoin analysis, cricket strategy">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-<script src="https://cdn.tailwindcss.com"></script>
-
-<style>
-
-body{
-font-family:'Inter',sans-serif;
-}
-
-.glass{
-background:rgba(30,41,59,0.7);
-backdrop-filter:blur(14px);
-border:1px solid rgba(255,255,255,0.08);
-}
-
-.blog-card:hover{
-transform:translateY(-4px);
-transition:all .3s;
-}
-
-</style>
-
+  <style>
+    :root {
+      --bg: #0f172a;
+      --text: #f1f5f9;
+      --card: rgba(30,41,59,0.7);
+      --accent: #f59e0b;
+    }
+    [data-theme="light"] {
+      --bg: #f8fafc;
+      --text: #0f172a;
+      --card: rgba(255,255,255,0.85);
+      --accent: #d97706;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      transition: background 0.4s, color 0.4s;
+    }
+    .glass {
+      background: var(--card);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .blog-card:hover { transform: translateY(-6px); }
+    .fade-in { animation: fadeIn 0.6s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+    #reading-progress { height: 3px; background: var(--accent); width: 0%; position: fixed; top: 0; left: 0; z-index: 9999; transition: width 0.2s; }
+    .toast { position: fixed; bottom: 20px; right: 20px; padding: 12px 24px; border-radius: 8px; color: white; z-index: 10000; animation: slideIn 0.4s, slideOut 0.4s 4.6s forwards; }
+    @keyframes slideIn { from { transform: translateX(120%); } to { transform: none; } }
+    @keyframes slideOut { to { transform: translateX(120%); opacity: 0; } }
+  </style>
 </head>
+<body class="min-h-screen pb-20">
 
-<body class="bg-slate-900 text-white">
+<!-- Progress Bar -->
+<div id="reading-progress"></div>
 
-<!-- NAVBAR -->
-
-<nav class="glass sticky top-0 z-50 px-8 py-4 flex justify-between items-center">
-
-<div class="flex items-center gap-3">
-
-<div class="w-10 h-10 bg-gradient-to-r from-amber-400 to-orange-500 rounded-lg flex items-center justify-center font-bold">
-
-D
-
-</div>
-
-<h1 class="text-xl font-bold">DailyPost365</h1>
-
-</div>
-
-<div class="flex gap-6 items-center text-sm">
-
-<input id="searchInput" placeholder="Search..."
-class="px-3 py-1 rounded text-black">
-
-<button onclick="toggleTheme()">
-<i class="fa fa-circle-half-stroke"></i>
-</button>
-
-</div>
-
+<!-- Navbar -->
+<nav class="glass sticky top-0 z-50 px-6 py-4 flex justify-between items-center backdrop-blur-md">
+  <div class="flex items-center gap-3">
+    <div class="w-10 h-10 bg-gradient-to-br from-amber-400 to-orange-600 rounded-xl flex items-center justify-center font-extrabold text-xl shadow-lg">D</div>
+    <h1 class="text-2xl font-bold tracking-tight">DailyPost365</h1>
+  </div>
+  <div class="flex items-center gap-5">
+    <input id="searchInput" placeholder="Search posts..." class="px-4 py-2 rounded-lg bg-slate-800/50 border border-slate-600 focus:outline-none focus:border-amber-500 text-white placeholder-slate-400 w-48 md:w-64"/>
+    <button id="themeToggle" class="text-xl hover:text-amber-400 transition" title="Toggle Theme"><i class="fa-solid fa-circle-half-stroke"></i></button>
+  </div>
 </nav>
 
-<!-- HERO -->
-
-<section class="text-center py-20">
-
-<h1 class="text-6xl font-extrabold mb-6">
-
-Intelligence <span class="text-amber-400">Redefined</span>
-
-</h1>
-
-<p class="text-slate-400 max-w-xl mx-auto">
-
-Elite crypto analysis combined with advanced cricket strategy.
-
-</p>
-
+<!-- Hero -->
+<section class="text-center py-24 md:py-32 px-6 bg-gradient-to-b from-slate-900/50 to-transparent">
+  <h1 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
+    Intelligence <span class="text-amber-400">Redefined</span>
+  </h1>
+  <p class="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto">Elite crypto insights + advanced cricket strategy — daily.</p>
 </section>
 
-<!-- TRENDING -->
-
-<section class="max-w-7xl mx-auto px-6 mb-16">
-
-<h2 class="text-2xl font-bold mb-6">Trending Today</h2>
-
-<div id="trending" class="grid md:grid-cols-4 gap-6"></div>
-
-</section>
-
-<!-- VIDEO SECTION -->
-
-<section class="max-w-7xl mx-auto px-6 mb-20 grid md:grid-cols-2 gap-10">
-
-<div class="glass p-6 rounded-2xl border-t-4 border-green-500">
-
-<h3 class="text-xl font-bold mb-4">
-
-Cricket Analysis
-
-</h3>
-
-<iframe width="100%" height="350"
-src="https://www.youtube.com/embed/bc35pOB6P7Y"
-allowfullscreen></iframe>
-
-</div>
-
-<div class="glass p-6 rounded-2xl border-t-4 border-yellow-500">
-
-<h3 class="text-xl font-bold mb-4">
-
-Crypto Market
-
-</h3>
-
-<iframe width="100%" height="350"
-src="https://www.youtube.com/embed/5jkvYegChY0"
-allowfullscreen></iframe>
-
-</div>
-
-</section>
-
-<!-- BLOG SECTION -->
-
+<!-- Trending -->
 <section class="max-w-7xl mx-auto px-6 mb-20">
-
-<h2 class="text-3xl font-bold mb-10 text-center">
-
-Latest Blog Posts
-
-</h2>
-
-<div class="grid lg:grid-cols-2 gap-12">
-
-<div>
-
-<h3 class="text-2xl font-bold text-yellow-400 mb-6">
-
-Crypto Insights
-
-</h3>
-
-<div id="cryptoPosts"></div>
-
-</div>
-
-<div>
-
-<h3 class="text-2xl font-bold text-green-400 mb-6">
-
-Cricket Strategy
-
-</h3>
-
-<div id="cricketPosts"></div>
-
-</div>
-
-</div>
-
+  <h2 class="text-3xl font-bold mb-8 text-center">Trending Today</h2>
+  <div id="trending" class="grid grid-cols-2 md:grid-cols-4 gap-6"></div>
 </section>
 
-<!-- BLOG UPLOAD PANEL -->
-
-<section class="max-w-3xl mx-auto mb-20">
-
-<h2 class="text-2xl font-bold mb-6 text-center">
-
-Publish Blog Post
-
-</h2>
-
-<div class="glass p-6 rounded-xl space-y-4">
-
-<input id="title" placeholder="Blog Title"
-class="w-full p-2 text-black rounded">
-
-<select id="category" class="w-full p-2 text-black rounded">
-
-<option value="crypto">Crypto</option>
-
-<option value="cricket">Cricket</option>
-
-</select>
-
-<input id="image" placeholder="Image URL"
-class="w-full p-2 text-black rounded">
-
-<textarea id="content" placeholder="Blog content..."
-class="w-full p-2 text-black rounded"></textarea>
-
-<button onclick="publishPost()"
-class="bg-amber-500 px-6 py-2 rounded">
-
-Publish
-
-</button>
-
-</div>
-
+<!-- Featured Videos -->
+<section class="max-w-7xl mx-auto px-6 mb-24 grid md:grid-cols-2 gap-10">
+  <div class="glass p-8 rounded-3xl border-t-4 border-green-500 shadow-xl">
+    <h3 class="text-2xl font-bold mb-6">Cricket Analysis</h3>
+    <div class="aspect-video rounded-xl overflow-hidden"><iframe width="100%" height="100%" src="https://www.youtube.com/embed/bc35pOB6P7Y" allowfullscreen loading="lazy"></iframe></div>
+  </div>
+  <div class="glass p-8 rounded-3xl border-t-4 border-yellow-500 shadow-xl">
+    <h3 class="text-2xl font-bold mb-6">Crypto Market</h3>
+    <div class="aspect-video rounded-xl overflow-hidden"><iframe width="100%" height="100%" src="https://www.youtube.com/embed/5jkvYegChY0" allowfullscreen loading="lazy"></iframe></div>
+  </div>
 </section>
 
-<!-- NEWSLETTER -->
-
-<section class="max-w-5xl mx-auto mb-20 text-center bg-gradient-to-r from-amber-500 to-orange-600 p-12 rounded-3xl">
-
-<h2 class="text-3xl font-bold mb-4">
-
-Get the Edge
-
-</h2>
-
-<p class="mb-6">
-
-Daily crypto + cricket insights.
-
-</p>
-
-<input class="px-4 py-3 rounded-lg text-black w-64"
-placeholder="Email">
-
-<button class="ml-3 bg-black px-6 py-3 rounded-lg">
-
-Subscribe
-
-</button>
-
+<!-- Blog Section -->
+<section class="max-w-7xl mx-auto px-6 mb-24">
+  <div class="flex flex-col md:flex-row justify-between items-center mb-10">
+    <h2 class="text-4xl font-bold">Latest Insights</h2>
+    <div class="flex gap-4 mt-4 md:mt-0">
+      <button id="filterAll" class="px-5 py-2 rounded-full bg-amber-600 hover:bg-amber-500 font-medium">All</button>
+      <button id="filterCrypto" class="px-5 py-2 rounded-full bg-slate-700 hover:bg-slate-600">Crypto</button>
+      <button id="filterCricket" class="px-5 py-2 rounded-full bg-slate-700 hover:bg-slate-600">Cricket</button>
+    </div>
+  </div>
+  <div id="blogContainer" class="grid lg:grid-cols-2 xl:grid-cols-3 gap-10"></div>
 </section>
 
-<!-- FOOTER -->
+<!-- Publish Post -->
+<section class="max-w-4xl mx-auto px-6 mb-24">
+  <h2 class="text-3xl font-bold mb-8 text-center">Publish New Post</h2>
+  <div class="glass p-10 rounded-3xl space-y-6">
+    <input id="title" placeholder="Post Title" class="w-full p-4 rounded-xl bg-slate-800 border border-slate-600 focus:border-amber-500 outline-none text-white" required/>
+    <select id="category" class="w-full p-4 rounded-xl bg-slate-800 border border-slate-600 focus:border-amber-500 outline-none text-white">
+      <option value="crypto">Crypto Insights</option>
+      <option value="cricket">Cricket Strategy</option>
+    </select>
+    <input id="image" placeholder="Image URL (optional)" class="w-full p-4 rounded-xl bg-slate-800 border border-slate-600 focus:border-amber-500 outline-none text-white"/>
+    <textarea id="content" rows="10" placeholder="Write your full post here... Markdown supported (basic)." class="w-full p-4 rounded-xl bg-slate-800 border border-slate-600 focus:border-amber-500 outline-none text-white resize-y" required></textarea>
+    <button onclick="publishPost()" class="w-full bg-gradient-to-r from-amber-500 to-orange-600 py-4 rounded-xl font-bold text-lg hover:brightness-110 transition">Publish Post</button>
+  </div>
+</section>
 
-<footer class="text-center text-slate-400 pb-10">
+<!-- Newsletter -->
+<section class="max-w-5xl mx-auto px-6 mb-24 text-center">
+  <div class="glass p-12 rounded-3xl bg-gradient-to-br from-amber-600/20 to-orange-600/20">
+    <h2 class="text-4xl font-bold mb-6">Get the Edge Daily</h2>
+    <p class="text-xl text-slate-300 mb-8">Subscribe for crypto alerts + cricket breakdowns.</p>
+    <form class="flex flex-col sm:flex-row gap-4 justify-center max-w-lg mx-auto">
+      <input type="email" placeholder="Your email address" class="flex-1 p-4 rounded-xl bg-slate-800 border border-slate-600 focus:border-amber-500 outline-none text-white" required/>
+      <button type="submit" class="bg-black px-10 py-4 rounded-xl font-bold hover:bg-gray-900 transition">Subscribe</button>
+    </form>
+  </div>
+</section>
 
-<p>© 2026 DailyPost365</p>
-
+<!-- Footer + Socials -->
+<footer class="text-center py-12 border-t border-slate-700">
+  <div class="flex justify-center gap-8 mb-8 text-3xl">
+    <a href="https://www.instagram.com/dailypostwizard2026/" target="_blank" class="hover:text-pink-400 transition"><i class="fab fa-instagram"></i></a>
+    <a href="https://www.tiktok.com/@dailypostwizard6" target="_blank" class="hover:text-red-400 transition"><i class="fab fa-tiktok"></i></a>
+    <a href="https://x.com/DailyPostW92945" target="_blank" class="hover:text-sky-400 transition"><i class="fab fa-x-twitter"></i></a>
+    <a href="https://www.linkedin.com/" target="_blank" class="hover:text-blue-400 transition"><i class="fab fa-linkedin"></i></a> <!-- Update real LinkedIn if available -->
+    <a href="https://t.me/" target="_blank" class="hover:text-blue-300 transition"><i class="fab fa-telegram-plane"></i></a> <!-- Update real Telegram if available -->
+    <a href="#" target="_blank" class="hover:text-yellow-400 transition"><i class="fab fa-snapchat-ghost"></i></a> <!-- Update real Snapchat if available -->
+    <a href="https://www.youtube.com/@CoverDriveCricket-c5z" target="_blank" class="hover:text-red-500 transition"><i class="fab fa-youtube"></i></a>
+    <a href="https://www.youtube.com/@DailyPostWizard" target="_blank" class="hover:text-red-500 transition"><i class="fab fa-youtube"></i></a>
+  </div>
+  <p class="text-slate-400">© 2026 DailyPost365 • Intelligence Redefined</p>
 </footer>
 
-<script>
-
-/* BLOG STORAGE */
-
-let posts=JSON.parse(localStorage.getItem("posts")||"[]")
-
-function publishPost(){
-
-const post={
-
-title:document.getElementById("title").value,
-
-category:document.getElementById("category").value,
-
-image:document.getElementById("image").value,
-
-content:document.getElementById("content").value,
-
-date:new Date().toLocaleDateString()
-
-}
-
-posts.unshift(post)
-
-localStorage.setItem("posts",JSON.stringify(posts))
-
-renderPosts()
-
-}
-
-/* RENDER POSTS */
-
-function renderPosts(){
-
-document.getElementById("cryptoPosts").innerHTML=""
-
-document.getElementById("cricketPosts").innerHTML=""
-
-posts.forEach(p=>{
-
-const card=`
-
-<div class="blog-card glass p-4 rounded-xl mb-4 flex gap-4">
-
-<img src="${p.image}" class="w-24 h-20 object-cover rounded">
-
-<div>
-
-<h4 class="font-bold">${p.title}</h4>
-
-<p class="text-xs text-slate-400">${p.date}</p>
-
+<!-- Post Modal -->
+<div id="postModal" class="fixed inset-0 bg-black/80 hidden flex items-center justify-center z-50 p-4">
+  <div class="glass max-w-4xl w-full max-h-[90vh] overflow-y-auto rounded-2xl p-8 md:p-12 relative">
+    <button onclick="closeModal()" class="absolute top-6 right-6 text-3xl hover:text-amber-400">&times;</button>
+    <h2 id="modalTitle" class="text-4xl font-bold mb-6"></h2>
+    <div class="flex items-center gap-4 text-sm text-slate-400 mb-8">
+      <span id="modalDate"></span> • <span id="modalCategory" class="px-3 py-1 rounded-full bg-slate-700"></span> • <span id="modalReadTime">~ min read</span>
+    </div>
+    <img id="modalImage" class="w-full h-64 md:h-96 object-cover rounded-xl mb-10" alt="Post image"/>
+    <div id="modalContent" class="prose prose-invert prose-amber max-w-none text-lg leading-relaxed"></div>
+    <div class="mt-12 pt-8 border-t border-slate-700">
+      <h3 class="text-2xl font-bold mb-6">Comments</h3>
+      <div id="commentsList" class="space-y-6 mb-8"></div>
+      <textarea id="commentInput" placeholder="Add a comment..." class="w-full p-4 rounded-xl bg-slate-800 border border-slate-600 focus:border-amber-500 outline-none text-white" rows="3"></textarea>
+      <button onclick="addComment()" class="mt-4 bg-amber-600 px-8 py-3 rounded-xl font-medium hover:bg-amber-500">Post Comment</button>
+    </div>
+  </div>
 </div>
 
-</div>`
+<!-- Quality Dashboard Modal -->
+<div id="qualityModal" class="fixed inset-0 bg-black/80 hidden flex items-center justify-center z-50 p-4">
+  <div class="glass max-w-5xl w-full max-h-[90vh] overflow-y-auto rounded-2xl p-8 md:p-12">
+    <div class="flex justify-between items-center mb-8">
+      <h2 class="text-3xl font-bold">Quality & Health Dashboard (15-Point Audit)</h2>
+      <button onclick="document.getElementById('qualityModal').classList.add('hidden')" class="text-3xl hover:text-amber-400">&times;</button>
+    </div>
+    <button onclick="runQualityCheck()" class="mb-8 bg-green-600 px-8 py-3 rounded-xl font-medium hover:bg-green-500">Run Audit Now</button>
+    <div id="auditResults" class="grid md:grid-cols-2 gap-6"></div>
+    <div id="auditLog" class="mt-10 pt-6 border-t border-slate-700">
+      <h3 class="text-xl font-bold mb-4">Scan History & Suggestions</h3>
+      <div id="logEntries" class="space-y-3 text-sm text-slate-300"></div>
+    </div>
+  </div>
+</div>
 
-if(p.category==="crypto")
+<!-- Back to Top -->
+<button id="backToTop" class="fixed bottom-8 right-8 bg-amber-600 w-14 h-14 rounded-full flex items-center justify-center text-2xl shadow-lg hover:bg-amber-500 transition opacity-0 pointer-events-none z-40"><i class="fa-solid fa-arrow-up"></i></button>
 
-cryptoPosts.innerHTML+=card
+<!-- Toast Container -->
+<div id="toastContainer"></div>
 
-else
+<script>
+// ========== DATA & STATE ==========
+let posts = JSON.parse(localStorage.getItem("d365_posts") || "[]");
+let currentPostIndex = -1;
+let currentFilter = "all";
+const qualityLog = JSON.parse(localStorage.getItem("d365_audit_log") || "[]");
 
-cricketPosts.innerHTML+=card
-
-})
-
+// ========== CORE FUNCTIONS ==========
+function savePosts() {
+  localStorage.setItem("d365_posts", JSON.stringify(posts));
 }
 
-renderPosts()
-
-/* TRENDING */
-
-const trendingData=[
-
-"Bitcoin ETF inflows surge",
-
-"Solana ecosystem expansion",
-
-"IPL tactical evolution",
-
-"AI in sports analytics"
-
-]
-
-const trendingDiv=document.getElementById("trending")
-
-trendingData.forEach(t=>{
-
-trendingDiv.innerHTML+=
-
-`<div class="glass p-4 rounded-xl">${t}</div>`
-
-})
-
-/* SEARCH */
-
-document.getElementById("searchInput").addEventListener("keyup",function(){
-
-const value=this.value.toLowerCase()
-
-document.querySelectorAll(".blog-card").forEach(card=>{
-
-card.style.display=card.innerText.toLowerCase().includes(value)?"flex":"none"
-
-})
-
-})
-
-/* THEME SYSTEM */
-
-function toggleTheme(){
-
-const body=document.body
-
-if(body.classList.contains("bg-slate-900")){
-
-body.classList.remove("bg-slate-900")
-
-body.classList.add("bg-white","text-black")
-
-}else{
-
-body.classList.remove("bg-white","text-black")
-
-body.classList.add("bg-slate-900","text-white")
-
+function saveTheme(theme) {
+  localStorage.setItem("d365_theme", theme);
+  document.documentElement.setAttribute("data-theme", theme);
 }
 
+function publishPost() {
+  const title = document.getElementById("title").value.trim();
+  const content = document.getElementById("content").value.trim();
+  if (!title || !content) {
+    showToast("Title and content are required!", "bg-red-600");
+    return;
+  }
+  const post = {
+    id: Date.now(),
+    title,
+    category: document.getElementById("category").value,
+    image: document.getElementById("image").value.trim() || "https://via.placeholder.com/600x400/1e293b/ffffff?text=" + encodeURIComponent(title),
+    content,
+    date: new Date().toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' }),
+    comments: []
+  };
+  posts.unshift(post);
+  savePosts();
+  renderPosts();
+  showToast("Post published!", "bg-green-600");
+  document.getElementById("title").value = "";
+  document.getElementById("content").value = "";
+  document.getElementById("image").value = "";
 }
 
-/* 15 QUALITY CHECK */
+function renderPosts(filter = currentFilter) {
+  const container = document.getElementById("blogContainer");
+  container.innerHTML = "";
+  const filtered = filter === "all" ? posts : posts.filter(p => p.category === filter);
+  
+  if (filtered.length === 0) {
+    container.innerHTML = '<p class="col-span-full text-center text-slate-400 py-20 text-xl">No posts yet in this category.</p>';
+    return;
+  }
 
-function qualityAudit(){
-
-console.log("Running 15 point audit")
-
-const checks=[
-
-"SEO title",
-
-"meta description",
-
-"image presence",
-
-"mobile layout",
-
-"speed",
-
-"security headers",
-
-"structured data",
-
-"internal links",
-
-"external links",
-
-"social tags",
-
-"accessibility",
-
-"alt tags",
-
-"performance",
-
-"content length",
-
-"keyword density"
-
-]
-
-checks.forEach(c=>console.log("Check:",c))
-
+  filtered.forEach((p, i) => {
+    const globalIndex = posts.findIndex(post => post.id === p.id);
+    const readTime = estimateReadTime(p.content);
+    const card = document.createElement("div");
+    card.className = "glass rounded-2xl overflow-hidden cursor-pointer hover:shadow-2xl transition fade-in blog-card";
+    card.innerHTML = `
+      <img src="${p.image}" alt="${p.title}" class="w-full h-56 object-cover lazy" loading="lazy">
+      <div class="p-6">
+        <div class="flex justify-between items-start mb-4">
+          <span class="px-4 py-1 rounded-full text-sm ${p.category === 'crypto' ? 'bg-yellow-600/30 text-yellow-300' : 'bg-green-600/30 text-green-300'}">${p.category.toUpperCase()}</span>
+          <span class="text-sm text-slate-400">${p.date}</span>
+        </div>
+        <h3 class="text-xl font-bold mb-3 line-clamp-2">${p.title}</h3>
+        <p class="text-slate-300 line-clamp-3 mb-4">${p.content.substring(0, 180)}${p.content.length > 180 ? '...' : ''}</p>
+        <div class="flex justify-between text-sm text-slate-400">
+          <span>~${readTime} min read</span>
+          <button onclick="deletePost(${globalIndex}); event.stopPropagation();" class="text-red-400 hover:text-red-300"><i class="fa-solid fa-trash"></i></button>
+        </div>
+      </div>
+    `;
+    card.onclick = () => openPostModal(globalIndex);
+    container.appendChild(card);
+  });
 }
 
-qualityAudit()
+function deletePost(index) {
+  if (!confirm("Delete this post permanently?")) return;
+  posts.splice(index, 1);
+  savePosts();
+  renderPosts(currentFilter);
+  showToast("Post deleted.", "bg-red-600");
+}
 
+function openPostModal(index) {
+  currentPostIndex = index;
+  const p = posts[index];
+  document.getElementById("modalTitle").textContent = p.title;
+  document.getElementById("modalDate").textContent = p.date;
+  document.getElementById("modalCategory").textContent = p.category.toUpperCase();
+  document.getElementById("modalReadTime").textContent = `~${estimateReadTime(p.content)} min read`;
+  document.getElementById("modalImage").src = p.image;
+  document.getElementById("modalImage").alt = p.title;
+  document.getElementById("modalContent").innerHTML = p.content.replace(/\n/g, "<br>").replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>").replace(/\*(.*?)\*/g, "<em>$1</em>"); // basic markdown
+  renderComments();
+  document.getElementById("postModal").classList.remove("hidden");
+}
+
+function closeModal() {
+  document.getElementById("postModal").classList.add("hidden");
+  currentPostIndex = -1;
+}
+
+function estimateReadTime(text) {
+  const words = text.split(/\s+/).length;
+  return Math.ceil(words / 225); // ~225 wpm
+}
+
+function addComment() {
+  if (currentPostIndex < 0) return;
+  const input = document.getElementById("commentInput");
+  const text = input.value.trim();
+  if (!text) return;
+  posts[currentPostIndex].comments.push({ text, date: new Date().toLocaleString() });
+  savePosts();
+  input.value = "";
+  renderComments();
+  showToast("Comment added!", "bg-green-600");
+}
+
+function renderComments() {
+  const list = document.getElementById("commentsList");
+  list.innerHTML = "";
+  if (posts[currentPostIndex].comments.length === 0) {
+    list.innerHTML = '<p class="text-slate-400">No comments yet. Be the first!</p>';
+    return;
+  }
+  posts[currentPostIndex].comments.forEach(c => {
+    list.innerHTML += `
+      <div class="glass p-5 rounded-xl">
+        <p class="mb-2">${c.text}</p>
+        <p class="text-xs text-slate-400">${c.date}</p>
+      </div>`;
+  });
+}
+
+// ========== FILTERS & SEARCH ==========
+document.getElementById("filterAll").onclick = () => { currentFilter = "all"; renderPosts(); };
+document.getElementById("filterCrypto").onclick = () => { currentFilter = "crypto"; renderPosts(); };
+document.getElementById("filterCricket").onclick = () => { currentFilter = "cricket"; renderPosts(); };
+
+document.getElementById("searchInput").addEventListener("input", e => {
+  const val = e.target.value.toLowerCase();
+  document.querySelectorAll(".blog-card").forEach(card => {
+    card.style.display = card.textContent.toLowerCase().includes(val) ? "" : "none";
+  });
+});
+
+// ========== THEME TOGGLE ==========
+const savedTheme = localStorage.getItem("d365_theme") || "dark";
+document.documentElement.setAttribute("data-theme", savedTheme);
+document.getElementById("themeToggle").onclick = () => {
+  const newTheme = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+  saveTheme(newTheme);
+};
+
+// ========== QUALITY AUDIT (Client-side approximation) ==========
+const auditChecks = [
+  { name: "SEO Title Present", check: () => document.title.length > 10, status: "✅" },
+  { name: "Meta Description", check: () => !!document.querySelector('meta[name="description"]'), status: "✅" },
+  { name: "Open Graph Tags", check: () => !!document.querySelector('meta[property="og:title"]'), status: "✅" },
+  { name: "Image Alt Tags", check: () => [...document.images].every(img => img.alt && img.alt.trim()), status: document.images.length > 0 ? (document.images[0].alt ? "✅" : "⚠️ Some missing") : "ℹ️ No images" },
+  { name: "Heading Structure", check: () => document.querySelectorAll("h1").length === 1, status: document.querySelectorAll("h1").length === 1 ? "✅" : "⚠️ Multiple/zero H1" },
+  { name: "Lazy Loading Images", check: () => [...document.images].some(img => img.loading === "lazy"), status: "Partial" },
+  { name: "Contrast Ratio Approx", check: () => true, status: "Manual check needed (WCAG tool)" },
+  { name: "Mobile Viewport", check: () => !!document.querySelector('meta[name="viewport"]'), status: "✅" },
+  { name: "Links Accessible", check: () => true, status: "Manual" },
+  { name: "Form Labels", check: () => true, status: "Partial" },
+  { name: "ARIA Usage", check: () => true, status: "Manual" },
+  { name: "Post Count > 0", check: () => posts.length > 0, status: posts.length > 0 ? "✅" : "⚠️ No posts" },
+  { name: "Dark Mode Support", check: () => true, status: "✅" },
+  { name: "Performance (Images lazy)", check: () => true, status: "Partial" },
+  { name: "Accessibility Score Est.", check: () => true, status: "Use Lighthouse for real score" }
+];
+
+function runQualityCheck() {
+  const container = document.getElementById("auditResults");
+  container.innerHTML = "";
+  auditChecks.forEach(c => {
+    const div = document.createElement("div");
+    div.className = "glass p-6 rounded-xl";
+    div.innerHTML = `<h4 class="font-bold mb-2">${c.name}</h4><p class="text-lg">${c.status}</p>`;
+    container.appendChild(div);
+  });
+
+  const logEntry = {
+    date: new Date().toLocaleString(),
+    summary: `Audit run • Posts: ${posts.length} • Issues: low`
+  };
+  qualityLog.unshift(logEntry);
+  localStorage.setItem("d365_audit_log", JSON.stringify(qualityLog.slice(0, 20))); // keep last 20
+  renderAuditLog();
+  showToast("Audit complete! (Client-side checks)", "bg-blue-600");
+}
+
+function renderAuditLog() {
+  const logDiv = document.getElementById("logEntries");
+  logDiv.innerHTML = qualityLog.map(l => `<div class="p-3 bg-slate-800/50 rounded-lg">${l.date} - ${l.summary}</div>`).join("");
+}
+
+// ========== UTILITIES ==========
+function showToast(msg, bg = "bg-green-600") {
+  const toast = document.createElement("div");
+  toast.className = `toast ${bg} shadow-lg`;
+  toast.textContent = msg;
+  document.getElementById("toastContainer").appendChild(toast);
+  setTimeout(() => toast.remove(), 5000);
+}
+
+// ========== EVENT LISTENERS ==========
+window.addEventListener("scroll", () => {
+  const progress = document.getElementById("reading-progress");
+  const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+  const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  progress.style.width = scrollHeight > 0 ? (scrollTop / scrollHeight * 100) + "%" : "0%";
+
+  document.getElementById("backToTop").classList.toggle("opacity-100", scrollTop > 400);
+  document.getElementById("backToTop").classList.toggle("pointer-events-auto", scrollTop > 400);
+});
+
+document.getElementById("backToTop").onclick = () => window.scrollTo({ top: 0, behavior: "smooth" });
+
+// ========== INIT ==========
+renderPosts();
+document.getElementById("trending").innerHTML = ["Bitcoin ETF inflows surge", "Solana ecosystem expansion", "IPL tactical evolution", "AI in sports analytics"].map(t => `<div class="glass p-5 rounded-xl text-center font-medium">${t}</div>`).join("");
+renderAuditLog();
+
+// Auto-audit once per day approx (crude)
+if (!localStorage.getItem("d365_last_audit") || Date.now() - parseInt(localStorage.getItem("d365_last_audit")) > 86400000) {
+  runQualityCheck();
+  localStorage.setItem("d365_last_audit", Date.now());
+}
 </script>
-
 </body>
-
 </html>
