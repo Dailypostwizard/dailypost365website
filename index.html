@@ -1,354 +1,415 @@
 <!DOCTYPE html>
 <html lang="en" class="dark">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DailyPost365 | Global Crypto & Cricket Intelligence</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Inter', 'sans-serif'] },
-                    colors: {
-                        background: '#0f172a',
-                        card: '#1e293b',
-                        primary: '#3b82f6',
-                        crypto: '#f59e0b',
-                        cricket: '#10b981'
-                    },
-                    animation: {
-                        'float': 'float 6s ease-in-out infinite',
-                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                    },
-                    keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0) rotate(0)' },
-                            '50%': { transform: 'translateY(-20px) rotate(3deg)' },
-                        }
-                    }
-                }
-            }
-        }
-    </script>
 
-    <style>
-        /* Custom UI Enhancements */
-        body { font-family: 'Inter', sans-serif; overflow-x: hidden; }
-        
-        .glass-panel {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .light .glass-panel {
-            background: rgba(255, 255, 255, 0.7);
-            border: 1px solid rgba(0, 0, 0, 0.1);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        .text-gradient {
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            background-image: linear-gradient(135deg, #f59e0b, #3b82f6, #8b5cf6);
-        }
+<title>DailyPost365 | Crypto Intelligence & Cricket Strategy</title>
 
-        .bg-aurora {
-            background: 
-                radial-gradient(ellipse at top left, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
-                radial-gradient(ellipse at bottom right, rgba(16, 185, 129, 0.15) 0%, transparent 50%),
-                radial-gradient(ellipse at center, rgba(245, 158, 11, 0.1) 0%, transparent 50%);
-        }
+<meta name="description" content="DailyPost365 delivers elite crypto market analysis and advanced cricket strategy insights.">
+<meta name="keywords" content="crypto news, bitcoin analysis, cricket strategy, crypto trading">
 
-        /* YouTube Shorts Phone Frame */
-        .shorts-container {
-            width: 100%;
-            max-width: 280px;
-            aspect-ratio: 9/16;
-            margin: 0 auto;
-            border-radius: 24px;
-            overflow: hidden;
-            border: 6px solid #334155;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            position: relative;
-            background: #000;
-        }
-        .shorts-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
-        /* Scrollbar styling */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0f172a; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #475569; }
-    </style>
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<script>
+
+tailwind.config = {
+
+darkMode: 'class',
+
+theme: {
+
+extend: {
+
+fontFamily: { sans: ['Inter', 'sans-serif'] },
+
+colors: {
+
+bg: '#0f172a',
+
+card: '#1e293b',
+
+crypto: '#f59e0b',
+
+cricket: '#10b981',
+
+primary: '#3b82f6'
+
+}
+
+}
+
+}
+
+}
+
+</script>
+
+<style>
+
+body{font-family:'Inter',sans-serif}
+
+.glass{
+
+background:rgba(30,41,59,0.7);
+
+backdrop-filter:blur(14px);
+
+border:1px solid rgba(255,255,255,0.08)
+
+}
+
+.blog-card:hover{
+
+transform:translateY(-4px);
+
+transition:all .3s;
+
+}
+
+</style>
+
 </head>
-<body class="bg-slate-50 dark:bg-background text-slate-900 dark:text-slate-100 transition-colors duration-300 relative min-h-screen">
 
-    <div id="floating-icons" class="fixed inset-0 pointer-events-none overflow-hidden z-0 opacity-20 dark:opacity-10">
-        <i class="fab fa-bitcoin absolute text-5xl text-crypto top-[10%] left-[5%] animate-float" style="animation-delay: 0s;"></i>
-        <i class="fas fa-baseball-ball absolute text-4xl text-cricket top-[70%] left-[15%] animate-float" style="animation-delay: 1s;"></i>
-        <i class="fab fa-ethereum absolute text-6xl text-purple-500 top-[40%] right-[10%] animate-float" style="animation-delay: 2s;"></i>
-        <i class="fas fa-chart-line absolute text-5xl text-primary top-[20%] right-[20%] animate-float" style="animation-delay: 1.5s;"></i>
-        <i class="fas fa-trophy absolute text-4xl text-yellow-500 bottom-[20%] right-[30%] animate-float" style="animation-delay: 0.5s;"></i>
-    </div>
+<body class="bg-bg text-white">
 
-    <div class="fixed inset-0 pointer-events-none z-0 bg-aurora dark:bg-aurora transition-all duration-500"></div>
+<!-- NAVBAR -->
 
-    <div class="relative z-10">
-        
-        <nav class="sticky top-0 z-50 glass-panel border-b-0 py-4 px-6 mx-4 mt-4 rounded-2xl shadow-lg flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-lg">
-                    <span class="text-white font-bold text-xl">D</span>
-                </div>
-                <span class="text-xl font-bold text-gradient tracking-tight hidden sm:block">DailyPost365</span>
-            </div>
-            
-            <div class="flex items-center gap-4">
-                <div class="hidden md:flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-200 dark:bg-slate-800 text-sm font-medium">
-                    <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
-                    <span id="uae-clock">Syncing UAE Time...</span>
-                </div>
-                <button onclick="toggleTheme()" class="p-2.5 rounded-xl bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors">
-                    <i id="theme-icon" class="fas fa-sun text-slate-700 dark:text-slate-300"></i>
-                </button>
-            </div>
-        </nav>
+<nav class="glass sticky top-0 z-50 px-8 py-4 flex justify-between items-center">
 
-        <header class="text-center py-16 px-4">
-            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 text-sm font-bold mb-6 border border-blue-200 dark:border-blue-800">
-                <i class="fas fa-shield-check"></i> 15-Point Quality Audit Active
-            </div>
-            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-6">
-                Intelligence <br/>
-                <span class="text-gradient">Redefined.</span>
-            </h1>
-            <p class="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto mb-8">
-                Institutional-grade crypto market analysis combined with elite cricket strategy. Real-time data, zero noise.
-            </p>
-        </header>
+<div class="flex items-center gap-3">
 
-        <main class="max-w-[1600px] mx-auto px-4 pb-20">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                
-                <section class="glass-panel rounded-3xl p-6 flex flex-col gap-6 border-t-4 border-t-cricket">
-                    <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-700 pb-4">
-                        <h2 class="text-2xl font-bold flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center text-cricket">
-                                <i class="fas fa-baseball-bat-ball"></i>
-                            </div>
-                            Cricket Strategy
-                        </h2>
-                        <span class="px-3 py-1 rounded-full bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 text-xs font-bold animate-pulse-slow">
-                            LIVE FEED
-                        </span>
-                    </div>
+<div class="w-10 h-10 bg-gradient-to-r from-amber-400 to-orange-500 rounded-lg flex items-center justify-center font-bold">
 
-                    <div class="shorts-container shadow-emerald-500/20">
-                        <iframe src="https://www.youtube.com/embed/bc35pOB6P7Y" title="Cricket Analysis" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    </div>
+D
 
-                    <div class="flex-1 min-h-[400px] bg-white dark:bg-slate-900 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800">
-                        <div class="p-3 bg-slate-100 dark:bg-slate-800 text-xs font-bold text-slate-500 uppercase tracking-wider border-b border-slate-200 dark:border-slate-700">
-                            Global Match News
-                        </div>
-                        <iframe width="100%" height="450" src="https://rss.app/embed/v1/wall/tK0mQG8HkLp3uR5r" frameborder="0" class="w-full"></iframe>
-                    </div>
-                </section>
+</div>
 
-                <section class="glass-panel rounded-3xl p-6 flex flex-col gap-6 border-t-4 border-t-crypto">
-                    <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-700 pb-4">
-                        <h2 class="text-2xl font-bold flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-lg bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center text-crypto">
-                                <i class="fas fa-chart-line"></i>
-                            </div>
-                            Crypto Audit
-                        </h2>
-                        <span class="px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs font-bold">
-                            NODE ACTIVE
-                        </span>
-                    </div>
+<h1 class="text-xl font-bold">DailyPost365</h1>
 
-                    <div class="shorts-container shadow-amber-500/20">
-                        <iframe src="https://www.youtube.com/embed/5jkvYegChY0" title="Crypto Analysis" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    </div>
+</div>
 
-                    <div class="rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
-                        <div class="tradingview-widget-container">
-                            <div class="tradingview-widget-container__widget"></div>
-                            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/tv-widget-ticker-tape.js" async>
-                            {
-                            "symbols": [
-                                { "proName": "BINANCE:BTCUSDT", "title": "Bitcoin" },
-                                { "proName": "BINANCE:ETHUSDT", "title": "Ethereum" },
-                                { "proName": "BINANCE:SOLUSDT", "title": "Solana" },
-                                { "proName": "BINANCE:UNIUSDT", "title": "Uniswap" },
-                                { "proName": "BINANCE:SUIUSDT", "title": "SUI" },
-                                { "proName": "BINANCE:LINKUSDT", "title": "Chainlink" },
-                                { "proName": "BINANCE:HBARUSDT", "title": "Hedera" }
-                            ],
-                            "showSymbolLogo": true,
-                            "isTransparent": true,
-                            "displayMode": "adaptive",
-                            "colorTheme": "dark",
-                            "locale": "en"
-                            }
-                            </script>
-                        </div>
-                    </div>
+<div class="flex gap-6 items-center text-sm">
 
-                    <div class="flex-1 min-h-[350px] bg-white dark:bg-slate-900 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800">
-                        <div class="tradingview-widget-container" style="height:100%;width:100%">
-                            <div class="tradingview-widget-container__widget" style="height:calc(100% - 32px);width:100%"></div>
-                            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/tv-widget-advanced-chart.js" async>
-                            {
-                            "autosize": true,
-                            "symbol": "BINANCE:BTCUSDT",
-                            "interval": "D",
-                            "timezone": "Asia/Dubai",
-                            "theme": "dark",
-                            "style": "1",
-                            "locale": "en",
-                            "enable_publishing": false,
-                            "backgroundColor": "rgba(15, 23, 42, 1)",
-                            "gridColor": "rgba(255, 255, 255, 0.05)",
-                            "hide_top_toolbar": true,
-                            "hide_legend": true,
-                            "save_image": false,
-                            "support_host": "https://www.tradingview.com"
-                            }
-                            </script>
-                        </div>
-                    </div>
-                </section>
-            </div>
-            
-            <div class="mt-12 glass-panel rounded-3xl p-8">
-                <h3 class="text-center text-2xl font-bold mb-8">Follow Our Network</h3>
-                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4">
-                    
-                    <a href="https://www.youtube.com/@DailyPostWizard" target="_blank" class="flex flex-col items-center p-4 rounded-2xl bg-white dark:bg-slate-800 hover:-translate-y-2 hover:shadow-xl hover:shadow-red-500/20 transition-all border border-slate-200 dark:border-slate-700 group">
-                        <i class="fab fa-youtube text-4xl text-red-500 mb-2 group-hover:scale-110 transition-transform"></i>
-                        <span class="font-bold text-sm">Crypto YT</span>
-                    </a>
-                    
-                    <a href="https://www.youtube.com/@CoverDriveCricket-c5z" target="_blank" class="flex flex-col items-center p-4 rounded-2xl bg-white dark:bg-slate-800 hover:-translate-y-2 hover:shadow-xl hover:shadow-red-500/20 transition-all border border-slate-200 dark:border-slate-700 group">
-                        <i class="fab fa-youtube text-4xl text-red-500 mb-2 group-hover:scale-110 transition-transform"></i>
-                        <span class="font-bold text-sm">Cricket YT</span>
-                    </a>
+<a href="#">Crypto</a>
 
-                    <a href="https://x.com/DailyPostW92945" target="_blank" class="flex flex-col items-center p-4 rounded-2xl bg-white dark:bg-slate-800 hover:-translate-y-2 hover:shadow-xl hover:shadow-slate-500/20 transition-all border border-slate-200 dark:border-slate-700 group">
-                        <i class="fab fa-x-twitter text-4xl text-slate-800 dark:text-white mb-2 group-hover:scale-110 transition-transform"></i>
-                        <span class="font-bold text-sm">X / Twitter</span>
-                    </a>
+<a href="#">Cricket</a>
 
-                    <a href="https://www.tiktok.com/@dailypostwizard6" target="_blank" class="flex flex-col items-center p-4 rounded-2xl bg-white dark:bg-slate-800 hover:-translate-y-2 hover:shadow-xl hover:shadow-pink-500/20 transition-all border border-slate-200 dark:border-slate-700 group">
-                        <i class="fab fa-tiktok text-4xl text-slate-800 dark:text-white mb-2 group-hover:scale-110 transition-transform"></i>
-                        <span class="font-bold text-sm">TikTok</span>
-                    </a>
+<a href="#">Blog</a>
 
-                    <a href="https://www.instagram.com/dailypostwizard2026/" target="_blank" class="flex flex-col items-center p-4 rounded-2xl bg-white dark:bg-slate-800 hover:-translate-y-2 hover:shadow-xl hover:shadow-purple-500/20 transition-all border border-slate-200 dark:border-slate-700 group">
-                        <i class="fab fa-instagram text-4xl text-purple-500 mb-2 group-hover:scale-110 transition-transform"></i>
-                        <span class="font-bold text-sm">Instagram</span>
-                    </a>
+<a href="#">Trending</a>
 
-                    <a href="https://www.linkedin.com/in/dailypostwizard-undefined-5742813ab/" target="_blank" class="flex flex-col items-center p-4 rounded-2xl bg-white dark:bg-slate-800 hover:-translate-y-2 hover:shadow-xl hover:shadow-blue-500/20 transition-all border border-slate-200 dark:border-slate-700 group">
-                        <i class="fab fa-linkedin text-4xl text-blue-600 mb-2 group-hover:scale-110 transition-transform"></i>
-                        <span class="font-bold text-sm">LinkedIn</span>
-                    </a>
+<i class="fa fa-search"></i>
 
-                    <a href="#" target="_blank" class="flex flex-col items-center p-4 rounded-2xl bg-white dark:bg-slate-800 hover:-translate-y-2 hover:shadow-xl hover:shadow-sky-500/20 transition-all border border-slate-200 dark:border-slate-700 group">
-                        <i class="fab fa-telegram text-4xl text-sky-500 mb-2 group-hover:scale-110 transition-transform"></i>
-                        <span class="font-bold text-sm">Telegram</span>
-                    </a>
+</div>
 
-                    <a href="#" target="_blank" class="flex flex-col items-center p-4 rounded-2xl bg-white dark:bg-slate-800 hover:-translate-y-2 hover:shadow-xl hover:shadow-green-500/20 transition-all border border-slate-200 dark:border-slate-700 group">
-                        <i class="fab fa-whatsapp text-4xl text-green-500 mb-2 group-hover:scale-110 transition-transform"></i>
-                        <span class="font-bold text-sm">WhatsApp</span>
-                    </a>
+</nav>
 
-                </div>
-            </div>
+<!-- HERO -->
 
-            <div class="mt-12 rounded-3xl p-10 bg-gradient-to-r from-amber-500 to-orange-600 text-white text-center shadow-2xl relative overflow-hidden">
-                <div class="relative z-10">
-                    <h2 class="text-3xl font-extrabold mb-4"><i class="fas fa-crown text-yellow-300"></i> Get the Edge</h2>
-                    <p class="text-lg opacity-90 max-w-2xl mx-auto mb-8">Join 1,000+ readers who start their day with our combined crypto-cricket briefing. No noise, just what moves markets and matches.</p>
-                    <a href="#" class="inline-block bg-white text-orange-600 font-bold text-lg px-8 py-4 rounded-full shadow-lg hover:scale-105 transition-transform">
-                        <i class="fas fa-envelope-open-text mr-2"></i> Subscribe (Free)
-                    </a>
-                </div>
-            </div>
+<section class="text-center py-20">
 
-        </main>
+<h1 class="text-6xl font-extrabold mb-6">
 
-        <footer class="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-background py-8 text-center text-slate-500 text-sm">
-            <p>© 2026 DailyPost365 • Independent analysis since 2023 • Not financial advice • Cricket with conviction</p>
-            <p class="mt-2">15-Tier Crypto Audit® is a DailyPost365 original method.</p>
-        </footer>
+Intelligence <span class="text-amber-400">Redefined</span>
 
-    </div>
+</h1>
 
-    <script>
-        // Theme Toggle Logic
-        function toggleTheme() {
-            const html = document.documentElement;
-            const icon = document.getElementById('theme-icon');
-            
-            if (html.classList.contains('dark')) {
-                html.classList.remove('dark');
-                html.classList.add('light');
-                icon.classList.remove('fa-sun');
-                icon.classList.add('fa-moon');
-            } else {
-                html.classList.remove('light');
-                html.classList.add('dark');
-                icon.classList.remove('fa-moon');
-                icon.classList.add('fa-sun');
-            }
-            
-            // Reload TradingView widgets to match theme
-            const frames = document.querySelectorAll('iframe');
-            frames.forEach(frame => {
-                if(frame.src.includes('tradingview')) {
-                    frame.src = frame.src; // Simple reload forces TV to pick up system theme via CSS
-                }
-            });
-        }
+<p class="text-slate-400 max-w-xl mx-auto">
 
-        // UAE Time Sync
-        function updateUAETime() {
-            const options = { timeZone: 'Asia/Dubai', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
-            const uaeTime = new Date().toLocaleTimeString('en-US', options);
-            document.getElementById('uae-clock').innerText = `UAE: ${uaeTime}`;
-        }
-        setInterval(updateUAETime, 1000);
-        updateUAETime();
+Institutional-grade crypto insights combined with elite cricket strategy.
 
-        // Mouse Parallax for Floating Icons
-        document.addEventListener('mousemove', (e) => {
-            const icons = document.querySelectorAll('.animate-float');
-            const x = (e.clientX / window.innerWidth - 0.5) * 20;
-            const y = (e.clientY / window.innerHeight - 0.5) * 20;
-            
-            icons.forEach((icon, index) => {
-                const speed = (index + 1) * 0.5;
-                icon.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
-            });
-        });
-    </script>
+</p>
+
+</section>
+
+<!-- TRENDING -->
+
+<section class="max-w-7xl mx-auto px-6 mb-16">
+
+<h2 class="text-2xl font-bold mb-6">🔥 Trending Today</h2>
+
+<div class="grid md:grid-cols-4 gap-6">
+
+<div class="glass p-4 rounded-xl">Bitcoin ETF inflows surge</div>
+
+<div class="glass p-4 rounded-xl">Solana ecosystem growth</div>
+
+<div class="glass p-4 rounded-xl">IPL team analytics shift</div>
+
+<div class="glass p-4 rounded-xl">AI in sports strategy</div>
+
+</div>
+
+</section>
+
+<!-- VIDEO ANALYSIS -->
+
+<section class="max-w-7xl mx-auto px-6 mb-20 grid md:grid-cols-2 gap-10">
+
+<div class="glass p-6 rounded-2xl border-t-4 border-cricket">
+
+<h3 class="text-xl font-bold mb-4">
+
+<i class="fa-solid fa-baseball-ball text-cricket"></i>
+
+Cricket Analysis
+
+</h3>
+
+<iframe width="100%" height="400"
+
+src="https://www.youtube.com/embed/bc35pOB6P7Y"
+
+allowfullscreen
+
+class="rounded-xl"></iframe>
+
+</div>
+
+<div class="glass p-6 rounded-2xl border-t-4 border-crypto">
+
+<h3 class="text-xl font-bold mb-4">
+
+<i class="fa-solid fa-chart-line text-crypto"></i>
+
+Crypto Market
+
+</h3>
+
+<iframe width="100%" height="400"
+
+src="https://www.youtube.com/embed/5jkvYegChY0"
+
+allowfullscreen
+
+class="rounded-xl"></iframe>
+
+</div>
+
+</section>
+
+<!-- BLOG SECTION -->
+
+<section class="max-w-7xl mx-auto px-6 mb-20">
+
+<h2 class="text-3xl font-bold mb-10 text-center">
+
+Latest Intelligence
+
+</h2>
+
+<div class="grid lg:grid-cols-2 gap-12">
+
+<!-- CRYPTO BLOG -->
+
+<div>
+
+<h3 class="text-2xl font-bold text-crypto mb-6">
+
+Crypto Insights
+
+</h3>
+
+<div id="crypto-posts" class="space-y-6"></div>
+
+</div>
+
+<!-- CRICKET BLOG -->
+
+<div>
+
+<h3 class="text-2xl font-bold text-cricket mb-6">
+
+Cricket Strategy
+
+</h3>
+
+<div id="cricket-posts" class="space-y-6"></div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- SOCIAL -->
+
+<section class="max-w-7xl mx-auto px-6 mb-16">
+
+<h2 class="text-center text-2xl font-bold mb-8">
+
+Follow Our Network
+
+</h2>
+
+<div class="grid grid-cols-4 md:grid-cols-8 gap-4 text-center">
+
+<a href="#"><i class="fab fa-youtube text-red-500 text-3xl"></i></a>
+
+<a href="#"><i class="fab fa-x-twitter text-white text-3xl"></i></a>
+
+<a href="#"><i class="fab fa-tiktok text-white text-3xl"></i></a>
+
+<a href="#"><i class="fab fa-instagram text-pink-500 text-3xl"></i></a>
+
+<a href="#"><i class="fab fa-linkedin text-blue-500 text-3xl"></i></a>
+
+<a href="#"><i class="fab fa-telegram text-sky-400 text-3xl"></i></a>
+
+<a href="#"><i class="fab fa-whatsapp text-green-500 text-3xl"></i></a>
+
+</div>
+
+</section>
+
+<!-- NEWSLETTER -->
+
+<section class="max-w-5xl mx-auto mb-20 text-center bg-gradient-to-r from-amber-500 to-orange-600 p-12 rounded-3xl">
+
+<h2 class="text-3xl font-bold mb-4">
+
+Get the Edge
+
+</h2>
+
+<p class="mb-6">
+
+Daily crypto + cricket insights delivered to your inbox.
+
+</p>
+
+<input
+
+class="px-4 py-3 rounded-lg text-black w-64"
+
+placeholder="Email address">
+
+<button class="ml-3 bg-black px-6 py-3 rounded-lg">
+
+Subscribe
+
+</button>
+
+</section>
+
+<!-- FOOTER -->
+
+<footer class="text-center text-slate-400 pb-10">
+
+<p>
+
+© 2026 DailyPost365
+
+</p>
+
+</footer>
+
+<!-- BLOG DATA -->
+
+<script>
+
+const posts=[
+
+{
+
+title:"Bitcoin Breakout: Why $75K is Coming",
+
+category:"crypto",
+
+date:"March 2026",
+
+img:"https://images.unsplash.com/photo-1621761191319-c6fb62004040"
+
+},
+
+{
+
+title:"Solana vs Ethereum: The Next Bull Cycle",
+
+category:"crypto",
+
+date:"March 2026",
+
+img:"https://images.unsplash.com/photo-1640161704729-cbe966a08476"
+
+},
+
+{
+
+title:"IPL Tactical Evolution in Powerplays",
+
+category:"cricket",
+
+date:"March 2026",
+
+img:"https://images.unsplash.com/photo-1593341646782-e0b495cff86d"
+
+},
+
+{
+
+title:"AI Analytics Changing Cricket Strategy",
+
+category:"cricket",
+
+date:"March 2026",
+
+img:"https://images.unsplash.com/photo-1540747913346-19e32dc3e97e"
+
+}
+
+];
+
+function renderPosts(){
+
+const crypto=document.getElementById("crypto-posts");
+
+const cricket=document.getElementById("cricket-posts");
+
+posts.forEach(p=>{
+
+const html=`
+
+<div class="blog-card glass p-4 rounded-xl flex gap-4">
+
+<img src="${p.img}" class="w-24 h-20 object-cover rounded-lg">
+
+<div>
+
+<h4 class="font-bold">${p.title}</h4>
+
+<p class="text-xs text-slate-400">${p.date}</p>
+
+</div>
+
+</div>
+
+`;
+
+if(p.category==="crypto")
+
+crypto.innerHTML+=html;
+
+else
+
+cricket.innerHTML+=html;
+
+});
+
+}
+
+renderPosts();
+
+</script>
+
 </body>
+
 </html>
