@@ -191,7 +191,7 @@
 
 <script>
 // ====================== SECURITY & API KEY ======================
-let YT_API_KEY = localStorage.getItem("d365_yt_key") || "PASTE_YOUR_API_KEY_HERE";
+let YT_API_KEY = localStorage.getItem("d365_yt_key") || "AIzaSyD8JqsUEHsWarsPrVDUPatzsGGKcQ7GiZU";
 
 // ====================== DEMO SHORTS (Vertical Only – 5 each) ======================
 // These are real Shorts from the channels (as of March 2026)
@@ -335,7 +335,7 @@ function openPost(i) { /* modal code omitted for brevity – same as previous */
 // ====================== API KEY FUNCTIONS ======================
 function showAPISetup() {
   document.getElementById("apiModal").classList.remove("hidden");
-  document.getElementById("apiKeyInput").value = YT_API_KEY === "PASTE_YOUR_API_KEY_HERE" ? "" : YT_API_KEY;
+  document.getElementById("apiKeyInput").value = YT_API_KEY === "AIzaSyD8JqsUEHsWarsPrVDUPatzsGGKcQ7GiZU" ? "" : YT_API_KEY;
 }
 
 function hideAPIModal() { document.getElementById("apiModal").classList.add("hidden"); }
