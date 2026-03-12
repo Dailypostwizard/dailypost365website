@@ -221,7 +221,7 @@ function toggleTheme() {
 // ────────────────────────────────────────────────
 
 function loadApiKey() {
-  const key = localStorage.getItem('youtube_api_key') || '';
+  const key = localStorage.getItem('youtube_api_key') || 'AIzaSyD8JqsUEHsWarsPrVDUPatzsGGKcQ7GiZU';
   document.getElementById('apiKeyInput').value = key;
   updateApiStatus(key);
 }
