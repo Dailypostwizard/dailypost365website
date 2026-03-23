@@ -1,0 +1,52 @@
+{
+  "cricket": {
+    "international": [
+      {
+        "name": "Virat Kohli",
+        "milestone_2026": "Achieving 100th International Century",
+        "category": "Legend"
+      },
+      {
+        "name": "Babar Azam",
+        "milestone_2026": "Fastest to 15,000 ODI Runs",
+        "category": "Elite"
+      },
+      {
+        "name": "Shubman Gill",
+        "milestone_2026": "Triple Century in Test Cricket",
+        "category": "Rising Star"
+      }
+    ],
+    "ipl": [
+      {
+        "name": "MS Dhoni",
+        "milestone_2026": "Most Matches as Captain in IPL History (Final Farewell)",
+        "category": "Icon"
+      },
+      {
+        "name": "Cameron Green",
+        "milestone_2026": "Fastest IPL All-Rounder to 2000 Runs and 100 Wickets",
+        "category": "Global Star"
+      },
+      {
+        "name": "Matheesha Pathirana",
+        "milestone_2026": "Most Wickets in IPL Death Overs Season Record",
+        "category": "Global Star"
+      },
+      {
+        "name": "Rashid Khan",
+        "milestone_2026": "First Player to 250 IPL T20 Wickets",
+        "category": "Global Star"
+      }
+    ]
+  },
+  "crypto": {
+    "trending": [
+      {
+        "name": "Bitcoin",
+        "milestone_2026": "Reaching $150,000 Price Point",
+        "category": "Digital Gold"
+      }
+    ]
+  }
+}
