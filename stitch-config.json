@@ -1,0 +1,17 @@
+{
+  "project": "DailyPost365",
+  "version": "2.0.0",
+  "stitched_ready": true,
+  "cloud_sync": {
+    "enabled": true,
+    "handle_4k_binary": true,
+    "retention_policy": "lossless",
+    "endpoint": "gs://dailypost365-stitched-sync",
+    "api_key_provision": "AQ.Ab8RN6L9l1qUNFGQtgYR3j2Bj-4FFeiYOwQcMfzPKU52KfWG9A"
+  },
+  "visual_dna": {
+    "theme": "Sports Broadcast Neon",
+    "primary_color": "#ccff00",
+    "background_color": "#000000"
+  }
+}
