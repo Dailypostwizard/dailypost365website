@@ -4,111 +4,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="DailyPost365: Global Cricket Analysis, Virat Kohli 8661 Runs Tracker, IPL 2026 Predictions, and South Asian Sports News.">
-    <meta name="keywords" content="Cricket News, IPL 2026, Virat Kohli, Babar Azam, India vs Pakistan, UAE Cricket, DailyPost365 Live">
-    <title>DailyPost365 | World's #1 Cricket Broadcast Hub</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Oswald:wght@300;700&display=swap" rel="stylesheet">
-    
+    <title>DailyPost365 | World's Best Broadcast Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&family=Oswald:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root { --neon: #00FF00; --blue: #031744; --yellow: #FFFF00; --dark: #050505; }
-        body { background: var(--dark); color: white; font-family: 'Oswald', sans-serif; margin: 0; overflow-x: hidden; }
-
-        /* HEADER & ANIMATED LOGO */
-        .header { background: var(--blue); padding: 20px 5%; border-bottom: 5px solid var(--neon); display: flex; justify-content: space-between; align-items: center; box-shadow: 0 0 30px rgba(0,255,0,0.3); }
-        .logo { font-family: 'Orbitron'; font-size: 35px; color: var(--neon); text-shadow: 0 0 15px var(--neon); }
+        body { background: var(--dark); color: white; font-family: 'Oswald', sans-serif; margin: 0; }
         
-        /* CRICKET BALL ANIMATION (TOP RIGHT) */
-        .ball-pulse { width: 30px; height: 30px; background: red; border-radius: 50%; border: 2px solid white; position: relative; animation: bounce 1.5s infinite ease-in-out; }
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        /* HEADER & COUNTDOWN */
+        .header { background: var(--blue); padding: 15px 5%; border-bottom: 5px solid var(--neon); display: flex; justify-content: space-between; align-items: center; box-shadow: 0 0 20px rgba(0,255,0,0.2); }
+        .logo { font-family: 'Orbitron'; font-size: 32px; color: var(--neon); text-shadow: 0 0 10px var(--neon); }
+        #countdown-timer { font-family: 'Orbitron'; color: white; font-size: 14px; background: rgba(0,0,0,0.5); padding: 5px 15px; border-radius: 20px; border: 1px solid var(--neon); }
 
-        /* LIVE TICKER */
-        .live-ticker { background: var(--yellow); color: black; padding: 12px 0; font-weight: 900; border-bottom: 2px solid white; font-size: 16px; text-transform: uppercase; }
+        /* LIVE NEWS TICKER */
+        .ticker-bar { background: var(--yellow); color: black; padding: 12px 0; font-weight: 900; font-size: 16px; border-bottom: 2px solid white; overflow: hidden; }
 
-        /* CONTENT ENGINE GRID */
-        .main-hub { max-width: 1440px; margin: 40px auto; display: grid; grid-template-columns: 2.8fr 1.2fr; gap: 30px; padding: 0 25px; }
+        /* MAIN LAYOUT */
+        .main-hub { max-width: 1400px; margin: 30px auto; display: grid; grid-template-columns: 2.8fr 1.2fr; gap: 25px; padding: 0 20px; padding-bottom: 80px; }
 
         /* VIDEO STAGE */
-        .video-stage { background: rgba(255,255,255,0.03); border: 1px solid #333; border-radius: 20px; padding: 25px; position: relative; }
-        .featured-video { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 12px; border: 3px solid var(--neon); box-shadow: 0 10px 40px rgba(0,0,0,0.5); overflow: hidden; margin-bottom: 25px; }
-        .shorts-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
-        .short-card { aspect-ratio: 9/16; background: #111; border-radius: 10px; border: 1px solid #444; overflow: hidden; transition: 0.4s; }
-        .short-card:hover { transform: scale(1.03); border-color: var(--neon); }
-        iframe { width: 100%; height: 100%; border: none; }
+        .video-stage { background: rgba(255,255,255,0.03); border: 1px solid #333; border-radius: 20px; padding: 25px; }
+        .featured-video { width: 100%; aspect-ratio: 16/9; border: 3px solid var(--neon); border-radius: 12px; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+        .label { font-family: 'Orbitron'; color: var(--neon); font-size: 12px; margin-bottom: 15px; display: block; letter-spacing: 2px; }
 
-        /* SIDEBAR (THE NETWORK) */
-        .sidebar { display: flex; flex-direction: column; gap: 25px; }
-        .glass-card { background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border: 1px solid #444; border-radius: 20px; padding: 25px; }
-        .label { font-family: 'Orbitron'; color: var(--neon); font-size: 14px; margin-bottom: 15px; display: block; letter-spacing: 2px; }
-        
+        /* SOCIAL MEDIA ICONS WITH LINKS */
         .social-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .social-btn { padding: 18px; border-radius: 10px; text-align: center; text-decoration: none; font-weight: 900; color: white; font-size: 13px; transition: 0.3s; }
-        .yt { background: #FF0000; } .tk { background: #000; border: 1px solid var(--neon); }
-        .ig { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); } .tw { background: #1DA1F2; }
-        
-        /* TELEGRAM WIDGET HEIGHT FIX */
-        .tg-container { width: 100%; height: 600px; border-radius: 12px; overflow: hidden; background: white; }
+        .social-btn { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 15px; border-radius: 10px; text-decoration: none; color: white; font-weight: 900; font-size: 13px; transition: 0.3s; border: 1px solid transparent; }
+        .yt { background: #FF0000; } 
+        .tk { background: #000; border: 1px solid var(--neon); } 
+        .ig { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); } 
+        .tw { background: #1DA1F2; }
+        .social-btn:hover { transform: translateY(-5px); box-shadow: 0 5px 15px var(--neon); border-color: white; }
 
-        /* FOOTER STRIP */
-        .footer-strip { position: fixed; bottom: 0; width: 100%; background: var(--neon); color: black; padding: 12px; font-weight: 900; z-index: 9999; border-top: 3px solid white; }
+        /* TELEGRAM & SIDEBAR */
+        .sidebar { display: flex; flex-direction: column; gap: 20px; }
+        .glass-card { background: rgba(255,255,255,0.05); border: 1px solid #444; border-radius: 20px; padding: 25px; }
+        .tg-btn { display: flex; align-items: center; justify-content: center; gap: 10px; background: #24A1DE; color: white; padding: 22px; text-align: center; border-radius: 15px; font-weight: 900; text-decoration: none; margin-top: 10px; box-shadow: 0 0 20px rgba(36,161,222,0.4); }
+        
+        .footer { position: fixed; bottom: 0; width: 100%; background: var(--neon); color: black; padding: 12px; font-weight: 900; text-align: center; z-index: 1000; font-size: 14px; }
     </style>
 </head>
 <body>
-
     <header class="header">
         <div class="logo">DAILYPOST365</div>
-        <div style="display:flex; align-items:center; gap:15px;">
-            <div class="ball-pulse"></div>
-            <span style="font-family:'Orbitron'; font-size:12px;">GLOBAL BROADCAST LIVE</span>
-        </div>
+        <div id="countdown-timer">IPL 2026: LOADING...</div>
     </header>
 
-    <div class="live-ticker">
-        <marquee scrollamount="12">
-            IPL 2026 COUNTDOWN: 4 DAYS REMAINING | VIRAT KOHLI RECORD TRACKER: 8,661 RUNS TARGETED | 
-            NZ vs SA RESULT: NZ WINS BY 24 RUNS | BABAR AZAM ANALYSIS UPDATED | WHALE TRACKER: BTC WHALE MOVED $200M
+    <div class="ticker-bar">
+        <marquee scrollamount="12" id="ticker-text">
+            VIRAT KOHLI RECORD WATCH: 8,661 RUNS TARGETED | NZ vs SA FINAL: NZ WINS BY 24 RUNS | CRYPTO WHALE ALERT: $200M BTC MOVED | BABAR AZAM ANALYSIS LIVE AT 6:00 PM UAE
         </marquee>
     </div>
 
     <main class="main-hub">
         <section class="video-stage">
-            <span class="label">● FEATURED ANALYSIS</span>
+            <span class="label">● CRICKET BROADCAST INTEL</span>
             <div class="featured-video">
                 <iframe src="https://www.youtube.com/embed/bOLhhWCPtww" allowfullscreen></iframe>
             </div>
-            
-            <span class="label">● TRENDING SHORTS</span>
-            <div class="shorts-grid">
-                <div class="short-card"><iframe src="https://www.youtube.com/embed/4YKAXiNmD1o"></iframe></div>
-                <div class="short-card"><iframe src="https://www.youtube.com/embed/t2AudsYLqzQ"></iframe></div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+                <div style="aspect-ratio:9/16; border-radius:10px; overflow:hidden; border:1px solid #444;"><iframe src="https://www.youtube.com/embed/4YKAXiNmD1o"></iframe></div>
+                <div style="aspect-ratio:9/16; border-radius:10px; overflow:hidden; border:1px solid #444;"><iframe src="https://www.youtube.com/embed/t2AudsYLqzQ"></iframe></div>
             </div>
         </section>
 
         <aside class="sidebar">
             <div class="glass-card">
-                <span class="label">CONNECT NETWORK</span>
+                <span class="label">● SOCIAL NETWORK</span>
                 <div class="social-grid">
-                    <a href="https://www.youtube.com/@DailyPost365" class="social-btn yt">YOUTUBE</a>
-                    <a href="https://www.tiktok.com/@dailypost0365" class="social-btn tk">TIKTOK</a>
-                    <a href="https://www.instagram.com/dailypostwizard2026/" class="social-btn ig">INSTAGRAM</a>
-                    <a href="https://x.com/DailyPostW92945" class="social-btn tw">TWITTER (X)</a>
+                    <a href="https://www.youtube.com/@DailyPost365" class="social-btn yt"><i class="fab fa-youtube"></i> YOUTUBE</a>
+                    <a href="https://www.tiktok.com/@dailypost0365" class="social-btn tk"><i class="fab fa-tiktok"></i> TIKTOK</a>
+                    <a href="https://www.instagram.com/dailypostwizard2026/" class="social-btn ig"><i class="fab fa-instagram"></i> INSTAGRAM</a>
+                    <a href="https://x.com/DailyPostW92945" class="social-btn tw"><i class="fab fa-x-twitter"></i> X-NEWS</a>
                 </div>
             </div>
-
-            <div class="glass-card" style="padding: 10px;">
-                <span class="label" style="margin-left:15px;">TELEGRAM FEED</span>
-                <div class="tg-container">
-                    <iframe src="https://tgwidget.com/channel/v2/DailyPost365_Live" width="100%" height="100%" frameborder="0"></iframe>
-                </div>
+            <div class="glass-card">
+                <span class="label">● WHALE UPDATES</span>
+                <p style="font-size:14px; color:#aaa; line-height:1.6;">Real-time Crypto Whale Tracking and Cricket GO-Protocol alerts active.</p>
+                <a href="https://t.me/DailyPost365_Live" target="_blank" class="tg-btn"><i class="fab fa-telegram"></i> JOIN TELEGRAM</a>
             </div>
         </aside>
     </main>
 
-    <div class="footer-strip">
-        <marquee scrollamount="15">
-            DAILYPOST365 | UAE-SOUTH ASIA BROADCAST BRIDGE | TARGET: 365 MILLION VIEWS | NO QUALITY LOSS 4K BINARY DATA | SPORTS BROADCAST NEON V21.0
-        </marquee>
+    <div class="footer">
+        DAILYPOST365 | UAE-SOUTH ASIA BRIDGE | TARGET: 365 MILLION VIEWS | NO QUALITY LOSS 4K BINARY
     </div>
 
+    <script>
+        // 1. DYNAMIC IPL COUNTDOWN (Starts March 28, 2026)
+        function updateCountdown() {
+            const iplDate = new Date("March 28, 2026 18:30:00").getTime();
+            const now = new Date().getTime();
+            const diff = iplDate - now;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            
+            const timer = document.getElementById("countdown-timer");
+            if (days > 0) {
+                timer.innerHTML = "IPL 2026 STARTS IN: " + days + "D " + hours + "H";
+            } else {
+                timer.innerHTML = "IPL 2026 IS LIVE!";
+                timer.style.color = "#00FF00";
+            }
+        }
+        setInterval(updateCountdown, 60000);
+        updateCountdown();
+    </script>
 </body>
 </html>
