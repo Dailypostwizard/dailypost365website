@@ -4,89 +4,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DailyPost365 | Global Broadcast Engine</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;900&family=Orbitron:wght@700&display=swap" rel="stylesheet">
+    <meta name="description" content="DailyPost365: Global Cricket Analysis, Virat Kohli 8661 Runs Tracker, IPL 2026 Predictions, and South Asian Sports News.">
+    <meta name="keywords" content="Cricket News, IPL 2026, Virat Kohli, Babar Azam, India vs Pakistan, UAE Cricket, DailyPost365 Live">
+    <title>DailyPost365 | World's #1 Cricket Broadcast Hub</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Oswald:wght@300;700&display=swap" rel="stylesheet">
+    
     <style>
-        :root { --blue: #031744; --neon: #00FF00; --yellow: #FFFF00; --dark: #0a0a0a; --glass: rgba(255, 255, 255, 0.05); }
-        body { margin: 0; background-color: var(--dark); color: white; font-family: 'Roboto', sans-serif; overflow-x: hidden; }
-        
-        /* 1. TOP BROADCAST BAR */
-        .nav-header { background: var(--blue); padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid var(--neon); box-shadow: 0 4px 20px rgba(0,255,0,0.2); }
-        .logo { font-family: 'Orbitron'; font-size: 32px; color: var(--neon); text-shadow: 0 0 10px var(--neon); }
-        
-        /* 2. LIVE PULSE TICKER */
-        .ticker-wrap { background: var(--yellow); color: black; font-weight: 900; padding: 10px 0; text-transform: uppercase; font-size: 14px; border-bottom: 2px solid white; }
+        :root { --neon: #00FF00; --blue: #031744; --yellow: #FFFF00; --dark: #050505; }
+        body { background: var(--dark); color: white; font-family: 'Oswald', sans-serif; margin: 0; overflow-x: hidden; }
 
-        /* 3. MAIN BROADCAST GRID */
-        .broadcast-container { max-width: 1400px; margin: 30px auto; display: grid; grid-template-columns: 2.5fr 1fr; gap: 25px; padding: 0 20px; }
+        /* HEADER & ANIMATED LOGO */
+        .header { background: var(--blue); padding: 20px 5%; border-bottom: 5px solid var(--neon); display: flex; justify-content: space-between; align-items: center; box-shadow: 0 0 30px rgba(0,255,0,0.3); }
+        .logo { font-family: 'Orbitron'; font-size: 35px; color: var(--neon); text-shadow: 0 0 15px var(--neon); }
+        
+        /* CRICKET BALL ANIMATION (TOP RIGHT) */
+        .ball-pulse { width: 30px; height: 30px; background: red; border-radius: 50%; border: 2px solid white; position: relative; animation: bounce 1.5s infinite ease-in-out; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
-        /* 4. VIDEO ENGINE */
-        .main-stage { background: var(--glass); border-radius: 15px; padding: 20px; border: 1px solid #333; }
-        .video-featured { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 10px; border: 2px solid var(--neon); margin-bottom: 20px; }
-        .video-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .video-card { aspect-ratio: 9/16; background: #000; border-radius: 8px; border: 1px solid #444; overflow: hidden; }
+        /* LIVE TICKER */
+        .live-ticker { background: var(--yellow); color: black; padding: 12px 0; font-weight: 900; border-bottom: 2px solid white; font-size: 16px; text-transform: uppercase; }
+
+        /* CONTENT ENGINE GRID */
+        .main-hub { max-width: 1440px; margin: 40px auto; display: grid; grid-template-columns: 2.8fr 1.2fr; gap: 30px; padding: 0 25px; }
+
+        /* VIDEO STAGE */
+        .video-stage { background: rgba(255,255,255,0.03); border: 1px solid #333; border-radius: 20px; padding: 25px; position: relative; }
+        .featured-video { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 12px; border: 3px solid var(--neon); box-shadow: 0 10px 40px rgba(0,0,0,0.5); overflow: hidden; margin-bottom: 25px; }
+        .shorts-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        .short-card { aspect-ratio: 9/16; background: #111; border-radius: 10px; border: 1px solid #444; overflow: hidden; transition: 0.4s; }
+        .short-card:hover { transform: scale(1.03); border-color: var(--neon); }
         iframe { width: 100%; height: 100%; border: none; }
 
-        /* 5. ELITE SIDEBAR (SOCIAL + TELEGRAM) */
-        .sidebar { display: flex; flex-direction: column; gap: 20px; }
-        .card { background: var(--glass); border: 1px solid #333; border-radius: 15px; padding: 20px; }
-        .card-header { font-family: 'Orbitron'; color: var(--neon); font-size: 14px; margin-bottom: 15px; letter-spacing: 1px; border-left: 5px solid var(--neon); padding-left: 10px; }
+        /* SIDEBAR (THE NETWORK) */
+        .sidebar { display: flex; flex-direction: column; gap: 25px; }
+        .glass-card { background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border: 1px solid #444; border-radius: 20px; padding: 25px; }
+        .label { font-family: 'Orbitron'; color: var(--neon); font-size: 14px; margin-bottom: 15px; display: block; letter-spacing: 2px; }
         
-        .social-links { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .social-btn { padding: 15px; border-radius: 8px; text-align: center; text-decoration: none; font-weight: 900; color: white; font-size: 12px; transition: 0.3s; }
-        .btn-yt { background: #FF0000; } .btn-tk { background: #000; border: 1px solid var(--neon); }
-        .btn-ig { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); } .btn-tw { background: #1DA1F2; }
-        .social-btn:hover { transform: scale(1.05); box-shadow: 0 0 15px var(--neon); }
+        .social-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .social-btn { padding: 18px; border-radius: 10px; text-align: center; text-decoration: none; font-weight: 900; color: white; font-size: 13px; transition: 0.3s; }
+        .yt { background: #FF0000; } .tk { background: #000; border: 1px solid var(--neon); }
+        .ig { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); } .tw { background: #1DA1F2; }
+        
+        /* TELEGRAM WIDGET HEIGHT FIX */
+        .tg-container { width: 100%; height: 600px; border-radius: 12px; overflow: hidden; background: white; }
 
-        /* TELEGRAM WIDGET */
-        .tg-frame { width: 100%; height: 600px; border-radius: 10px; border: none; background: #fff; }
-
-        /* 6. GLOBAL FOOTER */
-        .broadcast-footer { position: fixed; bottom: 0; width: 100%; background: var(--neon); color: black; padding: 10px; font-weight: 900; z-index: 1000; border-top: 2px solid white; }
+        /* FOOTER STRIP */
+        .footer-strip { position: fixed; bottom: 0; width: 100%; background: var(--neon); color: black; padding: 12px; font-weight: 900; z-index: 9999; border-top: 3px solid white; }
     </style>
 </head>
 <body>
-    <div class="nav-header">
+
+    <header class="header">
         <div class="logo">DAILYPOST365</div>
-        <div style="text-align:right;"><span style="color:var(--neon);">●</span> LIVE BROADCAST 2026</div>
-    </div>
-
-    <div class="ticker-wrap">
-        <marquee scrollamount="10">VIRAT KOHLI RECORD WATCH ACTIVE | NZ vs SA FINAL RESULT: NZ WON BY 24 RUNS | IPL 2026 COUNTDOWN: 4 DAYS TO GO | WHALE TRACKING: BTC MOVEMENTS DETECTED</marquee>
-    </div>
-
-    <div class="broadcast-container">
-        <div class="main-stage">
-            <div class="card-header">FEATURED ANALYSIS</div>
-            <div class="video-featured">
-                <iframe src="https://www.youtube.com/embed/bOLhhWCPtww?autoplay=0" allowfullscreen></iframe>
-            </div>
-            <div class="video-grid">
-                <div class="video-card"><iframe src="https://www.youtube.com/embed/4YKAXiNmD1o"></iframe></div>
-                <div class="video-card"><iframe src="https://www.youtube.com/embed/t2AudsYLqzQ"></iframe></div>
-            </div>
+        <div style="display:flex; align-items:center; gap:15px;">
+            <div class="ball-pulse"></div>
+            <span style="font-family:'Orbitron'; font-size:12px;">GLOBAL BROADCAST LIVE</span>
         </div>
+    </header>
 
-        <div class="sidebar">
-            <div class="card">
-                <div class="card-header">GLOBAL NETWORK</div>
-                <div class="social-links">
-                    <a href="https://www.youtube.com/@DailyPost365" class="social-btn btn-yt">YOUTUBE</a>
-                    <a href="https://www.tiktok.com/@dailypost0365" class="social-btn btn-tk">TIKTOK</a>
-                    <a href="https://www.instagram.com/dailypostwizard2026/" class="social-btn btn-ig">INSTAGRAM</a>
-                    <a href="https://x.com/DailyPostW92945" class="social-btn btn-tw">X-NEWS</a>
+    <div class="live-ticker">
+        <marquee scrollamount="12">
+            IPL 2026 COUNTDOWN: 4 DAYS REMAINING | VIRAT KOHLI RECORD TRACKER: 8,661 RUNS TARGETED | 
+            NZ vs SA RESULT: NZ WINS BY 24 RUNS | BABAR AZAM ANALYSIS UPDATED | WHALE TRACKER: BTC WHALE MOVED $200M
+        </marquee>
+    </div>
+
+    <main class="main-hub">
+        <section class="video-stage">
+            <span class="label">● FEATURED ANALYSIS</span>
+            <div class="featured-video">
+                <iframe src="https://www.youtube.com/embed/bOLhhWCPtww" allowfullscreen></iframe>
+            </div>
+            
+            <span class="label">● TRENDING SHORTS</span>
+            <div class="shorts-grid">
+                <div class="short-card"><iframe src="https://www.youtube.com/embed/4YKAXiNmD1o"></iframe></div>
+                <div class="short-card"><iframe src="https://www.youtube.com/embed/t2AudsYLqzQ"></iframe></div>
+            </div>
+        </section>
+
+        <aside class="sidebar">
+            <div class="glass-card">
+                <span class="label">CONNECT NETWORK</span>
+                <div class="social-grid">
+                    <a href="https://www.youtube.com/@DailyPost365" class="social-btn yt">YOUTUBE</a>
+                    <a href="https://www.tiktok.com/@dailypost0365" class="social-btn tk">TIKTOK</a>
+                    <a href="https://www.instagram.com/dailypostwizard2026/" class="social-btn ig">INSTAGRAM</a>
+                    <a href="https://x.com/DailyPostW92945" class="social-btn tw">TWITTER (X)</a>
                 </div>
             </div>
 
-            <div class="card" style="padding: 10px;">
-                <div class="card-header" style="margin-left: 10px;">LIVE TELEGRAM FEED</div>
-                <iframe src="https://tgwidget.com/channel/v2/DailyPost365_Live" class="tg-frame"></iframe>
+            <div class="glass-card" style="padding: 10px;">
+                <span class="label" style="margin-left:15px;">TELEGRAM FEED</span>
+                <div class="tg-container">
+                    <iframe src="https://tgwidget.com/channel/v2/DailyPost365_Live" width="100%" height="100%" frameborder="0"></iframe>
+                </div>
             </div>
-        </div>
+        </aside>
+    </main>
+
+    <div class="footer-strip">
+        <marquee scrollamount="15">
+            DAILYPOST365 | UAE-SOUTH ASIA BROADCAST BRIDGE | TARGET: 365 MILLION VIEWS | NO QUALITY LOSS 4K BINARY DATA | SPORTS BROADCAST NEON V21.0
+        </marquee>
     </div>
 
-    <div class="broadcast-footer">
-        <marquee scrollamount="15">DAILYPOST365 | TARGET: 365M VIEWS | UAE-SOUTH ASIA BRIDGE | NO QUALITY LOSS 4K BINARY DATA | SPORTS BROADCAST NEON STYLE ACTIVE</marquee>
-    </div>
 </body>
 </html>
