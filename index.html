@@ -4,88 +4,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DailyPost365 | UAE-South Asia Intelligence Hub</title>
+    <title>DailyPost365 | Global South Asian Hub</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Oswald:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --neon: #39FF14; --yellow: #CCFF00; --dark: #020202; --glass: rgba(0, 0, 0, 0.95); }
+        :root { --neon: #39FF14; --yellow: #CCFF00; --dark: #020202; --glass: rgba(0, 0, 0, 0.92); }
+        body { margin: 0; background: var(--dark); color: white; font-family: 'Oswald', sans-serif; overflow-x: hidden; }
         
-        body { 
-            margin: 0; background: var(--dark); color: white; font-family: 'Oswald', sans-serif;
-            background: linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.9)), 
-                        url('https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?q=80&w=2000');
-            background-size: cover; background-attachment: fixed; overflow-x: hidden;
-        }
+        .bg-fixed { position: fixed; width: 100%; height: 100%; z-index: -1; 
+                     background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=2000'); 
+                     background-size: cover; }
 
-        /* FIXED SOCIAL DOCK - ALL ICONS VERIFIED */
-        .social-dock { position: fixed; left: 15px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 12px; z-index: 9999; }
-        .soc-btn { width: 50px; height: 50px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 24px; transition: 0.3s; background: var(--glass); border: 2px solid var(--neon); color: white; text-decoration: none; }
-        .soc-btn:hover { background: var(--neon); color: black; box-shadow: 0 0 30px var(--neon); transform: scale(1.1); }
+        /* SOCIAL DOCK - VERIFIED LINKS */
+        .social-sidebar { position: fixed; left: 15px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 12px; z-index: 9999; }
+        .icon-box { width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; transition: 0.4s; background: var(--glass); border: 1px solid var(--neon); color: white; text-decoration: none; }
+        .icon-box:hover { background: var(--neon); color: black; box-shadow: 0 0 25px var(--neon); transform: translateX(5px); }
 
-        /* TICKER SYSTEM */
-        .ticker-wrap { position: sticky; top: 0; z-index: 5000; width: 100%; }
-        .ticker-main { background: #fff; color: #000; padding: 10px; font-weight: 900; border-bottom: 2px solid var(--neon); }
+        /* TOP BROADCAST TICKER */
+        .ticker-bar { position: sticky; top: 0; z-index: 5000; background: #fff; color: #000; padding: 12px; font-weight: 900; border-bottom: 3px solid var(--neon); font-family: 'Orbitron'; }
 
-        .main-layout { display: grid; grid-template-columns: 1.8fr 1.2fr; gap: 20px; padding: 20px 20px 80px 85px; max-width: 1600px; margin: auto; }
-        .panel { background: var(--glass); padding: 25px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); }
+        .container { display: grid; grid-template-columns: 1.8fr 1.2fr; gap: 25px; padding: 25px 25px 80px 85px; max-width: 1750px; margin: auto; }
+        .panel { background: var(--glass); padding: 25px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
 
-        /* GENIUS TELEGRAM FEED SCROLLER */
-        .vertical-scroll-box { height: 550px; overflow: hidden; position: relative; border-radius: 10px; background: rgba(255,255,255,0.03); padding: 15px; border: 1px solid var(--neon); }
-        .scroller-inner { animation: scroll-up 40s linear infinite; }
-        @keyframes scroll-up { 0% { transform: translateY(0); } 100% { transform: translateY(-100%); } }
-        .news-card { border-left: 4px solid var(--neon); margin-bottom: 20px; padding: 12px; background: rgba(0,0,0,0.6); }
-        .news-card b { display: block; color: var(--neon); text-transform: uppercase; margin-bottom: 5px; }
+        /* DYNAMIC VIDEO GRID */
+        .video-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .video-card { border: 2px solid var(--neon); border-radius: 10px; overflow: hidden; height: 200px; background: #000; transition: 0.3s; }
+        .video-card:hover { transform: scale(1.02); border-color: var(--yellow); }
+
+        /* INTEL FEED */
+        .feed-box { height: 550px; overflow: hidden; position: relative; background: rgba(255,255,255,0.03); border-radius: 10px; padding: 15px; border: 1px solid var(--neon); }
+        .scroll-content { animation: auto-scroll 45s linear infinite; }
+        @keyframes auto-scroll { 0% { transform: translateY(0); } 100% { transform: translateY(-100%); } }
+        .intel-item { border-left: 5px solid var(--neon); margin-bottom: 20px; padding: 15px; background: rgba(0,0,0,0.7); }
+        .intel-item h4 { margin: 0 0 8px 0; color: var(--yellow); text-transform: uppercase; font-family: 'Orbitron'; font-size: 0.9rem; }
     </style>
 </head>
 <body>
+    <div class="bg-fixed"></div>
 
-    <nav class="social-dock">
-        <a href="https://youtube.com/@DailyPost365" class="soc-btn" title="YouTube"><i class="fab fa-youtube"></i></a>
-        <a href="https://tiktok.com/@dailypost0365" class="soc-btn" title="TikTok"><i class="fab fa-tiktok"></i></a>
-        <a href="https://instagram.com/dailypostwizard2026/" class="soc-btn" title="Instagram"><i class="fab fa-instagram"></i></a>
-        <a href="https://x.com/DailyPostW92945" class="soc-btn" target="_blank" title="X (Twitter)"><i class="fab fa-x-twitter"></i></a>
-        <a href="https://t.me/tiktokcricketnews" class="soc-btn" target="_blank" title="Telegram"><i class="fab fa-telegram-plane"></i></a>
+    <nav class="social-sidebar">
+        <a href="https://youtube.com/@DailyPost365" class="icon-box" title="YouTube"><i class="fab fa-youtube"></i></a>
+        <a href="https://tiktok.com/@dailypost0365" class="icon-box" title="TikTok"><i class="fab fa-tiktok"></i></a>
+        <a href="https://instagram.com/dailypostwizard2026/" class="icon-box" title="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://x.com/DailyPostW92945" class="icon-box" target="_blank" title="X"><i class="fab fa-x-twitter"></i></a>
+        <a href="https://t.me/DailyPost365Live" class="icon-box" target="_blank" title="Telegram Intelligence"><i class="fab fa-telegram-plane"></i></a>
     </nav>
 
-    <div class="ticker-wrap">
-        <div class="ticker-main">
-            <marquee scrollamount="12">
-                🏏 IPL 2026: LIVE UPDATES FROM @tiktokcricketnews | BTC: $69,050.02 USD | ETH: $2,066.97 USD | WHALE TRACKER ACTIVE
-            </marquee>
-        </div>
+    <div class="ticker-bar">
+        <marquee scrollamount="14">
+            LIVE: RCB vs SRH | MARCH 28, 2026 | 🐋 WHALE ALERT: $69,050.02 USD MOVED TO COINBASE | 📡 FOLLOW @DailyPost365Live FOR REAL-TIME GO-PROTOCOL ALERTS
+        </marquee>
     </div>
 
-    <div class="main-layout">
+    <div class="container">
         <div class="panel">
-            <h2 style="color:var(--yellow); margin-top:0; font-family:'Orbitron';">📡 4K GLOBAL BROADCAST</h2>
-            <iframe width="100%" height="500" src="https://www.youtube.com/embed/bOLhhWCPtww" frameborder="0" allowfullscreen></iframe>
+            <h2 style="color:var(--neon); margin:0 0 15px 0; font-family:'Orbitron';">📡 4K BROADCAST FEED</h2>
+            <iframe width="100%" height="480" src="https://www.youtube.com/embed/bOLhhWCPtww" frameborder="0" allowfullscreen style="border-radius:10px;"></iframe>
+            
+            <div class="video-grid">
+                <div class="video-card"><iframe width="100%" height="100%" src="https://www.youtube.com/embed/H288lY8U-pM" frameborder="0"></iframe></div>
+                <div class="video-card"><iframe width="100%" height="100%" src="https://www.youtube.com/embed/S_8qK2y43fA" frameborder="0"></iframe></div>
+                <div class="video-card"><iframe width="100%" height="100%" src="https://www.youtube.com/embed/XqZso4j5BCM" frameborder="0"></iframe></div>
+                <div class="video-card"><iframe width="100%" height="100%" src="https://www.youtube.com/embed/Sc6mG9hV5XU" frameborder="0"></iframe></div>
+            </div>
         </div>
 
         <div class="panel">
-            <h2 style="color:var(--neon); margin-top:0; font-family:'Orbitron';">🛰️ @tiktokcricketnews INTEL</h2>
-            <div class="vertical-scroll-box">
-                <div class="scroller-inner">
-                    <div class="news-card">
-                        <b>🏏 PAT CUMMINS REPORT</b>
-                        Warm-ups confirmed at Chinnaswamy. Strategic Law: Viral SEO milestone "8,661 runs" active.
+            <h2 style="color:var(--yellow); margin:0 0 15px 0; font-family:'Orbitron';">🛰️ @DailyPost365Live MIRROR</h2>
+            <div class="feed-box">
+                <div class="scroll-content">
+                    <div class="intel-item">
+                        <h4>🏏 IPL OPENER AUDIT</h4>
+                        Correction: RCB vs SRH (March 28). Strategic Law: 6:00 PM UAE Viral Bridge active.
                     </div>
-                    <div class="news-card" style="border-left-color: var(--yellow);">
-                        <b>🐋 WHALE ANALYSIS</b>
-                        15,133 BTC moved to exchanges. Structural data audit suggests mathematical certainty for trade execution.
+                    <div class="intel-item" style="border-left-color: #00E5FF;">
+                        <h4>🐋 WHALE TRACKER</h4>
+                        15,133 BTC ($1.04B USD) identified moving from cold storage. Mathematical certainty: High.
                     </div>
-                    <div class="news-card">
-                        <b>🏏 NZ CRICKET AWARDS</b>
-                        Amelia Kerr dominates. Live report from South Asia Bridge at 6:00 PM UAE.
+                    <div class="intel-item">
+                        <h4>🏏 PAT CUMMINS STATUS</h4>
+                        Warm-ups at Chinnaswamy confirmed. Target: Virat Kohli 8,661 runs SEO milestone.
                     </div>
-                    <div class="news-card">
-                        <b>🔥 LIVE BROADCAST</b>
-                        Maintaining zero quality loss for 4K binary data across multi-platform blast.
+                    <div class="intel-item" style="border-left-color: var(--yellow);">
+                        <h4>📊 2026 MILESTONES</h4>
+                        Babar Azam analysis live at peak IST traffic. Zero quality loss 4K pipeline verified.
                     </div>
                 </div>
             </div>
-            <a href="https://t.me/tiktokcricketnews" target="_blank" style="display:block; margin-top:20px; text-align:center; background:var(--neon); color:black; padding:12px; border-radius:10px; text-decoration:none; font-weight:bold; font-family:'Orbitron';">OPEN TELEGRAM CHANNEL</a>
+            <a href="https://t.me/DailyPost365Live" target="_blank" style="display:block; margin-top:25px; text-align:center; background:var(--neon); color:black; padding:15px; border-radius:12px; text-decoration:none; font-weight:bold; font-family:'Orbitron'; letter-spacing:1px; transition:0.3s;">⚡ ACCESS INTEL CHANNEL</a>
         </div>
     </div>
-
 </body>
 </html>
