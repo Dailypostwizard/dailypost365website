@@ -4,11 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DailyPost365 | Global Broadcast Hub</title>
+    <title>DailyPost365 | UAE-South Asia Broadcast Hub</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Oswald:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --neon: #39FF14; --yellow: #CCFF00; --dark: #020202; --glass: rgba(0, 0, 0, 0.9); }
+        :root { --neon: #39FF14; --yellow: #CCFF00; --dark: #020202; --glass: rgba(0, 0, 0, 0.95); }
         
         body { 
             margin: 0; background: var(--dark); color: white; font-family: 'Oswald', sans-serif;
@@ -17,32 +17,41 @@
             background-size: cover; background-attachment: fixed; overflow-x: hidden;
         }
 
-        /* FIXED SOCIAL DOCK - HIGHEST PRIORITY */
+        /* FIXED SOCIAL DOCK - ALL 5 ICONS INCLUDED */
         .social-dock {
             position: fixed; left: 15px; top: 50%; transform: translateY(-50%);
-            display: flex; flex-direction: column; gap: 15px; z-index: 9999;
+            display: flex; flex-direction: column; gap: 12px; z-index: 9999;
         }
         .soc-btn {
             width: 50px; height: 50px; border-radius: 10px; display: flex; align-items: center; 
-            justify-content: center; font-size: 24px; transition: 0.3s;
+            justify-content: center; font-size: 22px; transition: 0.3s;
             background: var(--glass); border: 2px solid var(--neon); color: white; text-decoration: none;
-            box-shadow: 0 0 15px rgba(57, 255, 20, 0.3);
+            box-shadow: 0 0 15px rgba(57, 255, 20, 0.4);
         }
         .soc-btn:hover { background: var(--neon); color: black; box-shadow: 0 0 30px var(--neon); transform: scale(1.1); }
 
         /* TICKER SYSTEM */
-        .ticker-wrap { background: #fff; color: #000; padding: 10px; font-weight: 900; border-bottom: 4px solid var(--neon); position: sticky; top:0; z-index: 5000; }
-        .ipl-news-bar { background: var(--neon); color: black; padding: 5px; font-weight: bold; text-transform: uppercase; border-bottom: 2px solid var(--yellow); }
-
-        .main-layout { display: grid; grid-template-columns: 1.8fr 1.2fr; gap: 25px; padding: 20px 20px 80px 80px; max-width: 1600px; margin: auto; }
+        .top-ticker { background: #fff; color: #000; padding: 10px; font-weight: 900; position: sticky; top:0; z-index: 5000; border-bottom: 4px solid var(--neon); }
         
-        /* CONTENT STAGES */
-        .stage { background: var(--glass); padding: 20px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); }
-        .yt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
-        iframe { width: 100%; aspect-ratio: 16/9; border: 1px solid var(--neon); border-radius: 8px; }
+        /* GENIUS VERTICAL NEWS SCROLLER */
+        .scroll-box { 
+            height: 550px; overflow: hidden; position: relative; 
+            background: rgba(0,0,0,0.8); border: 1px solid var(--neon); border-radius: 15px;
+            padding: 20px;
+        }
+        .scrolling-content {
+            position: absolute; width: 90%; animation: scroll-up 30s linear infinite;
+        }
+        @keyframes scroll-up {
+            0% { transform: translateY(100%); }
+            100% { transform: translateY(-100%); }
+        }
+        .news-entry { border-bottom: 1px solid #333; padding: 15px 0; font-size: 1.1rem; }
+        .news-entry span { color: var(--neon); font-weight: bold; display: block; text-transform: uppercase; }
 
-        /* TELEGRAM FIXED BOX */
-        .tg-mirror { background: white; border-radius: 12px; height: 700px; overflow: hidden; border: 4px solid #333; }
+        .main-container { display: grid; grid-template-columns: 1.8fr 1.2fr; gap: 25px; padding: 25px 20px 80px 85px; max-width: 1600px; margin: auto; }
+        .panel { background: var(--glass); padding: 25px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); }
+        iframe { width: 100%; aspect-ratio: 16/9; border: 1px solid var(--neon); border-radius: 8px; }
     </style>
 </head>
 <body>
@@ -51,41 +60,54 @@
         <a href="https://youtube.com/@DailyPost365" class="soc-btn" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
         <a href="https://tiktok.com/@dailypost0365" class="soc-btn" target="_blank" title="TikTok"><i class="fab fa-tiktok"></i></a>
         <a href="https://instagram.com/dailypostwizard2026/" class="soc-btn" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
-        <a href="https://t.me/DailyPost365_Live" class="soc-btn" target="_blank" title="Telegram"><i class="fab fa-telegram-plane"></i></a>
+        <a href="https://x.com/DailyPost365" class="soc-btn" target="_blank" title="X (Twitter)"><i class="fab fa-x-twitter"></i></a>
+        <a href="https://t.me/+zlNyCTDpE3wyZDZk" class="soc-btn" target="_blank" title="Telegram"><i class="fab fa-telegram-plane"></i></a>
     </nav>
 
-    <div class="ticker-wrap">
-        <marquee scrollamount="10">
-            🏏 LIVE: LHQ vs HKG (TOSS SOON) | 🐋 WHALE ALERT: 15,133 BTC MOVED | BTC: 255,572 AED | ETH: 12,535 AED | Starts in 20H 1M TO RCB vs MI
+    <div class="top-ticker">
+        <marquee scrollamount="12">
+            🏏 LIVE: IPL 2026 COUNTDOWN - RCB vs MI IN 20H | 🐋 WHALE ALERT: $200M BTC MOVED | BTC: 255,572 AED | ETH: 12,535 AED | GO-PROTOCOL ACTIVE
         </marquee>
     </div>
 
-    <div class="ipl-news-bar">
-        <marquee scrollamount="7">
-            RCB: Virat Kohli targets 8,661 runs milestone | CSK: Dhoni seen in night practice | MI: Hardik Pandya arrives in Mumbai | KKR: Gambhir's new spin strategy leaked | SRH: Pat Cummins press report live at 6PM UAE
-        </marquee>
-    </div>
-
-    <div class="main-layout">
-        <div class="stage">
-            <h2 style="color:var(--yellow); margin-top:0;">🎥 BROADCAST FEED</h2>
-            <iframe src="https://www.youtube.com/embed/bOLhhWCPtww" title="Main Video"></iframe>
-            <div class="yt-grid">
-                <iframe src="https://www.youtube.com/embed/4YKAXiNmD1o"></iframe>
-                <iframe src="https://www.youtube.com/embed/t2AudsYLqzQ"></iframe>
-            </div>
+    <div class="main-container">
+        <div class="panel">
+            <h2 style="color:var(--yellow); margin-top:0; font-family:'Orbitron';">📡 4K WORLD BROADCAST</h2>
+            <iframe src="https://www.youtube.com/embed/bOLhhWCPtww" title="Featured Analysis"></iframe>
             
-            <div style="background:rgba(255,255,0,0.05); padding:15px; border-left:5px solid var(--yellow); margin-top:20px;">
-                <h3 style="color:var(--yellow); margin:0;">🏏 MATCH SUMMARY: PSL 2026</h3>
-                <p>Lahore Qalandars vs Hyderabad Kingsmen: The "15-Stage Audit" predicts high-scoring volatility. Target "Shaheen Afridi" keywords for viral SEO.</p>
+            <div style="margin-top:20px; padding:15px; border-left:5px solid var(--neon); background:rgba(57,255,20,0.05);">
+                <h3 style="color:var(--neon); margin:0;">🏏 MATCH INTEL: LHQ vs HKG</h3>
+                <p>15-Stage Audit complete. Predicting high-intensity powerplay. Watch for Shaheen Afridi's opening spell.</p>
             </div>
         </div>
 
-        <div class="stage">
-            <h2 style="color:var(--neon); margin-top:0;">📡 TELEGRAM LIVE INTEL</h2>
-            <div class="tg-mirror">
-                <iframe src="https://tgwidget.com/channel/v2/DailyPost365_Live" width="100%" height="100%" frameborder="0"></iframe>
+        <div class="panel">
+            <h2 style="color:var(--neon); margin-top:0; font-family:'Orbitron';">🛰️ LIVE TELEGRAM FEED</h2>
+            <div class="scroll-box">
+                <div class="scrolling-content">
+                    <div class="news-entry">
+                        <span>🏏 IPL 2026: PAT CUMMINS</span>
+                        "If nothing goes wrong, I will play the back half plus the finals." Spotted at Chinnaswamy warm-ups.
+                    </div>
+                    <div class="news-entry">
+                        <span>🏆 NZ CRICKET AWARDS</span>
+                        Amelia Kerr wins big; Jacob Duffy secures Sir Richard Hadlee medal.
+                    </div>
+                    <div class="news-entry">
+                        <span>🔥 SQUAD REPORT: BEN SEARS</span>
+                        Head coach Rob Walter confirms Sears is match-fit for the full series.
+                    </div>
+                    <div class="news-entry">
+                        <span>🏏 VIRAT KOHLI WATCH</span>
+                        Targeting 8,661 runs milestone in IPL 2026 opener.
+                    </div>
+                    <div class="news-entry">
+                        <span>🐋 CRYPTO WHALE ALERT</span>
+                        15,133 BTC moved to exchange wallets. Structural data analysis suggests volatility.
+                    </div>
+                </div>
             </div>
+            <a href="https://t.me/+zlNyCTDpE3wyZDZk" target="_blank" style="display:block; margin-top:15px; text-align:center; background:var(--neon); color:black; padding:12px; border-radius:8px; text-decoration:none; font-weight:bold; font-family:'Orbitron';">JOIN INTEL CHANNEL</a>
         </div>
     </div>
 
