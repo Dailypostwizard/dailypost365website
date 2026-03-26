@@ -4,117 +4,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DailyPost365 | Global Cricket & Whale Hub</title>
+    <title>DailyPost365 | World's Best Cricket & Crypto Hub</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&family=Oswald:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --neon: #00FF00; --yellow: #FFFF00; --blue: #031744; --dark: #020202; }
+        :root { --neon: #00FF00; --yellow: #FFFF00; --blue: #031744; --glass: rgba(0, 0, 0, 0.85); }
         
         body { 
-            background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), 
-                        url('https://images.unsplash.com/photo-1531415074968-036ba1b575da?q=80&w=2070');
-            background-size: cover; background-attachment: fixed;
+            /* STADIUM & LEGENDS BACKGROUND */
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url('https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?q=80&w=2000');
+            background-size: cover; background-attachment: fixed; background-position: center;
             color: white; font-family: 'Oswald', sans-serif; margin: 0;
         }
 
-        /* LIVE SCORE TICKER (ESPN STYLE) */
-        .score-ticker {
-            background: #fff; color: #333; height: 45px; display: flex; align-items: center;
-            border-bottom: 3px solid var(--neon); font-weight: 700; overflow: hidden;
+        /* LIVE SCORE & CRYPTO TICKER (ESPN MASTER STYLE) */
+        .master-ticker {
+            background: #fff; color: #111; height: 50px; display: flex; align-items: center;
+            border-bottom: 4px solid var(--neon); font-weight: 900; overflow: hidden; position: sticky; top: 0; z-index: 1000;
         }
-        .ticker-label { background: var(--blue); color: white; padding: 0 20px; height: 100%; display: flex; align-items: center; font-family: 'Orbitron'; font-size: 12px; }
+        .ticker-label { background: var(--blue); color: var(--neon); padding: 0 25px; height: 100%; display: flex; align-items: center; font-family: 'Orbitron'; font-size: 11px; white-space: nowrap; }
 
-        .header { background: rgba(3, 23, 68, 0.95); padding: 15px 5%; border-bottom: 4px solid var(--neon); display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-family: 'Orbitron'; font-size: 32px; color: var(--neon); text-shadow: 0 0 15px var(--neon); }
+        .header { background: rgba(3, 23, 68, 0.9); padding: 15px 5%; border-bottom: 2px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-family: 'Orbitron'; font-size: 30px; color: var(--neon); text-shadow: 0 0 15px var(--neon); letter-spacing: 2px; }
 
-        .main-grid { max-width: 1400px; margin: 30px auto; display: grid; grid-template-columns: 2.5fr 1.5fr; gap: 25px; padding: 0 20px; }
+        /* HERO STADIUM CONTAINER */
+        .main-hub { max-width: 1500px; margin: 30px auto; display: grid; grid-template-columns: 2.5fr 1.2fr; gap: 30px; padding: 0 25px; }
 
-        /* BROADCAST STAGE */
-        .broadcast-panel { background: rgba(0,0,0,0.8); border: 1px solid var(--neon); border-radius: 15px; padding: 25px; box-shadow: 0 0 50px rgba(0,255,0,0.1); }
-        .video-main { width: 100%; aspect-ratio: 16/9; border: 2px solid white; border-radius: 8px; margin-bottom: 20px; }
+        /* BROADCAST PANELS */
+        .broadcast-card { 
+            background: var(--glass); border: 1px solid rgba(0, 255, 0, 0.3); border-radius: 12px; 
+            padding: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); backdrop-filter: blur(10px);
+        }
+        .main-video { width: 100%; aspect-ratio: 16/9; border: 3px solid var(--neon); border-radius: 8px; margin-bottom: 20px; overflow: hidden; }
         
-        /* TELEGRAM NEWS FEED (FIXED STYLE) */
-        .news-feed { background: #f0f2f5; border-radius: 12px; height: 600px; overflow-y: auto; color: #1c1e21; }
-        .tg-post { background: white; margin: 10px; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .tg-img { width: 100%; border-radius: 5px; margin-bottom: 10px; }
+        /* NEWS FEED (STYLE FROM YOUR ATTACHMENT) */
+        .news-container { background: #eef1f4; border-radius: 8px; height: 650px; overflow-y: scroll; padding: 15px; }
+        .news-item { background: white; color: #1c1e21; border-radius: 8px; padding: 15px; margin-bottom: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .news-img { width: 100%; border-radius: 4px; margin-bottom: 10px; border: 1px solid #ddd; }
+        .news-tag { color: #0088cc; font-size: 11px; font-weight: bold; }
 
         /* SOCIAL CONNECT */
-        .social-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 15px; }
-        .s-btn { padding: 12px; text-align: center; border-radius: 5px; font-weight: 900; text-decoration: none; color: white; font-size: 11px; }
+        .social-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
+        .soc-btn { padding: 15px; border-radius: 6px; text-decoration: none; color: white; font-weight: 900; text-align: center; font-size: 12px; border-bottom: 3px solid rgba(0,0,0,0.3); }
         .yt { background: #FF0000; } .tk { background: #000; border: 1px solid var(--neon); }
-        .ig { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); } .tw { background: #1DA1F2; }
+        .ig { background: #C13584; } .tw { background: #1DA1F2; }
 
-        .footer-legends { position: fixed; bottom: 0; width: 100%; background: var(--dark); border-top: 2px solid var(--neon); padding: 10px; font-family: 'Orbitron'; font-size: 12px; }
+        /* LEGENDS SLIDER */
+        .legends-bar { position: fixed; bottom: 0; width: 100%; background: rgba(0,0,0,0.95); border-top: 3px solid var(--neon); padding: 12px 0; z-index: 1000; }
+        .legend-tag { color: var(--neon); font-family: 'Orbitron'; margin: 0 50px; font-size: 13px; }
+
+        marquee span { font-family: 'Oswald'; font-weight: 700; margin-right: 40px; }
     </style>
 </head>
 <body>
 
-    <div class="score-ticker">
-        <div class="ticker-label">LIVE SCORES</div>
-        <marquee scrollamount="8">
-            🏏 IPL 2026: RCB vs MI (Starts March 28) | 🏏 PSL 2026: LQ vs HHK - Match Starts in 2 Hours | 🐋 WHALE ALERT: 5,000 BTC Moved to Unknown Wallet | 📈 CRYPTO: BTC $92,450 (+2.4%)
+    <div class="master-ticker">
+        <div class="ticker-label">LIVE DATA CENTER</div>
+        <marquee scrollamount="7">
+            🏏 IPL 2026: RCB vs MI (MAR 28) | 🏏 NZ vs SA: NZ WON BY 24 RUNS | 💰 BTC: $94,520 <span style="color:green;">▲ 2.4%</span> | 💎 ETH: $3,215 <span style="color:green;">▲ 1.8%</span> | 🔶 BNB: $612 <span style="color:red;">▼ 0.5%</span> | ☀️ SOL: $148 <span style="color:green;">▲ 4.1%</span> | 🐋 WHALE: $200M BTC MOVED TO COINBASE
         </marquee>
     </div>
 
     <header class="header">
         <div class="logo">DAILYPOST365</div>
-        <div id="countdown" style="font-family:'Orbitron'; color:var(--yellow);"></div>
+        <div id="clock" style="font-family:'Orbitron'; color:var(--yellow); font-size:14px;"></div>
     </header>
 
-    <main class="main-grid">
-        <section class="broadcast-panel">
-            <h2 style="color:var(--neon); font-family:'Orbitron'; margin-top:0;">● GLOBAL BROADCAST LIVE</h2>
-            <div class="video-main">
-                <iframe src="https://www.youtube.com/embed/bOLhhWCPtww" width="100%" height="100%" frameborder="0" allowfullscreen></iframe>
-            </div>
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
-                <div style="aspect-ratio:9/16; border:1px solid #333;"><iframe src="https://www.youtube.com/embed/4YKAXiNmD1o" width="100%" height="100%"></iframe></div>
-                <div style="aspect-ratio:9/16; border:1px solid #333;"><iframe src="https://www.youtube.com/embed/t2AudsYLqzQ" width="100%" height="100%"></iframe></div>
+    <main class="main-hub">
+        <section>
+            <div class="broadcast-card">
+                <span style="color:var(--neon); font-family:'Orbitron'; font-size:10px; letter-spacing:2px;">● 4K BROADCAST FEED</span>
+                <div class="main-video">
+                    <iframe src="https://www.youtube.com/embed/bOLhhWCPtww" width="100%" height="100%" frameborder="0" allowfullscreen></iframe>
+                </div>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
+                    <div class="broadcast-card" style="padding:10px;"><iframe src="https://www.youtube.com/embed/4YKAXiNmD1o" width="100%" style="aspect-ratio:9/16;"></iframe></div>
+                    <div class="broadcast-card" style="padding:10px;"><iframe src="https://www.youtube.com/embed/t2AudsYLqzQ" width="100%" style="aspect-ratio:9/16;"></iframe></div>
+                </div>
             </div>
         </section>
 
-        <aside class="sidebar">
-            <div class="broadcast-panel" style="height: fit-content;">
-                <h2 style="color:var(--neon); font-family:'Orbitron'; margin-top:0;">● LIVE TELEGRAM INTEL</h2>
-                <div class="news-feed" id="telegram-mirror">
-                    <div class="tg-post">
-                        <img src="https://p.imgci.com/db/PICTURES/CMS/378200/378235.jpg" class="tg-img">
+        <aside>
+            <div class="broadcast-card">
+                <span style="color:var(--neon); font-family:'Orbitron'; font-size:10px; letter-spacing:2px;">● TELEGRAM INTEL MIRROR</span>
+                <div class="news-container">
+                    <div class="news-item">
+                        <img src="https://p.imgci.com/db/PICTURES/CMS/378200/378235.jpg" class="news-img">
+                        <div class="news-tag">#CRICKET #IPL2026</div>
                         <strong>CUMMINS ON IPL RETURN:</strong> "If nothing goes wrong, I will play the back half plus the finals."
-                        <div style="font-size:10px; color:gray; margin-top:5px;">Source: ESPNCricinfo | 12:58 PM</div>
+                        <div style="font-size:10px; color:#888; margin-top:5px;">Source: ESPNCricinfo | 12:58 PM</div>
                     </div>
-                    <div class="tg-post">
-                        <div style="color:green; font-weight:bold;">✅ End of Update</div>
-                        <div style="font-size:10px; color:gray;">Next update in 6 hours ⏰</div>
+                    <div class="news-item">
+                        <div class="news-tag">#CRYPTO #WHALE</div>
+                        <strong>BTC WHALE ALERT:</strong> 2,450 BTC ($231M) transferred from unknown wallet to Binance. Potential volatility expected.
                     </div>
                 </div>
-                <div class="social-bar">
-                    <a href="https://www.youtube.com/@DailyPost365" class="s-btn yt">YOUTUBE</a>
-                    <a href="https://www.tiktok.com/@dailypost0365" class="s-btn tk">TIKTOK</a>
-                    <a href="https://www.instagram.com/dailypostwizard2026/" class="s-btn ig">INSTA</a>
-                    <a href="https://x.com/DailyPostW92945" class="s-btn tw">X-NEWS</a>
+                <div class="social-grid">
+                    <a href="https://www.youtube.com/@DailyPost365" class="soc-btn yt">YOUTUBE</a>
+                    <a href="https://www.tiktok.com/@dailypost0365" class="soc-btn tk">TIKTOK</a>
+                    <a href="https://www.instagram.com/dailypostwizard2026/" class="soc-btn ig">INSTA</a>
+                    <a href="https://x.com/DailyPostW92945" class="soc-btn tw">X-NEWS</a>
                 </div>
             </div>
         </aside>
     </main>
 
-    <div class="footer-legends">
-        <marquee>
-            <span style="color:var(--neon); margin:0 30px;">VIRAT KOHLI (8,661 RUNS TARGET)</span>
-            <span style="color:white; margin:0 30px;">BABAR AZAM (RECORDS UPDATED)</span>
-            <span style="color:var(--neon); margin:0 30px;">MS DHONI (STADIUM VIEW ACTIVE)</span>
+    <div class="legends-bar">
+        <marquee scrollamount="6">
+            <span class="legend-tag">VIRAT KOHLI (8,661 RUNS WATCH)</span>
+            <span class="legend-tag">BABAR AZAM (RECORD UPDATE)</span>
+            <span class="legend-tag">MS DHONI (LEGEND STATUS)</span>
+            <span class="legend-tag">ROHIT SHARMA (HITMAN MODE)</span>
+            <span class="legend-tag">KANE WILLIAMSON (MASTERCLASS)</span>
         </marquee>
     </div>
 
     <script>
-        function setCountdown() {
+        function updateUI() {
             const start = new Date("March 28, 2026 18:30:00").getTime();
             const now = new Date().getTime();
             const d = Math.floor((start - now) / (1000 * 60 * 60 * 24));
             const h = Math.floor(((start - now) % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            document.getElementById("countdown").innerHTML = "IPL 2026 STARTS IN: " + d + "D " + h + "H";
+            document.getElementById("clock").innerHTML = "IPL 2026 COUNTDOWN: " + d + "D " + h + "H";
         }
-        setInterval(setCountdown, 1000);
-        setCountdown();
+        setInterval(updateUI, 1000);
+        updateUI();
     </script>
 </body>
 </html>
