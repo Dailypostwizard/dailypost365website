@@ -4,11 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DailyPost365 | World's Best Broadcast Hub</title>
+    <title>DailyPost365 | UAE-South Asia Intelligence Hub</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Oswald:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --neon: #39FF14; --yellow: #CCFF00; --dark: #020202; --glass: rgba(0, 0, 0, 0.9); }
+        :root { --neon: #39FF14; --yellow: #CCFF00; --dark: #020202; --glass: rgba(0, 0, 0, 0.95); }
         
         body { 
             margin: 0; background: var(--dark); color: white; font-family: 'Oswald', sans-serif;
@@ -17,54 +17,40 @@
             background-size: cover; background-attachment: fixed; overflow-x: hidden;
         }
 
-        /* FIXED SOCIAL DOCK - THE GLOBAL CONNECT */
-        .social-dock {
-            position: fixed; left: 15px; top: 50%; transform: translateY(-50%);
-            display: flex; flex-direction: column; gap: 12px; z-index: 9999;
-        }
-        .soc-btn {
-            width: 50px; height: 50px; border-radius: 10px; display: flex; align-items: center; 
-            justify-content: center; font-size: 24px; transition: 0.3s;
-            background: var(--glass); border: 2px solid var(--neon); color: white; text-decoration: none;
-        }
+        /* FIXED SOCIAL DOCK - ALL ICONS VERIFIED */
+        .social-dock { position: fixed; left: 15px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 12px; z-index: 9999; }
+        .soc-btn { width: 50px; height: 50px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 24px; transition: 0.3s; background: var(--glass); border: 2px solid var(--neon); color: white; text-decoration: none; }
         .soc-btn:hover { background: var(--neon); color: black; box-shadow: 0 0 30px var(--neon); transform: scale(1.1); }
 
-        /* DUAL TICKER SYSTEM */
+        /* TICKER SYSTEM */
         .ticker-wrap { position: sticky; top: 0; z-index: 5000; width: 100%; }
         .ticker-main { background: #fff; color: #000; padding: 10px; font-weight: 900; border-bottom: 2px solid var(--neon); }
-        .ticker-sub { background: var(--neon); color: black; padding: 5px; font-weight: bold; text-transform: uppercase; font-size: 0.9rem; }
 
         .main-layout { display: grid; grid-template-columns: 1.8fr 1.2fr; gap: 20px; padding: 20px 20px 80px 85px; max-width: 1600px; margin: auto; }
         .panel { background: var(--glass); padding: 25px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); }
 
-        /* GENIUS VERTICAL NEWS ROLL */
-        .vertical-scroll-box { height: 550px; overflow: hidden; position: relative; border-radius: 10px; background: rgba(255,255,255,0.03); padding: 15px; }
-        .scroller-inner { animation: scroll-up 35s linear infinite; }
+        /* GENIUS TELEGRAM FEED SCROLLER */
+        .vertical-scroll-box { height: 550px; overflow: hidden; position: relative; border-radius: 10px; background: rgba(255,255,255,0.03); padding: 15px; border: 1px solid var(--neon); }
+        .scroller-inner { animation: scroll-up 40s linear infinite; }
         @keyframes scroll-up { 0% { transform: translateY(0); } 100% { transform: translateY(-100%); } }
         .news-card { border-left: 4px solid var(--neon); margin-bottom: 20px; padding: 12px; background: rgba(0,0,0,0.6); }
-        .news-card.crypto { border-left-color: var(--yellow); }
         .news-card b { display: block; color: var(--neon); text-transform: uppercase; margin-bottom: 5px; }
     </style>
 </head>
 <body>
 
     <nav class="social-dock">
-        <a href="https://youtube.com/@DailyPost365" class="soc-btn" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
-        <a href="https://tiktok.com/@dailypost0365" class="soc-btn" target="_blank" title="TikTok"><i class="fab fa-tiktok"></i></a>
-        <a href="https://instagram.com/dailypostwizard2026/" class="soc-btn" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://youtube.com/@DailyPost365" class="soc-btn" title="YouTube"><i class="fab fa-youtube"></i></a>
+        <a href="https://tiktok.com/@dailypost0365" class="soc-btn" title="TikTok"><i class="fab fa-tiktok"></i></a>
+        <a href="https://instagram.com/dailypostwizard2026/" class="soc-btn" title="Instagram"><i class="fab fa-instagram"></i></a>
         <a href="https://x.com/DailyPostW92945" class="soc-btn" target="_blank" title="X (Twitter)"><i class="fab fa-x-twitter"></i></a>
-        <a href="https://t.me/DailyPost365_Live" class="soc-btn" target="_blank" title="Telegram"><i class="fab fa-telegram-plane"></i></a>
+        <a href="https://t.me/tiktokcricketnews" class="soc-btn" target="_blank" title="Telegram"><i class="fab fa-telegram-plane"></i></a>
     </nav>
 
     <div class="ticker-wrap">
         <div class="ticker-main">
             <marquee scrollamount="12">
-                🏏 IPL 2026: RCB vs MI COUNTDOWN - 20 HOURS REMAINING | 🐋 WHALE ALERT: $200M USD MOVED TO COINBASE | UAE-SOUTH ASIA PEAK ACTIVE
-            </marquee>
-        </div>
-        <div class="ticker-sub">
-            <marquee scrollamount="8" direction="right">
-                BTC: $69,050.02 <span style="color:red">▼</span> | ETH: $2,066.97 <span style="color:green">▲</span> | SOL: $87.44 | BNB: $627.54 | ALL PRICES IN USD
+                🏏 IPL 2026: LIVE UPDATES FROM @tiktokcricketnews | BTC: $69,050.02 USD | ETH: $2,066.97 USD | WHALE TRACKER ACTIVE
             </marquee>
         </div>
     </div>
@@ -73,40 +59,31 @@
         <div class="panel">
             <h2 style="color:var(--yellow); margin-top:0; font-family:'Orbitron';">📡 4K GLOBAL BROADCAST</h2>
             <iframe width="100%" height="500" src="https://www.youtube.com/embed/bOLhhWCPtww" frameborder="0" allowfullscreen></iframe>
-            
-            <div style="margin-top:20px; padding:15px; border-left:5px solid var(--neon); background:rgba(57,255,20,0.05);">
-                <h3 style="color:var(--neon); margin:0;">🏏 MATCH ANALYSIS: PSL 2026</h3>
-                <p>Strategic Law: Viral SEO Mastery engaged. Target 6:00 PM UAE for peak South Asian traffic.</p>
-            </div>
         </div>
 
         <div class="panel">
-            <h2 style="color:var(--neon); margin-top:0; font-family:'Orbitron';">🛰️ INTEL ROLL-UP</h2>
+            <h2 style="color:var(--neon); margin-top:0; font-family:'Orbitron';">🛰️ @tiktokcricketnews INTEL</h2>
             <div class="vertical-scroll-box">
                 <div class="scroller-inner">
                     <div class="news-card">
-                        <b>🏏 PAT CUMMINS UPDATE</b>
-                        Arrived in India for warm-ups at Chinnaswamy. Fit for back half of IPL 2026.
+                        <b>🏏 PAT CUMMINS REPORT</b>
+                        Warm-ups confirmed at Chinnaswamy. Strategic Law: Viral SEO milestone "8,661 runs" active.
                     </div>
-                    <div class="news-card crypto">
-                        <b>🐋 WHALE TRACKER</b>
-                        15,133 BTC ($1.04B USD) moved from institutional cold storage to exchange.
+                    <div class="news-card" style="border-left-color: var(--yellow);">
+                        <b>🐋 WHALE ANALYSIS</b>
+                        15,133 BTC moved to exchanges. Structural data audit suggests mathematical certainty for trade execution.
                     </div>
                     <div class="news-card">
                         <b>🏏 NZ CRICKET AWARDS</b>
-                        Amelia Kerr dominates the awards while Jacob Duffy takes Hadlee Medal.
-                    </div>
-                    <div class="news-card crypto">
-                        <b>📊 MARKET SNAPSHOT</b>
-                        Total Crypto Market Cap holding at $2.6T. Fear & Greed index at 35 (Fear).
+                        Amelia Kerr dominates. Live report from South Asia Bridge at 6:00 PM UAE.
                     </div>
                     <div class="news-card">
-                        <b>🏏 VIRAT KOHLI WATCH</b>
-                        Lead Content Strategy: Targeting "8,661 runs" SEO milestones for March 2026.
+                        <b>🔥 LIVE BROADCAST</b>
+                        Maintaining zero quality loss for 4K binary data across multi-platform blast.
                     </div>
                 </div>
             </div>
-            <a href="https://t.me/DailyPost365_Live" target="_blank" style="display:block; margin-top:20px; text-align:center; background:var(--neon); color:black; padding:12px; border-radius:10px; text-decoration:none; font-weight:bold; font-family:'Orbitron';">JOIN INTEL CHANNEL</a>
+            <a href="https://t.me/tiktokcricketnews" target="_blank" style="display:block; margin-top:20px; text-align:center; background:var(--neon); color:black; padding:12px; border-radius:10px; text-decoration:none; font-weight:bold; font-family:'Orbitron';">OPEN TELEGRAM CHANNEL</a>
         </div>
     </div>
 
