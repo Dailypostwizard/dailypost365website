@@ -4,88 +4,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DailyPost365 | Global Cricket News</title>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&family=Orbitron:wght@800&display=swap" rel="stylesheet">
+    <title>DailyPost365 | World Cricket Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;900&family=Orbitron:wght@700&display=swap" rel="stylesheet">
     <style>
-        :root { --cb-blue: #031744; --cb-green: #009270; --neon-text: #00FF00; }
-        body { 
-            margin: 0; background: #f1f2f4; font-family: 'Roboto', sans-serif; 
-            background-image: linear-gradient(rgba(241,242,244,0.92), rgba(241,242,244,0.92)), url('https://images.unsplash.com/photo-1531415074968-036ba1b575da?q=80&w=2000');
-            background-size: cover; background-attachment: fixed;
+        :root { --blue: #031744; --neon: #00FF00; --bg: #f4f7f9; }
+        body { margin: 0; background: var(--bg); font-family: 'Roboto', sans-serif; padding-bottom: 60px; }
+        .nav { background: var(--blue); color: white; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--neon); }
+        .logo { font-family: 'Orbitron'; font-size: 26px; color: var(--neon); text-transform: uppercase; }
+        .ticker { background: white; display: flex; gap: 20px; overflow-x: auto; padding: 15px 5%; border-bottom: 1px solid #ddd; }
+        .score-card { min-width: 220px; padding: 12px; background: #fff; border-left: 5px solid var(--blue); box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-radius: 4px; font-size: 13px; }
+        
+        .container { max-width: 1200px; margin: 30px auto; display: grid; grid-template-columns: 2.5fr 1fr; gap: 30px; padding: 0 20px; }
+        
+        /* VIDEO HUB */
+        .video-hub { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid #ddd; }
+        .video-main { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 8px; margin-bottom: 20px; overflow: hidden; }
+        .video-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        iframe { width: 100%; height: 100%; border: none; }
+
+        /* SOCIAL MEDIA SECTION - THE "BEST IN WORLD" DESIGN */
+        .social-sidebar { background: white; padding: 25px; border-radius: 12px; height: fit-content; border: 1px solid #ddd; position: sticky; top: 20px; }
+        .social-heading { font-family: 'Orbitron'; font-size: 16px; color: var(--blue); margin-bottom: 20px; border-bottom: 2px solid var(--neon); padding-bottom: 10px; }
+        .social-link { 
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 15px; margin-bottom: 12px; border-radius: 8px; 
+            text-decoration: none; font-weight: 900; color: white;
+            transition: 0.3s transform;
         }
+        .social-link:hover { transform: scale(1.03); opacity: 0.9; }
+        .yt { background: #FF0000; }
+        .tk { background: #000000; }
+        .ig { background: linear-gradient(45deg, #405de6, #5851db, #833ab4, #c13584, #e1306c, #fd1d1d); }
+        .tw { background: #1DA1F2; }
         
-        /* TOP NAVIGATION */
-        .nav { background: var(--cb-blue); color: white; padding: 12px 6%; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-family: 'Orbitron'; font-size: 26px; color: var(--neon-text); letter-spacing: 2px; }
-
-        /* LIVE TICKER (ESPN STYLE) */
-        .ticker-wrap { background: white; border-bottom: 1px solid #ddd; overflow-x: auto; display: flex; padding: 10px 5%; gap: 20px; white-space: nowrap; }
-        .t-card { min-width: 220px; background: #fff; padding: 10px; border-left: 3px solid var(--cb-green); font-size: 13px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-
-        /* MAIN LAYOUT */
-        .container { max-width: 1200px; margin: 25px auto; padding: 0 20px; display: grid; grid-template-columns: 3fr 1fr; gap: 25px; }
-        
-        /* VIDEO GRID (FILLED LOOK) */
-        .video-section { background: white; padding: 20px; border-radius: 8px; border: 1px solid #ddd; }
-        .main-video { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 8px; margin-bottom: 20px; }
-        .sub-video-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .sub-video { width: 100%; aspect-ratio: 16/9; background: #222; border-radius: 4px; border: 1px solid #eee; }
-
-        /* SIDEBAR */
-        .sidebar { background: white; padding: 20px; border-radius: 8px; border: 1px solid #ddd; height: fit-content; }
-        .side-heading { font-weight: 900; color: var(--cb-blue); border-bottom: 2px solid var(--cb-green); padding-bottom: 5px; margin-bottom: 15px; }
-        .social-row { display: flex; justify-content: space-around; background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px solid #eee; }
-        .social-row a { color: var(--cb-blue); transition: 0.3s; }
-        .social-row a:hover { color: var(--cb-green); }
-
-        .footer-news { position: fixed; bottom: 0; width: 100%; background: var(--cb-green); color: white; padding: 8px; font-weight: 700; text-transform: uppercase; }
+        .footer { position: fixed; bottom: 0; width: 100%; background: var(--blue); color: white; padding: 10px; font-weight: 700; text-transform: uppercase; z-index: 1000; }
     </style>
 </head>
 <body>
-    <div class="nav">
-        <div class="logo">DAILYPOST365</div>
-        <div style="font-size: 11px; opacity: 0.8;">GENIUS AI BROADCAST ENGINE V11.0</div>
-    </div>
-
-    <div class="ticker-wrap"></div>
+    <div class="nav"><div class="logo">DAILYPOST365</div><div style="font-size:12px; font-weight:900;">2026 GLOBAL BROADCAST</div></div>
+    
+    <div class="ticker"><div>Syncing World Cricket Data...</div></div>
 
     <div class="container">
-        <div class="video-section">
-            <h3 class="side-heading">LATEST BROADCAST</h3>
-            <div class="main-video">
-                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/videoseries?list=UUDOZDiiyP85pK8BCWiLP3pw" frameborder="0" allowfullscreen></iframe>
+        <div class="video-hub">
+            <h2 class="social-heading">LATEST ANALYSES</h2>
+            <div class="video-main">
+                <iframe src="https://www.youtube.com/embed/videoseries?list=UUDOZDiiyP85pK8BCWiLP3pw" allowfullscreen></iframe>
             </div>
-            
-            <h3 class="side-heading">TRENDING ANALYSES</h3>
-            <div class="sub-video-grid">
-                <div class="sub-video"><iframe width="100%" height="100%" src="https://www.youtube.com/embed?listType=playlist&list=UUDOZDiiyP85pK8BCWiLP3pw&index=1" frameborder="0"></iframe></div>
-                <div class="sub-video"><iframe width="100%" height="100%" src="https://www.youtube.com/embed?listType=playlist&list=UUDOZDiiyP85pK8BCWiLP3pw&index=2" frameborder="0"></iframe></div>
-                <div class="sub-video"><iframe width="100%" height="100%" src="https://www.youtube.com/embed?listType=playlist&list=UUDOZDiiyP85pK8BCWiLP3pw&index=3" frameborder="0"></iframe></div>
-                <div class="sub-video"><iframe width="100%" height="100%" src="https://www.youtube.com/embed?listType=playlist&list=UUDOZDiiyP85pK8BCWiLP3pw&index=4" frameborder="0"></iframe></div>
+            <div class="video-grid">
+                <div style="aspect-ratio: 16/9; background:#000;"><iframe src="https://www.youtube.com/embed/videoseries?list=UUDOZDiiyP85pK8BCWiLP3pw&index=1"></iframe></div>
+                <div style="aspect-ratio: 16/9; background:#000;"><iframe src="https://www.youtube.com/embed/videoseries?list=UUDOZDiiyP85pK8BCWiLP3pw&index=2"></iframe></div>
             </div>
         </div>
 
-        <div class="sidebar">
-            <h3 class="side-heading">FOLLOW THE PULSE</h3>
-            <div class="social-row">
-                <a href="https://www.youtube.com/@DailyPost365" target="_blank"><i data-lucide="youtube"></i></a>
-                <a href="https://www.tiktok.com/@dailypost0365" target="_blank"><i data-lucide="video"></i></a>
-                <a href="https://www.instagram.com/dailypostwizard2026/" target="_blank"><i data-lucide="instagram"></i></a>
-                <a href="https://x.com/DailyPostW92945" target="_blank"><i data-lucide="twitter"></i></a>
+        <div class="social-sidebar">
+            <div class="social-heading">DAILYPOST365 NETWORK</div>
+            <a class="social-link yt" href="https://www.youtube.com/@DailyPost365" target="_blank">YOUTUBE <span>LIVE</span></a>
+            <a class="social-link tk" href="https://www.tiktok.com/@dailypost0365" target="_blank">TIKTOK <span>FOLLOW</span></a>
+            <a class="social-link ig" href="https://www.instagram.com/dailypostwizard2026/" target="_blank">INSTAGRAM <span>POSTS</span></a>
+            <a class="social-link tw" href="https://x.com/DailyPostW92945" target="_blank">X (TWITTER) <span>NEWS</span></a>
+            
+            <div style="margin-top: 25px; font-size: 12px; line-height: 1.6; color: #666;">
+                <strong>Global Reach:</strong> India, Pakistan, Bangladesh, UAE.<br>
+                <strong>Focus:</strong> Virat Kohli, IPL 2026, PSL 2026.
             </div>
-            <br>
-            <h3 class="side-heading">FEATURED STATS</h3>
-            <p style="font-size: 13px; line-height: 1.6;">
-                <strong>Virat Kohli:</strong> 8,661 Test Runs Milestone<br>
-                <strong>IPL 2026:</strong> Auction Strategies Live<br>
-                <strong>PSL 2026:</strong> Opening Match Analysis
-            </p>
         </div>
     </div>
 
-    <div class="footer-news"><marquee scrollamount="8">DAILYPOST365 GLOBAL REACH: 365M VIEWS TARGET | CRICKET WHALE TRACKING ACTIVE | GLOBAL SOUTH ASIAN DIASPORA NETWORK</marquee></div>
-
-    <script>lucide.createIcons();</script>
+    <div class="footer"><marquee scrollamount="12">DAILYPOST365 | 365M VIEWS TARGET | VIRAT KOHLI RECORD WATCH | GLOBAL SOUTH ASIAN DIASPORA NETWORK | UAE-BASED BROADCAST ENGINE</marquee></div>
 </body>
 </html>
