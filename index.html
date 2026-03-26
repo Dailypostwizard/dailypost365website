@@ -4,63 +4,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DailyPost365 | World Cricket Hub</title>
+    <title>DailyPost365 | Global Cricket News</title>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&family=Orbitron:wght@900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&family=Orbitron:wght@800&display=swap" rel="stylesheet">
     <style>
-        :root { --main-blue: #031744; --accent-neon: #00FF00; --yellow: #FFD700; }
+        :root { --cb-blue: #031744; --cb-green: #009270; --neon-text: #00FF00; }
         body { 
-            margin: 0; background: #f0f2f5; font-family: 'Roboto', sans-serif;
-            background-image: linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)), url('https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?q=80&w=2000');
+            margin: 0; background: #f1f2f4; font-family: 'Roboto', sans-serif; 
+            background-image: linear-gradient(rgba(241,242,244,0.92), rgba(241,242,244,0.92)), url('https://images.unsplash.com/photo-1531415074968-036ba1b575da?q=80&w=2000');
             background-size: cover; background-attachment: fixed;
         }
-        .top-nav { background: var(--main-blue); color: white; padding: 10px 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
-        .logo { font-family: 'Orbitron'; font-size: 24px; color: var(--accent-neon); }
         
-        .live-ticker { background: #fff; border-bottom: 1px solid #ddd; padding: 10px 0; display: flex; overflow-x: auto; gap: 20px; white-space: nowrap; }
-        .score-card { min-width: 250px; border-right: 1px solid #eee; padding: 0 15px; border-left: 4px solid var(--main-blue); }
-        .m-title { font-size: 11px; font-weight: 700; color: #666; text-transform: uppercase; }
-        .m-score { font-size: 14px; font-weight: 900; color: #111; }
+        /* TOP NAVIGATION */
+        .nav { background: var(--cb-blue); color: white; padding: 12px 6%; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-family: 'Orbitron'; font-size: 26px; color: var(--neon-text); letter-spacing: 2px; }
 
-        .main-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 25px; max-width: 1200px; margin: 30px auto; padding: 0 20px; }
-        
-        .video-highlight { background: #000; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.3); aspect-ratio: 16/9; }
-        
-        .right-sidebar { background: white; padding: 20px; border-radius: 12px; border: 1px solid #ddd; }
-        .sidebar-title { font-weight: 900; border-bottom: 3px solid var(--accent-neon); display: inline-block; margin-bottom: 15px; }
+        /* LIVE TICKER (ESPN STYLE) */
+        .ticker-wrap { background: white; border-bottom: 1px solid #ddd; overflow-x: auto; display: flex; padding: 10px 5%; gap: 20px; white-space: nowrap; }
+        .t-card { min-width: 220px; background: #fff; padding: 10px; border-left: 3px solid var(--cb-green); font-size: 13px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
 
-        .social-dock { display: flex; justify-content: space-around; background: var(--main-blue); padding: 15px; border-radius: 12px; margin-top: 20px; }
-        .social-dock a { color: white; }
+        /* MAIN LAYOUT */
+        .container { max-width: 1200px; margin: 25px auto; padding: 0 20px; display: grid; grid-template-columns: 3fr 1fr; gap: 25px; }
         
-        .bottom-news { position: fixed; bottom: 0; width: 100%; background: var(--accent-neon); color: black; padding: 8px; font-weight: 900; z-index: 1000; }
+        /* VIDEO GRID (FILLED LOOK) */
+        .video-section { background: white; padding: 20px; border-radius: 8px; border: 1px solid #ddd; }
+        .main-video { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 8px; margin-bottom: 20px; }
+        .sub-video-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .sub-video { width: 100%; aspect-ratio: 16/9; background: #222; border-radius: 4px; border: 1px solid #eee; }
+
+        /* SIDEBAR */
+        .sidebar { background: white; padding: 20px; border-radius: 8px; border: 1px solid #ddd; height: fit-content; }
+        .side-heading { font-weight: 900; color: var(--cb-blue); border-bottom: 2px solid var(--cb-green); padding-bottom: 5px; margin-bottom: 15px; }
+        .social-row { display: flex; justify-content: space-around; background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px solid #eee; }
+        .social-row a { color: var(--cb-blue); transition: 0.3s; }
+        .social-row a:hover { color: var(--cb-green); }
+
+        .footer-news { position: fixed; bottom: 0; width: 100%; background: var(--cb-green); color: white; padding: 8px; font-weight: 700; text-transform: uppercase; }
     </style>
 </head>
 <body>
-    <div class="top-nav">
+    <div class="nav">
         <div class="logo">DAILYPOST365</div>
-        <div style="font-size: 12px; font-weight: 900;">2026 BROADCAST ENGINE</div>
+        <div style="font-size: 11px; opacity: 0.8;">GENIUS AI BROADCAST ENGINE V11.0</div>
     </div>
 
-    <div class="live-ticker"><div>Live Feed Syncing...</div></div>
+    <div class="ticker-wrap"></div>
 
-    <div class="main-grid">
-        <div class="video-highlight">
-            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/videoseries?list=UUDOZDiiyP85pK8BCWiLP3pw" frameborder="0" allowfullscreen></iframe>
-        </div>
-        
-        <div class="right-sidebar">
-            <div class="sidebar-title">LATEST NEWS</div>
-            <p style="font-size: 14px; color: #444;">• Virat Kohli’s 2026 Milestone: 8,661 Runs</p>
-            <p style="font-size: 14px; color: #444;">• IPL 2026 Match Predictions</p>
-            <div class="social-dock">
-                <a href="https://youtube.com/@DailyPost365"><i data-lucide="youtube"></i></a>
-                <a href="https://instagram.com/dailypostwizard2026"><i data-lucide="instagram"></i></a>
-                <a href="https://tiktok.com/@dailypost365"><i data-lucide="video"></i></a>
+    <div class="container">
+        <div class="video-section">
+            <h3 class="side-heading">LATEST BROADCAST</h3>
+            <div class="main-video">
+                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/videoseries?list=UUDOZDiiyP85pK8BCWiLP3pw" frameborder="0" allowfullscreen></iframe>
+            </div>
+            
+            <h3 class="side-heading">TRENDING ANALYSES</h3>
+            <div class="sub-video-grid">
+                <div class="sub-video"><iframe width="100%" height="100%" src="https://www.youtube.com/embed?listType=playlist&list=UUDOZDiiyP85pK8BCWiLP3pw&index=1" frameborder="0"></iframe></div>
+                <div class="sub-video"><iframe width="100%" height="100%" src="https://www.youtube.com/embed?listType=playlist&list=UUDOZDiiyP85pK8BCWiLP3pw&index=2" frameborder="0"></iframe></div>
+                <div class="sub-video"><iframe width="100%" height="100%" src="https://www.youtube.com/embed?listType=playlist&list=UUDOZDiiyP85pK8BCWiLP3pw&index=3" frameborder="0"></iframe></div>
+                <div class="sub-video"><iframe width="100%" height="100%" src="https://www.youtube.com/embed?listType=playlist&list=UUDOZDiiyP85pK8BCWiLP3pw&index=4" frameborder="0"></iframe></div>
             </div>
         </div>
+
+        <div class="sidebar">
+            <h3 class="side-heading">FOLLOW THE PULSE</h3>
+            <div class="social-row">
+                <a href="https://www.youtube.com/@DailyPost365" target="_blank"><i data-lucide="youtube"></i></a>
+                <a href="https://www.tiktok.com/@dailypost0365" target="_blank"><i data-lucide="video"></i></a>
+                <a href="https://www.instagram.com/dailypostwizard2026/" target="_blank"><i data-lucide="instagram"></i></a>
+                <a href="https://x.com/DailyPostW92945" target="_blank"><i data-lucide="twitter"></i></a>
+            </div>
+            <br>
+            <h3 class="side-heading">FEATURED STATS</h3>
+            <p style="font-size: 13px; line-height: 1.6;">
+                <strong>Virat Kohli:</strong> 8,661 Test Runs Milestone<br>
+                <strong>IPL 2026:</strong> Auction Strategies Live<br>
+                <strong>PSL 2026:</strong> Opening Match Analysis
+            </p>
+        </div>
     </div>
 
-    <div class="bottom-news"><marquee>CRICKET WORLD EXCLUSIVE | VIRAT KOHLI RECORD WATCH | DAILYPOST365 GLOBAL NEWS</marquee></div>
+    <div class="footer-news"><marquee scrollamount="8">DAILYPOST365 GLOBAL REACH: 365M VIEWS TARGET | CRICKET WHALE TRACKING ACTIVE | GLOBAL SOUTH ASIAN DIASPORA NETWORK</marquee></div>
+
     <script>lucide.createIcons();</script>
 </body>
 </html>
