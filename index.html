@@ -4,11 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DailyPost365 | World's Best Broadcast Hub</title>
+    <title>DailyPost365 | Global Broadcast Hub</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Oswald:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --neon: #39FF14; --yellow: #CCFF00; --dark: #020202; --glass: rgba(0, 0, 0, 0.85); }
+        :root { --neon: #39FF14; --yellow: #CCFF00; --dark: #020202; --glass: rgba(0, 0, 0, 0.9); }
         
         body { 
             margin: 0; background: var(--dark); color: white; font-family: 'Oswald', sans-serif;
@@ -17,80 +17,76 @@
             background-size: cover; background-attachment: fixed; overflow-x: hidden;
         }
 
-        /* 1. MASTER TICKER (CRYPTO & CRICKET) */
-        .master-ticker { background: #fff; color: #000; padding: 12px; font-weight: 900; border-bottom: 4px solid var(--neon); position: sticky; top: 0; z-index: 2000; }
-
-        /* 2. FIXED SOCIAL DOCK (GUARANTEED VISIBILITY) */
+        /* FIXED SOCIAL DOCK - HIGHEST PRIORITY */
         .social-dock {
-            position: fixed; left: 20px; top: 50%; transform: translateY(-50%);
-            display: flex; flex-direction: column; gap: 15px; z-index: 3000;
+            position: fixed; left: 15px; top: 50%; transform: translateY(-50%);
+            display: flex; flex-direction: column; gap: 15px; z-index: 9999;
         }
         .soc-btn {
-            width: 55px; height: 55px; border-radius: 12px; display: flex; align-items: center; 
+            width: 50px; height: 50px; border-radius: 10px; display: flex; align-items: center; 
             justify-content: center; font-size: 24px; transition: 0.3s;
             background: var(--glass); border: 2px solid var(--neon); color: white; text-decoration: none;
-            box-shadow: 0 0 15px rgba(57, 255, 20, 0.2);
+            box-shadow: 0 0 15px rgba(57, 255, 20, 0.3);
         }
         .soc-btn:hover { background: var(--neon); color: black; box-shadow: 0 0 30px var(--neon); transform: scale(1.1); }
 
-        /* 3. BROADCAST GRID LAYOUT */
-        .main-layout { display: grid; grid-template-columns: 2.2fr 1.3fr; gap: 30px; padding: 30px 5% 80px 100px; max-width: 1600px; margin: auto; }
-        
-        .video-stage { background: var(--glass); padding: 25px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); }
-        .yt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
-        iframe { width: 100%; aspect-ratio: 16/9; border: 2px solid var(--neon); border-radius: 10px; }
-        
-        /* 4. TELEGRAM NEWS MIRROR */
-        .sidebar { display: flex; flex-direction: column; gap: 25px; }
-        .news-panel { background: #f0f2f5; border-radius: 15px; height: 750px; overflow: hidden; border: 3px solid #333; }
-        
-        /* 5. MATCH SUMMARY SECTION */
-        .summary-card { background: var(--glass); padding: 25px; border-radius: 15px; border-left: 6px solid var(--yellow); margin-top: 30px; }
-        .legend-tag { font-family: 'Orbitron'; color: var(--yellow); letter-spacing: 2px; font-size: 12px; }
+        /* TICKER SYSTEM */
+        .ticker-wrap { background: #fff; color: #000; padding: 10px; font-weight: 900; border-bottom: 4px solid var(--neon); position: sticky; top:0; z-index: 5000; }
+        .ipl-news-bar { background: var(--neon); color: black; padding: 5px; font-weight: bold; text-transform: uppercase; border-bottom: 2px solid var(--yellow); }
 
+        .main-layout { display: grid; grid-template-columns: 1.8fr 1.2fr; gap: 25px; padding: 20px 20px 80px 80px; max-width: 1600px; margin: auto; }
+        
+        /* CONTENT STAGES */
+        .stage { background: var(--glass); padding: 20px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); }
+        .yt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
+        iframe { width: 100%; aspect-ratio: 16/9; border: 1px solid var(--neon); border-radius: 8px; }
+
+        /* TELEGRAM FIXED BOX */
+        .tg-mirror { background: white; border-radius: 12px; height: 700px; overflow: hidden; border: 4px solid #333; }
     </style>
 </head>
 <body>
 
-    <div class="master-ticker">
+    <nav class="social-dock">
+        <a href="https://youtube.com/@DailyPost365" class="soc-btn" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
+        <a href="https://tiktok.com/@dailypost0365" class="soc-btn" target="_blank" title="TikTok"><i class="fab fa-tiktok"></i></a>
+        <a href="https://instagram.com/dailypostwizard2026/" class="soc-btn" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://t.me/DailyPost365_Live" class="soc-btn" target="_blank" title="Telegram"><i class="fab fa-telegram-plane"></i></a>
+    </nav>
+
+    <div class="ticker-wrap">
         <marquee scrollamount="10">
-            🏏 LIVE: LHQ vs HKG (TOSS SOON) | 🐋 WHALE ALERT: 15,133 BTC MOVED | BTC: 255,201 AED | ETH: 12,548 AED | SOL: 642 AED | BNB: 2,166 AED | 6:00 PM UAE VIRAL WINDOW ACTIVE
+            🏏 LIVE: LHQ vs HKG (TOSS SOON) | 🐋 WHALE ALERT: 15,133 BTC MOVED | BTC: 255,572 AED | ETH: 12,535 AED | Starts in 20H 1M TO RCB vs MI
         </marquee>
     </div>
 
-    <nav class="social-dock">
-        <a href="https://youtube.com/@DailyPost365" class="soc-btn" target="_blank"><i class="fab fa-youtube"></i></a>
-        <a href="https://tiktok.com/@dailypost0365" class="soc-btn" target="_blank"><i class="fab fa-tiktok"></i></a>
-        <a href="https://instagram.com/dailypostwizard2026/" class="soc-btn" target="_blank"><i class="fab fa-instagram"></i></a>
-        <a href="https://t.me/DailyPost365_Live" class="soc-btn" target="_blank"><i class="fab fa-telegram-plane"></i></a>
-    </nav>
+    <div class="ipl-news-bar">
+        <marquee scrollamount="7">
+            RCB: Virat Kohli targets 8,661 runs milestone | CSK: Dhoni seen in night practice | MI: Hardik Pandya arrives in Mumbai | KKR: Gambhir's new spin strategy leaked | SRH: Pat Cummins press report live at 6PM UAE
+        </marquee>
+    </div>
 
     <div class="main-layout">
-        <section class="video-stage">
-            <span class="legend-tag">● 4K GLOBAL BROADCAST</span>
-            <div style="margin-top:15px;">
-                <iframe src="https://www.youtube.com/embed/bOLhhWCPtww" title="Main Feature"></iframe>
-            </div>
+        <div class="stage">
+            <h2 style="color:var(--yellow); margin-top:0;">🎥 BROADCAST FEED</h2>
+            <iframe src="https://www.youtube.com/embed/bOLhhWCPtww" title="Main Video"></iframe>
             <div class="yt-grid">
                 <iframe src="https://www.youtube.com/embed/4YKAXiNmD1o"></iframe>
                 <iframe src="https://www.youtube.com/embed/t2AudsYLqzQ"></iframe>
             </div>
-
-            <div class="summary-card">
-                <h2 style="color:var(--yellow); margin-top:0;">🏏 MATCH ANALYSIS: PSL 2026 OPENER</h2>
-                <p><strong>Status:</strong> Gaddafi Stadium is at 100% capacity for Lahore Qalandars vs Hyderabad Kingsmen.</p>
-                <p style="color:#ccc;"><strong>Genius Insight:</strong> The 15-Stage Audit predicts high volatility in the second innings. Watch for Shaheen Afridi's opening spell. UAE-South Asia bridge traffic is expected to peak at 7:30 PM IST.</p>
+            
+            <div style="background:rgba(255,255,0,0.05); padding:15px; border-left:5px solid var(--yellow); margin-top:20px;">
+                <h3 style="color:var(--yellow); margin:0;">🏏 MATCH SUMMARY: PSL 2026</h3>
+                <p>Lahore Qalandars vs Hyderabad Kingsmen: The "15-Stage Audit" predicts high-scoring volatility. Target "Shaheen Afridi" keywords for viral SEO.</p>
             </div>
-        </section>
+        </div>
 
-        <aside class="sidebar">
-            <div class="video-stage" style="padding:15px;">
-                <span class="legend-tag">● LIVE TELEGRAM INTEL</span>
-                <div class="news-panel" style="margin-top:15px;">
-                    <iframe src="https://tgwidget.com/channel/v2/DailyPost365_Live" width="100%" height="100%" frameborder="0"></iframe>
-                </div>
+        <div class="stage">
+            <h2 style="color:var(--neon); margin-top:0;">📡 TELEGRAM LIVE INTEL</h2>
+            <div class="tg-mirror">
+                <iframe src="https://tgwidget.com/channel/v2/DailyPost365_Live" width="100%" height="100%" frameborder="0"></iframe>
             </div>
-        </aside>
+        </div>
     </div>
 
 </body>
