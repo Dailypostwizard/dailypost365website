@@ -15,22 +15,19 @@
                         background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?q=80&w=2000'); 
                         background-size: cover; }
 
-        /* SOCIAL MEDIA SIDEBAR */
         .social-sidebar { position: fixed; left: 15px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 12px; z-index: 9999; }
         .nav-link { width: 50px; height: 50px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 22px; transition: 0.3s; background: var(--glass); border: 1px solid var(--neon); color: white; text-decoration: none; }
         .nav-link:hover { background: var(--neon); color: black; box-shadow: 0 0 20px var(--neon); transform: scale(1.1); }
 
-        /* BROADCAST TICKER */
         .broadcast-ticker { position: sticky; top: 0; z-index: 5000; background: #fff; color: #000; padding: 12px; font-weight: 900; border-bottom: 3px solid var(--neon); font-family: 'Orbitron'; }
 
         .main-layout { display: grid; grid-template-columns: 1.8fr 1.2fr; gap: 25px; padding: 25px 25px 80px 85px; max-width: 1750px; margin: auto; }
-        .broadcast-panel { background: var(--glass); padding: 25px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); }
+        .broadcast-panel { background: var(--glass); padding: 25px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px; }
 
-        /* VIDEO GRID - REPLACED UNAVAILABLE LINKS */
-        .media-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
-        .video-wrapper { border: 2px solid var(--neon); border-radius: 8px; overflow: hidden; height: 300px; background: #000; }
+        /* IMPROVED RESPONSIVE GRID FOR 5 VIDEOS */
+        .media-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; margin-top: 20px; }
+        .video-wrapper { border: 2px solid var(--neon); border-radius: 8px; overflow: hidden; height: 450px; background: #000; }
 
-        /* INTEL FEED */
         .intel-mirror { height: 580px; overflow: hidden; background: rgba(255,255,255,0.02); border-radius: 10px; padding: 15px; border: 1px solid var(--neon); }
         .auto-scroller { animation: glide-up 40s linear infinite; }
         @keyframes glide-up { 0% { transform: translateY(0); } 100% { transform: translateY(-100%); } }
@@ -56,41 +53,46 @@
     </div>
 
     <div class="main-layout">
-        <div class="broadcast-panel">
-            <h2 style="color:var(--neon); margin:0 0 15px 0; font-family:'Orbitron';">📡 4K WORLD BROADCAST</h2>
-            <iframe width="100%" height="450" src="https://www.youtube.com/embed/bOLhhWCPtww" frameborder="0" allowfullscreen style="border-radius:10px;"></iframe>
-            
-            <div class="media-grid">
-                <div class="video-wrapper"><iframe width="100%" height="100%" src="https://www.youtube.com/embed/E-GyAxW1j08" frameborder="0" allowfullscreen></iframe></div>
-                <div class="video-wrapper"><iframe width="100%" height="100%" src="https://www.youtube.com/embed/80L8ZJo0GGM" frameborder="0" allowfullscreen></iframe></div>
-                <div class="video-wrapper"><iframe width="100%" height="100%" src="https://www.youtube.com/embed/t2AudsYLqzQ" frameborder="0" allowfullscreen></iframe></div>
-                <div class="video-wrapper"><iframe width="100%" height="100%" src="https://www.youtube.com/embed/Sc6mG9hV5XU" frameborder="0" allowfullscreen></iframe></div>
+        <div class="left-col">
+            <div class="broadcast-panel">
+                <h2 style="color:var(--neon); margin:0 0 15px 0; font-family:'Orbitron';">📡 4K WORLD BROADCAST</h2>
+                <iframe width="100%" height="450" src="https://www.youtube.com/embed/bOLhhWCPtww" frameborder="0" allowfullscreen style="border-radius:10px;"></iframe>
+                
+                <div class="media-grid">
+                    <div class="video-wrapper"><iframe width="100%" height="100%" src="https://www.youtube.com/embed/7e49Bip--eA" frameborder="0" allowfullscreen></iframe></div>
+                    <div class="video-wrapper"><iframe width="100%" height="100%" src="https://www.youtube.com/embed/me5Dqzcp0o0" frameborder="0" allowfullscreen></iframe></div>
+                    <div class="video-wrapper"><iframe width="100%" height="100%" src="https://www.youtube.com/embed/YCZpwsZBZz4" frameborder="0" allowfullscreen></iframe></div>
+                    <div class="video-wrapper"><iframe width="100%" height="100%" src="https://www.youtube.com/embed/gVNJtqWfRSY" frameborder="0" allowfullscreen></iframe></div>
+                    <div class="video-wrapper"><iframe width="100%" height="100%" src="https://www.youtube.com/embed/dioXJoIOhPk" frameborder="0" allowfullscreen></iframe></div>
+                </div>
             </div>
         </div>
 
-        <div class="broadcast-panel">
-            <h2 style="color:var(--yellow); margin:0 0 15px 0; font-family:'Orbitron';">🛰️ @DailyPost365Live INTEL</h2>
-            <div class="intel-mirror">
-                <div class="auto-scroller">
-                    <div class="intel-card">
-                        <h4>🏏 IPL 2026 UPDATE</h4>
-                        Correct Match: RCB vs SRH (March 28). Viral SEO Strategy: South Asia Peak Active.
-                    </div>
-                    <div class="intel-card">
-                        <h4>🐋 WHALE TRACKER</h4>
-                        Verification: $1.04B USD BTC move from cold storage. Mathematical certainty established.
-                    </div>
-                    <div class="intel-card">
-                        <h4>🏏 MILSTONES 2026</h4>
-                        Virat Kohli (8,661 runs) and Babar Azam records tracking live.
-                    </div>
-                    <div class="intel-card">
-                        <h4>📡 BROADCAST STATUS</h4>
-                        DailyPost365 UAE Hub: Zero quality loss 4K binary pipeline online.
+        <div class="right-col">
+            <div class="broadcast-panel">
+                <h2 style="color:var(--yellow); margin:0 0 15px 0; font-family:'Orbitron';">🛰️ @DailyPost365Live INTEL</h2>
+                <div class="intel-mirror">
+                    <div class="auto-scroller">
+                        <div class="intel-card">
+                            <h4>🏏 IPL 2026 UPDATE</h4>
+                            Correct Match: RCB vs SRH (March 28). Viral SEO Strategy: South Asia Peak Active.
+                        </div>
+                        <div class="intel-card">
+                            <h4>🐋 WHALE TRACKER</h4>
+                            Verification: $1.04B USD BTC move from cold storage. Mathematical certainty established.
+                        </div>
+                        <div class="intel-card">
+                            <h4>🏏 MILESTONES 2026</h4>
+                            Virat Kohli (8,661 runs) and Babar Azam records tracking live.
+                        </div>
+                        <div class="intel-card">
+                            <h4>📡 BROADCAST STATUS</h4>
+                            DailyPost365 UAE Hub: Zero quality loss 4K binary pipeline online.
+                        </div>
                     </div>
                 </div>
+                <a href="https://t.me/DailyPost365Live" target="_blank" style="display:block; margin-top:25px; text-align:center; background:var(--neon); color:black; padding:15px; border-radius:10px; text-decoration:none; font-weight:bold; font-family:'Orbitron'; transition:0.3s;">⚡ ACCESS LIVE INTEL</a>
             </div>
-            <a href="https://t.me/DailyPost365Live" target="_blank" style="display:block; margin-top:25px; text-align:center; background:var(--neon); color:black; padding:15px; border-radius:10px; text-decoration:none; font-weight:bold; font-family:'Orbitron'; transition:0.3s;">⚡ ACCESS LIVE INTEL</a>
         </div>
     </div>
 </body>
