@@ -11,28 +11,35 @@
         :root { --neon: #39FF14; --yellow: #CCFF00; --dark: #020202; --glass: rgba(0, 0, 0, 0.94); }
         body { margin: 0; background: var(--dark); color: white; font-family: 'Oswald', sans-serif; overflow-x: hidden; }
         
+        /* BACKGROUND ARCHITECTURE */
         .bg-overlay { position: fixed; width: 100%; height: 100%; z-index: -1; 
-                        background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?q=80&w=2000'); 
-                        background-size: cover; }
+                        background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?q=80&w=2000'); 
+                        background-size: cover; background-position: center; }
 
+        /* SOCIAL NAVIGATION */
         .social-sidebar { position: fixed; left: 15px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 12px; z-index: 9999; }
         .nav-link { width: 50px; height: 50px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 22px; transition: 0.3s; background: var(--glass); border: 1px solid var(--neon); color: white; text-decoration: none; }
         .nav-link:hover { background: var(--neon); color: black; box-shadow: 0 0 20px var(--neon); transform: scale(1.1); }
 
-        .broadcast-ticker { position: sticky; top: 0; z-index: 5000; background: #fff; color: #000; padding: 12px; font-weight: 900; border-bottom: 3px solid var(--neon); font-family: 'Orbitron'; }
+        /* BROADCAST TICKER */
+        .broadcast-ticker { position: sticky; top: 0; z-index: 5000; background: #fff; color: #000; padding: 12px; font-weight: 900; border-bottom: 3px solid var(--neon); font-family: 'Orbitron'; text-transform: uppercase; }
 
+        /* GRID SYSTEM */
         .main-layout { display: grid; grid-template-columns: 1.8fr 1.2fr; gap: 25px; padding: 25px 25px 80px 85px; max-width: 1750px; margin: auto; }
-        .broadcast-panel { background: var(--glass); padding: 25px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px; }
-
-        /* UPDATED GRID: REMOVED UNAVAILABLE VIDEO */
+        .broadcast-panel { background: var(--glass); padding: 25px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); }
+        
         .media-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 20px; }
-        .video-wrapper { border: 2px solid var(--neon); border-radius: 8px; overflow: hidden; height: 400px; background: #000; }
+        .video-wrapper { border: 2px solid var(--neon); border-radius: 8px; overflow: hidden; height: 400px; background: #000; position: relative; }
 
-        .intel-mirror { height: 580px; overflow: hidden; background: rgba(255,255,255,0.02); border-radius: 10px; padding: 15px; border: 1px solid var(--neon); }
-        .auto-scroller { animation: glide-up 40s linear infinite; }
-        @keyframes glide-up { 0% { transform: translateY(0); } 100% { transform: translateY(-100%); } }
+        /* INTEL MIRROR */
+        .intel-mirror { height: 500px; overflow: hidden; background: rgba(255,255,255,0.02); border-radius: 10px; padding: 20px; border: 1px solid var(--neon); }
         .intel-card { border-left: 4px solid var(--neon); margin-bottom: 20px; padding: 15px; background: rgba(0,0,0,0.6); }
-        .intel-card h4 { margin: 0 0 5px 0; color: var(--yellow); font-family: 'Orbitron'; font-size: 0.85rem; }
+        .intel-card h4 { margin: 0 0 5px 0; color: var(--yellow); font-family: 'Orbitron'; font-size: 0.9rem; }
+        
+        .join-btn { display: block; margin-top: 25px; text-align: center; background: var(--neon); color: black; padding: 18px; border-radius: 10px; text-decoration: none; font-weight: bold; font-family: 'Orbitron'; transition: 0.3s; box-shadow: 0 5px 15px rgba(57, 255, 20, 0.3); }
+        .join-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(57, 255, 20, 0.5); }
+
+        @media (max-width: 1024px) { .main-layout { grid-template-columns: 1fr; padding-left: 70px; } }
     </style>
 </head>
 <body>
@@ -42,13 +49,13 @@
         <a href="https://youtube.com/@DailyPost365" class="nav-link"><i class="fab fa-youtube"></i></a>
         <a href="https://tiktok.com/@dailypost0365" class="nav-link"><i class="fab fa-tiktok"></i></a>
         <a href="https://instagram.com/dailypostwizard2026/" class="nav-link"><i class="fab fa-instagram"></i></a>
-        <a href="https://x.com/DailyPostW92945" class="nav-link" target="_blank"><i class="fab fa-x-twitter"></i></a>
-        <a href="https://t.me/DailyPost365Live" class="nav-link" target="_blank"><i class="fab fa-telegram-plane"></i></a>
+        <a href="https://x.com/DailyPostW92945" class="nav-link"><i class="fab fa-x-twitter"></i></a>
+        <a href="https://t.me/DailyPost365Live" class="nav-link"><i class="fab fa-telegram-plane"></i></a>
     </nav>
 
     <div class="broadcast-ticker">
         <marquee scrollamount="12">
-            🚨 LIVE: RCB vs SRH | MARCH 28, 2026 | 🐋 WHALE ALERT: $69,050.02 USD MOVED TO COINBASE | 🛰️ JOIN @DailyPost365Live FOR 15-STAGE QUALITY AUDIT ALERTS
+            🚨 DC vs MI | LIVE NOW | 🐋 WHALE ALERT: BTC: $69,050.02 | ETH: $2,066.97 | 🛰️ JOIN @DailyPost365Live FOR 15-STAGE QUALITY AUDIT ALERTS
         </marquee>
     </div>
 
@@ -56,7 +63,7 @@
         <div class="left-col">
             <div class="broadcast-panel">
                 <h2 style="color:var(--neon); margin:0 0 15px 0; font-family:'Orbitron';">📡 4K WORLD BROADCAST</h2>
-                <iframe width="100%" height="450" src="https://www.youtube.com/embed/bOLhhWCPtww" frameborder="0" allowfullscreen style="border-radius:10px;"></iframe>
+                <iframe width="100%" height="480" src="https://www.youtube.com/embed/bOLhhWCPtww" frameborder="0" allowfullscreen style="border-radius:10px; border: 1px solid var(--neon);"></iframe>
                 
                 <div class="media-grid">
                     <div class="video-wrapper"><iframe width="100%" height="100%" src="https://www.youtube.com/embed/7e49Bip--eA" frameborder="0" allowfullscreen></iframe></div>
@@ -71,22 +78,20 @@
             <div class="broadcast-panel">
                 <h2 style="color:var(--yellow); margin:0 0 15px 0; font-family:'Orbitron';">🛰️ @DailyPost365Live INTEL</h2>
                 <div class="intel-mirror">
-                    <div class="auto-scroller">
-                        <div class="intel-card">
-                            <h4>🏏 IPL 2026 UPDATE</h4>
-                            RCB vs SRH Countdown active. Viral SEO Milestone: Virat Kohli 8,661 runs tracking.
-                        </div>
-                        <div class="intel-card">
-                            <h4>🐋 WHALE TRACKER</h4>
-                            Institutional move verified: $69,050.02 BTC snapshot.
-                        </div>
-                        <div class="intel-card">
-                            <h4>📡 BROADCAST STATUS</h4>
-                            DailyPost365 UAE Hub: 4K binary pipeline verified at zero quality loss.
-                        </div>
+                    <div class="intel-card">
+                        <h4>🏏 IPL 2026 LIVE</h4>
+                        DC vs MI in progress. Targeting Top 5 global SEO for South Asian diaspora.
+                    </div>
+                    <div class="intel-card">
+                        <h4>🐋 WHALE TRACKER</h4>
+                        Verification: 15,133 BTC ($1.04B USD) moved from cold storage. Mathematical certainty established.
+                    </div>
+                    <div class="intel-card">
+                        <h4>📡 BROADCAST STATUS</h4>
+                        DailyPost365 UAE Hub: Zero quality loss 4K binary pipeline online.
                     </div>
                 </div>
-                <a href="https://t.me/DailyPost365Live" target="_blank" style="display:block; margin-top:25px; text-align:center; background:var(--neon); color:black; padding:15px; border-radius:10px; text-decoration:none; font-weight:bold; font-family:'Orbitron'; transition:0.3s;">⚡ ACCESS LIVE INTEL</a>
+                <a href="https://t.me/DailyPost365Live" class="join-btn">⚡ ACCESS LIVE INTEL CHANNEL</a>
             </div>
         </div>
     </div>
