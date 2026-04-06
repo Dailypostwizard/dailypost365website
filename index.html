@@ -105,8 +105,8 @@
     <div class="broadcast-ticker">
         <div class="ticker-content">
             <span class="text-green">LIVE WHALE TRACKER ACTIVE</span>
-            <span>BTC: $69,873.57</span>
-            <span>ETH: $2,146.28</span>
+            <span>BTC: <span id="ticker-btc">$69,715.29</span></span>
+            <span>ETH: <span id="ticker-eth">$2,144.13</span></span>
             <span class="text-yellow">IPL INTEL: KKR 25/2 (3.4) vs PBKS - RAIN DELAY</span>
             <span>VIRAT KOHLI 8,661 RUN MILESTONE TARGET</span>
             <span class="text-green">UAE 6:00 PM SYNC ONLINE</span>
@@ -129,8 +129,8 @@
             <div class="canvas-container" id="egg-container">
                 <div class="click-hint">[ CLICK TO EXECUTE FRACTURE ]</div>
                 <div class="interactive-overlay" id="btc-data">
-                    <i class="fab fa-bitcoin" style="font-size: 4rem; color: #F7931A; margin-bottom: 10px;"></i>
-                    <h1 class="text-green">$69,873.57</h1>
+                    <i class="fa-brands fa-bitcoin" style="font-size: 4rem; color: #F7931A; margin-bottom: 10px;"></i>
+                    <h1 class="text-green" id="radar-btc">$69,715.29</h1>
                     <p>Live Protocol Active</p>
                 </div>
             </div>
@@ -283,6 +283,31 @@
                 crickRenderer.render(crickScene, crickCamera);
             }
             render();
+
+            // --- 4. COINGECKO LIVE SYNC (QUOTA SAFE) ---
+            async function syncLivePrices() {
+                try {
+                    const resp = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd');
+                    const data = await resp.json();
+                    
+                    const btc = '$' + data.bitcoin.usd.toLocaleString();
+                    const eth = '$' + data.ethereum.usd.toLocaleString();
+                    
+                    // Update Ticker
+                    document.getElementById('ticker-btc').innerText = btc;
+                    document.getElementById('ticker-eth').innerText = eth;
+                    
+                    // Update Whale Radar
+                    document.getElementById('radar-btc').innerText = btc;
+                    
+                    console.log('✅ SYNC SUCCESS: Prices Updated');
+                } catch(e) {
+                    console.error('❌ SYNC FAILED:', e);
+                }
+            }
+            
+            syncLivePrices();
+            setInterval(syncLivePrices, 60000); // 60s quota-safe interval
 
             window.addEventListener('resize', () => {
                 bgCamera.aspect = window.innerWidth / window.innerHeight;
