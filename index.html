@@ -4,166 +4,172 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DailyPost365 | World's Best 3D Command Center</title>
+    <title>DailyPost365 | Global Apex Command</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     <style>
         :root { 
-            --neon: #39FF14; --yellow: #CCFF00; --dark: #020202; 
-            --glass: rgba(255, 255, 255, 0.05); --border: rgba(57, 255, 20, 0.5);
+            --neon: #39FF14; --yellow: #CCFF00; --dark: #010101; 
+            --glass: rgba(255, 255, 255, 0.04); --border: rgba(57, 255, 20, 0.3);
         }
         
         body { 
             margin: 0; background: var(--dark); color: #fff; 
-            font-family: 'Rajdhani', sans-serif; overflow-x: hidden;
-            background-image: 
-                radial-gradient(circle at 0% 0%, #112200 0%, transparent 40%),
-                radial-gradient(circle at 100% 100%, #112200 0%, transparent 40%);
+            font-family: 'Rajdhani', sans-serif; overflow: hidden;
+            background: radial-gradient(circle at 50% 50%, #0a1a05 0%, #010101 100%);
         }
 
-        /* 3D FLOATING HEADER (CRICBUZZ STYLE) */
-        .live-strip {
-            background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(15px);
-            border-bottom: 1px solid var(--border); padding: 10px 40px;
-            display: flex; gap: 20px; overflow-x: auto; position: sticky; top: 0; z-index: 1000;
+        /* CRICBUZZ-STYLE LIVE TICKER */
+        .live-ticker-wrap {
+            background: #000; border-bottom: 2px solid var(--neon);
+            padding: 8px 0; overflow: hidden; white-space: nowrap;
         }
-        .match-pill {
-            background: #111; padding: 10px 20px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);
-            min-width: 200px; font-size: 0.8rem; font-family: 'Orbitron';
+        .ticker-content {
+            display: inline-block; animation: scroll 30s linear infinite;
         }
-        .match-pill span { color: var(--neon); float: right; }
+        .ticker-item {
+            display: inline-block; padding: 0 40px; font-family: 'Orbitron'; font-size: 0.8rem;
+            border-right: 1px solid rgba(255,255,255,0.1);
+        }
+        .ticker-item span { color: var(--neon); margin-left: 10px; }
 
-        /* THE 3D COMMAND GRID */
-        .hero-layout {
-            display: grid; grid-template-columns: 80px 1fr 400px; gap: 30px;
-            padding: 20px; height: 90vh;
-        }
+        @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
-        /* SIDEBAR 3D BUTTONS */
-        .nav-3d { display: flex; flex-direction: column; gap: 15px; }
-        .btn-3d {
-            width: 60px; height: 60px; border-radius: 12px; background: #111;
-            display: flex; align-items: center; justify-content: center;
-            border: 1px solid var(--border); transition: 0.3s;
-            box-shadow: 5px 5px 0px var(--neon); cursor: pointer;
-        }
-        .btn-3d:hover { transform: translate(-3px, -3px); box-shadow: 8px 8px 0px var(--neon); }
-
-        /* MAIN BROADCAST STAGE */
-        .glass-stage {
-            background: var(--glass); backdrop-filter: blur(40px);
-            border-radius: 30px; border: 1px solid rgba(255,255,255,0.1);
-            padding: 30px; position: relative; overflow-y: auto;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        /* 3D COMMAND CENTER LAYOUT */
+        .layout {
+            display: grid; grid-template-columns: 80px 1fr 380px; height: 95vh; padding: 15px; gap: 15px;
         }
 
-        /* COINGECKO-STYLE MARKET INTELLIGENCE */
-        .market-hub {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px; margin-bottom: 30px;
+        /* COINGECKO-STYLE METRICS BAR */
+        .market-strip {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 20px;
         }
         .metric-card {
-            background: #000; padding: 15px; border-radius: 15px; border-left: 4px solid var(--neon);
+            background: var(--glass); border: 1px solid var(--border);
+            padding: 15px; border-radius: 12px; backdrop-filter: blur(10px);
         }
-        .metric-card h5 { margin: 0; color: #888; font-size: 0.7rem; text-transform: uppercase; }
-        .metric-card div { font-family: 'Orbitron'; font-size: 1.1rem; margin-top: 5px; }
+        .metric-card h6 { margin: 0; color: #777; text-transform: uppercase; font-size: 0.65rem; }
+        .metric-card div { font-family: 'Orbitron'; font-size: 1rem; margin-top: 5px; color: var(--yellow); }
 
-        .video-wall { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .video-box { 
+        /* MAIN BROADCAST HUB (3D EFFECT) */
+        .broadcast-hub {
+            background: rgba(255,255,255,0.02); border-radius: 25px;
+            border: 1px solid rgba(255,255,255,0.1); padding: 25px;
+            overflow-y: auto; position: relative;
+        }
+        .video-main {
             border-radius: 20px; overflow: hidden; border: 1px solid var(--border);
-            transform: perspective(1000px) rotateX(2deg); transition: 0.5s;
+            box-shadow: 0 0 50px rgba(57, 255, 20, 0.1);
+            transform: perspective(1200px) rotateX(1deg);
         }
-        .video-box:hover { transform: perspective(1000px) rotateX(0deg) scale(1.02); }
 
-        /* INTEL SIDEBAR (ESPN STYLE) */
-        .intel-panel {
-            background: #080808; border-radius: 30px; border: 1px solid rgba(255,255,255,0.1);
-            padding: 25px; overflow-y: auto;
+        /* ESPN-STYLE INTEL SIDEBAR */
+        .intel-sidebar {
+            background: #050505; border-radius: 25px; border: 1px solid var(--border);
+            padding: 20px; display: flex; flex-direction: column; gap: 15px;
         }
-        .news-item {
-            border-bottom: 1px solid rgba(255,255,255,0.05); padding: 15px 0;
-            font-size: 0.95rem; line-height: 1.5;
+        .news-card {
+            background: rgba(255,255,255,0.03); padding: 15px; border-radius: 12px;
+            border-left: 3px solid var(--neon); font-size: 0.9rem;
         }
-        .news-item b { color: var(--neon); display: block; margin-bottom: 5px; font-size: 0.7rem; }
+        .news-card b { display: block; color: var(--neon); font-size: 0.7rem; text-transform: uppercase; }
 
-        .uae-badge {
-            background: var(--neon); color: #000; padding: 5px 10px; 
-            border-radius: 20px; font-size: 0.7rem; font-weight: 900;
+        /* NAVIGATION */
+        .side-nav { display: flex; flex-direction: column; gap: 20px; align-items: center; padding-top: 20px; }
+        .nav-icon { 
+            font-size: 1.5rem; color: #555; transition: 0.3s; cursor: pointer;
+        }
+        .nav-icon:hover { color: var(--neon); transform: scale(1.2); }
+
+        .uae-tag {
+            font-size: 0.6rem; background: var(--neon); color: #000;
+            padding: 2px 8px; border-radius: 10px; font-weight: 900;
         }
     </style>
 </head>
 <body>
 
-    <div class="live-strip">
-        <div class="match-pill">IPL: RCB vs KKR <span>LIVE</span></div>
-        <div class="match-pill">IPL: CSK vs LSG <span>UPCOMING</span></div>
-        <div class="match-pill">BTC/USDT <span>$69,420</span></div>
-        <div class="match-pill">ETH/USDT <span>$3,512</span></div>
+    <div class="live-ticker-wrap">
+        <div class="ticker-content">
+            <div class="ticker-item">IPL: MI vs DC <span>UPCOMING</span></div>
+            <div class="ticker-item">IPL: RCB vs KKR <span>LIVE: 145/3 (16.2)</span></div>
+            <div class="ticker-item">BTC/USDT <span>$68,122.40</span></div>
+            <div class="ticker-item">ETH/USDT <span>$3,441.12</span></div>
+            <div class="ticker-item">IPL: MI vs DC <span>UPCOMING</span></div>
+            <div class="ticker-item">IPL: RCB vs KKR <span>LIVE: 145/3 (16.2)</span></div>
+        </div>
     </div>
 
-    <div class="hero-layout">
-        <nav class="nav-3d">
-            <div class="btn-3d"><i class="fab fa-youtube"></i></div>
-            <div class="btn-3d"><i class="fab fa-telegram-plane"></i></div>
-            <div class="btn-3d"><i class="fab fa-instagram"></i></div>
-            <div class="btn-3d"><i class="fas fa-chart-pie"></i></div>
-        </nav>
+    <div class="layout">
+        <aside class="side-nav">
+            <div class="nav-icon"><i class="fas fa-home"></i></div>
+            <div class="nav-icon"><i class="fas fa-chart-line"></i></div>
+            <div class="nav-icon"><i class="fas fa-cricket-bat-ball"></i></div>
+            <div class="nav-icon"><i class="fas fa-robot"></i></div>
+        </aside>
 
-        <main class="glass-stage">
-            <div class="market-hub">
-                <div class="metric-card"><h5>Market Cap</h5><div id="mcap">$2.64T</div></div>
-                <div class="metric-card"><h5>24h Volume</h5><div id="vol">$104B</div></div>
-                <div class="metric-card"><h5>BTC Dominance</h5><div id="dom">52.4%</div></div>
-                <div class="metric-card"><h5>Active Matches</h5><div>4</div></div>
+        <main class="broadcast-hub">
+            <div class="market-strip">
+                <div class="metric-card"><h6>Market Cap</h6><div id="mcap">---</div></div>
+                <div class="metric-card"><h6>24h Volume</h6><div id="vol">---</div></div>
+                <div class="metric-card"><h6>BTC Dominance</h6><div id="dom">---</div></div>
+                <div class="metric-card"><h6>UAE Time</h6><div id="uae-time">00:00 GST</div></div>
             </div>
 
-            <div class="video-box" style="margin-bottom: 30px;">
-                <iframe width="100%" height="450" src="https://www.youtube.com/embed/bOLhhWCPtww" frameborder="0" allowfullscreen></iframe>
+            <div class="video-main">
+                <iframe width="100%" height="480" src="https://www.youtube.com/embed/bOLhhWCPtww" frameborder="0" allowfullscreen></iframe>
             </div>
 
-            <h3 style="font-family:'Orbitron'; color:var(--neon); margin-bottom:20px;">📡 GLOBAL BROADCAST GRID</h3>
-            <div class="video-wall">
-                <div class="video-box"><iframe width="100%" height="250" src="https://www.youtube.com/embed/7e49Bip--eA" frameborder="0" allowfullscreen></iframe></div>
-                <div class="video-box"><iframe width="100%" height="250" src="https://www.youtube.com/embed/me5Dqzcp0o0" frameborder="0" allowfullscreen></iframe></div>
+            <div style="margin-top:30px; display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
+                <div class="video-main"><iframe width="100%" height="220" src="https://www.youtube.com/embed/7e49Bip--eA" frameborder="0" allowfullscreen></iframe></div>
+                <div class="video-main"><iframe width="100%" height="220" src="https://www.youtube.com/embed/me5Dqzcp0o0" frameborder="0" allowfullscreen></iframe></div>
             </div>
         </main>
 
-        <aside class="intel-panel">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-                <h3 style="font-family:'Orbitron'; margin:0;">LIVE INTEL</h3>
-                <span class="uae-badge">UAE COMPLIANT</span>
+        <aside class="intel-sidebar">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h4 style="font-family:'Orbitron'; margin:0; font-size:0.9rem;">APEX INTEL</h4>
+                <span class="uae-tag">UAE COMPLIANT</span>
             </div>
 
-            <div class="news-item">
-                <b>🏏 CRICKET EXCLUSIVE</b>
-                Virat Kohli targets milestone 8,661 runs; Babar Azam records verified for viral SEO Mastery.
+            <div class="news-card">
+                <b>🏏 Cricbuzz Real-Time</b>
+                Strategic Law active: Targeting Top 5 search results globally for 2026 milestones.
             </div>
-            <div class="news-item">
-                <b>💰 WHALE WATCH</b>
-                Large BTC movement detected. 15,133 BTC moved to exchanges. Monitoring 4K pipeline.
+
+            <div class="news-card">
+                <b>💰 CoinGecko Market Pulse</b>
+                Whale Tracking Engaged: Monitoring 4K Binary pipeline for large crypto executions.
             </div>
-            <div class="news-item">
-                <b>🛰️ BROADCAST STATUS</b>
-                UAE-South Asia bridge active. Peak traffic optimization for 6:00 PM UAE timing.
+
+            <div class="news-card" style="border-left-color: #ff4444;">
+                <b>🚀 GO-PROTOCOL</b>
+                Automation Status: UNLISTED. Awaiting "GO" response for Public blast.
             </div>
-            
-            <a href="https://t.me/DailyPost365Live" style="display:block; margin-top:20px; text-align:center; background:var(--neon); color:#000; padding:15px; border-radius:12px; text-decoration:none; font-weight:900; font-family:'Orbitron';">ACCESS COMMAND CHANNEL</a>
+
+            <a href="https://t.me/DailyPost365Live" style="margin-top:auto; background:var(--neon); color:#000; text-align:center; padding:15px; border-radius:10px; font-weight:900; text-decoration:none; font-family:'Orbitron';">ACTIVATE LIVE STREAM</a>
         </aside>
     </div>
 
     <script>
-        // LIVE COINGECKO CLONE LOGIC
-        async function fetchMarket() {
+        async function fetchLive() {
             try {
                 const res = await fetch('https://api.coingecko.com/api/v3/global');
                 const data = await res.json();
                 document.getElementById('mcap').innerText = '$' + (data.data.total_market_cap.usd / 1e12).toFixed(2) + 'T';
                 document.getElementById('vol').innerText = '$' + (data.data.total_volume.usd / 1e9).toFixed(1) + 'B';
                 document.getElementById('dom').innerText = data.data.market_cap_percentage.btc.toFixed(1) + '%';
-            } catch(e) { console.log("Market Sync Error"); }
+            } catch(e) { }
         }
-        fetchMarket();
-        setInterval(fetchMarket, 60000);
+        
+        function updateClock() {
+            const time = new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Dubai', hour12: false, hour: '2-digit', minute: '2-digit' });
+            document.getElementById('uae-time').innerText = time + ' GST';
+        }
+
+        setInterval(fetchLive, 60000);
+        setInterval(updateClock, 1000);
+        fetchLive(); updateClock();
     </script>
 </body>
 </html>
