@@ -4,152 +4,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DailyPost365 | Global 3D Apex Command</title>
+    <title>DailyPost365 | World's Best 3D Broadcast</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
         :root { 
             --neon: #39FF14; --yellow: #CCFF00; --dark: #000; 
-            --glass: rgba(255, 255, 255, 0.03); --border: rgba(57, 255, 20, 0.5);
+            --glass: rgba(255, 255, 255, 0.05); --border: rgba(57, 255, 20, 0.4);
         }
         
         body { 
-            margin: 0; background: var(--dark); color: #fff; 
-            font-family: 'Rajdhani', sans-serif; overflow: hidden;
-            background: radial-gradient(circle at 50% 50%, #0d1a00 0%, #000 100%);
+            margin: 0; background: var(--dark); color: #fff; font-family: 'Rajdhani', sans-serif;
+            background: radial-gradient(circle at center, #0a1100 0%, #000 100%); overflow-x: hidden;
         }
 
-        /* 3D CANVAS BACKGROUND */
-        #three-canvas { position: fixed; top: 0; left: 0; z-index: -1; width: 100%; height: 100%; }
-
-        /* LIVE BROADCAST HEADER */
-        .live-ticker {
-            background: rgba(0,0,0,0.9); border-bottom: 2px solid var(--neon);
-            padding: 10px 0; display: flex; gap: 40px; overflow: hidden; white-space: nowrap;
+        /* 3D FLOATING HEADER (CoinGecko Clone + Superior Design) */
+        .header-stats {
+            display: flex; gap: 20px; padding: 15px; background: rgba(0,0,0,0.8);
+            border-bottom: 2px solid var(--neon); overflow-x: auto; sticky: top; z-index: 100;
         }
-        .ticker-move { display: inline-block; animation: scroll 40s linear infinite; font-family: 'Orbitron'; font-size: 0.8rem; }
-        @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        .stat-pill {
+            background: var(--glass); border: 1px solid var(--border); padding: 8px 20px;
+            border-radius: 50px; font-family: 'Orbitron'; font-size: 0.8rem; white-space: nowrap;
+            transition: 0.3s;
+        }
+        .stat-pill:hover { transform: translateZ(10px); box-shadow: 0 0 15px var(--neon); color: var(--neon); }
 
-        /* MAIN COMMAND LAYOUT */
-        .layout { display: grid; grid-template-columns: 80px 1fr 380px; height: 93vh; padding: 15px; gap: 15px; }
-
-        /* SOCIAL BAR 3D */
-        .side-nav { display: flex; flex-direction: column; gap: 20px; align-items: center; background: var(--glass); border-radius: 40px; padding: 20px 0; border: 1px solid var(--border); }
-        .nav-icon { font-size: 1.6rem; color: #fff; transition: 0.3s; cursor: pointer; }
-        .nav-icon:hover { color: var(--neon); transform: scale(1.3) rotate(10deg); text-shadow: 0 0 20px var(--neon); }
-
-        /* GLASS STAGE */
-        .glass-stage {
-            background: var(--glass); backdrop-filter: blur(25px); border-radius: 30px;
-            border: 1px solid rgba(255,255,255,0.1); padding: 25px; overflow-y: auto;
+        /* MAIN 3D BROADCAST ENGINE */
+        .main-container {
+            display: grid; grid-template-columns: 80px 1fr 350px; height: 90vh; gap: 20px; padding: 20px;
+            perspective: 1500px;
         }
 
-        .broadcast-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 20px; }
-        .video-box { border-radius: 15px; overflow: hidden; border: 1px solid var(--border); transition: 0.5s; }
-        .video-box:hover { transform: perspective(1000px) rotateY(-5deg) scale(1.02); box-shadow: 0 0 30px var(--neon); }
+        /* SOCIAL BAR (MODERN 3D) */
+        .social-sidebar {
+            display: flex; flex-direction: column; gap: 30px; align-items: center;
+            background: var(--glass); border-radius: 40px; border: 1px solid var(--border); padding: 30px 0;
+        }
+        .social-link { font-size: 1.8rem; color: #fff; transition: 0.4s; }
+        .social-link:hover { transform: rotateY(180deg) scale(1.3); color: var(--neon); }
 
-        /* INTEL SIDEBAR */
-        .intel-sidebar { background: rgba(0,0,0,0.8); border-radius: 30px; border: 1px solid var(--border); padding: 20px; }
-        .stat-card { background: #111; padding: 15px; border-radius: 12px; margin-bottom: 10px; border-left: 4px solid var(--neon); }
-        .stat-card label { font-size: 0.6rem; color: #888; text-transform: uppercase; }
-        .stat-card div { font-family: 'Orbitron'; font-size: 1rem; color: var(--yellow); }
+        /* 9:16 BROADCAST GRID (The "Viral Magnet") */
+        .broadcast-hub {
+            background: var(--glass); border-radius: 30px; border: 1px solid rgba(255,255,255,0.1);
+            padding: 25px; overflow-y: auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;
+        }
+        .video-card {
+            background: #000; border-radius: 20px; border: 1px solid var(--border);
+            overflow: hidden; transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            transform-style: preserve-3d;
+        }
+        .video-card:hover {
+            transform: rotateX(5deg) rotateY(-5deg) translateZ(30px);
+            box-shadow: 10px 10px 40px rgba(57, 255, 20, 0.2);
+        }
 
-        .uae-compliance { font-size: 0.6rem; background: var(--neon); color: #000; padding: 2px 8px; border-radius: 10px; font-weight: 900; float: right; }
+        /* LIVE INTEL (Cricbuzz Mastery) */
+        .intel-panel {
+            background: #050505; border-radius: 30px; border: 1px solid var(--border);
+            padding: 25px; display: flex; flex-direction: column; gap: 20px;
+        }
+        .intel-tag { background: var(--neon); color: #000; padding: 5px 15px; border-radius: 10px; font-weight: 900; font-size: 0.7rem; display: inline-block; }
+        .score-box { background: rgba(255,255,255,0.03); border-radius: 15px; padding: 15px; border-left: 5px solid var(--yellow); }
+
     </style>
 </head>
 <body>
 
-    <canvas id="three-canvas"></canvas>
-
-    <div class="live-ticker">
-        <div class="ticker-move">
-            🏏 KKR vs PBKS: 25/2 (3.4) <span style="color:red">● RAIN DELAY</span> &nbsp;&nbsp;|&nbsp;&nbsp; 
-            💰 ETH/USDT: $2,143.00 <span style="color:var(--neon)">+0.5%</span> &nbsp;&nbsp;|&nbsp;&nbsp; 
-            💰 BTC/USDT: $69,570.00 &nbsp;&nbsp;|&nbsp;&nbsp; 
-            🌍 TOTAL MCAP: $2.39T &nbsp;&nbsp;|&nbsp;&nbsp;
-            🏏 KKR vs PBKS: 25/2 (3.4) <span style="color:red">● RAIN DELAY</span>
-        </div>
+    <div class="header-stats">
+        <div class="stat-pill">IPL: RCB vs KKR <span style="color:var(--neon)">LIVE</span></div>
+        <div class="stat-pill">BTC/USDT: $69,420 <span style="color:var(--neon)">+2.1%</span></div>
+        <div class="stat-pill">ETH/USDT: $3,512 <span style="color:var(--neon)">+1.4%</span></div>
+        <div class="stat-pill">GST: <span id="clock" style="color:var(--yellow)">00:00:00</span></div>
     </div>
 
-    <div class="layout">
-        <nav class="side-nav">
-            <a href="https://youtube.com/@DailyPost365" class="nav-icon"><i class="fab fa-youtube"></i></a>
-            <a href="https://instagram.com/dailypostwizard2026" class="nav-icon"><i class="fab fa-instagram"></i></a>
-            <a href="https://t.me/DailyPost365Live" class="nav-icon"><i class="fab fa-telegram"></i></a>
-            <a href="https://tiktok.com/@DailyPost365" class="nav-icon"><i class="fab fa-tiktok"></i></a>
-        </nav>
+    <div class="main-container">
+        <aside class="social-sidebar">
+            <a href="https://youtube.com/@DailyPost365" class="social-link"><i class="fab fa-youtube"></i></a>
+            <a href="https://t.me/DailyPost365Live" class="social-link"><i class="fab fa-telegram"></i></a>
+            <a href="https://instagram.com/dailypost365" class="social-link"><i class="fab fa-instagram"></i></a>
+            <a href="https://tiktok.com/@DailyPost365" class="social-link"><i class="fab fa-tiktok"></i></a>
+        </aside>
 
-        <main class="glass-stage">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-                <h2 style="font-family:'Orbitron'; margin:0; color:var(--neon);">🛰️ 4K BROADCAST COMMAND</h2>
-                <span id="uae-clock" style="font-family:'Orbitron'; color:var(--yellow);">00:00:00 GST</span>
-            </div>
-
-            <div class="video-box" style="margin-bottom:20px;">
-                <iframe width="100%" height="450" src="https://www.youtube.com/embed/bOLhhWCPtww" frameborder="0" allowfullscreen></iframe>
-            </div>
-
-            <div class="broadcast-grid">
-                <div class="video-box"><iframe width="100%" height="220" src="https://www.youtube.com/embed/7e49Bip--eA" frameborder="0" allowfullscreen></iframe></div>
-                <div class="video-box"><iframe width="100%" height="220" src="https://www.youtube.com/embed/me5Dqzcp0o0" frameborder="0" allowfullscreen></iframe></div>
-                <div class="video-box"><iframe width="100%" height="220" src="https://www.youtube.com/embed/5H_2n9uK69s" frameborder="0" allowfullscreen></iframe></div>
-                <div class="video-box"><iframe width="100%" height="220" src="https://www.youtube.com/embed/YpX_LzPZp7c" frameborder="0" allowfullscreen></iframe></div>
-                <div class="video-box"><iframe width="100%" height="220" src="https://www.youtube.com/embed/K4T0T1D9d0A" frameborder="0" allowfullscreen></iframe></div>
-                <div class="video-box"><iframe width="100%" height="220" src="https://www.youtube.com/embed/XqZsoesa55w" frameborder="0" allowfullscreen></iframe></div>
-            </div>
+        <main class="broadcast-hub">
+            <div class="video-card"><iframe width="100%" height="500" src="https://www.youtube.com/embed/vUhYt8KRHfg" frameborder="0" allowfullscreen></iframe></div><div class="video-card"><iframe width="100%" height="500" src="https://www.youtube.com/embed/2IycUPkfb4o" frameborder="0" allowfullscreen></iframe></div><div class="video-card"><iframe width="100%" height="500" src="https://www.youtube.com/embed/vduuCaOhDno" frameborder="0" allowfullscreen></iframe></div><div class="video-card"><iframe width="100%" height="500" src="https://www.youtube.com/embed/7e49Bip--eA" frameborder="0" allowfullscreen></iframe></div><div class="video-card"><iframe width="100%" height="500" src="https://www.youtube.com/embed/me5Dqzcp0o0" frameborder="0" allowfullscreen></iframe></div><div class="video-card"><iframe width="100%" height="500" src="https://www.youtube.com/embed/YCZpwsrBZz4" frameborder="0" allowfullscreen></iframe></div><div class="video-card"><iframe width="100%" height="500" src="https://www.youtube.com/embed/gVNJtqWfRSY" frameborder="0" allowfullscreen></iframe></div><div class="video-card"><iframe width="100%" height="500" src="https://www.youtube.com/embed/eRo2ZfKAB98" frameborder="0" allowfullscreen></iframe></div>
         </main>
 
-        <aside class="intel-sidebar">
-            <div class="uae-compliance">UAE SECURE</div>
-            <h3 style="font-family:'Orbitron'; margin-bottom:20px;">LIVE INTEL</h3>
+        <aside class="intel-panel">
+            <div>
+                <span class="intel-tag">UAE COMPLIANT</span>
+                <h3 style="font-family:'Orbitron'; margin: 10px 0;">APEX INTEL</h3>
+            </div>
+            
+            <div class="score-box">
+                <label style="color:#777; font-size:0.6rem; text-transform:uppercase;">Live Scorecard</label>
+                <div style="font-family:'Orbitron'; color:var(--neon); margin-top:5px;">KKR 25/2 (3.4)</div>
+                <p style="font-size:0.8rem; margin:5px 0;">Rain Delay at Eden Gardens. Target: Viral Milestone traffic.</p>
+            </div>
 
-            <div class="stat-card">
-                <label>IPL SCORECARD</label>
-                <div>KKR 25/2 (3.4) vs PBKS</div>
+            <div class="score-box" style="border-left-color: var(--neon);">
+                <label style="color:#777; font-size:0.6rem; text-transform:uppercase;">Whale Tracker</label>
+                <div style="font-family:'Orbitron'; color:var(--yellow); margin-top:5px;">3,334,637 ETH</div>
+                <p style="font-size:0.8rem; margin:5px 0;">Large BTC movement detected. 15,133 BTC moved to cold storage.</p>
             </div>
-            <div class="stat-card">
-                <label>WHALE TRACKING</label>
-                <div>3,334,637 Staked ETH Detected</div>
-            </div>
-            <div class="stat-card">
-                <label>GO-PROTOCOL</label>
-                <div style="color:var(--neon)">STATUS: STANDBY (HITL)</div>
-            </div>
-            
-            <div id="3d-widget" style="height: 200px; width: 100%; margin-top: 20px; border: 1px solid var(--border); border-radius: 15px;"></div>
-            
-            <a href="https://t.me/DailyPost365Live" style="display:block; margin-top:20px; text-align:center; background:var(--neon); color:#000; padding:15px; border-radius:15px; font-weight:900; text-decoration:none; font-family:'Orbitron';">ACTIVATE 4K STREAM</a>
+
+            <a href="#" style="margin-top:auto; background:var(--neon); color:#000; text-align:center; padding:20px; border-radius:15px; font-weight:900; text-decoration:none; font-family:'Orbitron'; box-shadow: 0 0 20px rgba(57,255,20,0.4);">ACTIVATE COMMAND</a>
         </aside>
     </div>
 
     <script>
-        // --- TRUE 3D ENGINE (THREE.JS) ---
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('three-canvas'), alpha: true, antialias: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-
-        // Rotating Crypto Sphere
-        const geometry = new THREE.IcosahedronGeometry(1.5, 0);
-        const material = new THREE.MeshBasicMaterial({ color: 0x39FF14, wireframe: true });
-        const sphere = new THREE.Mesh(geometry, material);
-        scene.add(sphere);
-
-        camera.position.z = 5;
-
-        function animate() {
-            requestAnimationFrame(animate);
-            sphere.rotation.x += 0.005;
-            sphere.rotation.y += 0.01;
-            renderer.render(scene, camera);
-        }
-        animate();
-
-        // --- DYNAMIC CLOCK ---
         function updateClock() {
             const time = new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Dubai', hour12: false });
-            document.getElementById('uae-clock').innerText = time + ' GST';
+            document.getElementById('clock').innerText = time;
         }
         setInterval(updateClock, 1000); updateClock();
     </script>
