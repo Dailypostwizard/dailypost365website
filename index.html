@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* --- GLOBAL VARIABLES & BROADCAST NEON THEME --- */
         :root {
             --neon-green: #39FF14;
             --neon-yellow: #CCFF00;
@@ -21,10 +20,8 @@
 
         body, html { margin: 0; padding: 0; width: 100%; height: 100%; background-color: var(--bg-dark); color: #FFF; font-family: 'Rajdhani', sans-serif; overflow: hidden; }
 
-        /* --- 3D CINEMATIC BACKGROUND CANVAS --- */
         #bg-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; }
 
-        /* --- BROADCAST TICKER --- */
         .broadcast-ticker {
             position: fixed; top: 0; width: 100%; height: 50px; background: rgba(0, 0, 0, 0.95);
             border-bottom: 2px solid var(--neon-green); z-index: 1000;
@@ -36,7 +33,6 @@
         .text-yellow { color: var(--neon-yellow); }
         @keyframes scrollTicker { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
 
-        /* --- SOCIAL COMMAND DOCK --- */
         .social-dock {
             position: fixed; left: 20px; top: 50%; transform: translateY(-50%);
             display: flex; flex-direction: column; gap: 15px; z-index: 9999;
@@ -48,7 +44,6 @@
         }
         .social-icon:hover { background: var(--neon-green); color: #000; transform: scale(1.15); box-shadow: 0 0 20px var(--neon-green); }
 
-        /* --- MAIN DASHBOARD GRID --- */
         .dashboard-grid {
             display: grid; grid-template-columns: 350px 1fr 350px; gap: 20px;
             width: calc(100% - 120px); height: calc(100vh - 90px);
@@ -67,7 +62,6 @@
             margin-top: 0; margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;
         }
 
-        /* --- 3D INTERACTIVE CONTAINERS --- */
         .canvas-container { width: 100%; height: 350px; position: relative; cursor: pointer; border-radius: 10px; overflow: hidden; background: radial-gradient(circle at center, #111, #000); }
         .interactive-overlay { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; pointer-events: none; z-index: 10; display: none; }
         .interactive-overlay h1 { font-family: 'Orbitron', sans-serif; margin: 0; font-size: 2.5rem; text-shadow: 0 0 20px currentColor; }
@@ -75,21 +69,18 @@
         
         .click-hint { position: absolute; bottom: 10px; width: 100%; text-align: center; font-size: 0.8rem; color: #888; letter-spacing: 1px; pointer-events: none; }
 
-        /* --- YOUTUBE SCROLLING GRID --- */
         .video-scroller {
             flex: 1; overflow-y: auto; overflow-x: hidden; padding-right: 10px;
             display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; align-content: start;
         }
-        /* Custom Neon Scrollbar */
         .video-scroller::-webkit-scrollbar { width: 8px; }
         .video-scroller::-webkit-scrollbar-track { background: rgba(0,0,0,0.5); border-radius: 10px; }
         .video-scroller::-webkit-scrollbar-thumb { background: var(--neon-yellow); border-radius: 10px; }
         
-        .video-wrapper { width: 100%; height: 250px; border-radius: 12px; border: 2px solid rgba(204, 255, 0, 0.4); overflow: hidden; transition: all 0.3s; background: #000; }
+        .video-wrapper { width: 100%; height: 480px; border-radius: 12px; border: 2px solid rgba(204, 255, 0, 0.4); overflow: hidden; transition: all 0.3s; background: #000; }
         .video-wrapper:hover { border-color: var(--neon-yellow); box-shadow: 0 0 15px rgba(204, 255, 0, 0.5); transform: translateY(-2px); }
         iframe { width: 100%; height: 100%; border: none; }
 
-        /* --- NOVA AVATAR BOT --- */
         #nova-bot {
             position: fixed; bottom: 20px; right: 20px; z-index: 10000;
             display: flex; align-items: flex-end; gap: 10px;
@@ -149,12 +140,12 @@
         <div class="glass-panel center">
             <h2 class="panel-title text-yellow">GLOBAL BROADCAST COMMAND</h2>
             <div class="video-scroller">
-                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/vUhYt8KRHfg?enablejsapi=1" allowfullscreen></iframe></div>
-                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/2IycUPkfb4o?enablejsapi=1" allowfullscreen></iframe></div>
-                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/vduuCaOhDno?enablejsapi=1" allowfullscreen></iframe></div>
-                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/7e49Bip--eA?enablejsapi=1" allowfullscreen></iframe></div>
-                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/S_7U0mEovpM?enablejsapi=1" allowfullscreen></iframe></div>
-                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/rKshzGNoO3o?enablejsapi=1" allowfullscreen></iframe></div>
+                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/vUhYt8KRHfg" allowfullscreen></iframe></div>
+                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/2IycUPkfb4o" allowfullscreen></iframe></div>
+                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/vduuCaOhDno" allowfullscreen></iframe></div>
+                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/7e49Bip--eA" allowfullscreen></iframe></div>
+                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/me5Dqzcp0o0" allowfullscreen></iframe></div>
+                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/YCZpwsrBZz4" allowfullscreen></iframe></div>
             </div>
         </div>
 
@@ -182,9 +173,7 @@
     <script>
         window.onload = function() {
             
-            // --------------------------------------------------------
-            // 1. CINEMATIC PARTICLE BACKGROUND (Fallback-proof)
-            // --------------------------------------------------------
+            // 1. CINEMATIC PARTICLE BACKGROUND
             const bgCanvas = document.getElementById('bg-canvas');
             const bgScene = new THREE.Scene();
             bgScene.fog = new THREE.FogExp2(0x050505, 0.002);
@@ -196,18 +185,16 @@
             const geometry = new THREE.BufferGeometry();
             const vertices = [];
             for ( let i = 0; i < 3000; i ++ ) {
-                vertices.push( THREE.MathUtils.randFloatSpread( 2000 ) ); // x
-                vertices.push( THREE.MathUtils.randFloatSpread( 2000 ) ); // y
-                vertices.push( THREE.MathUtils.randFloatSpread( 2000 ) ); // z
+                vertices.push( THREE.MathUtils.randFloatSpread( 2000 ) ); 
+                vertices.push( THREE.MathUtils.randFloatSpread( 2000 ) ); 
+                vertices.push( THREE.MathUtils.randFloatSpread( 2000 ) ); 
             }
             geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
             const material = new THREE.PointsMaterial({ color: 0x39FF14, size: 2, transparent: true, opacity: 0.8 });
             const particles = new THREE.Points( geometry, material );
             bgScene.add( particles );
 
-            // --------------------------------------------------------
             // 2. CRYPTO EGG FRACTURE SCENE
-            // --------------------------------------------------------
             const eggCont = document.getElementById('egg-container');
             const eggScene = new THREE.Scene();
             const eggCamera = new THREE.PerspectiveCamera(50, eggCont.clientWidth / eggCont.clientHeight, 0.1, 100);
@@ -216,10 +203,9 @@
             eggRenderer.setSize(eggCont.clientWidth, eggCont.clientHeight);
             eggCont.appendChild(eggRenderer.domElement);
 
-            // Egg geometry & lighting
             const eggGeo = new THREE.SphereGeometry(1.5, 32, 32);
-            eggGeo.scale(1, 1.3, 1); // Make it egg shaped
-            const eggMat = new THREE.MeshPhongMaterial({ color: 0xFFD700, shininess: 100, wireframe: true }); // Gold wireframe egg
+            eggGeo.scale(1, 1.3, 1); 
+            const eggMat = new THREE.MeshPhongMaterial({ color: 0xFFD700, shininess: 100, wireframe: true }); 
             const eggMesh = new THREE.Mesh(eggGeo, eggMat);
             eggScene.add(eggMesh);
             
@@ -227,12 +213,10 @@
             eggLight.position.set(2, 2, 5);
             eggScene.add(eggLight);
 
-            // Fracture Interaction
             let eggCracked = false;
             eggCont.addEventListener('click', () => {
                 if(eggCracked) return;
                 eggCracked = true;
-                // GSAP Animation for explosion
                 gsap.to(eggMesh.scale, { duration: 0.3, x: 2, y: 2, z: 2, ease: "power2.in" });
                 gsap.to(eggMesh.material, { duration: 0.3, opacity: 0, transparent: true });
                 
@@ -245,9 +229,7 @@
                 }, 300);
             });
 
-            // --------------------------------------------------------
             // 3. CRICKET 3D SCENE
-            // --------------------------------------------------------
             const crickCont = document.getElementById('cricket-container');
             const crickScene = new THREE.Scene();
             const crickCamera = new THREE.PerspectiveCamera(50, crickCont.clientWidth / crickCont.clientHeight, 0.1, 100);
@@ -257,14 +239,13 @@
             crickRenderer.setSize(crickCont.clientWidth, crickCont.clientHeight);
             crickCont.appendChild(crickRenderer.domElement);
 
-            // Pitch & Ball geometry
             const pitchGeo = new THREE.BoxGeometry(2, 0.1, 6);
-            const pitchMat = new THREE.MeshPhongMaterial({ color: 0x228B22 }); // Green pitch
+            const pitchMat = new THREE.MeshPhongMaterial({ color: 0x228B22 }); 
             const pitchMesh = new THREE.Mesh(pitchGeo, pitchMat);
             crickScene.add(pitchMesh);
 
             const ballGeo = new THREE.SphereGeometry(0.2, 16, 16);
-            const ballMat = new THREE.MeshPhongMaterial({ color: 0xff0000 }); // Red ball
+            const ballMat = new THREE.MeshPhongMaterial({ color: 0xff0000 }); 
             const ballMesh = new THREE.Mesh(ballGeo, ballMat);
             ballMesh.position.set(0, 0.3, 2);
             crickScene.add(ballMesh);
@@ -272,17 +253,13 @@
             const crickLight = new THREE.AmbientLight(0xffffff, 1);
             crickScene.add(crickLight);
 
-            // Cricket Interaction
             let ballHit = false;
             crickCont.addEventListener('click', () => {
                 if(ballHit) return;
                 ballHit = true;
-                // GSAP Animation for Bowling
                 gsap.to(ballMesh.position, { duration: 0.5, z: -2, y: 0.1, ease: "power1.in", onComplete: () => {
-                    // Ball Hit - Explode out
                     gsap.to(ballMesh.position, { duration: 0.4, z: 5, y: 3, x: 2, ease: "power2.out" });
                     
-                    // Show Score
                     setTimeout(() => {
                         pitchMesh.visible = false;
                         ballMesh.visible = false;
@@ -294,34 +271,21 @@
                 }});
             });
 
-            // --------------------------------------------------------
-            // MASTER RENDER LOOP
-            // --------------------------------------------------------
             function render() {
                 requestAnimationFrame(render);
-                
-                // Animate background particles
                 particles.rotation.x += 0.0005;
                 particles.rotation.y += 0.001;
                 bgRenderer.render(bgScene, bgCamera);
-
-                // Animate Egg
                 if(!eggCracked) { eggMesh.rotation.y += 0.01; }
                 eggRenderer.render(eggScene, eggCamera);
-
-                // Animate Cricket
                 crickRenderer.render(crickScene, crickCamera);
             }
             render();
 
-            // Handle Resize
             window.addEventListener('resize', () => {
                 bgCamera.aspect = window.innerWidth / window.innerHeight;
                 bgCamera.updateProjectionMatrix();
                 bgRenderer.setSize(window.innerWidth, window.innerHeight);
-                
-                // Note: Container resizes handled gracefully by CSS flex/grid, 
-                // but extreme resizes might require reloading canvas logic for perfection.
             });
         };
     </script>
