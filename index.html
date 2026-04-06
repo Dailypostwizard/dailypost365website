@@ -1,143 +1,329 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>DailyPost365 | V61.0 Cinema Engine</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DailyPost365 | World's Best Automated Trading & Content App</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        :root { --neon: #39FF14; --yellow: #CCFF00; --bg: #050505; }
-        body { margin: 0; background: var(--bg); color: white; font-family: 'Rajdhani', sans-serif; overflow-x: hidden; }
-        
-        /* CINEMATIC BACKGROUND VIDEO OVERLAY */
-        #bg-video { position: fixed; right: 0; bottom: 0; min-width: 100%; min-height: 100%; z-index: -1; opacity: 0.2; filter: contrast(150%); }
-
-        /* SOCIAL BAR - Z-INDEX CORRECTION */
-        .social-sidebar {
-            position: fixed; left: 15px; top: 50%; transform: translateY(-50%);
-            display: flex; flex-direction: column; gap: 15px; z-index: 10000;
+        /* --- GLOBAL VARIABLES & BROADCAST NEON THEME --- */
+        :root {
+            --neon-green: #39FF14;
+            --neon-yellow: #CCFF00;
+            --bg-dark: #050505;
+            --glass-bg: rgba(10, 10, 10, 0.85);
         }
-        .social-btn {
-            width: 50px; height: 50px; background: #000; border: 2px solid var(--yellow);
+        
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;700&display=swap');
+
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background-color: var(--bg-dark); color: #FFF; font-family: 'Rajdhani', sans-serif; overflow: hidden; }
+
+        /* --- 3D CINEMATIC BACKGROUND CANVAS --- */
+        #bg-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; }
+
+        /* --- BROADCAST TICKER --- */
+        .broadcast-ticker {
+            position: fixed; top: 0; width: 100%; height: 50px; background: rgba(0, 0, 0, 0.95);
+            border-bottom: 2px solid var(--neon-green); z-index: 1000;
+            display: flex; align-items: center; overflow: hidden; font-family: 'Orbitron', sans-serif;
+        }
+        .ticker-content { display: flex; white-space: nowrap; animation: scrollTicker 30s linear infinite; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px; }
+        .ticker-content span { padding: 0 40px; }
+        .text-green { color: var(--neon-green); }
+        .text-yellow { color: var(--neon-yellow); }
+        @keyframes scrollTicker { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
+
+        /* --- SOCIAL COMMAND DOCK --- */
+        .social-dock {
+            position: fixed; left: 20px; top: 50%; transform: translateY(-50%);
+            display: flex; flex-direction: column; gap: 15px; z-index: 9999;
+        }
+        .social-icon {
+            width: 50px; height: 50px; background: #000; border: 2px solid var(--neon-green);
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            color: var(--yellow); font-size: 1.3rem; text-decoration: none; transition: 0.3s;
+            color: var(--neon-green); font-size: 1.4rem; text-decoration: none; transition: all 0.3s ease;
         }
-        .social-btn:hover { background: var(--yellow); color: black; transform: scale(1.2); box-shadow: 0 0 20px var(--yellow); }
+        .social-icon:hover { background: var(--neon-green); color: #000; transform: scale(1.15); box-shadow: 0 0 20px var(--neon-green); }
 
-        /* NOVA AVATAR WELCOME */
-        #nova-welcome {
-            position: fixed; bottom: -200px; right: 20px; z-index: 9999;
-            transition: 1s ease-in-out; cursor: pointer;
-        }
-        .bubble {
-            background: var(--neon); color: black; padding: 10px 15px; border-radius: 20px;
-            position: absolute; top: -50px; left: -50px; font-weight: bold; font-size: 0.8rem; display: none;
+        /* --- MAIN DASHBOARD GRID --- */
+        .dashboard-grid {
+            display: grid; grid-template-columns: 350px 1fr 350px; gap: 20px;
+            width: calc(100% - 120px); height: calc(100vh - 90px);
+            margin: 70px 20px 20px 80px; box-sizing: border-box;
         }
 
-        /* LAYOUT CARDS */
-        .main-container { display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 20px; padding: 80px 40px; }
-        .glass-card {
-            background: rgba(0,0,0,0.8); border: 2px solid var(--neon); border-radius: 30px;
-            padding: 25px; box-shadow: inset 0 0 15px var(--neon); text-align: center;
+        .glass-panel {
+            background: var(--glass-bg); border: 1px solid rgba(57, 255, 20, 0.3);
+            border-radius: 20px; padding: 20px; display: flex; flex-direction: column;
+            backdrop-filter: blur(10px); position: relative; overflow: hidden;
         }
+        .glass-panel.center { border-color: var(--neon-yellow); }
+
+        h2.panel-title {
+            font-family: 'Orbitron', sans-serif; font-size: 1.2rem; text-align: center;
+            margin-top: 0; margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;
+        }
+
+        /* --- 3D INTERACTIVE CONTAINERS --- */
+        .canvas-container { width: 100%; height: 350px; position: relative; cursor: pointer; border-radius: 10px; overflow: hidden; background: radial-gradient(circle at center, #111, #000); }
+        .interactive-overlay { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; pointer-events: none; z-index: 10; display: none; }
+        .interactive-overlay h1 { font-family: 'Orbitron', sans-serif; margin: 0; font-size: 2.5rem; text-shadow: 0 0 20px currentColor; }
+        .interactive-overlay p { margin: 5px 0 0 0; font-size: 1.2rem; }
         
-        .price-text { font-family: 'Orbitron'; color: var(--neon); font-size: 2rem; margin-top: 15px; }
-        #egg-fracture { width: 100%; height: 250px; cursor: pointer; }
+        .click-hint { position: absolute; bottom: 10px; width: 100%; text-align: center; font-size: 0.8rem; color: #888; letter-spacing: 1px; pointer-events: none; }
+
+        /* --- YOUTUBE SCROLLING GRID --- */
+        .video-scroller {
+            flex: 1; overflow-y: auto; overflow-x: hidden; padding-right: 10px;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; align-content: start;
+        }
+        /* Custom Neon Scrollbar */
+        .video-scroller::-webkit-scrollbar { width: 8px; }
+        .video-scroller::-webkit-scrollbar-track { background: rgba(0,0,0,0.5); border-radius: 10px; }
+        .video-scroller::-webkit-scrollbar-thumb { background: var(--neon-yellow); border-radius: 10px; }
         
-        iframe { border-radius: 20px; border: 4px solid var(--yellow); }
+        .video-wrapper { width: 100%; height: 250px; border-radius: 12px; border: 2px solid rgba(204, 255, 0, 0.4); overflow: hidden; transition: all 0.3s; background: #000; }
+        .video-wrapper:hover { border-color: var(--neon-yellow); box-shadow: 0 0 15px rgba(204, 255, 0, 0.5); transform: translateY(-2px); }
+        iframe { width: 100%; height: 100%; border: none; }
+
+        /* --- NOVA AVATAR BOT --- */
+        #nova-bot {
+            position: fixed; bottom: 20px; right: 20px; z-index: 10000;
+            display: flex; align-items: flex-end; gap: 10px;
+        }
+        .nova-speech {
+            background: var(--neon-green); color: #000; padding: 12px 20px; border-radius: 20px 20px 0 20px;
+            font-weight: 700; font-size: 0.9rem; box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            animation: floatBubble 3s ease-in-out infinite; transform-origin: bottom right;
+        }
+        .nova-icon {
+            width: 70px; height: 70px; background: #111; border: 2px solid var(--neon-green); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 2rem; color: var(--neon-green);
+            box-shadow: 0 0 20px rgba(57, 255, 20, 0.4);
+        }
+        @keyframes floatBubble { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
     </style>
 </head>
 <body>
 
-<video autoplay muted loop id="bg-video">
-    <source src="https://assets.mixkit.co/videos/preview/mixkit-cricket-player-batting-in-a-stadium-at-sunset-30128-large.mp4" type="video/mp4">
-</video>
+    <canvas id="bg-canvas"></canvas>
 
-<div class="social-sidebar">
-    <a href="https://youtube.com/@DailyPost365" class="social-btn"><i class="fab fa-youtube"></i></a>
-    <a href="https://t.me/DailyPost365" class="social-btn"><i class="fab fa-telegram"></i></a>
-    <a href="https://instagram.com/DailyPost365" class="social-btn"><i class="fab fa-instagram"></i></a>
-    <a href="https://tiktok.com/@DailyPost365" class="social-btn"><i class="fab fa-tiktok"></i></a>
-</div>
-
-<div id="nova-welcome">
-    <div class="bubble">WELCOME TO DAILYPOST365!</div>
-    <img src="https://cdn-icons-png.flaticon.com/512/4712/4712035.png" width="100" alt="Nova Avatar">
-</div>
-
-<div class="main-container">
-    <div class="glass-card">
-        <h2 style="color:var(--neon)">BTC FRACTURE</h2>
-        <div id="egg-fracture"></div>
-        <div id="btc-data" style="display:none;">
-            <i class="fab fa-bitcoin" style="color:orange; font-size:4rem;"></i>
-            <div class="price-text">$69,873.57</div>
+    <div class="broadcast-ticker">
+        <div class="ticker-content">
+            <span class="text-green">LIVE WHALE TRACKER ACTIVE</span>
+            <span>BTC: $69,873.57</span>
+            <span>ETH: $2,146.28</span>
+            <span class="text-yellow">IPL INTEL: KKR 25/2 (3.4) vs PBKS - RAIN DELAY</span>
+            <span>VIRAT KOHLI 8,661 RUN MILESTONE TARGET</span>
+            <span class="text-green">UAE 6:00 PM SYNC ONLINE</span>
         </div>
-        <p>[CLICK TO REVEAL PRICE]</p>
     </div>
 
-    <div class="glass-card" style="border-color: var(--yellow);">
-        <h2 style="color:var(--yellow)">CINEMA BROADCAST</h2>
-        <iframe width="100%" height="450" src="https://www.youtube.com/embed/vUhYt8KRHfg" frameborder="0"></iframe>
-        <div style="margin-top:20px; font-weight:bold; color:var(--neon);">KKR 25/2 (3.4) vs PBKS</div>
+    <div class="social-dock">
+        <a href="https://youtube.com/@DailyPost365" class="social-icon" target="_blank"><i class="fab fa-youtube"></i></a>
+        <a href="https://t.me/DailyPost365" class="social-icon" target="_blank"><i class="fab fa-telegram-plane"></i></a>
+        <a href="https://instagram.com/DailyPost365" class="social-icon" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://tiktok.com/@DailyPost365" class="social-icon" target="_blank"><i class="fab fa-tiktok"></i></a>
     </div>
 
-    <div class="glass-card">
-        <h2 style="color:var(--neon)">IPL 3D STRIKE</h2>
-        <div id="cricket-pitch"></div>
-        <div id="score-data" style="display:none;">
-            <h1 style="color:var(--yellow)">KKR: 25/2</h1>
-            <p>RAIN DELAY - STATUS: ACTIVE</p>
+    <div class="dashboard-grid">
+        
+        <div class="glass-panel">
+            <h2 class="panel-title text-green">CRYPTO WHALE RADAR</h2>
+            <div class="canvas-container" id="egg-container">
+                <div class="click-hint">[ CLICK TO EXECUTE FRACTURE ]</div>
+                <div class="interactive-overlay" id="btc-data">
+                    <i class="fab fa-bitcoin" style="font-size: 4rem; color: #F7931A; margin-bottom: 10px;"></i>
+                    <h1 class="text-green">$69,873.57</h1>
+                    <p>Live Protocol Active</p>
+                </div>
+            </div>
+            <div style="margin-top: 15px; font-size: 0.85rem; color: #aaa; text-align: justify;">
+                <strong>Algorithmic Execution:</strong> Mathematical certainty protocols engaged. 15-Stage quality audit passed.
+            </div>
         </div>
-        <p>[CLICK TO BOWL]</p>
+
+        <div class="glass-panel center">
+            <h2 class="panel-title text-yellow">GLOBAL BROADCAST COMMAND</h2>
+            <div class="video-scroller">
+                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/vUhYt8KRHfg?enablejsapi=1" allowfullscreen></iframe></div>
+                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/2IycUPkfb4o?enablejsapi=1" allowfullscreen></iframe></div>
+                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/vduuCaOhDno?enablejsapi=1" allowfullscreen></iframe></div>
+                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/7e49Bip--eA?enablejsapi=1" allowfullscreen></iframe></div>
+                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/S_7U0mEovpM?enablejsapi=1" allowfullscreen></iframe></div>
+                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/rKshzGNoO3o?enablejsapi=1" allowfullscreen></iframe></div>
+            </div>
+        </div>
+
+        <div class="glass-panel">
+            <h2 class="panel-title text-yellow">LIVE CRICKET INTEL</h2>
+            <div class="canvas-container" id="cricket-container">
+                <div class="click-hint">[ CLICK TO INITIATE BOWL ]</div>
+                <div class="interactive-overlay" id="cricket-data">
+                    <h1 class="text-yellow">KKR 25/2</h1>
+                    <p>Rain Status Active</p>
+                </div>
+            </div>
+            <div style="margin-top: 15px; font-size: 0.85rem; color: #aaa; text-align: justify;">
+                <strong>Match Analysis:</strong> Targeting top 5 search intent globally. South Asia bridge synchronization holds.
+            </div>
+        </div>
+
     </div>
-</div>
 
-<script>
-    // NOVA ENTRANCE
-    setTimeout(() => {
-        document.getElementById('nova-welcome').style.bottom = '20px';
-        setTimeout(() => { document.querySelector('.bubble').style.display = 'block'; }, 1000);
-    }, 1500);
+    <div id="nova-bot">
+        <div class="nova-speech">System Online. Welcome back to Command, Chief.</div>
+        <div class="nova-icon"><i class="fas fa-robot"></i></div>
+    </div>
 
-    // 3D ENGINES
-    let scene = new THREE.Scene();
-    let camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
-    let renderer = new THREE.WebGLRenderer({alpha: true, antialias: true});
-    
-    // Egg Physics
-    const eggGeo = new THREE.SphereGeometry(1.5, 32, 32);
-    const eggMat = new THREE.MeshPhongMaterial({color: 0xffffff, shininess: 100});
-    const egg = new THREE.Mesh(eggGeo, eggMat);
-    scene.add(egg);
-    
-    const light = new THREE.PointLight(0x39FF14, 2, 50);
-    light.position.set(5, 5, 5);
-    scene.add(light);
-    camera.position.z = 5;
+    <script>
+        window.onload = function() {
+            
+            // --------------------------------------------------------
+            // 1. CINEMATIC PARTICLE BACKGROUND (Fallback-proof)
+            // --------------------------------------------------------
+            const bgCanvas = document.getElementById('bg-canvas');
+            const bgScene = new THREE.Scene();
+            bgScene.fog = new THREE.FogExp2(0x050505, 0.002);
+            const bgCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 2000);
+            bgCamera.position.z = 1000;
+            const bgRenderer = new THREE.WebGLRenderer({ canvas: bgCanvas, antialias: true, alpha: true });
+            bgRenderer.setSize(window.innerWidth, window.innerHeight);
 
-    const container = document.getElementById('egg-fracture');
-    renderer.setSize(container.clientWidth, 250);
-    container.appendChild(renderer.domElement);
+            const geometry = new THREE.BufferGeometry();
+            const vertices = [];
+            for ( let i = 0; i < 3000; i ++ ) {
+                vertices.push( THREE.MathUtils.randFloatSpread( 2000 ) ); // x
+                vertices.push( THREE.MathUtils.randFloatSpread( 2000 ) ); // y
+                vertices.push( THREE.MathUtils.randFloatSpread( 2000 ) ); // z
+            }
+            geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
+            const material = new THREE.PointsMaterial({ color: 0x39FF14, size: 2, transparent: true, opacity: 0.8 });
+            const particles = new THREE.Points( geometry, material );
+            bgScene.add( particles );
 
-    function animate() {
-        requestAnimationFrame(animate);
-        egg.rotation.y += 0.01;
-        renderer.render(scene, camera);
-    }
-    animate();
+            // --------------------------------------------------------
+            // 2. CRYPTO EGG FRACTURE SCENE
+            // --------------------------------------------------------
+            const eggCont = document.getElementById('egg-container');
+            const eggScene = new THREE.Scene();
+            const eggCamera = new THREE.PerspectiveCamera(50, eggCont.clientWidth / eggCont.clientHeight, 0.1, 100);
+            eggCamera.position.z = 5;
+            const eggRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            eggRenderer.setSize(eggCont.clientWidth, eggCont.clientHeight);
+            eggCont.appendChild(eggRenderer.domElement);
 
-    function crackEgg() {
-        gsap.to(egg.scale, {duration: 0.5, x: 0, y: 0, z: 0, ease: "power4.in"});
-        setTimeout(() => {
-            container.style.display = 'none';
-            document.getElementById('btc-data').style.display = 'block';
-            gsap.from("#btc-data", {duration: 1, y: 50, opacity: 0, ease: "elastic.out"});
-        }, 500);
-    }
-    container.addEventListener('click', crackEgg);
-</script>
+            // Egg geometry & lighting
+            const eggGeo = new THREE.SphereGeometry(1.5, 32, 32);
+            eggGeo.scale(1, 1.3, 1); // Make it egg shaped
+            const eggMat = new THREE.MeshPhongMaterial({ color: 0xFFD700, shininess: 100, wireframe: true }); // Gold wireframe egg
+            const eggMesh = new THREE.Mesh(eggGeo, eggMat);
+            eggScene.add(eggMesh);
+            
+            const eggLight = new THREE.DirectionalLight(0xffffff, 1.5);
+            eggLight.position.set(2, 2, 5);
+            eggScene.add(eggLight);
+
+            // Fracture Interaction
+            let eggCracked = false;
+            eggCont.addEventListener('click', () => {
+                if(eggCracked) return;
+                eggCracked = true;
+                // GSAP Animation for explosion
+                gsap.to(eggMesh.scale, { duration: 0.3, x: 2, y: 2, z: 2, ease: "power2.in" });
+                gsap.to(eggMesh.material, { duration: 0.3, opacity: 0, transparent: true });
+                
+                setTimeout(() => {
+                    eggMesh.visible = false;
+                    const btcData = document.getElementById('btc-data');
+                    btcData.style.display = 'block';
+                    gsap.fromTo(btcData, { scale: 0, opacity: 0 }, { duration: 1, scale: 1, opacity: 1, ease: "elastic.out(1, 0.5)" });
+                    document.querySelector('#egg-container .click-hint').style.display = 'none';
+                }, 300);
+            });
+
+            // --------------------------------------------------------
+            // 3. CRICKET 3D SCENE
+            // --------------------------------------------------------
+            const crickCont = document.getElementById('cricket-container');
+            const crickScene = new THREE.Scene();
+            const crickCamera = new THREE.PerspectiveCamera(50, crickCont.clientWidth / crickCont.clientHeight, 0.1, 100);
+            crickCamera.position.set(0, 2, 6);
+            crickCamera.lookAt(0, 0, 0);
+            const crickRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            crickRenderer.setSize(crickCont.clientWidth, crickCont.clientHeight);
+            crickCont.appendChild(crickRenderer.domElement);
+
+            // Pitch & Ball geometry
+            const pitchGeo = new THREE.BoxGeometry(2, 0.1, 6);
+            const pitchMat = new THREE.MeshPhongMaterial({ color: 0x228B22 }); // Green pitch
+            const pitchMesh = new THREE.Mesh(pitchGeo, pitchMat);
+            crickScene.add(pitchMesh);
+
+            const ballGeo = new THREE.SphereGeometry(0.2, 16, 16);
+            const ballMat = new THREE.MeshPhongMaterial({ color: 0xff0000 }); // Red ball
+            const ballMesh = new THREE.Mesh(ballGeo, ballMat);
+            ballMesh.position.set(0, 0.3, 2);
+            crickScene.add(ballMesh);
+
+            const crickLight = new THREE.AmbientLight(0xffffff, 1);
+            crickScene.add(crickLight);
+
+            // Cricket Interaction
+            let ballHit = false;
+            crickCont.addEventListener('click', () => {
+                if(ballHit) return;
+                ballHit = true;
+                // GSAP Animation for Bowling
+                gsap.to(ballMesh.position, { duration: 0.5, z: -2, y: 0.1, ease: "power1.in", onComplete: () => {
+                    // Ball Hit - Explode out
+                    gsap.to(ballMesh.position, { duration: 0.4, z: 5, y: 3, x: 2, ease: "power2.out" });
+                    
+                    // Show Score
+                    setTimeout(() => {
+                        pitchMesh.visible = false;
+                        ballMesh.visible = false;
+                        const scoreData = document.getElementById('cricket-data');
+                        scoreData.style.display = 'block';
+                        gsap.fromTo(scoreData, { y: 50, opacity: 0 }, { duration: 0.8, y: 0, opacity: 1, ease: "back.out(1.7)" });
+                        document.querySelector('#cricket-container .click-hint').style.display = 'none';
+                    }, 200);
+                }});
+            });
+
+            // --------------------------------------------------------
+            // MASTER RENDER LOOP
+            // --------------------------------------------------------
+            function render() {
+                requestAnimationFrame(render);
+                
+                // Animate background particles
+                particles.rotation.x += 0.0005;
+                particles.rotation.y += 0.001;
+                bgRenderer.render(bgScene, bgCamera);
+
+                // Animate Egg
+                if(!eggCracked) { eggMesh.rotation.y += 0.01; }
+                eggRenderer.render(eggScene, eggCamera);
+
+                // Animate Cricket
+                crickRenderer.render(crickScene, crickCamera);
+            }
+            render();
+
+            // Handle Resize
+            window.addEventListener('resize', () => {
+                bgCamera.aspect = window.innerWidth / window.innerHeight;
+                bgCamera.updateProjectionMatrix();
+                bgRenderer.setSize(window.innerWidth, window.innerHeight);
+                
+                // Note: Container resizes handled gracefully by CSS flex/grid, 
+                // but extreme resizes might require reloading canvas logic for perfection.
+            });
+        };
+    </script>
 </body>
 </html>
