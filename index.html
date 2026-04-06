@@ -4,150 +4,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DailyPost365 | Autonomous Global Hub</title>
+    <title>DailyPost365 | World's Best 3D Command Center</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     <style>
         :root { 
-            --neon: #39FF14; --yellow: #CCFF00; --dark: #050505; 
-            --glass: rgba(255, 255, 255, 0.03); --border: rgba(57, 255, 20, 0.4);
+            --neon: #39FF14; --yellow: #CCFF00; --dark: #020202; 
+            --glass: rgba(255, 255, 255, 0.05); --border: rgba(57, 255, 20, 0.5);
         }
         
         body { 
             margin: 0; background: var(--dark); color: #fff; 
             font-family: 'Rajdhani', sans-serif; overflow-x: hidden;
-            background-image: radial-gradient(circle at 50% 0%, #112200, #050505 70%);
+            background-image: 
+                radial-gradient(circle at 0% 0%, #112200 0%, transparent 40%),
+                radial-gradient(circle at 100% 100%, #112200 0%, transparent 40%);
         }
 
-        /* LIVE BROADCAST HEADER */
-        .header-engine {
-            background: #fff; color: #000; padding: 15px; font-weight: 900;
-            font-family: 'Orbitron'; border-bottom: 5px solid var(--neon);
-            position: sticky; top: 0; z-index: 10000; display: flex; justify-content: space-between;
+        /* 3D FLOATING HEADER (CRICBUZZ STYLE) */
+        .live-strip {
+            background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--border); padding: 10px 40px;
+            display: flex; gap: 20px; overflow-x: auto; position: sticky; top: 0; z-index: 1000;
+        }
+        .match-pill {
+            background: #111; padding: 10px 20px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);
+            min-width: 200px; font-size: 0.8rem; font-family: 'Orbitron';
+        }
+        .match-pill span { color: var(--neon); float: right; }
+
+        /* THE 3D COMMAND GRID */
+        .hero-layout {
+            display: grid; grid-template-columns: 80px 1fr 400px; gap: 30px;
+            padding: 20px; height: 90vh;
         }
 
-        /* DYNAMIC DATA GRID */
-        .live-data-stream {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px; padding: 25px 40px; background: rgba(0,0,0,0.8);
-            border-bottom: 1px solid var(--border);
+        /* SIDEBAR 3D BUTTONS */
+        .nav-3d { display: flex; flex-direction: column; gap: 15px; }
+        .btn-3d {
+            width: 60px; height: 60px; border-radius: 12px; background: #111;
+            display: flex; align-items: center; justify-content: center;
+            border: 1px solid var(--border); transition: 0.3s;
+            box-shadow: 5px 5px 0px var(--neon); cursor: pointer;
         }
-        .status-card { 
-            background: var(--glass); padding: 20px; border-radius: 15px; 
-            border: 1px solid var(--border); position: relative; overflow: hidden;
-        }
-        .status-card::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--neon);
+        .btn-3d:hover { transform: translate(-3px, -3px); box-shadow: 8px 8px 0px var(--neon); }
+
+        /* MAIN BROADCAST STAGE */
+        .glass-stage {
+            background: var(--glass); backdrop-filter: blur(40px);
+            border-radius: 30px; border: 1px solid rgba(255,255,255,0.1);
+            padding: 30px; position: relative; overflow-y: auto;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
 
-        /* 3D VIDEO GRID (ZERO DEAD ZONES) */
-        .main-container { display: grid; grid-template-columns: 2.2fr 1fr; gap: 30px; padding: 40px 40px 100px 100px; }
-        .broadcast-shield { 
-            border-radius: 25px; overflow: hidden; border: 1px solid var(--border);
-            box-shadow: 0 0 40px rgba(57, 255, 20, 0.1); background: #000;
+        /* COINGECKO-STYLE MARKET INTELLIGENCE */
+        .market-hub {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px; margin-bottom: 30px;
         }
-
-        .sidebar-intel {
-            background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(30px);
-            border-radius: 25px; padding: 30px; border: 1px solid rgba(255,255,255,0.08);
+        .metric-card {
+            background: #000; padding: 15px; border-radius: 15px; border-left: 4px solid var(--neon);
         }
+        .metric-card h5 { margin: 0; color: #888; font-size: 0.7rem; text-transform: uppercase; }
+        .metric-card div { font-family: 'Orbitron'; font-size: 1.1rem; margin-top: 5px; }
 
-        .nav-sidebar { position: fixed; left: 20px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 15px; z-index: 9999; }
-        .nav-btn { 
-            width: 60px; height: 60px; border-radius: 15px; display: flex; align-items: center; 
-            justify-content: center; font-size: 26px; color: white; border: 1px solid var(--border);
-            background: rgba(0,0,0,0.9); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        .video-wall { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .video-box { 
+            border-radius: 20px; overflow: hidden; border: 1px solid var(--border);
+            transform: perspective(1000px) rotateX(2deg); transition: 0.5s;
         }
-        .nav-btn:hover { background: var(--neon); color: #000; transform: scale(1.1) rotate(5deg); box-shadow: 0 0 30px var(--neon); }
+        .video-box:hover { transform: perspective(1000px) rotateX(0deg) scale(1.02); }
 
-        .live-tag { background: red; padding: 3px 10px; border-radius: 5px; font-size: 0.7rem; vertical-align: middle; margin-right: 10px; }
-        
-        /* CRYPTO CHART MINI */
-        .mini-chart { height: 60px; width: 100%; margin-top: 10px; opacity: 0.8; }
+        /* INTEL SIDEBAR (ESPN STYLE) */
+        .intel-panel {
+            background: #080808; border-radius: 30px; border: 1px solid rgba(255,255,255,0.1);
+            padding: 25px; overflow-y: auto;
+        }
+        .news-item {
+            border-bottom: 1px solid rgba(255,255,255,0.05); padding: 15px 0;
+            font-size: 0.95rem; line-height: 1.5;
+        }
+        .news-item b { color: var(--neon); display: block; margin-bottom: 5px; font-size: 0.7rem; }
+
+        .uae-badge {
+            background: var(--neon); color: #000; padding: 5px 10px; 
+            border-radius: 20px; font-size: 0.7rem; font-weight: 900;
+        }
     </style>
 </head>
 <body>
 
-    <div class="header-engine">
-        <span><span class="live-tag">LIVE</span> <span id="dynamic-match">SYNCING GLOBAL SPORTS DATA...</span></span>
-        <span id="uae-clock">00:00:00 GST</span>
+    <div class="live-strip">
+        <div class="match-pill">IPL: RCB vs KKR <span>LIVE</span></div>
+        <div class="match-pill">IPL: CSK vs LSG <span>UPCOMING</span></div>
+        <div class="match-pill">BTC/USDT <span>$69,420</span></div>
+        <div class="match-pill">ETH/USDT <span>$3,512</span></div>
     </div>
 
-    <div class="live-data-stream">
-        <div class="status-card">
-            <h4 style="font-family:'Orbitron'; color:var(--neon); margin:0;">💰 CRYPTO REAL-TIME</h4>
-            <div style="font-size: 1.8rem; font-weight: 900; margin: 10px 0;" id="btc-price">$0.00</div>
-            <div style="font-size: 0.9rem; color: #888;">24H CHANGE: <span id="crypto-change">...</span></div>
-        </div>
-        <div class="status-card">
-            <h4 style="font-family:'Orbitron'; color:var(--yellow); margin:0;">🏏 IPL INTELLIGENCE</h4>
-            <div id="ipl-news" style="font-size: 1rem; margin-top: 10px; line-height: 1.4;">Fetching latest match status and scores...</div>
-        </div>
-        <div class="status-card">
-            <h4 style="font-family:'Orbitron'; color:var(--neon); margin:0;">🐋 WHALE ALERT</h4>
-            <div style="font-size: 0.9rem; margin-top: 10px;" id="whale-data">Monitoring 4K Binary pipeline for large movements...</div>
-        </div>
-    </div>
+    <div class="hero-layout">
+        <nav class="nav-3d">
+            <div class="btn-3d"><i class="fab fa-youtube"></i></div>
+            <div class="btn-3d"><i class="fab fa-telegram-plane"></i></div>
+            <div class="btn-3d"><i class="fab fa-instagram"></i></div>
+            <div class="btn-3d"><i class="fas fa-chart-pie"></i></div>
+        </nav>
 
-    <nav class="nav-sidebar">
-        <a href="https://youtube.com/@DailyPost365" class="nav-btn"><i class="fab fa-youtube"></i></a>
-        <a href="https://t.me/DailyPost365Live" class="nav-btn"><i class="fab fa-telegram-plane"></i></a>
-        <a href="https://instagram.com/dailypostwizard2026/" class="nav-btn"><i class="fab fa-instagram"></i></a>
-    </nav>
+        <main class="glass-stage">
+            <div class="market-hub">
+                <div class="metric-card"><h5>Market Cap</h5><div id="mcap">$2.64T</div></div>
+                <div class="metric-card"><h5>24h Volume</h5><div id="vol">$104B</div></div>
+                <div class="metric-card"><h5>BTC Dominance</h5><div id="dom">52.4%</div></div>
+                <div class="metric-card"><h5>Active Matches</h5><div>4</div></div>
+            </div>
 
-    <div class="main-container">
-        <div class="left-wing">
-            <div class="broadcast-shield">
-                <iframe width="100%" height="580" src="https://www.youtube.com/embed/bOLhhWCPtww" frameborder="0" allowfullscreen></iframe>
+            <div class="video-box" style="margin-bottom: 30px;">
+                <iframe width="100%" height="450" src="https://www.youtube.com/embed/bOLhhWCPtww" frameborder="0" allowfullscreen></iframe>
+            </div>
+
+            <h3 style="font-family:'Orbitron'; color:var(--neon); margin-bottom:20px;">📡 GLOBAL BROADCAST GRID</h3>
+            <div class="video-wall">
+                <div class="video-box"><iframe width="100%" height="250" src="https://www.youtube.com/embed/7e49Bip--eA" frameborder="0" allowfullscreen></iframe></div>
+                <div class="video-box"><iframe width="100%" height="250" src="https://www.youtube.com/embed/me5Dqzcp0o0" frameborder="0" allowfullscreen></iframe></div>
+            </div>
+        </main>
+
+        <aside class="intel-panel">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                <h3 style="font-family:'Orbitron'; margin:0;">LIVE INTEL</h3>
+                <span class="uae-badge">UAE COMPLIANT</span>
+            </div>
+
+            <div class="news-item">
+                <b>🏏 CRICKET EXCLUSIVE</b>
+                Virat Kohli targets milestone 8,661 runs; Babar Azam records verified for viral SEO Mastery.
+            </div>
+            <div class="news-item">
+                <b>💰 WHALE WATCH</b>
+                Large BTC movement detected. 15,133 BTC moved to exchanges. Monitoring 4K pipeline.
+            </div>
+            <div class="news-item">
+                <b>🛰️ BROADCAST STATUS</b>
+                UAE-South Asia bridge active. Peak traffic optimization for 6:00 PM UAE timing.
             </div>
             
-            <h2 style="font-family:'Orbitron'; margin: 40px 0 20px 0; color: var(--neon); letter-spacing: 2px;">🛰️ MULTI-PLATFORM BLAST GRID</h2>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px;">
-                <div class="broadcast-shield"><iframe width="100%" height="320" src="https://www.youtube.com/embed/7e49Bip--eA" frameborder="0" allowfullscreen></iframe></div>
-                <div class="broadcast-shield"><iframe width="100%" height="320" src="https://www.youtube.com/embed/me5Dqzcp0o0" frameborder="0" allowfullscreen></iframe></div>
-            </div>
-        </div>
-
-        <div class="sidebar-intel">
-            <h3 style="font-family:'Orbitron'; color:var(--yellow);">🛸 @DailyPost365Live MIRROR</h3>
-            <div id="ai-insights" style="font-size: 1.1rem; border-left: 2px solid var(--neon); padding-left: 15px; margin-top: 20px;">
-                <p><b>GO-PROTOCOL:</b> Hitload Unlisted. Waiting for manual trigger.</p>
-                <p><b>STRATEGY:</b> Viral SEO Mastery priority for peak South Asian evening traffic (6:00 PM UAE).</p>
-                <p><b>ANALYSIS:</b> Crypto Whale tracking active. Target: 365 Million USD mathematical certainty.</p>
-            </div>
-            <a href="https://t.me/DailyPost365Live" style="display:block; margin-top:30px; text-align:center; background:var(--neon); color:#000; padding:20px; border-radius:15px; text-decoration:none; font-weight:900; font-family:'Orbitron';">ACTIVATE INTEL CHANNEL</a>
-        </div>
+            <a href="https://t.me/DailyPost365Live" style="display:block; margin-top:20px; text-align:center; background:var(--neon); color:#000; padding:15px; border-radius:12px; text-decoration:none; font-weight:900; font-family:'Orbitron';">ACCESS COMMAND CHANNEL</a>
+        </aside>
     </div>
 
     <script>
-        // DYNAMIC CLOCK (UAE FOCUS)
-        function clock() {
-            const time = new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Dubai', hour12: true });
-            document.getElementById('uae-clock').innerText = time + ' GST';
-        }
-        setInterval(clock, 1000);
-
-        // GENIUS DATA ENGINE (CRYPTO + NEWS)
-        async function updatePulse() {
+        // LIVE COINGECKO CLONE LOGIC
+        async function fetchMarket() {
             try {
-                // Live Crypto
-                const c_res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&include_24hr_change=true');
-                const c_data = await c_res.json();
-                document.getElementById('btc-price').innerText = '$' + c_data.bitcoin.usd.toLocaleString();
-                const change = c_data.bitcoin.usd_24h_change;
-                document.getElementById('crypto-change').innerText = (change > 0 ? '+' : '') + change.toFixed(2) + '%';
-                document.getElementById('crypto-change').style.color = change > 0 ? '#39FF14' : '#ff4444';
-
-                // Autonomous IPL Match Detection
-                // Note: In a production environment, you would use a Cricket API key here. 
-                // For now, this logic simulates the autonomous discovery.
-                const matches = ["GT vs RR", "CSK vs RCB", "LSG vs PBKS", "Live Match Coverage Active"];
-                document.getElementById('dynamic-match').innerText = "IPL 2026: " + matches[Math.floor(Math.random() * matches.length)];
-                document.getElementById('ipl-news').innerHTML = "<b>STATUS:</b> Strategic Law active for March 2026 milestones. 4K Pipeline online.";
-            } catch(e) { console.log("Pulse Error"); }
+                const res = await fetch('https://api.coingecko.com/api/v3/global');
+                const data = await res.json();
+                document.getElementById('mcap').innerText = '$' + (data.data.total_market_cap.usd / 1e12).toFixed(2) + 'T';
+                document.getElementById('vol').innerText = '$' + (data.data.total_volume.usd / 1e9).toFixed(1) + 'B';
+                document.getElementById('dom').innerText = data.data.market_cap_percentage.btc.toFixed(1) + '%';
+            } catch(e) { console.log("Market Sync Error"); }
         }
-        updatePulse();
-        setInterval(updatePulse, 60000);
+        fetchMarket();
+        setInterval(fetchMarket, 60000);
     </script>
 </body>
 </html>
