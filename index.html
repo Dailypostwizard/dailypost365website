@@ -3,51 +3,57 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>DailyPost365 | V60.0 Cinema Apex</title>
+    <title>DailyPost365 | V61.0 Cinema Engine</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root { --neon: #39FF14; --yellow: #CCFF00; --bg: #050505; }
-        body { margin: 0; background: var(--bg); color: white; font-family: 'Rajdhani', sans-serif; overflow: hidden; }
+        body { margin: 0; background: var(--bg); color: white; font-family: 'Rajdhani', sans-serif; overflow-x: hidden; }
         
-        /* 3D SOCIAL SIDEBAR - RESTORED */
+        /* CINEMATIC BACKGROUND VIDEO OVERLAY */
+        #bg-video { position: fixed; right: 0; bottom: 0; min-width: 100%; min-height: 100%; z-index: -1; opacity: 0.2; filter: contrast(150%); }
+
+        /* SOCIAL BAR - Z-INDEX CORRECTION */
         .social-sidebar {
             position: fixed; left: 15px; top: 50%; transform: translateY(-50%);
-            display: flex; flex-direction: column; gap: 20px; z-index: 9999;
+            display: flex; flex-direction: column; gap: 15px; z-index: 10000;
         }
         .social-btn {
-            width: 55px; height: 55px; background: rgba(255,255,255,0.05); border: 2px solid var(--neon);
-            border-radius: 15px; display: flex; align-items: center; justify-content: center;
-            color: white; font-size: 1.5rem; text-decoration: none; transition: 0.5s;
+            width: 50px; height: 50px; background: #000; border: 2px solid var(--yellow);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            color: var(--yellow); font-size: 1.3rem; text-decoration: none; transition: 0.3s;
         }
-        .social-btn:hover { transform: perspective(500px) translateZ(50px) rotateY(20deg); background: var(--neon); color: black; box-shadow: 0 0 25px var(--neon); }
+        .social-btn:hover { background: var(--yellow); color: black; transform: scale(1.2); box-shadow: 0 0 20px var(--yellow); }
 
-        /* CINEMA GRID */
-        .grid { display: grid; grid-template-columns: 350px 1fr 350px; height: 100vh; padding: 60px 20px 20px 85px; gap: 20px; box-sizing: border-box; }
-        .panel { background: rgba(255,255,255,0.02); border: 1px solid rgba(57,255,20,0.1); border-radius: 25px; padding: 20px; overflow: hidden; position: relative; }
-        
-        .ticker { position: fixed; top: 0; width: 100%; height: 50px; background: #000; border-bottom: 3px solid var(--neon); z-index: 1000; display: flex; align-items: center; }
-        .ticker-move { display: flex; white-space: nowrap; animation: scroll 30s linear infinite; font-family: 'Orbitron'; font-weight: 900; font-size: 0.9rem; }
-        @keyframes scroll { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+        /* NOVA AVATAR WELCOME */
+        #nova-welcome {
+            position: fixed; bottom: -200px; right: 20px; z-index: 9999;
+            transition: 1s ease-in-out; cursor: pointer;
+        }
+        .bubble {
+            background: var(--neon); color: black; padding: 10px 15px; border-radius: 20px;
+            position: absolute; top: -50px; left: -50px; font-weight: bold; font-size: 0.8rem; display: none;
+        }
 
-        #egg-canvas, #cricket-canvas { width: 100%; height: 350px; }
-        .reveal-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; display: none; z-index: 5; font-family: 'Orbitron'; color: var(--neon); }
+        /* LAYOUT CARDS */
+        .main-container { display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 20px; padding: 80px 40px; }
+        .glass-card {
+            background: rgba(0,0,0,0.8); border: 2px solid var(--neon); border-radius: 30px;
+            padding: 25px; box-shadow: inset 0 0 15px var(--neon); text-align: center;
+        }
         
-        .video-scroll { display: grid; grid-template-columns: 1fr; gap: 15px; overflow-y: auto; height: 85vh; padding-right: 10px; }
-        .v-card { border: 2px solid var(--yellow); border-radius: 15px; overflow: hidden; background: #000; transition: 0.5s; }
-        .v-card:hover { transform: scale(1.02); box-shadow: 0 0 30px var(--neon); }
+        .price-text { font-family: 'Orbitron'; color: var(--neon); font-size: 2rem; margin-top: 15px; }
+        #egg-fracture { width: 100%; height: 250px; cursor: pointer; }
+        
+        iframe { border-radius: 20px; border: 4px solid var(--yellow); }
     </style>
 </head>
 <body>
 
-<div class="ticker">
-    <div class="ticker-move">
-        <span style="padding:0 50px;">BTC: $69,873.57 (Live Mirror)</span>
-        <span style="padding:0 50px; color:var(--neon);">ETH: $2,146.28</span>
-        <span style="padding:0 50px;">KKR 25/2 (3.4) vs PBKS - RAIN DELAY</span>
-    </div>
-</div>
+<video autoplay muted loop id="bg-video">
+    <source src="https://assets.mixkit.co/videos/preview/mixkit-cricket-player-batting-in-a-stadium-at-sunset-30128-large.mp4" type="video/mp4">
+</video>
 
 <div class="social-sidebar">
     <a href="https://youtube.com/@DailyPost365" class="social-btn"><i class="fab fa-youtube"></i></a>
@@ -56,85 +62,82 @@
     <a href="https://tiktok.com/@DailyPost365" class="social-btn"><i class="fab fa-tiktok"></i></a>
 </div>
 
-<div class="grid">
-    <div class="panel">
-        <h2 style="color:var(--neon); font-family:'Orbitron'; font-size:1.2rem;">CRYPTO EGG FRACTURE</h2>
-        <div id="egg-canvas" onclick="crackEgg()"></div>
-        <div id="btc-reveal" class="reveal-text">
-            <i class="fab fa-bitcoin" style="font-size:3rem; color:orange;"></i><br>
-            <span style="font-size:1.4rem;">$69,873.57</span>
+<div id="nova-welcome">
+    <div class="bubble">WELCOME TO DAILYPOST365!</div>
+    <img src="https://cdn-icons-png.flaticon.com/512/4712/4712035.png" width="100" alt="Nova Avatar">
+</div>
+
+<div class="main-container">
+    <div class="glass-card">
+        <h2 style="color:var(--neon)">BTC FRACTURE</h2>
+        <div id="egg-fracture"></div>
+        <div id="btc-data" style="display:none;">
+            <i class="fab fa-bitcoin" style="color:orange; font-size:4rem;"></i>
+            <div class="price-text">$69,873.57</div>
         </div>
-        <p style="font-size:0.8rem; text-align:center;">[CLICK TO FRACTURE SHELL]</p>
+        <p>[CLICK TO REVEAL PRICE]</p>
     </div>
 
-    <div class="panel">
-        <div class="video-scroll">
-            <div class="v-card"><iframe width="100%" height="450" src="https://www.youtube.com/embed/vUhYt8KRHfg" frameborder="0"></iframe></div>
-            <div class="v-card"><iframe width="100%" height="450" src="https://www.youtube.com/embed/2IycUPkfb4o" frameborder="0"></iframe></div>
-            <div class="v-card"><iframe width="100%" height="450" src="https://www.youtube.com/embed/vduuCaOhDno" frameborder="0"></iframe></div>
-            <div class="v-card"><iframe width="100%" height="450" src="https://www.youtube.com/embed/7e49Bip--eA" frameborder="0"></iframe></div>
-        </div>
+    <div class="glass-card" style="border-color: var(--yellow);">
+        <h2 style="color:var(--yellow)">CINEMA BROADCAST</h2>
+        <iframe width="100%" height="450" src="https://www.youtube.com/embed/vUhYt8KRHfg" frameborder="0"></iframe>
+        <div style="margin-top:20px; font-weight:bold; color:var(--neon);">KKR 25/2 (3.4) vs PBKS</div>
     </div>
 
-    <div class="panel">
-        <h2 style="color:var(--yellow); font-family:'Orbitron'; font-size:1.2rem;">IPL STRIKE 3D</h2>
-        <div id="cricket-canvas" onclick="hitBall()"></div>
-        <div id="score-reveal" class="reveal-text">
-            <span style="font-size:1.4rem; color:var(--yellow);">KKR 25/2 (3.4) vs PBKS</span>
+    <div class="glass-card">
+        <h2 style="color:var(--neon)">IPL 3D STRIKE</h2>
+        <div id="cricket-pitch"></div>
+        <div id="score-data" style="display:none;">
+            <h1 style="color:var(--yellow)">KKR: 25/2</h1>
+            <p>RAIN DELAY - STATUS: ACTIVE</p>
         </div>
-        <p style="font-size:0.8rem; text-align:center;">[CLICK TO BOWL & STRIKE]</p>
+        <p>[CLICK TO BOWL]</p>
     </div>
 </div>
 
 <script>
-    let scene, camera, renderer, egg, shellParts = [];
+    // NOVA ENTRANCE
+    setTimeout(() => {
+        document.getElementById('nova-welcome').style.bottom = '20px';
+        setTimeout(() => { document.querySelector('.bubble').style.display = 'block'; }, 1000);
+    }, 1500);
 
-    function init3D(id, isEgg) {
-        const container = document.getElementById(id);
-        const s = new THREE.Scene();
-        const c = new THREE.PerspectiveCamera(75, container.clientWidth/container.clientHeight, 0.1, 1000);
-        const r = new THREE.WebGLRenderer({antialias: true, alpha: true});
-        r.setSize(container.clientWidth, container.clientHeight);
-        container.appendChild(r.domElement);
+    // 3D ENGINES
+    let scene = new THREE.Scene();
+    let camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+    let renderer = new THREE.WebGLRenderer({alpha: true, antialias: true});
+    
+    // Egg Physics
+    const eggGeo = new THREE.SphereGeometry(1.5, 32, 32);
+    const eggMat = new THREE.MeshPhongMaterial({color: 0xffffff, shininess: 100});
+    const egg = new THREE.Mesh(eggGeo, eggMat);
+    scene.add(egg);
+    
+    const light = new THREE.PointLight(0x39FF14, 2, 50);
+    light.position.set(5, 5, 5);
+    scene.add(light);
+    camera.position.z = 5;
 
-        if(isEgg) {
-            const geo = new THREE.SphereGeometry(1.2, 32, 32);
-            const mat = new THREE.MeshStandardMaterial({color: 0xf0f0f0, roughness: 0.2});
-            egg = new THREE.Mesh(geo, mat);
-            s.add(egg);
-        } else {
-            const pitchGeo = new THREE.BoxGeometry(2.5, 0.1, 4);
-            const pitchMat = new THREE.MeshStandardMaterial({color: 0x222});
-            const pitch = new THREE.Mesh(pitchGeo, pitchMat);
-            s.add(pitch);
-        }
+    const container = document.getElementById('egg-fracture');
+    renderer.setSize(container.clientWidth, 250);
+    container.appendChild(renderer.domElement);
 
-        const light = new THREE.DirectionalLight(0xffffff, 1.2);
-        light.position.set(5, 5, 5);
-        s.add(light);
-        c.position.z = 4;
-
-        function anim() {
-            requestAnimationFrame(anim);
-            if(egg) egg.rotation.y += 0.005;
-            r.render(s, c);
-        }
-        anim();
+    function animate() {
+        requestAnimationFrame(animate);
+        egg.rotation.y += 0.01;
+        renderer.render(scene, camera);
     }
+    animate();
 
     function crackEgg() {
-        gsap.to(egg.scale, {duration: 0.3, x: 1.5, y: 1.5, z: 1.5, ease: "bounce.out"});
+        gsap.to(egg.scale, {duration: 0.5, x: 0, y: 0, z: 0, ease: "power4.in"});
         setTimeout(() => {
-            egg.visible = false;
-            document.getElementById('btc-reveal').style.display = 'block';
-            gsap.from("#btc-reveal", {duration: 1, scale: 0, opacity: 0, ease: "elastic.out"});
-        }, 300);
+            container.style.display = 'none';
+            document.getElementById('btc-data').style.display = 'block';
+            gsap.from("#btc-data", {duration: 1, y: 50, opacity: 0, ease: "elastic.out"});
+        }, 500);
     }
-
-    init3D('egg-canvas', true);
-    init3D('cricket-canvas', false);
-    
-    console.log("V60.0 UAE Compliance: April 6, 2026 | No Restricted Content.");
+    container.addEventListener('click', crackEgg);
 </script>
 </body>
 </html>
