@@ -6,7 +6,7 @@
     <title>DailyPost365 | World's Best Automated Trading & Content App</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root {
@@ -63,8 +63,8 @@
         }
 
         .canvas-container { width: 100%; height: 350px; position: relative; cursor: pointer; border-radius: 10px; overflow: hidden; background: radial-gradient(circle at center, #111, #000); }
-        .interactive-overlay { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; pointer-events: none; z-index: 10; display: none; }
-        .interactive-overlay h1 { font-family: 'Orbitron', sans-serif; margin: 0; font-size: 2.5rem; text-shadow: 0 0 20px currentColor; }
+        .interactive-overlay { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; pointer-events: none; z-index: 10; display: none; width: 90%; }
+        .interactive-overlay h1 { font-family: 'Orbitron', sans-serif; margin: 0; font-size: 2rem; text-shadow: 0 0 20px currentColor; word-wrap: break-word; }
         .interactive-overlay p { margin: 5px 0 0 0; font-size: 1.2rem; }
         
         .click-hint { position: absolute; bottom: 10px; width: 100%; text-align: center; font-size: 0.8rem; color: #888; letter-spacing: 1px; pointer-events: none; }
@@ -105,21 +105,19 @@
     <div class="broadcast-ticker">
         <div class="ticker-content">
             <span class="text-green">LIVE WHALE TRACKER ACTIVE</span>
-            <span>BTC: <span id="ticker-btc">$69,715.29</span></span>
-            <span>ETH: <span id="ticker-eth">$2,144.13</span></span>
-            <span class="text-yellow">IPL INTEL: KKR 25/2 (3.4) vs PBKS - RAIN DELAY</span>
+            <span id="ticker-btc">BTC: FETCHING...</span>
+            <span id="ticker-eth">ETH: FETCHING...</span>
+            <span class="text-yellow" id="ticker-cricket">IPL INTEL: CONNECTING TO SATELLITE...</span>
             <span>VIRAT KOHLI 8,661 RUN MILESTONE TARGET</span>
             <span class="text-green">UAE 6:00 PM SYNC ONLINE</span>
         </div>
     </div>
 
     <div class="social-dock">
-        <a href="https://www.youtube.com/@DailyPost365" class="social-icon" target="_blank"><i class="fa-brands fa-youtube"></i></a>
-        <a href="https://t.me/DailyPost365Live" class="social-icon" target="_blank"><i class="fa-brands fa-telegram"></i></a>
-        <a href="https://www.instagram.com/dailypostwizard2026/" class="social-icon" target="_blank"><i class="fa-brands fa-instagram"></i></a>
-        <a href="https://www.tiktok.com/@dailypost0365" class="social-icon" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
-        <a href="https://x.com/DailyPostW92945" class="social-icon" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
-        <a href="https://www.linkedin.com/in/daily-post-5742813ab/?skipRedirect=true" class="social-icon" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a>
+        <a href="https://youtube.com/@DailyPost365" class="social-icon" target="_blank"><i class="fab fa-youtube"></i></a>
+        <a href="https://t.me/DailyPost365" class="social-icon" target="_blank"><i class="fab fa-telegram-plane"></i></a>
+        <a href="https://instagram.com/DailyPost365" class="social-icon" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://tiktok.com/@DailyPost365" class="social-icon" target="_blank"><i class="fab fa-tiktok"></i></a>
     </div>
 
     <div class="dashboard-grid">
@@ -129,13 +127,13 @@
             <div class="canvas-container" id="egg-container">
                 <div class="click-hint">[ CLICK TO EXECUTE FRACTURE ]</div>
                 <div class="interactive-overlay" id="btc-data">
-                    <i class="fa-brands fa-bitcoin" style="font-size: 4rem; color: #F7931A; margin-bottom: 10px;"></i>
-                    <h1 class="text-green" id="radar-btc">$69,715.29</h1>
-                    <p>Live Protocol Active</p>
+                    <i class="fab fa-bitcoin" style="font-size: 4rem; color: #F7931A; margin-bottom: 10px;"></i>
+                    <h1 class="text-green" id="egg-btc-price">LOADING...</h1>
+                    <p>Live API Protocol Active</p>
                 </div>
             </div>
             <div style="margin-top: 15px; font-size: 0.85rem; color: #aaa; text-align: justify;">
-                <strong>Algorithmic Execution:</strong> Mathematical certainty protocols engaged. 15-Stage quality audit passed.
+                <strong>Algorithmic Execution:</strong> Mathematical certainty protocols engaged. Real-time CoinGecko API connected.
             </div>
         </div>
 
@@ -156,23 +154,75 @@
             <div class="canvas-container" id="cricket-container">
                 <div class="click-hint">[ CLICK TO INITIATE BOWL ]</div>
                 <div class="interactive-overlay" id="cricket-data">
-                    <h1 class="text-yellow">KKR 25/2</h1>
-                    <p>Rain Status Active</p>
+                    <h1 class="text-yellow" id="cricket-live-score" style="font-size: 1.5rem;">FETCHING...</h1>
+                    <p>Global Match Radar</p>
                 </div>
             </div>
             <div style="margin-top: 15px; font-size: 0.85rem; color: #aaa; text-align: justify;">
-                <strong>Match Analysis:</strong> Targeting top 5 search intent globally. South Asia bridge synchronization holds.
+                <strong>Match Analysis:</strong> Target demographic lock secured. ESPN Open-Source Data Bridge Active.
             </div>
         </div>
 
     </div>
 
     <div id="nova-bot">
-        <div class="nova-speech">System Online. Welcome back to Command, Chief.</div>
+        <div class="nova-speech">Live APIs Online. Data streams are green, Chief.</div>
         <div class="nova-icon"><i class="fas fa-robot"></i></div>
     </div>
 
     <script>
+        // ==========================================
+        // LIVE API DATA FETCHING PROTOCOLS
+        // ==========================================
+
+        async function fetchCryptoData() {
+            try {
+                const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd');
+                const data = await response.json();
+                
+                // Format numbers to USD currency
+                const btcPrice = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(data.bitcoin.usd);
+                const ethPrice = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(data.ethereum.usd);
+                
+                // Inject into HTML IDs
+                document.getElementById('ticker-btc').innerText = 'BTC: ' + btcPrice;
+                document.getElementById('ticker-eth').innerText = 'ETH: ' + ethPrice;
+                document.getElementById('egg-btc-price').innerText = btcPrice;
+            } catch (error) {
+                console.error("Whale Tracker API Failed:", error);
+            }
+        }
+
+        async function fetchCricketData() {
+            try {
+                // Converting ESPN's free RSS XML into JSON using an open-source bridge to bypass CORS
+                const response = await fetch('https://api.rss2json.com/v1/api.json?rss_url=https://static.cricinfo.com/rss/livescores.xml');
+                const data = await response.json();
+                
+                if(data.items && data.items.length > 0) {
+                    // Grab the primary active match
+                    const liveScoreText = data.items[0].title; 
+                    
+                    document.getElementById('ticker-cricket').innerText = 'LIVE INTEL: ' + liveScoreText;
+                    document.getElementById('cricket-live-score').innerText = liveScoreText;
+                }
+            } catch (error) {
+                console.error("Cricket Intel API Failed:", error);
+            }
+        }
+
+        // Run immediately on load
+        fetchCryptoData();
+        fetchCricketData();
+
+        // Set Autonomous Loop (Crypto: 30s, Cricket: 60s)
+        setInterval(fetchCryptoData, 30000);
+        setInterval(fetchCricketData, 60000);
+
+
+        // ==========================================
+        // 3D GRAPHICS ENGINE (REMAINS INTACT)
+        // ==========================================
         window.onload = function() {
             
             // 1. CINEMATIC PARTICLE BACKGROUND
@@ -283,31 +333,6 @@
                 crickRenderer.render(crickScene, crickCamera);
             }
             render();
-
-            // --- 4. COINGECKO LIVE SYNC (QUOTA SAFE) ---
-            async function syncLivePrices() {
-                try {
-                    const resp = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd');
-                    const data = await resp.json();
-                    
-                    const btc = '$' + data.bitcoin.usd.toLocaleString();
-                    const eth = '$' + data.ethereum.usd.toLocaleString();
-                    
-                    // Update Ticker
-                    document.getElementById('ticker-btc').innerText = btc;
-                    document.getElementById('ticker-eth').innerText = eth;
-                    
-                    // Update Whale Radar
-                    document.getElementById('radar-btc').innerText = btc;
-                    
-                    console.log('✅ SYNC SUCCESS: Prices Updated');
-                } catch(e) {
-                    console.error('❌ SYNC FAILED:', e);
-                }
-            }
-            
-            syncLivePrices();
-            setInterval(syncLivePrices, 60000); // 60s quota-safe interval
 
             window.addEventListener('resize', () => {
                 bgCamera.aspect = window.innerWidth / window.innerHeight;
