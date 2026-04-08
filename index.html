@@ -27,7 +27,7 @@
             border-bottom: 2px solid var(--neon-green); z-index: 1000;
             display: flex; align-items: center; overflow: hidden; font-family: 'Orbitron', sans-serif;
         }
-        .ticker-content { display: flex; white-space: nowrap; animation: scrollTicker 30s linear infinite; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px; }
+        .ticker-content { display: flex; white-space: nowrap; animation: scrollTicker 45s linear infinite; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px; }
         .ticker-content span { padding: 0 40px; }
         .text-green { color: var(--neon-green); }
         .text-yellow { color: var(--neon-yellow); }
@@ -81,6 +81,17 @@
         .video-wrapper:hover { border-color: var(--neon-yellow); box-shadow: 0 0 15px rgba(204, 255, 0, 0.5); transform: translateY(-2px); }
         iframe { width: 100%; height: 100%; border: none; }
 
+        /* Custom styling for the multi-match list */
+        .match-row {
+            border-bottom: 1px solid rgba(204, 255, 0, 0.2);
+            padding: 8px 0;
+            text-align: left;
+            font-size: 1.1rem;
+            line-height: 1.3;
+        }
+        .match-row:last-child { border-bottom: none; }
+        .match-title { color: var(--neon-yellow); font-family: 'Orbitron', sans-serif; font-size: 0.85rem; }
+
         #nova-bot {
             position: fixed; bottom: 20px; right: 20px; z-index: 10000;
             display: flex; align-items: flex-end; gap: 10px;
@@ -107,8 +118,7 @@
             <span class="text-green">LIVE WHALE TRACKER ACTIVE</span>
             <span id="ticker-btc">BTC: FETCHING...</span>
             <span id="ticker-eth">ETH: FETCHING...</span>
-            <span class="text-yellow" id="ticker-cricket">IPL INTEL: CONNECTING TO SATELLITE...</span>
-            <span>VIRAT KOHLI 8,661 RUN MILESTONE TARGET</span>
+            <span class="text-yellow" id="ticker-cricket">GLOBAL INTEL: CONNECTING TO SATELLITE...</span>
             <span class="text-green">UAE 6:00 PM SYNC ONLINE</span>
         </div>
     </div>
@@ -152,21 +162,20 @@
         <div class="glass-panel">
             <h2 class="panel-title text-yellow">LIVE CRICKET INTEL</h2>
             <div class="canvas-container" id="cricket-container">
-                <div class="click-hint">[ CLICK TO INITIATE BOWL ]</div>
-                <div class="interactive-overlay" id="cricket-data">
-                    <h1 class="text-yellow" id="cricket-live-score" style="font-size: 1.5rem;">FETCHING...</h1>
-                    <p>Global Match Radar</p>
+                <div class="click-hint">[ CLICK TO INITIATE RADAR ]</div>
+                <div class="interactive-overlay" id="cricket-data" style="width: 85%;">
+                    <div id="cricket-live-list">FETCHING MATCHES...</div>
                 </div>
             </div>
             <div style="margin-top: 15px; font-size: 0.85rem; color: #aaa; text-align: justify;">
-                <strong>Match Analysis:</strong> Target demographic lock secured. ESPN Open-Source Data Bridge Active.
+                <strong>Radar Locked:</strong> Sorting algorithms tracking IPL & International T20/ODI/Test fixtures worldwide.
             </div>
         </div>
 
     </div>
 
     <div id="nova-bot">
-        <div class="nova-speech">Live APIs Online. Data streams are green, Chief.</div>
+        <div class="nova-speech">Multi-Match Tracker Online. Tracking IPL and International fixtures, Chief.</div>
         <div class="nova-icon"><i class="fas fa-robot"></i></div>
     </div>
 
@@ -180,11 +189,9 @@
                 const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd');
                 const data = await response.json();
                 
-                // Format numbers to USD currency
                 const btcPrice = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(data.bitcoin.usd);
                 const ethPrice = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(data.ethereum.usd);
                 
-                // Inject into HTML IDs
                 document.getElementById('ticker-btc').innerText = 'BTC: ' + btcPrice;
                 document.getElementById('ticker-eth').innerText = 'ETH: ' + ethPrice;
                 document.getElementById('egg-btc-price').innerText = btcPrice;
@@ -195,16 +202,41 @@
 
         async function fetchCricketData() {
             try {
-                // Converting ESPN's free RSS XML into JSON using an open-source bridge to bypass CORS
                 const response = await fetch('https://api.rss2json.com/v1/api.json?rss_url=https://static.cricinfo.com/rss/livescores.xml');
                 const data = await response.json();
                 
                 if(data.items && data.items.length > 0) {
-                    // Grab the primary active match
-                    const liveScoreText = data.items[0].title; 
+                    let tickerText = "";
+                    let priorityMatches = [];
+                    let otherMatches = [];
+
+                    // Sort items into High Priority (IPL/International) and others
+                    data.items.forEach(item => {
+                        let title = item.title;
+                        tickerText += `🏏 ${title}    |   `;
+                        
+                        // Check for IPL or International formats
+                        if(title.includes('IPL') || title.includes('T20I') || title.includes('ODI') || title.includes('Test')) {
+                            priorityMatches.push(title);
+                        } else {
+                            otherMatches.push(title);
+                        }
+                    });
+
+                    // Update Top Ticker
+                    document.getElementById('ticker-cricket').innerText = 'LIVE INTEL:    ' + tickerText;
+
+                    // Combine sorted lists and take top 3 for the dashboard panel
+                    let displayMatches = [...priorityMatches, ...otherMatches].slice(0, 3);
+                    let panelHTML = "";
                     
-                    document.getElementById('ticker-cricket').innerText = 'LIVE INTEL: ' + liveScoreText;
-                    document.getElementById('cricket-live-score').innerText = liveScoreText;
+                    displayMatches.forEach(matchTitle => {
+                        // Clean up the string slightly for aesthetic fit
+                        let cleanTitle = matchTitle.replace(/\s\s+/g, ' '); 
+                        panelHTML += `<div class="match-row"><span class="match-title">LIVE:</span><br>${cleanTitle}</div>`;
+                    });
+
+                    document.getElementById('cricket-live-list').innerHTML = panelHTML || "AWAITING MATCH DATA";
                 }
             } catch (error) {
                 console.error("Cricket Intel API Failed:", error);
@@ -221,7 +253,7 @@
 
 
         // ==========================================
-        // 3D GRAPHICS ENGINE (REMAINS INTACT)
+        // 3D GRAPHICS ENGINE
         // ==========================================
         window.onload = function() {
             
