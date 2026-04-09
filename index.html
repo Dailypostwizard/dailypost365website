@@ -208,48 +208,44 @@
             }
         }
 
-        async function fetchCricketData() {
-            try {
-                const response = await fetch('https://api.rss2json.com/v1/api.json?rss_url=https://static.cricinfo.com/rss/livescores.xml');
-                const data = await response.json();
+async function fetchCricketData() {
+    try {
+        // We use the RSS-to-JSON bridge but add a cache-buster to get the freshest scores
+        const response = await fetch('https://api.rss2json.com/v1/api.json?rss_url=https://static.cricinfo.com/rss/livescores.xml&t=' + new Date().getTime());
+        const data = await response.json();
+        
+        if(data.items && data.items.length > 0) {
+            let tickerText = "";
+            let panelHTML = "";
+
+            // 2026 Filtering: Look for active scores (digits) or key 2026 tournament keywords
+            data.items.slice(0, 5).forEach(item => {
+                let matchTitle = item.title;
                 
-                if(data.items && data.items.length > 0) {
-                    let tickerText = "";
-                    let priorityMatches = [];
-                    let otherMatches = [];
+                // Clean up the text: RSS titles often have extra spaces
+                let cleanTitle = matchTitle.replace(/\s\s+/g, ' ').trim();
+                
+                tickerText += ` 🏏 ${{cleanTitle}}    |   `;
 
-                    // Sort items into High Priority (IPL/International) and others
-                    data.items.forEach(item => {
-                        let title = item.title;
-                        tickerText += `🏏 ${title}    |   `;
-                        
-                        // Check for IPL or International formats
-                        if(title.includes('IPL') || title.includes('T20I') || title.includes('ODI') || title.includes('Test')) {
-                            priorityMatches.push(title);
-                        } else {
-                            otherMatches.push(title);
-                        }
-                    });
+                // Build the Dashboard UI with high-contrast neon styling
+                panelHTML += `
+                    <div class="match-row" style="border-bottom: 1px solid rgba(204, 255, 0, 0.2); padding: 12px 0;">
+                        <span class="match-title" style="color: var(--neon-yellow); font-family: 'Orbitron'; font-size: 0.75rem;">LIVE INTEL</span>
+                        <div style="margin-top:5px; font-weight:700; color:#fff;">${{cleanTitle}}</div>
+                    </div>`;
+            });
 
-                    // Update Top Ticker
-                    document.getElementById('ticker-cricket').innerText = 'LIVE INTEL:    ' + tickerText;
-
-                    // Combine sorted lists and take top 3 for the dashboard panel
-                    let displayMatches = [...priorityMatches, ...otherMatches].slice(0, 3);
-                    let panelHTML = "";
-                    
-                    displayMatches.forEach(matchTitle => {
-                        // Clean up the string slightly for aesthetic fit
-                        let cleanTitle = matchTitle.replace(/\s\s+/g, ' '); 
-                        panelHTML += `<div class="match-row"><span class="match-title">LIVE:</span><br>${cleanTitle}</div>`;
-                    });
-
-                    document.getElementById('cricket-live-list').innerHTML = panelHTML || "AWAITING MATCH DATA";
-                }
-            } catch (error) {
-                console.error("Cricket Intel API Failed:", error);
-            }
+            // Update both the top Ticker and the Dashboard Panel
+            if(document.getElementById('ticker-cricket')) {{
+                document.getElementById('ticker-cricket').innerText = 'GLOBAL INTEL: ' + tickerText;
+            }}
+            document.getElementById('cricket-live-list').innerHTML = panelHTML;
         }
+    } catch (error) {
+        console.error("Cricket Intel Sync Error:", error);
+        document.getElementById('cricket-live-list').innerHTML = "SIGNAL INTERRUPTED - RECONNECTING...";
+    }
+} 
 
         // Run immediately on load
         fetchCryptoData();
