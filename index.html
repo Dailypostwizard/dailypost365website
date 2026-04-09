@@ -210,7 +210,7 @@
 
 async function fetchCricketData() {
     try {
-        // We use the RSS-to-JSON bridge but add a cache-buster to get the freshest scores
+        // Cache-buster added to ensure real-time 2026 data
         const response = await fetch('https://api.rss2json.com/v1/api.json?rss_url=https://static.cricinfo.com/rss/livescores.xml&t=' + new Date().getTime());
         const data = await response.json();
         
@@ -218,38 +218,46 @@ async function fetchCricketData() {
             let tickerText = "";
             let panelHTML = "";
 
-            // 2026 Filtering: Look for active scores (digits) or key 2026 tournament keywords
             data.items.slice(0, 5).forEach(item => {
                 let matchTitle = item.title;
                 
-                // Clean up the text: RSS titles often have extra spaces
+                // Clean up extra spaces from the RSS feed
                 let cleanTitle = matchTitle.replace(/\s\s+/g, ' ').trim();
                 
-                tickerText += ` 🏏 ${{cleanTitle}}    |   `;
+                tickerText += ` 🏏 ${cleanTitle}    |   `;
 
-                // Build the Dashboard UI with high-contrast neon styling
+                // Fixed the syntax here from ${{cleanTitle}} to ${cleanTitle}
                 panelHTML += `
                     <div class="match-row" style="border-bottom: 1px solid rgba(204, 255, 0, 0.2); padding: 12px 0;">
-                        <span class="match-title" style="color: var(--neon-yellow); font-family: 'Orbitron'; font-size: 0.75rem;">LIVE INTEL</span>
-                        <div style="margin-top:5px; font-weight:700; color:#fff;">${{cleanTitle}}</div>
+                        <span class="match-title" style="color: #ccff00; font-family: 'Orbitron'; font-size: 0.75rem;">LIVE INTEL</span>
+                        <div style="margin-top:5px; font-weight:700; color:#fff;">${cleanTitle}</div>
                     </div>`;
             });
 
-            // Update both the top Ticker and the Dashboard Panel
-            if(document.getElementById('ticker-cricket')) {{
-                document.getElementById('ticker-cricket').innerText = 'GLOBAL INTEL: ' + tickerText;
-            }}
-            document.getElementById('cricket-live-list').innerHTML = panelHTML;
+            // Update Ticker
+            const tickerElement = document.getElementById('ticker-cricket');
+            if(tickerElement) {
+                tickerElement.innerText = 'GLOBAL INTEL: ' + tickerText;
+            }
+            
+            // Update Dashboard Panel
+            const listElement = document.getElementById('cricket-live-list');
+            if(listElement) {
+                listElement.innerHTML = panelHTML;
+            }
         }
     } catch (error) {
         console.error("Cricket Intel Sync Error:", error);
-        document.getElementById('cricket-live-list').innerHTML = "SIGNAL INTERRUPTED - RECONNECTING...";
+        const listElement = document.getElementById('cricket-live-list');
+        if(listElement) {
+            listElement.innerHTML = "SIGNAL INTERRUPTED - RECONNECTING...";
+        }
     }
-} 
+}
 
-        // Run immediately on load
-        fetchCryptoData();
-        fetchCricketData();
+// Initializing calls
+fetchCryptoData();
+fetchCricketData(); 
 
         // Set Autonomous Loop (Crypto: 30s, Cricket: 60s)
         setInterval(fetchCryptoData, 30000);
