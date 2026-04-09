@@ -210,34 +210,47 @@
 
 async function fetchCricketData() {
     try {
-        // Cache-buster added to ensure real-time 2026 data
+        // Cache-buster ensures the 2026 milestones and live scores are fresh
         const response = await fetch('https://api.rss2json.com/v1/api.json?rss_url=https://static.cricinfo.com/rss/livescores.xml&t=' + new Date().getTime());
         const data = await response.json();
         
         if(data.items && data.items.length > 0) {
             let tickerText = "";
             let panelHTML = "";
+            
+            // PRIORITY FILTER: Move IPL and International matches to the top
+            const priorityKeywords = ['IPL', 'T20', 'ODI', 'India', 'Pakistan', 'Bangladesh', 'Australia', 'England', 'World Cup'];
+            
+            let sortedItems = data.items.sort((a, b) => {
+                let aPriority = priorityKeywords.some(word => a.title.includes(word)) ? 1 : 0;
+                let bPriority = priorityKeywords.some(word => b.title.includes(word)) ? 1 : 0;
+                return bPriority - aPriority;
+            });
 
-            data.items.slice(0, 5).forEach(item => {
+            // Process top 6 matches to ensure a full list
+            sortedItems.slice(0, 6).forEach(item => {
                 let matchTitle = item.title;
-                
-                // Clean up extra spaces from the RSS feed
                 let cleanTitle = matchTitle.replace(/\s\s+/g, ' ').trim();
                 
-                tickerText += ` 🏏 ${cleanTitle}    |   `;
+                // Add icon for priority matches in the ticker
+                let isPriority = priorityKeywords.some(word => cleanTitle.includes(word));
+                tickerText += ` ${isPriority ? '🔥' : '🏏'} ${cleanTitle}    |   `;
 
-                // Fixed the syntax here from ${{cleanTitle}} to ${cleanTitle}
                 panelHTML += `
                     <div class="match-row" style="border-bottom: 1px solid rgba(204, 255, 0, 0.2); padding: 12px 0;">
-                        <span class="match-title" style="color: #ccff00; font-family: 'Orbitron'; font-size: 0.75rem;">LIVE INTEL</span>
-                        <div style="margin-top:5px; font-weight:700; color:#fff;">${cleanTitle}</div>
+                        <span class="match-title" style="color: #ccff00; font-family: 'Orbitron'; font-size: 0.7rem; letter-spacing: 1px;">
+                            ${isPriority ? 'PREMIUM INTEL' : 'LIVE INTEL'}
+                        </span>
+                        <div style="margin-top:5px; font-weight:700; color:#fff; font-size: 0.9rem; line-height: 1.3;">
+                            ${cleanTitle}
+                        </div>
                     </div>`;
             });
 
             // Update Ticker
             const tickerElement = document.getElementById('ticker-cricket');
             if(tickerElement) {
-                tickerElement.innerText = 'GLOBAL INTEL: ' + tickerText;
+                tickerElement.innerText = 'GLOBAL BROADCAST COMMAND: ' + tickerText;
             }
             
             // Update Dashboard Panel
@@ -250,14 +263,16 @@ async function fetchCricketData() {
         console.error("Cricket Intel Sync Error:", error);
         const listElement = document.getElementById('cricket-live-list');
         if(listElement) {
-            listElement.innerHTML = "SIGNAL INTERRUPTED - RECONNECTING...";
+            listElement.innerHTML = "<div style='color:red; font-family:Orbitron;'>SIGNAL INTERRUPTED - AUTO-RETRYING...</div>";
         }
     }
 }
 
-// Initializing calls
+// Global Initialization
 fetchCryptoData();
-fetchCricketData(); 
+fetchCricketData();
+// Auto-refresh every 60 seconds to catch wicket updates
+setInterval(fetchCricketData, 60000); 
 
         // Set Autonomous Loop (Crypto: 30s, Cricket: 60s)
         setInterval(fetchCryptoData, 30000);
