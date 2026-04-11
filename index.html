@@ -314,6 +314,14 @@
             }
             .social-dock { display: none; }
         }
+
+        .neon-text {
+            color: var(--neon-green);
+            font-family: 'Orbitron', sans-serif;
+            text-shadow: 0 0 10px var(--neon-green), 0 0 20px var(--neon-green);
+            pointer-events: none;
+            z-index: 10001;
+        }
     </style>
 </head>
 <body>
@@ -474,6 +482,7 @@
             // 1. STARFIELD BACKGROUND
             scene = new THREE.Scene();
             camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 2000);
+            camera.position.z = 800;
             renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg-canvas'), alpha: true });
             renderer.setSize(window.innerWidth, window.innerHeight);
 
@@ -507,12 +516,19 @@
             eggContainer.onclick = () => {
                 if(cracked) return;
                 cracked = true;
+                triggerCryptoEgg();
                 gsap.to(egg.scale, { x: 0, y: 0, z: 0, duration: 0.5 });
                 setTimeout(() => {
                     document.getElementById('btc-data').style.display = 'block';
                     gsap.from('#btc-data', { opacity: 0, scale: 0.5, duration: 1, ease: 'back.out' });
                     document.querySelector('#egg-container .click-hint').style.display = 'none';
                 }, 500);
+            };
+
+            const crickContainer = document.getElementById('cricket-container');
+            crickContainer.onclick = () => {
+                playCricketSequence();
+                document.querySelector('#cricket-container .click-hint').style.display = 'none';
             };
 
             animate = function() {
@@ -534,6 +550,56 @@
                 renderer.setSize(window.innerWidth, window.innerHeight);
             });
         };
+
+        // ==========================================
+        // V75.1 CRYPTO & CRICKET SEQUENCES
+        // ==========================================
+
+        function triggerCryptoEgg() {
+            const geometry = new THREE.IcosahedronGeometry(50, 0); 
+            const material = new THREE.MeshBasicMaterial({ color: 0xCCFF00, wireframe: true });
+            const egg = new THREE.Mesh(geometry, material);
+            egg.position.set(-200, 100, 500);
+            scene.add(egg);
+
+            gsap.to(egg.rotation, { y: Math.PI * 2, duration: 2, repeat: 1 });
+            gsap.to(egg.scale, { x: 0, y: 0, z: 0, delay: 3, duration: 0.5, onComplete: () => {
+                scene.remove(egg);
+                showBtcPopup("BTC: $72,450", egg.position);
+            }});
+        }
+
+        function showBtcPopup(price, pos) {
+            const div = document.createElement('div');
+            div.className = 'neon-text';
+            div.style.position = 'absolute';
+            div.style.left = '40%';
+            div.style.top = '40%';
+            div.style.fontSize = '3rem';
+            div.innerHTML = price;
+            document.body.appendChild(div);
+            gsap.from(div, { scale: 0, opacity: 0, duration: 1, ease: "elastic.out" });
+        }
+
+        function playCricketSequence() {
+            const ballGeo = new THREE.SphereGeometry(15, 32, 32);
+            const ballMat = new THREE.MeshBasicMaterial({ color: 0xFF0000 });
+            const ball = new THREE.Mesh(ballGeo, ballMat);
+            ball.position.set(500, -100, 400); 
+            scene.add(ball);
+
+            gsap.to(ball.position, { 
+                x: -500, y: 150, z: 200, 
+                duration: 1.5, 
+                ease: "power2.inOut",
+                onComplete: () => {
+                    scene.remove(ball);
+                    const intel = document.getElementById('intel-container');
+                    intel.style.display = 'block';
+                    gsap.from(intel, { x: 100, opacity: 0, duration: 1 });
+                }
+            });
+        }
 
         // ==========================================
         // V75.0 HYPER-DRIVE & 15-STAGE AUDIT ENGINE
