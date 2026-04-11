@@ -4,109 +4,316 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DailyPost365 | World's Best Automated Trading & Content App</title>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+   
     <style>
         :root {
             --neon-green: #39FF14;
             --neon-yellow: #CCFF00;
+            --neon-cyan: #00FFFF;
             --bg-dark: #050505;
-            --glass-bg: rgba(10, 10, 10, 0.85);
+            --glass-bg: rgba(10, 10, 10, 0.9);
+            --border-glow: rgba(57, 255, 20, 0.4);
+        }
+       
+        * { box-sizing: border-box; }
+
+        body, html { 
+            margin: 0; 
+            padding: 0; 
+            width: 100%; 
+            height: 100%; 
+            background-color: var(--bg-dark); 
+            color: #FFF; 
+            font-family: 'Rajdhani', sans-serif; 
+            overflow: hidden; 
+        }
+
+        /* 3D CANVAS LAYER */
+        #bg-canvas { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100vw; 
+            height: 100vh; 
+            z-index: -1; 
+        }
+
+        /* BROADCAST TICKER SYSTEM */
+        .broadcast-ticker {
+            position: fixed; 
+            top: 0; 
+            width: 100%; 
+            height: 60px; 
+            background: rgba(0, 0, 0, 0.95);
+            border-bottom: 2px solid var(--neon-green); 
+            z-index: 1000;
+            display: flex; 
+            align-items: center; 
+            overflow: hidden; 
+            font-family: 'Orbitron', sans-serif;
+            box-shadow: 0 4px 15px rgba(57, 255, 20, 0.2);
         }
         
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;700&display=swap');
-
-        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background-color: var(--bg-dark); color: #FFF; font-family: 'Rajdhani', sans-serif; overflow: hidden; }
-
-        #bg-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; }
-
-        .broadcast-ticker {
-            position: fixed; top: 0; width: 100%; height: 50px; background: rgba(0, 0, 0, 0.95);
-            border-bottom: 2px solid var(--neon-green); z-index: 1000;
-            display: flex; align-items: center; overflow: hidden; font-family: 'Orbitron', sans-serif;
+        .ticker-content { 
+            display: flex; 
+            white-space: nowrap; 
+            animation: scrollTicker 50s linear infinite; 
+            font-size: 1.1rem; 
+            text-transform: uppercase; 
+            letter-spacing: 2px; 
         }
-        .ticker-content { display: flex; white-space: nowrap; animation: scrollTicker 45s linear infinite; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px; }
-        .ticker-content span { padding: 0 40px; }
+        
+        .ticker-content span { 
+            padding: 0 50px; 
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
         .text-green { color: var(--neon-green); }
         .text-yellow { color: var(--neon-yellow); }
-        @keyframes scrollTicker { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
+        .text-cyan { color: var(--neon-cyan); }
+        
+        @keyframes scrollTicker { 
+            0% { transform: translateX(100vw); } 
+            100% { transform: translateX(-100%); } 
+        }
 
+        /* SIDEBAR NAVIGATION (SOCIAL DOCK) */
         .social-dock {
-            position: fixed; left: 20px; top: 50%; transform: translateY(-50%);
-            display: flex; flex-direction: column; gap: 15px; z-index: 9999;
+            position: fixed; 
+            left: 20px; 
+            top: 55%; 
+            transform: translateY(-50%);
+            display: flex; 
+            flex-direction: column; 
+            gap: 20px; 
+            z-index: 9999;
         }
+        
         .social-icon {
-            width: 50px; height: 50px; background: #000; border: 2px solid var(--neon-green);
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            color: var(--neon-green); font-size: 1.4rem; text-decoration: none; transition: all 0.3s ease;
+            width: 55px; 
+            height: 55px; 
+            background: rgba(0,0,0,0.8); 
+            border: 2px solid var(--neon-green);
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            color: var(--neon-green); 
+            font-size: 1.5rem; 
+            text-decoration: none; 
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .social-icon:hover { background: var(--neon-green); color: #000; transform: scale(1.15); box-shadow: 0 0 20px var(--neon-green); }
+        
+        .social-icon:hover { 
+            background: var(--neon-green); 
+            color: #000; 
+            transform: scale(1.2) rotate(10deg); 
+            box-shadow: 0 0 25px var(--neon-green); 
+        }
 
+        /* MAIN DASHBOARD ARCHITECTURE */
         .dashboard-grid {
-            display: grid; grid-template-columns: 350px 1fr 350px; gap: 20px;
-            width: calc(100% - 120px); height: calc(100vh - 90px);
-            margin: 70px 20px 20px 80px; box-sizing: border-box;
+            display: grid; 
+            grid-template-columns: 380px 1fr 380px; 
+            gap: 25px;
+            width: calc(100% - 140px); 
+            height: calc(100vh - 100px);
+            margin: 80px 20px 20px 100px;
         }
 
         .glass-panel {
-            background: var(--glass-bg); border: 1px solid rgba(57, 255, 20, 0.3);
-            border-radius: 20px; padding: 20px; display: flex; flex-direction: column;
-            backdrop-filter: blur(10px); position: relative; overflow: hidden;
+            background: var(--glass-bg); 
+            border: 1px solid rgba(57, 255, 20, 0.2);
+            border-radius: 25px; 
+            padding: 25px; 
+            display: flex; 
+            flex-direction: column;
+            backdrop-filter: blur(15px); 
+            position: relative; 
+            overflow: hidden;
+            transition: border-color 0.3s ease;
         }
-        .glass-panel.center { border-color: var(--neon-yellow); }
-
-        h2.panel-title {
-            font-family: 'Orbitron', sans-serif; font-size: 1.2rem; text-align: center;
-            margin-top: 0; margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;
-        }
-
-        .canvas-container { width: 100%; height: 350px; position: relative; cursor: pointer; border-radius: 10px; overflow: hidden; background: radial-gradient(circle at center, #111, #000); }
-        .interactive-overlay { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; pointer-events: none; z-index: 10; display: none; width: 90%; }
-        .interactive-overlay h1 { font-family: 'Orbitron', sans-serif; margin: 0; font-size: 2rem; text-shadow: 0 0 20px currentColor; word-wrap: break-word; }
-        .interactive-overlay p { margin: 5px 0 0 0; font-size: 1.2rem; }
         
-        .click-hint { position: absolute; bottom: 10px; width: 100%; text-align: center; font-size: 0.8rem; color: #888; letter-spacing: 1px; pointer-events: none; }
-
-        .video-scroller {
-            flex: 1; overflow-y: auto; overflow-x: hidden; padding-right: 10px;
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; align-content: start;
+        .glass-panel:hover {
+            border-color: rgba(57, 255, 20, 0.6);
         }
-        .video-scroller::-webkit-scrollbar { width: 8px; }
-        .video-scroller::-webkit-scrollbar-track { background: rgba(0,0,0,0.5); border-radius: 10px; }
+        
+        .glass-panel.center { 
+            border-color: rgba(204, 255, 0, 0.3); 
+        }
+
+        .panel-title {
+            font-family: 'Orbitron', sans-serif; 
+            font-size: 1.3rem; 
+            text-align: center;
+            margin-top: 0; 
+            margin-bottom: 20px; 
+            border-bottom: 1px solid rgba(255,255,255,0.1); 
+            padding-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        /* INTERACTIVE 3D CONTAINERS */
+        .canvas-container { 
+            width: 100%; 
+            height: 380px; 
+            position: relative; 
+            cursor: pointer; 
+            border-radius: 15px; 
+            overflow: hidden; 
+            background: radial-gradient(circle at center, #151515, #000); 
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .interactive-overlay { 
+            position: absolute; 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
+            text-align: center; 
+            pointer-events: none; 
+            z-index: 10; 
+            display: none; 
+            width: 90%; 
+        }
+        
+        .interactive-overlay h1 { 
+            font-family: 'Orbitron', sans-serif; 
+            margin: 10px 0; 
+            font-size: 2.2rem; 
+            text-shadow: 0 0 25px currentColor; 
+        }
+        
+        .click-hint { 
+            position: absolute; 
+            bottom: 15px; 
+            width: 100%; 
+            text-align: center; 
+            font-size: 0.8rem; 
+            color: #666; 
+            letter-spacing: 2px; 
+            pointer-events: none;
+            animation: pulseHint 2s infinite;
+        }
+        
+        @keyframes pulseHint {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+
+        /* CONTENT FEED (CENTER) */
+        .video-scroller {
+            flex: 1; 
+            overflow-y: auto; 
+            padding-right: 15px;
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+            gap: 20px; 
+            align-content: start;
+        }
+        
+        .video-scroller::-webkit-scrollbar { width: 6px; }
+        .video-scroller::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
         .video-scroller::-webkit-scrollbar-thumb { background: var(--neon-yellow); border-radius: 10px; }
         
-        .video-wrapper { width: 100%; height: 480px; border-radius: 12px; border: 2px solid rgba(204, 255, 0, 0.4); overflow: hidden; transition: all 0.3s; background: #000; }
-        .video-wrapper:hover { border-color: var(--neon-yellow); box-shadow: 0 0 15px rgba(204, 255, 0, 0.5); transform: translateY(-2px); }
+        .video-wrapper { 
+            aspect-ratio: 9/16;
+            width: 100%; 
+            border-radius: 15px; 
+            border: 2px solid rgba(204, 255, 0, 0.2); 
+            overflow: hidden; 
+            transition: all 0.4s; 
+            background: #000; 
+        }
+        
+        .video-wrapper:hover { 
+            border-color: var(--neon-yellow); 
+            box-shadow: 0 0 20px rgba(204, 255, 0, 0.4); 
+            transform: scale(1.02);
+        }
+        
         iframe { width: 100%; height: 100%; border: none; }
 
-        /* Custom styling for the multi-match list */
+        /* CRICKET DATA INTERFACE */
         .match-row {
-            border-bottom: 1px solid rgba(204, 255, 0, 0.2);
-            padding: 8px 0;
+            border-bottom: 1px solid rgba(204, 255, 0, 0.15);
+            padding: 15px 0;
             text-align: left;
-            font-size: 1.1rem;
-            line-height: 1.3;
+            transition: background 0.3s;
         }
-        .match-row:last-child { border-bottom: none; }
-        .match-title { color: var(--neon-yellow); font-family: 'Orbitron', sans-serif; font-size: 0.85rem; }
+        
+        .match-row:hover { background: rgba(255,255,255,0.02); }
+        
+        .match-label {
+            font-family: 'Orbitron';
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            font-weight: 800;
+            display: block;
+            margin-bottom: 5px;
+        }
 
+        /* AI AVATAR SYSTEM */
         #nova-bot {
-            position: fixed; bottom: 20px; right: 20px; z-index: 10000;
-            display: flex; align-items: flex-end; gap: 10px;
+            position: fixed; 
+            bottom: 30px; 
+            right: 30px; 
+            z-index: 10000;
+            display: flex; 
+            align-items: flex-end; 
+            gap: 15px;
         }
+        
         .nova-speech {
-            background: var(--neon-green); color: #000; padding: 12px 20px; border-radius: 20px 20px 0 20px;
-            font-weight: 700; font-size: 0.9rem; box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-            animation: floatBubble 3s ease-in-out infinite; transform-origin: bottom right;
+            background: var(--neon-green); 
+            color: #000; 
+            padding: 15px 25px; 
+            border-radius: 25px 25px 0 25px;
+            font-weight: 700; 
+            font-size: 0.95rem; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            max-width: 250px;
+            animation: floatBubble 4s ease-in-out infinite;
         }
+        
         .nova-icon {
-            width: 70px; height: 70px; background: #111; border: 2px solid var(--neon-green); border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; font-size: 2rem; color: var(--neon-green);
-            box-shadow: 0 0 20px rgba(57, 255, 20, 0.4);
+            width: 80px; 
+            height: 80px; 
+            background: #0a0a0a; 
+            border: 3px solid var(--neon-green); 
+            border-radius: 50%;
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 2.2rem; 
+            color: var(--neon-green);
+            box-shadow: 0 0 30px rgba(57, 255, 20, 0.5);
+            cursor: pointer;
         }
-        @keyframes floatBubble { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+        @keyframes floatBubble { 
+            0%, 100% { transform: translateY(0) rotate(0deg); } 
+            50% { transform: translateY(-15px) rotate(2deg); } 
+        }
+
+        /* RESPONSIVE OVERRIDES */
+        @media (max-width: 1200px) {
+            .dashboard-grid { 
+                grid-template-columns: 1fr; 
+                overflow-y: auto; 
+                margin-left: 20px;
+                width: calc(100% - 40px);
+            }
+            .social-dock { display: none; }
+        }
     </style>
 </head>
 <body>
@@ -115,81 +322,77 @@
 
     <div class="broadcast-ticker">
         <div class="ticker-content">
-            <span class="text-green">LIVE WHALE TRACKER ACTIVE</span>
-            <span id="ticker-btc">BTC: FETCHING...</span>
-            <span id="ticker-eth">ETH: FETCHING...</span>
-            <span class="text-yellow" id="ticker-cricket">GLOBAL INTEL: CONNECTING TO SATELLITE...</span>
-            <span class="text-green">UAE 6:00 PM SYNC ONLINE</span>
+            <span class="text-green"><i class="fas fa-satellite-dish"></i> WHALE COMMAND ACTIVE</span>
+            <span id="ticker-btc" class="text-cyan">BTC: SYNCHRONIZING...</span>
+            <span id="ticker-eth" class="text-cyan">ETH: SYNCHRONIZING...</span>
+            <span id="ticker-cricket" class="text-yellow">INTEL: CONNECTING TO GLOBAL FEED...</span>
+            <span class="text-green"><i class="fas fa-clock"></i> UAE SYNC: 18:00 GST</span>
         </div>
     </div>
 
     <div class="social-dock">
-    <a href="https://www.youtube.com/@DailyPost365" class="social-icon" target="_blank">
-        <i class="fab fa-youtube"></i>
-    </a>
-    <a href="https://t.me/DailyPost365Live" class="social-icon" target="_blank">
-        <i class="fab fa-telegram-plane"></i>
-    </a>
-    <a href="https://www.instagram.com/dailypostwizard2026/" class="social-icon" target="_blank">
-        <i class="fab fa-instagram"></i>
-    </a>
-    <a href="https://www.tiktok.com/@dailypost0365" class="social-icon" target="_blank">
-        <i class="fab fa-tiktok"></i>
-    </a>
-</div> 
+        <a href="https://www.youtube.com/@DailyPost365" class="social-icon" target="_blank"><i class="fab fa-youtube"></i></a>
+        <a href="https://t.me/DailyPost365Live" class="social-icon" target="_blank"><i class="fab fa-telegram-plane"></i></a>
+        <a href="https://www.instagram.com/dailypostwizard2026/" class="social-icon" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.tiktok.com/@dailypost0365" class="social-icon" target="_blank"><i class="fab fa-tiktok"></i></a>
+    </div>
 
     <div class="dashboard-grid">
         
         <div class="glass-panel">
-            <h2 class="panel-title text-green">CRYPTO WHALE RADAR</h2>
+            <h2 class="panel-title text-green">Whale Radar v65</h2>
             <div class="canvas-container" id="egg-container">
-                <div class="click-hint">[ CLICK TO EXECUTE FRACTURE ]</div>
+                <div class="click-hint">INITIALIZE FRACTURE SEQUENCE</div>
                 <div class="interactive-overlay" id="btc-data">
-                    <i class="fab fa-bitcoin" style="font-size: 4rem; color: #F7931A; margin-bottom: 10px;"></i>
-                    <h1 class="text-green" id="egg-btc-price">LOADING...</h1>
-                    <p>Live API Protocol Active</p>
+                    <i class="fab fa-bitcoin" style="font-size: 4.5rem; color: #F7931A; margin-bottom: 15px;"></i>
+                    <h1 class="text-green" id="egg-btc-price">WAITING...</h1>
+                    <p style="color: #888; font-weight: 700;">SECURE NODE CONNECTED</p>
                 </div>
             </div>
-            <div style="margin-top: 15px; font-size: 0.85rem; color: #aaa; text-align: justify;">
-                <strong>Algorithmic Execution:</strong> Mathematical certainty protocols engaged. Real-time CoinGecko API connected.
+            <div style="margin-top: 20px; font-size: 0.9rem; color: #aaa; line-height: 1.6;">
+                <p><i class="fas fa-microchip text-green"></i> <strong>Engine:</strong> Eternal Pulse V18.1</p>
+                <p><i class="fas fa-shield-alt text-green"></i> <strong>Audit:</strong> 15-Stage Strict Quality</p>
+                <p><i class="fas fa-chart-line text-green"></i> <strong>Goal:</strong> 365M USD Target Progression</p>
             </div>
         </div>
 
         <div class="glass-panel center">
-            <h2 class="panel-title text-yellow">GLOBAL BROADCAST COMMAND</h2>
+            <h2 class="panel-title text-yellow">Global Broadcast Command</h2>
             <div class="video-scroller">
-                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/vUhYt8KRHfg" allowfullscreen></iframe></div>
-                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/2IycUPkfb4o" allowfullscreen></iframe></div>
-                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/vduuCaOhDno" allowfullscreen></iframe></div>
-                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/7e49Bip--eA" allowfullscreen></iframe></div>
-                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/me5Dqzcp0o0" allowfullscreen></iframe></div>
-                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/YCZpwsrBZz4" allowfullscreen></iframe></div>
+                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/vUhYt8KRHfg" title="V1"></iframe></div>
+                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/2IycUPkfb4o" title="V2"></iframe></div>
+                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/vduuCaOhDno" title="V3"></iframe></div>
+                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/7e49Bip--eA" title="V4"></iframe></div>
+                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/me5Dqzcp0o0" title="V5"></iframe></div>
+                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/YCZpwsrBZz4" title="V6"></iframe></div>
             </div>
         </div>
 
         <div class="glass-panel">
-            <h2 class="panel-title text-yellow">LIVE CRICKET INTEL</h2>
+            <h2 class="panel-title text-yellow">Live Cricket Intel</h2>
             <div class="canvas-container" id="cricket-container">
-                <div class="click-hint">[ CLICK TO INITIATE RADAR ]</div>
-                <div class="interactive-overlay" id="cricket-data" style="width: 85%;">
-                    <div id="cricket-live-list">FETCHING MATCHES...</div>
+                <div class="click-hint">INITIATE MATCH RADAR</div>
+                <div class="interactive-overlay" id="cricket-data">
+                    <div id="cricket-live-list">SCANNING SATELLITES...</div>
                 </div>
             </div>
-            <div style="margin-top: 15px; font-size: 0.85rem; color: #aaa; text-align: justify;">
-                <strong>Radar Locked:</strong> Sorting algorithms tracking IPL & International T20/ODI/Test fixtures worldwide.
+            <div style="margin-top: 20px; font-size: 0.9rem; color: #aaa; line-height: 1.6;">
+                <p><i class="fas fa-broadcast-tower text-yellow"></i> <strong>Feed:</strong> South Asian Bridge Online</p>
+                <p><i class="fas fa-users text-yellow"></i> <strong>Target:</strong> Global Diaspora Reach</p>
+                <p><i class="fas fa-bolt text-yellow"></i> <strong>Strategy:</strong> Viral SEO Mastery 2026</p>
             </div>
         </div>
 
     </div>
 
     <div id="nova-bot">
-        <div class="nova-speech">Multi-Match Tracker Online. Tracking IPL and International fixtures, Chief.</div>
-        <div class="nova-icon"><i class="fas fa-robot"></i></div>
+        <div class="nova-speech">System V65.0 Online. Awaiting your command for the 365M goal, Chief.</div>
+        <div class="nova-icon" onclick="novaSpeak()"><i class="fas fa-robot"></i></div>
     </div>
 
     <script>
         // ==========================================
-        // LIVE API DATA FETCHING PROTOCOLS
+        // DATA PROCESSING ENGINE
         // ==========================================
 
         async function fetchCryptoData() {
@@ -197,206 +400,167 @@
                 const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd');
                 const data = await response.json();
                 
-                const btcPrice = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(data.bitcoin.usd);
-                const ethPrice = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(data.ethereum.usd);
+                const fmt = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
+                const btc = fmt.format(data.bitcoin.usd);
+                const eth = fmt.format(data.ethereum.usd);
                 
-                document.getElementById('ticker-btc').innerText = 'BTC: ' + btcPrice;
-                document.getElementById('ticker-eth').innerText = 'ETH: ' + ethPrice;
-                document.getElementById('egg-btc-price').innerText = btcPrice;
-            } catch (error) {
-                console.error("Whale Tracker API Failed:", error);
+                document.getElementById('ticker-btc').innerHTML = `<i class="fab fa-bitcoin"></i> BTC: ${btc}`;
+                document.getElementById('ticker-eth').innerHTML = `<i class="fab fa-ethereum"></i> ETH: ${eth}`;
+                document.getElementById('egg-btc-price').innerText = btc;
+            } catch (e) {
+                console.error("Crypto Link Severed", e);
             }
         }
 
-async function fetchCricketData() {
-    try {
-        // High-frequency fetch with cache-busting for 2026 data
-        const rssUrl = 'https://static.cricinfo.com/rss/livescores.xml';
-        const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}&t=${new Date().getTime()}`);
-        const data = await response.json();
-        
-        if (data.items && data.items.length > 0) {
-            let tickerText = "";
-            let panelHTML = "";
-            
-            // EXPANDED MANDATORY KEYWORDS (Includes Men, Women, IPL, and Internationals)
-            const mandatoryKeywords = [
-                'IPL', 'WPL', 'INDIA', 'PAKISTAN', 'BANGLADESH', 
-                'WOMEN', 'ICC', 'T20', 'ODI', 'TEST', 'BBL', 'PSL'
-            ];
-            
-            // 1. Filter and Sort: Ensure Mandatory matches are always at the TOP
-            let processedMatches = data.items.map(item => {
-                const title = item.title.toUpperCase();
-                const isMandatory = mandatoryKeywords.some(key => title.includes(key));
-                return { ...item, isMandatory };
-            }).sort((a, b) => b.isMandatory - a.isMandatory);
-
-            // 2. Build the Output (Processing top 8 results for full coverage)
-            processedMatches.slice(0, 8).forEach(match => {
-                let cleanTitle = match.title.replace(/\s\s+/g, ' ').trim();
-                let displayLabel = match.isMandatory ? 'PREMIUM INTEL' : 'LIVE INTEL';
-                let neonColor = match.isMandatory ? '#ccff00' : '#00ffcc'; // Yellow for Priority, Cyan for Global
+        async function fetchCricketData() {
+            try {
+                const rssUrl = 'https://static.cricinfo.com/rss/livescores.xml';
+                const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}&t=${Date.now()}`);
+                const data = await response.json();
                 
-                tickerText += ` ${match.isMandatory ? '🔥' : '🏏'} ${cleanTitle}    |   `;
+                if (data.items && data.items.length > 0) {
+                    let tickerStr = "";
+                    let htmlStr = "";
+                    const priorities = ['IPL', 'INDIA', 'PAKISTAN', 'BANGLADESH', 'WPL', 'T20', 'ICC'];
+                    
+                    const sorted = data.items.map(m => {
+                        const t = m.title.toUpperCase();
+                        return { ...m, priority: priorities.some(p => t.includes(p)) };
+                    }).sort((a,b) => b.priority - a.priority);
 
-                panelHTML += `
-                    <div class="match-row" style="border-bottom: 1px solid rgba(204, 255, 0, 0.2); padding: 15px 0;">
-                        <span class="match-title" style="color: ${neonColor}; font-family: 'Orbitron'; font-size: 0.65rem; letter-spacing: 2px; font-weight:800;">
-                            ${displayLabel}
-                        </span>
-                        <div style="margin-top:5px; font-weight:700; color:#fff; font-size: 0.85rem; line-height: 1.4; text-transform: uppercase;">
-                            ${cleanTitle}
-                        </div>
-                    </div>`;
-            });
+                    sorted.slice(0, 10).forEach(match => {
+                        const clean = match.title.replace(/\s\s+/g, ' ').trim();
+                        tickerStr += `${match.priority ? '🔥' : '🏏'} ${clean} | `;
+                        
+                        htmlStr += `
+                            <div class="match-row">
+                                <span class="match-label" style="color: ${match.priority ? '#ccff00' : '#00ffff'}">
+                                    ${match.priority ? 'PREMIUM INTEL' : 'GLOBAL FEED'}
+                                </span>
+                                <div style="font-weight:700; font-size: 0.85rem; text-transform: uppercase;">${clean}</div>
+                            </div>`;
+                    });
 
-            // 3. UI Injection
-            const ticker = document.getElementById('ticker-cricket');
-            if (ticker) ticker.innerText = 'GLOBAL BROADCAST COMMAND: ' + tickerText;
-            
-            const list = document.getElementById('cricket-live-list');
-            if (list) list.innerHTML = panelHTML;
-
-        } else {
-            document.getElementById('cricket-live-list').innerHTML = "<div style='color:#666;'>SCANNING FOR UPCOMING FIXTURES...</div>";
+                    document.getElementById('ticker-cricket').innerText = "LIVE INTEL: " + tickerStr;
+                    document.getElementById('cricket-live-list').innerHTML = htmlStr;
+                }
+            } catch (e) {
+                document.getElementById('cricket-live-list').innerText = "SIGNAL RE-ROUTING...";
+            }
         }
-    } catch (error) {
-        console.error("Broadcast Sync Error:", error);
-        document.getElementById('cricket-live-list').innerHTML = "<div style='color:red;'>SIGNAL LOST - RECONNECTING...</div>";
-    }
-}
 
-// REMOVE duplicate setIntervals at the bottom of your script and use ONLY these:
-// Initial Start
-fetchCryptoData();
-fetchCricketData();
-
-// Autonomous Sync (Crypto: 30s, Cricket: 60s)
-setInterval(fetchCryptoData, 30000);
-setInterval(fetchCricketData, 60000); 
-
+        function novaSpeak() {
+            const phrases = [
+                "Whale tracking engaged.",
+                "Viral SEO targets locked.",
+                "365 Million views in sight.",
+                "Dubai HQ sync complete.",
+                "Zero quality loss automation active."
+            ];
+            document.querySelector('.nova-speech').innerText = phrases[Math.floor(Math.random()*phrases.length)];
+        }
 
         // ==========================================
-        // 3D GRAPHICS ENGINE
+        // 3D VISUALIZATION ENGINE (EXTENDED)
         // ==========================================
         window.onload = function() {
             
-            // 1. CINEMATIC PARTICLE BACKGROUND
-            const bgCanvas = document.getElementById('bg-canvas');
-            const bgScene = new THREE.Scene();
-            bgScene.fog = new THREE.FogExp2(0x050505, 0.002);
-            const bgCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 2000);
-            bgCamera.position.z = 1000;
-            const bgRenderer = new THREE.WebGLRenderer({ canvas: bgCanvas, antialias: true, alpha: true });
-            bgRenderer.setSize(window.innerWidth, window.innerHeight);
+            // 1. STARFIELD BACKGROUND
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 2000);
+            const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg-canvas'), alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
 
-            const geometry = new THREE.BufferGeometry();
-            const vertices = [];
-            for ( let i = 0; i < 3000; i ++ ) {
-                vertices.push( THREE.MathUtils.randFloatSpread( 2000 ) ); 
-                vertices.push( THREE.MathUtils.randFloatSpread( 2000 ) ); 
-                vertices.push( THREE.MathUtils.randFloatSpread( 2000 ) ); 
+            const starGeo = new THREE.BufferGeometry();
+            const starCoords = [];
+            for(let i=0; i<5000; i++) {
+                starCoords.push(THREE.MathUtils.randFloatSpread(2000), THREE.MathUtils.randFloatSpread(2000), THREE.MathUtils.randFloatSpread(2000));
             }
-            geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
-            const material = new THREE.PointsMaterial({ color: 0x39FF14, size: 2, transparent: true, opacity: 0.8 });
-            const particles = new THREE.Points( geometry, material );
-            bgScene.add( particles );
+            starGeo.setAttribute('position', new THREE.Float32BufferAttribute(starCoords, 3));
+            const starMat = new THREE.PointsMaterial({ color: 0x39FF14, size: 1.5, transparent: true });
+            const stars = new THREE.Points(starGeo, starMat);
+            scene.add(stars);
 
-            // 2. CRYPTO EGG FRACTURE SCENE
-            const eggCont = document.getElementById('egg-container');
+            // 2. CRYPTO EGG
+            const eggContainer = document.getElementById('egg-container');
             const eggScene = new THREE.Scene();
-            const eggCamera = new THREE.PerspectiveCamera(50, eggCont.clientWidth / eggCont.clientHeight, 0.1, 100);
-            eggCamera.position.z = 5;
-            const eggRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            eggRenderer.setSize(eggCont.clientWidth, eggCont.clientHeight);
-            eggCont.appendChild(eggRenderer.domElement);
+            const eggCam = new THREE.PerspectiveCamera(45, eggContainer.clientWidth/eggContainer.clientHeight, 0.1, 100);
+            eggCam.position.z = 6;
+            const eggRen = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            eggRen.setSize(eggContainer.clientWidth, eggContainer.clientHeight);
+            eggContainer.appendChild(eggRen.domElement);
 
-            const eggGeo = new THREE.SphereGeometry(1.5, 32, 32);
-            eggGeo.scale(1, 1.3, 1); 
-            const eggMat = new THREE.MeshPhongMaterial({ color: 0xFFD700, shininess: 100, wireframe: true }); 
-            const eggMesh = new THREE.Mesh(eggGeo, eggMat);
-            eggScene.add(eggMesh);
-            
-            const eggLight = new THREE.DirectionalLight(0xffffff, 1.5);
-            eggLight.position.set(2, 2, 5);
-            eggScene.add(eggLight);
+            const eggGeo = new THREE.SphereGeometry(1.6, 64, 64);
+            eggGeo.scale(1, 1.4, 1);
+            const eggMat = new THREE.MeshPhongMaterial({ color: 0xCCFF00, wireframe: true, shininess: 100 });
+            const egg = new THREE.Mesh(eggGeo, eggMat);
+            eggScene.add(egg);
+            eggScene.add(new THREE.PointLight(0xffffff, 1, 100).clone().translateZ(5));
 
-            let eggCracked = false;
-            eggCont.addEventListener('click', () => {
-                if(eggCracked) return;
-                eggCracked = true;
-                gsap.to(eggMesh.scale, { duration: 0.3, x: 2, y: 2, z: 2, ease: "power2.in" });
-                gsap.to(eggMesh.material, { duration: 0.3, opacity: 0, transparent: true });
-                
+            let cracked = false;
+            eggContainer.onclick = () => {
+                if(cracked) return;
+                cracked = true;
+                gsap.to(egg.scale, { x: 0, y: 0, z: 0, duration: 0.5 });
                 setTimeout(() => {
-                    eggMesh.visible = false;
-                    const btcData = document.getElementById('btc-data');
-                    btcData.style.display = 'block';
-                    gsap.fromTo(btcData, { scale: 0, opacity: 0 }, { duration: 1, scale: 1, opacity: 1, ease: "elastic.out(1, 0.5)" });
+                    document.getElementById('btc-data').style.display = 'block';
+                    gsap.from('#btc-data', { opacity: 0, scale: 0.5, duration: 1, ease: 'back.out' });
                     document.querySelector('#egg-container .click-hint').style.display = 'none';
-                }, 300);
-            });
+                }, 500);
+            };
 
-            // 3. CRICKET 3D SCENE
-            const crickCont = document.getElementById('cricket-container');
-            const crickScene = new THREE.Scene();
-            const crickCamera = new THREE.PerspectiveCamera(50, crickCont.clientWidth / crickCont.clientHeight, 0.1, 100);
-            crickCamera.position.set(0, 2, 6);
-            crickCamera.lookAt(0, 0, 0);
-            const crickRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            crickRenderer.setSize(crickCont.clientWidth, crickCont.clientHeight);
-            crickCont.appendChild(crickRenderer.domElement);
+            // 3. CRICKET PITCH
+            const crickContainer = document.getElementById('cricket-container');
+            const cScene = new THREE.Scene();
+            const cCam = new THREE.PerspectiveCamera(45, crickContainer.clientWidth/cricket-container.clientHeight, 0.1, 100);
+            cCam.position.set(0, 3, 8);
+            cCam.lookAt(0,0,0);
+            const cRen = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            cRen.setSize(crickContainer.clientWidth, crickContainer.clientHeight);
+            crickContainer.appendChild(cRen.domElement);
 
-            const pitchGeo = new THREE.BoxGeometry(2, 0.1, 6);
-            const pitchMat = new THREE.MeshPhongMaterial({ color: 0x228B22 }); 
-            const pitchMesh = new THREE.Mesh(pitchGeo, pitchMat);
-            crickScene.add(pitchMesh);
+            const pitch = new THREE.Mesh(new THREE.BoxGeometry(3, 0.1, 7), new THREE.MeshPhongMaterial({ color: 0x1a4a1a }));
+            cScene.add(pitch);
+            const ball = new THREE.Mesh(new THREE.SphereGeometry(0.25, 32, 32), new THREE.MeshPhongMaterial({ color: 0xff0000 }));
+            ball.position.set(0, 0.4, 3);
+            cScene.add(ball);
+            cScene.add(new THREE.AmbientLight(0xffffff, 0.8));
 
-            const ballGeo = new THREE.SphereGeometry(0.2, 16, 16);
-            const ballMat = new THREE.MeshPhongMaterial({ color: 0xff0000 }); 
-            const ballMesh = new THREE.Mesh(ballGeo, ballMat);
-            ballMesh.position.set(0, 0.3, 2);
-            crickScene.add(ballMesh);
-
-            const crickLight = new THREE.AmbientLight(0xffffff, 1);
-            crickScene.add(crickLight);
-
-            let ballHit = false;
-            crickCont.addEventListener('click', () => {
-                if(ballHit) return;
-                ballHit = true;
-                gsap.to(ballMesh.position, { duration: 0.5, z: -2, y: 0.1, ease: "power1.in", onComplete: () => {
-                    gsap.to(ballMesh.position, { duration: 0.4, z: 5, y: 3, x: 2, ease: "power2.out" });
-                    
+            let ballState = false;
+            crickContainer.onclick = () => {
+                if(ballState) return;
+                ballState = true;
+                gsap.to(ball.position, { z: -3, y: 0.2, duration: 0.4, onComplete: () => {
+                    gsap.to(ball.position, { z: 10, y: 5, duration: 0.6 });
                     setTimeout(() => {
-                        pitchMesh.visible = false;
-                        ballMesh.visible = false;
-                        const scoreData = document.getElementById('cricket-data');
-                        scoreData.style.display = 'block';
-                        gsap.fromTo(scoreData, { y: 50, opacity: 0 }, { duration: 0.8, y: 0, opacity: 1, ease: "back.out(1.7)" });
+                        document.getElementById('cricket-data').style.display = 'block';
                         document.querySelector('#cricket-container .click-hint').style.display = 'none';
-                    }, 200);
+                    }, 300);
                 }});
-            });
+            };
 
-            function render() {
-                requestAnimationFrame(render);
-                particles.rotation.x += 0.0005;
-                particles.rotation.y += 0.001;
-                bgRenderer.render(bgScene, bgCamera);
-                if(!eggCracked) { eggMesh.rotation.y += 0.01; }
-                eggRenderer.render(eggScene, eggCamera);
-                crickRenderer.render(crickScene, crickCamera);
+            function animate() {
+                requestAnimationFrame(animate);
+                stars.rotation.y += 0.0003;
+                if(!cracked) egg.rotation.y += 0.015;
+                renderer.render(scene, camera);
+                eggRen.render(eggScene, eggCam);
+                cRen.render(cScene, cCam);
             }
-            render();
+            animate();
 
             window.addEventListener('resize', () => {
-                bgCamera.aspect = window.innerWidth / window.innerHeight;
-                bgCamera.updateProjectionMatrix();
-                bgRenderer.setSize(window.innerWidth, window.innerHeight);
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
             });
         };
+
+        // INITIALIZE FEEDS
+        fetchCryptoData();
+        fetchCricketData();
+        setInterval(fetchCryptoData, 30000);
+        setInterval(fetchCricketData, 60000);
     </script>
 </body>
 </html>
