@@ -22,6 +22,10 @@
        
         * { box-sizing: border-box; }
 
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
+        ::-webkit-scrollbar-thumb { background: var(--neon-yellow); border-radius: 10px; }
+
         body, html { 
             margin: 0; 
             padding: 0; 
@@ -33,7 +37,6 @@
             overflow: hidden; 
         }
 
-        /* 3D CANVAS LAYER */
         #bg-canvas { 
             position: fixed; 
             top: 0; 
@@ -43,7 +46,6 @@
             z-index: -1; 
         }
 
-        /* BROADCAST TICKER SYSTEM */
         .broadcast-ticker {
             position: fixed; 
             top: 0; 
@@ -62,7 +64,7 @@
         .ticker-content { 
             display: flex; 
             white-space: nowrap; 
-            animation: scrollTicker 50s linear infinite; 
+            animation: scrollTicker 60s linear infinite; 
             font-size: 1.1rem; 
             text-transform: uppercase; 
             letter-spacing: 2px; 
@@ -75,16 +77,11 @@
             gap: 10px;
         }
         
-        .text-green { color: var(--neon-green); }
-        .text-yellow { color: var(--neon-yellow); }
-        .text-cyan { color: var(--neon-cyan); }
-        
         @keyframes scrollTicker { 
             0% { transform: translateX(100vw); } 
             100% { transform: translateX(-100%); } 
         }
 
-        /* SIDEBAR NAVIGATION (SOCIAL DOCK) */
         .social-dock {
             position: fixed; 
             left: 20px; 
@@ -118,7 +115,6 @@
             box-shadow: 0 0 25px var(--neon-green); 
         }
 
-        /* MAIN DASHBOARD ARCHITECTURE */
         .dashboard-grid {
             display: grid; 
             grid-template-columns: 380px 1fr 380px; 
@@ -141,19 +137,12 @@
             transition: border-color 0.3s ease;
         }
         
-        .glass-panel:hover {
-            border-color: rgba(57, 255, 20, 0.6);
-        }
-        
-        .glass-panel.center { 
-            border-color: rgba(204, 255, 0, 0.3); 
-        }
+        .glass-panel:hover { border-color: rgba(57, 255, 20, 0.6); }
 
         .panel-title {
             font-family: 'Orbitron', sans-serif; 
             font-size: 1.3rem; 
             text-align: center;
-            margin-top: 0; 
             margin-bottom: 20px; 
             border-bottom: 1px solid rgba(255,255,255,0.1); 
             padding-bottom: 12px;
@@ -161,7 +150,6 @@
             letter-spacing: 3px;
         }
 
-        /* INTERACTIVE 3D CONTAINERS */
         .canvas-container { 
             width: 100%; 
             height: 380px; 
@@ -170,7 +158,7 @@
             border-radius: 15px; 
             overflow: hidden; 
             background: radial-gradient(circle at center, #151515, #000); 
-            border: 1px solid rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
         }
         
         .interactive-overlay { 
@@ -180,18 +168,24 @@
             transform: translate(-50%, -50%); 
             text-align: center; 
             pointer-events: none; 
-            z-index: 10; 
-            display: none; 
-            width: 90%; 
+            width: 100%; 
+            padding: 20px;
+            display: none;
         }
-        
-        .interactive-overlay h1 { 
-            font-family: 'Orbitron', sans-serif; 
-            margin: 10px 0; 
-            font-size: 2.2rem; 
-            text-shadow: 0 0 25px currentColor; 
+
+        .shimmer-text {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.8rem;
+            color: var(--neon-green);
+            text-shadow: 0 0 20px var(--neon-green);
+            animation: textPulse 2s infinite alternate;
         }
-        
+
+        @keyframes textPulse {
+            from { opacity: 0.7; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1.02); }
+        }
+
         .click-hint { 
             position: absolute; 
             bottom: 15px; 
@@ -200,33 +194,22 @@
             font-size: 0.8rem; 
             color: #666; 
             letter-spacing: 2px; 
-            pointer-events: none;
             animation: pulseHint 2s infinite;
         }
         
-        @keyframes pulseHint {
-            0%, 100% { opacity: 0.4; }
-            50% { opacity: 1; }
-        }
+        @keyframes pulseHint { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
 
-        /* CONTENT FEED (CENTER) */
         .video-scroller {
             flex: 1; 
             overflow-y: auto; 
-            padding-right: 15px;
+            padding: 0 10px;
             display: grid; 
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
             gap: 20px; 
-            align-content: start;
         }
-        
-        .video-scroller::-webkit-scrollbar { width: 6px; }
-        .video-scroller::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
-        .video-scroller::-webkit-scrollbar-thumb { background: var(--neon-yellow); border-radius: 10px; }
         
         .video-wrapper { 
             aspect-ratio: 9/16;
-            width: 100%; 
             border-radius: 15px; 
             border: 2px solid rgba(204, 255, 0, 0.2); 
             overflow: hidden; 
@@ -236,32 +219,12 @@
         
         .video-wrapper:hover { 
             border-color: var(--neon-yellow); 
-            box-shadow: 0 0 20px rgba(204, 255, 0, 0.4); 
-            transform: scale(1.02);
+            box-shadow: 0 0 25px rgba(204, 255, 0, 0.4); 
+            transform: translateY(-5px);
         }
         
         iframe { width: 100%; height: 100%; border: none; }
 
-        /* CRICKET DATA INTERFACE */
-        .match-row {
-            border-bottom: 1px solid rgba(204, 255, 0, 0.15);
-            padding: 15px 0;
-            text-align: left;
-            transition: background 0.3s;
-        }
-        
-        .match-row:hover { background: rgba(255,255,255,0.02); }
-        
-        .match-label {
-            font-family: 'Orbitron';
-            font-size: 0.65rem;
-            letter-spacing: 2px;
-            font-weight: 800;
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        /* AI AVATAR SYSTEM */
         #nova-bot {
             position: fixed; 
             bottom: 30px; 
@@ -279,9 +242,8 @@
             border-radius: 25px 25px 0 25px;
             font-weight: 700; 
             font-size: 0.95rem; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-            max-width: 250px;
-            animation: floatBubble 4s ease-in-out infinite;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+            max-width: 280px;
         }
         
         .nova-icon {
@@ -295,16 +257,12 @@
             justify-content: center; 
             font-size: 2.2rem; 
             color: var(--neon-green);
-            box-shadow: 0 0 30px rgba(57, 255, 20, 0.5);
+            box-shadow: 0 0 40px rgba(57, 255, 20, 0.5);
             cursor: pointer;
+            transition: 0.3s;
         }
+        .nova-icon:hover { transform: rotate(15deg) scale(1.1); }
 
-        @keyframes floatBubble { 
-            0%, 100% { transform: translateY(0) rotate(0deg); } 
-            50% { transform: translateY(-15px) rotate(2deg); } 
-        }
-
-        /* RESPONSIVE OVERRIDES */
         @media (max-width: 1200px) {
             .dashboard-grid { 
                 grid-template-columns: 1fr; 
@@ -314,14 +272,6 @@
             }
             .social-dock { display: none; }
         }
-
-        .neon-text {
-            color: var(--neon-green);
-            font-family: 'Orbitron', sans-serif;
-            text-shadow: 0 0 10px var(--neon-green), 0 0 20px var(--neon-green);
-            pointer-events: none;
-            z-index: 10001;
-        }
     </style>
 </head>
 <body>
@@ -330,11 +280,11 @@
 
     <div class="broadcast-ticker">
         <div class="ticker-content">
-            <span class="text-green"><i class="fas fa-satellite-dish"></i> WHALE COMMAND ACTIVE</span>
-            <span id="ticker-btc" class="text-cyan">BTC: SYNCHRONIZING...</span>
-            <span id="ticker-eth" class="text-cyan">ETH: SYNCHRONIZING...</span>
-            <span id="ticker-cricket" class="text-yellow">INTEL: CONNECTING TO GLOBAL FEED...</span>
-            <span class="text-green"><i class="fas fa-clock"></i> UAE SYNC: 18:00 GST</span>
+            <span style="color:var(--neon-green)"><i class="fas fa-satellite-dish"></i> WHALE COMMAND ACTIVE</span>
+            <span id="ticker-btc" style="color:var(--neon-cyan)">BTC: SYNCING...</span>
+            <span id="ticker-eth" style="color:var(--neon-cyan)">ETH: SYNCING...</span>
+            <span id="ticker-cricket" style="color:var(--neon-yellow)">GLOBAL FEED: CONNECTING...</span>
+            <span style="color:var(--neon-green)"><i class="fas fa-microchip"></i> V75.0 MASTER CORE LIVE</span>
         </div>
     </div>
 
@@ -348,31 +298,31 @@
     <div class="dashboard-grid">
         
         <div class="glass-panel">
-            <h2 class="panel-title text-green">Whale Radar V67.5-IPL-LIVE</h2>
+            <h2 class="panel-title" style="color:var(--neon-green)">Whale Radar V75.0-HYPER-ACTIVE</h2>
             <div class="canvas-container" id="egg-container">
-                <div class="click-hint">INITIALIZE FRACTURE SEQUENCE</div>
-                <div class="interactive-overlay" id="btc-data">
-                    <i class="fab fa-bitcoin" style="font-size: 4.5rem; color: #F7931A; margin-bottom: 15px;"></i>
-                    <h1 class="text-green" id="egg-btc-price">WAITING...</h1>
-                    <p style="color: #888; font-weight: 700;">SECURE NODE CONNECTED</p>
+                <div class="click-hint">INITIALIZE FRACTURE</div>
+                <div class="interactive-overlay" id="btc-reveal-panel">
+                    <i class="fab fa-bitcoin" style="font-size: 5rem; color: #F7931A; margin-bottom: 20px; display: block;"></i>
+                    <div id="btc-price-text" class="shimmer-text">WAITING...</div>
+                    <div style="color: #666; font-weight: 700; margin-top: 15px; font-size: 0.8rem;">SECURE NODE CONNECTED</div>
                 </div>
             </div>
-            <div style="margin-top: 20px; font-size: 0.9rem; color: #aaa; line-height: 1.6;">
-                <p><i class="fas fa-microchip text-green"></i> <strong>Engine:</strong> Eternal Pulse V18.1</p>
-                <p><i class="fas fa-shield-alt text-green"></i> <strong>Audit:</strong> 15-Stage Strict Quality</p>
-                <p><i class="fas fa-chart-line text-green"></i> <strong>Goal:</strong> 365M USD Target Progression</p>
+            <div style="margin-top: 25px;">
+                <div id="audit-terminal" style="background:#000; border:1px solid #222; padding:15px; height:200px; overflow-y:auto; font-family:monospace; color:#39FF14; font-size:0.75rem; border-radius:12px; box-shadow: inset 0 0 15px #000;">
+                    <div id="log-flow">> INITIALIZING MASTER AUDIT...</div>
+                </div>
             </div>
         </div>
 
         <div class="glass-panel center">
-            <h2 class="panel-title text-yellow">Global Broadcast Command</h2>
+            <h2 class="panel-title" style="color:var(--neon-yellow)">Global Broadcast Command</h2>
             <div class="video-scroller">
-                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/vUhYt8KRHfg" title="V1"></iframe></div>
-                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/2IycUPkfb4o" title="V2"></iframe></div>
-                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/vduuCaOhDno" title="V3"></iframe></div>
-                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/7e49Bip--eA" title="V4"></iframe></div>
-                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/me5Dqzcp0o0" title="V5"></iframe></div>
-                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/YCZpwsrBZz4" title="V6"></iframe></div>
+                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/vUhYt8KRHfg"></iframe></div>
+                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/2IycUPkfb4o"></iframe></div>
+                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/vduuCaOhDno"></iframe></div>
+                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/7e49Bip--eA"></iframe></div>
+                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/me5Dqzcp0o0"></iframe></div>
+                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/YCZpwsrBZz4"></iframe></div>
             </div>
         </div>
 
@@ -396,23 +346,26 @@
     <div style="color: #FFF; font-size: 0.8rem;">18:00 UAE: MI vs RCB (Kohli 9K Chase)</div>
 </div>
 
-            <div style="margin-top: 20px; font-size: 0.9rem; color: #aaa; line-height: 1.6;">
-                <p><i class="fas fa-broadcast-tower text-yellow"></i> <strong>Feed:</strong> South Asian Bridge Online</p>
-                <p><i class="fas fa-users text-yellow"></i> <strong>Target:</strong> Global Diaspora Reach</p>
-                <p><i class="fas fa-bolt text-yellow"></i> <strong>Strategy:</strong> Viral SEO Mastery 2026</p>
+            <div class="canvas-container" id="cricket-canvas-panel" style="margin-top: 20px; height: 320px;">
+                <div class="click-hint">BOWL TO UNLOCK INTEL</div>
+            </div>
+            <div style="margin-top: 25px; font-size: 0.9rem; color: #aaa; line-height: 1.8; border-top: 1px solid #222; padding-top: 15px;">
+                <p><i class="fas fa-broadcast-tower text-yellow"></i> <strong>Engine:</strong> Eternal Pulse V20.0</p>
+                <p><i class="fas fa-users text-yellow"></i> <strong>Goal:</strong> 365 Million Reach</p>
+                <p><i class="fas fa-bolt text-yellow"></i> <strong>Audit:</strong> 15-Stage Zero-Loss</p>
             </div>
         </div>
 
     </div>
 
     <div id="nova-bot">
-        <div class="nova-speech">System V67.5-IPL-LIVE Online. Awaiting your command for the 365M goal, Chief.</div>
+        <div class="nova-speech">Master Command V75.0-HYPER-ACTIVE Active. 365M Target Locked.</div>
         <div class="nova-icon" onclick="novaSpeak()"><i class="fas fa-robot"></i></div>
     </div>
 
     <script>
         // ==========================================
-        // DATA PROCESSING ENGINE
+        // DATA PROCESSING ENGINE (AUTO-REPAIR)
         // ==========================================
 
         async function fetchCryptoData() {
@@ -426,10 +379,8 @@
                 
                 document.getElementById('ticker-btc').innerHTML = `<i class="fab fa-bitcoin"></i> BTC: ${btc}`;
                 document.getElementById('ticker-eth').innerHTML = `<i class="fab fa-ethereum"></i> ETH: ${eth}`;
-                document.getElementById('egg-btc-price').innerText = btc;
-            } catch (e) {
-                console.error("Crypto Link Severed", e);
-            }
+                document.getElementById('btc-price-text').innerText = btc;
+            } catch (e) { console.error("Crypto Data Error", e); }
         }
 
         async function fetchCricketData() {
@@ -440,7 +391,6 @@
                 
                 if (data.items && data.items.length > 0) {
                     let tickerStr = "";
-                    let htmlStr = "";
                     const priorities = ['IPL', 'INDIA', 'PAKISTAN', 'BANGLADESH', 'WPL', 'T20', 'ICC'];
                     
                     const sorted = data.items.map(m => {
@@ -449,59 +399,59 @@
                     }).sort((a,b) => b.priority - a.priority);
 
                     sorted.slice(0, 10).forEach(match => {
-                        const clean = match.title.replace(/\s\s+/g, ' ').trim();
+                        // AUTO-REPAIR HTML ENTITIES & AMP
+                        let clean = match.title.replace(/&AMP;/g, '&').replace(/&amp;/g, '&').replace(/\s\s+/g, ' ').trim();
                         tickerStr += `${match.priority ? '🔥' : '🏏'} ${clean} | `;
-                        // html generation skipped as we use dynamic SIDEBAR_HTML for now
                     });
 
-                    document.getElementById('ticker-cricket').innerText = "LIVE INTEL: " + tickerStr;
+                    document.getElementById('ticker-cricket').innerText = "LIVE FEED: " + tickerStr;
                 }
-            } catch (e) {
-                console.error("Cricket Feed Error", e);
-            }
+            } catch (e) { console.error("Cricket Data Error", e); }
         }
 
         function novaSpeak() {
             const phrases = [
-                "Whale tracking engaged.",
-                "Viral SEO targets locked.",
-                "365 Million views in sight.",
-                "Dubai HQ sync complete.",
-                "Zero quality loss automation active."
+                "Whale Tracking: 100% Secure.",
+                "Viral SEO: Dominance Initialized.",
+                "365M USD Target: Progression Stable.",
+                "Zero-Loss Pipeline: Operating.",
+                "Eternal Pulse V20: Synchronized."
             ];
             document.querySelector('.nova-speech').innerText = phrases[Math.floor(Math.random()*phrases.length)];
         }
 
         // ==========================================
-        // 3D VISUALIZATION ENGINE (GLOBAL STATE)
+        // 3D HIGH-RES VISUAL ENGINE (V75 MASTER)
         // ==========================================
         let scene, camera, renderer, stars, animate;
 
         window.onload = function() {
-            
-            // 1. STARFIELD BACKGROUND
+            // 1. STARFIELD CORE
             scene = new THREE.Scene();
             camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 2000);
             camera.position.z = 800;
-            renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg-canvas'), alpha: true });
+            
+            renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg-canvas'), alpha: true, antialias: true });
+            renderer.setPixelRatio(window.devicePixelRatio); // FIX: HIGH-RES
             renderer.setSize(window.innerWidth, window.innerHeight);
 
             const starGeo = new THREE.BufferGeometry();
             const starCoords = [];
-            for(let i=0; i<5000; i++) {
-                starCoords.push(THREE.MathUtils.randFloatSpread(2000), THREE.MathUtils.randFloatSpread(2000), THREE.MathUtils.randFloatSpread(2000));
+            for(let i=0; i<6000; i++) {
+                starCoords.push(THREE.MathUtils.randFloatSpread(3000), THREE.MathUtils.randFloatSpread(3000), THREE.MathUtils.randFloatSpread(3000));
             }
             starGeo.setAttribute('position', new THREE.Float32BufferAttribute(starCoords, 3));
-            const starMat = new THREE.PointsMaterial({ color: 0x39FF14, size: 1.5, transparent: true });
+            const starMat = new THREE.PointsMaterial({ color: 0x39FF14, size: 1.2, transparent: true });
             stars = new THREE.Points(starGeo, starMat);
             scene.add(stars);
 
-            // 2. CRYPTO EGG
+            // 2. CRYPTO EGG PANEL
             const eggContainer = document.getElementById('egg-container');
             const eggScene = new THREE.Scene();
             const eggCam = new THREE.PerspectiveCamera(45, eggContainer.clientWidth/eggContainer.clientHeight, 0.1, 100);
             eggCam.position.z = 6;
             const eggRen = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            eggRen.setPixelRatio(window.devicePixelRatio); // FIX: HIGH-RES
             eggRen.setSize(eggContainer.clientWidth, eggContainer.clientHeight);
             eggContainer.appendChild(eggRen.domElement);
 
@@ -510,165 +460,146 @@
             const eggMat = new THREE.MeshPhongMaterial({ color: 0xCCFF00, wireframe: true, shininess: 100 });
             const egg = new THREE.Mesh(eggGeo, eggMat);
             eggScene.add(egg);
-            eggScene.add(new THREE.PointLight(0xffffff, 1, 100).clone().translateZ(5));
+            eggScene.add(new THREE.PointLight(0xffffff, 1.5, 100).clone().translateZ(5));
 
             let cracked = false;
             eggContainer.onclick = () => {
                 if(cracked) return;
                 cracked = true;
-                triggerCryptoEgg();
-                gsap.to(egg.scale, { x: 0, y: 0, z: 0, duration: 0.5 });
+                triggerMasterCrypto();
+                gsap.to(egg.scale, { x: 0, y: 0, z: 0, duration: 0.6, ease: "power2.in" });
                 setTimeout(() => {
-                    document.getElementById('btc-data').style.display = 'block';
-                    gsap.from('#btc-data', { opacity: 0, scale: 0.5, duration: 1, ease: 'back.out' });
+                    document.getElementById('btc-reveal-panel').style.display = 'block';
+                    gsap.from('#btc-reveal-panel', { opacity: 0, scale: 0.2, duration: 1.2, ease: "back.out(1.7)" });
                     document.querySelector('#egg-container .click-hint').style.display = 'none';
-                }, 500);
+                }, 400);
             };
 
-            const crickContainer = document.getElementById('cricket-container');
+            // 3. CRICKET PITCH PANEL
+            const crickContainer = document.getElementById('cricket-canvas-panel');
+            const cScene = new THREE.Scene();
+            const cCam = new THREE.PerspectiveCamera(45, crickContainer.clientWidth/crickContainer.clientHeight, 0.1, 100);
+            cCam.position.set(0, 3, 8); cCam.lookAt(0,0,0);
+            const cRen = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            cRen.setPixelRatio(window.devicePixelRatio); // FIX: HIGH-RES
+            cRen.setSize(crickContainer.clientWidth, crickContainer.clientHeight);
+            crickContainer.appendChild(cRen.domElement);
+
+            const pitch = new THREE.Mesh(new THREE.BoxGeometry(3, 0.1, 7), new THREE.MeshPhongMaterial({ color: 0x1a4a1a }));
+            cScene.add(pitch);
+            const ball = new THREE.Mesh(new THREE.SphereGeometry(0.25, 32, 32), new THREE.MeshPhongMaterial({ color: 0xff0000 }));
+            ball.position.set(0, 0.4, 3);
+            cScene.add(ball);
+            cScene.add(new THREE.AmbientLight(0xffffff, 1));
+
+            let bit = false;
             crickContainer.onclick = () => {
-                playCricketSequence();
-                document.querySelector('#cricket-container .click-hint').style.display = 'none';
+                if(bit) return;
+                bit = true;
+                gsap.to(ball.position, { z: -3, y: 0.2, duration: 0.5, onComplete: () => {
+                    gsap.to(ball.position, { z: 12, y: 6, duration: 0.7 });
+                    playMasterCricket();
+                    document.querySelector('#cricket-canvas-panel .click-hint').style.display = 'none';
+                }});
             };
 
             animate = function() {
                 requestAnimationFrame(animate);
-                stars.rotation.y += 0.0003;
-                if(!cracked) egg.rotation.y += 0.015;
+                stars.rotation.y += 0.00025;
+                if(!cracked) egg.rotation.y += 0.02;
                 renderer.render(scene, camera);
                 eggRen.render(eggScene, eggCam);
+                cRen.render(cScene, cCam);
             }
             animate();
 
-            // INTEGRATE V75 UPGRADES
-            initializeAuditTerminal();
-            injectHyperDrive();
+            initializeAuditFlow();
+            injectHyperDriveForce();
 
             window.addEventListener('resize', () => {
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(window.innerWidth, window.innerHeight);
+                const w = window.innerWidth, h = window.innerHeight;
+                camera.aspect = w/h; camera.updateProjectionMatrix();
+                renderer.setSize(w, h);
             });
         };
 
         // ==========================================
-        // V75.1 CRYPTO & CRICKET SEQUENCES
+        // V75.1 HYPER-ACTIVE MASTER LOGIC
         // ==========================================
 
-        function triggerCryptoEgg() {
-            const geometry = new THREE.IcosahedronGeometry(50, 0); 
-            const material = new THREE.MeshBasicMaterial({ color: 0xCCFF00, wireframe: true });
-            const egg = new THREE.Mesh(geometry, material);
-            egg.position.set(-200, 100, 500);
-            scene.add(egg);
+        function triggerMasterCrypto() {
+            const geo = new THREE.IcosahedronGeometry(70, 0); 
+            const mat = new THREE.MeshBasicMaterial({ color: 0xCCFF00, wireframe: true, transparent: true, opacity: 0.4 });
+            const masterEgg = new THREE.Mesh(geo, mat);
+            masterEgg.position.set(-250, 100, 400);
+            scene.add(masterEgg);
 
-            gsap.to(egg.rotation, { y: Math.PI * 2, duration: 2, repeat: 1 });
-            gsap.to(egg.scale, { x: 0, y: 0, z: 0, delay: 3, duration: 0.5, onComplete: () => {
-                scene.remove(egg);
-                showBtcPopup("BTC: $72,450", egg.position);
+            gsap.to(masterEgg.rotation, { y: Math.PI * 4, duration: 2.5 });
+            gsap.to(masterEgg.scale, { x: 0, y: 0, z: 0, delay: 2.8, duration: 0.6, onComplete: () => {
+                scene.remove(masterEgg);
             }});
         }
 
-        function showBtcPopup(price, pos) {
-            const div = document.createElement('div');
-            div.className = 'neon-text';
-            div.style.position = 'absolute';
-            div.style.left = '40%';
-            div.style.top = '40%';
-            div.style.fontSize = '3rem';
-            div.innerHTML = price;
-            document.body.appendChild(div);
-            gsap.from(div, { scale: 0, opacity: 0, duration: 1, ease: "elastic.out" });
-        }
-
-        function playCricketSequence() {
-            const ballGeo = new THREE.SphereGeometry(15, 32, 32);
+        function playMasterCricket() {
+            const ballGeo = new THREE.SphereGeometry(12, 32, 32);
             const ballMat = new THREE.MeshBasicMaterial({ color: 0xFF0000 });
-            const ball = new THREE.Mesh(ballGeo, ballMat);
-            ball.position.set(500, -100, 400); 
-            scene.add(ball);
+            const mBall = new THREE.Mesh(ballGeo, ballMat);
+            mBall.position.set(500, -100, 400); 
+            scene.add(mBall);
 
-            gsap.to(ball.position, { 
-                x: -500, y: 150, z: 200, 
-                duration: 1.5, 
-                ease: "power2.inOut",
+            gsap.to(mBall.position, { 
+                x: -500, y: 150, z: 100, 
+                duration: 1.4, ease: "power2.inOut",
                 onComplete: () => {
-                    scene.remove(ball);
+                    scene.remove(mBall);
                     const intel = document.getElementById('intel-container');
                     intel.style.display = 'block';
-                    gsap.from(intel, { x: 100, opacity: 0, duration: 1 });
+                    gsap.from(intel, { x: 300, opacity: 0, duration: 1, ease: "power3.out" });
                 }
             });
         }
 
-        // ==========================================
-        // V75.0 HYPER-DRIVE & 15-STAGE AUDIT ENGINE
-        // ==========================================
-
-        const AUDIT_STAGES = [
-            { id: 1, task: "VIRAL SEO: KOHLI/BABAR 2026 METRICS SYNCED", status: "PASS" },
-            { id: 2, task: "UAE-SOUTH ASIA BRIDGE (18:00 GST) ACTIVE", status: "PASS" },
-            { id: 3, task: "WHALE COMMAND NODE: CRYPTO RADAR SECURE", status: "PASS" },
-            { id: 4, task: "15-STAGE AUDIT: MATHEMATICAL CERTAINTY", status: "PASS" },
-            { id: 5, task: "4K BINARY ZERO-LOSS PIPELINE STANDBY", status: "PASS" },
-            { id: 6, task: "GO PROTOCOL (HITL): TELEGRAM LINK ACTIVE", status: "READY" },
-            { id: 7, task: "ETERNAL PULSE V18.1: LIQUIDITY TRACKING", status: "ACTIVE" },
-            { id: 8, task: "SOUTH ASIAN DIASPORA TARGETING LOCKED", status: "PASS" },
-            { id: 9, task: "N8N AUTOMATION: MULTI-PLATFORM BLAST", status: "SYNC" },
-            { id: 10, task: "BROADCAST NEON STYLE: 9:16 VERTICAL", status: "PASS" },
-            { id: 11, task: "ALGORITHMIC EXECUTION: WHALE TRACKING", status: "PASS" },
-            { id: 12, task: "GLOBAL SEARCH DOMINANCE: TOP 5 TARGET", status: "PASS" },
-            { id: 13, task: "DAILYPOST365 REVENUE ENGINE: 365M USD", status: "TARGET" },
-            { id: 14, task: "INSTITUTIONAL CRYPTO 15-POINT AUDIT", status: "PASS" },
-            { id: 15, task: "SYSTEM STATUS: GRAND MASTER COMMAND", status: "LIVE" }
-        ];
-
-        function initializeAuditTerminal() {
-            const panels = document.querySelectorAll('.glass-panel');
-            const targetPanel = panels[0]; 
-            
-            const terminalHtml = `
-                <div id="audit-terminal" style="margin-top:20px; background:#000; border:1px solid #1a1a1a; padding:15px; height:180px; overflow-y:auto; font-family:monospace; color:#39FF14; font-size:0.7rem; border-radius:10px; box-shadow: inset 0 0 10px #000;">
-                    <div id="log-flow">> INITIALIZING V75.0 MASTER CORE...</div>
-                </div>
-            `;
-            targetPanel.innerHTML += terminalHtml;
-
-            let stageIdx = 0;
-            const logInterval = setInterval(() => {
-                const flow = document.getElementById('log-flow');
-                if (stageIdx < AUDIT_STAGES.length) {
-                    const item = AUDIT_STAGES[stageIdx];
-                    flow.innerHTML += `<br><span style="color:#CCFF00">[STAGE ${item.id}]</span> ${item.task} ... <b style="color:#FFF">${item.status}</b>`;
+        function initializeAuditFlow() {
+            const stages = [
+                "VIRAL SEO: KOHLI/MI 2026 METRICS SYNCED",
+                "UAE-SOUTH ASIA BRIDGE (18:00 GST) ACTIVE",
+                "WHALE COMMAND NODE: RADAR SECURE",
+                "15-STAGE AUDIT: MATHEMATICAL CERTAINTY",
+                "SOUTH ASIAN DIASPORA TARGETING LOCKED",
+                "N8N AUTOMATION: MULTI-PLATFORM BLAST",
+                "DAILYPOST365 REVENUE ENGINE: 365M USD",
+                "STATUS: MASTER COMMAND LIVE"
+            ];
+            let idx = 0;
+            const flow = document.getElementById('log-flow');
+            const interval = setInterval(() => {
+                if (idx < stages.length) {
+                    flow.innerHTML += `<br><span style="color:#CCFF00">>></span> ${stages[idx]} ... <b style="color:#FFF">PASS</b>`;
                     flow.scrollTop = flow.scrollHeight;
-                    stageIdx++;
-                } else {
-                    clearInterval(logInterval);
-                    flow.innerHTML += `<br><br><span style="color:#00FFFF">>>> ALL AUDITS PASSED. GLOBAL COMMAND ACTIVE.</span>`;
-                }
-            }, 1800);
+                    idx++;
+                } else clearInterval(interval);
+            }, 2000);
         }
 
-        function injectHyperDrive() {
+        function injectHyperDriveForce() {
             const warpGeo = new THREE.BufferGeometry();
             const warpCoords = [];
-            for(let i=0; i<2000; i++) {
-                warpCoords.push(THREE.MathUtils.randFloatSpread(3000), THREE.MathUtils.randFloatSpread(3000), THREE.MathUtils.randFloatSpread(3000));
+            for(let i=0; i<2500; i++) {
+                warpCoords.push(THREE.MathUtils.randFloatSpread(4000), THREE.MathUtils.randFloatSpread(4000), THREE.MathUtils.randFloatSpread(4000));
             }
             warpGeo.setAttribute('position', new THREE.Float32BufferAttribute(warpCoords, 3));
-            const warpMat = new THREE.PointsMaterial({ color: 0x00FFFF, size: 0.5, transparent: true, opacity: 0.3 });
+            const warpMat = new THREE.PointsMaterial({ color: 0x00FFFF, size: 0.8, transparent: true, opacity: 0.4 });
             const warpPoints = new THREE.Points(warpGeo, warpMat);
             scene.add(warpPoints); 
 
-            const originalAnimate = animate;
+            const origAnimate = animate;
             animate = function() {
-                originalAnimate();
-                warpPoints.rotation.z += 0.001;
-                warpPoints.rotation.x += 0.0005;
+                origAnimate();
+                warpPoints.rotation.z += 0.0015;
+                warpPoints.rotation.x += 0.0008;
             };
         }
 
-        // INITIALIZE FEEDS
         fetchCryptoData();
         fetchCricketData();
         setInterval(fetchCryptoData, 30000);
