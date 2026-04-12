@@ -386,24 +386,33 @@
         async function fetchCricketData() {
             try {
                 const rssUrl = 'https://static.cricinfo.com/rss/livescores.xml';
-                const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}&t=${Date.now()}`);
+                // RECAP: Increase count to 20 to ensure IPL matches are not cut off
+                const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}&t=${Date.now()}&count=20`);
                 const data = await response.json();
                 
                 if (data.items && data.items.length > 0) {
-                    const priorities = ['IPL', 'INDIA', 'PAKISTAN', 'BANGLADESH', 'WPL', 'T20', 'ICC'];
+                    // GENIUS PRIORITY: Include Team Names and South Asian Powerhouses
+                    const priorities = [
+                        'IPL', 'WPL', 'T20', 'MUMBAI', 'RCB', 'BANGALORE', 'GUJARAT', 'TITANS', 'LUCKNOW', 
+                        'LSG', 'GT', 'CSK', 'CHENNAI', 'KOLKATA', 'KKR', 'RAJASTHAN', 'DELHI', 'PUNJAB', 'HYDERABAD',
+                        'INDIA', 'PAKISTAN', 'BANGLADESH', 'SRI LANKA'
+                    ];
+                    
                     const sorted = data.items.map(m => {
                         const t = m.title.toUpperCase();
-                        const isLive = !t.includes('WON BY') && !t.includes('DRAWN') && !t.includes('RESULT');
-                        return { ...m, priority: priorities.some(p => t.includes(p)), isLive: isLive };
+                        const isLive = !t.includes('WON BY') && !t.includes('RESULT') && !t.includes('DRAWN');
+                        const hasPriority = priorities.some(p => t.includes(p));
+                        return { ...m, priority: hasPriority, isLive: isLive };
                     }).sort((a,b) => b.priority - a.priority);
 
                     // 1. UPDATE TICKER
                     let tickerStr = "";
-                    sorted.slice(0, 10).forEach(match => {
+                    sorted.slice(0, 15).forEach(match => {
                         let clean = match.title.replace(/&amp;/gi, '&').trim();
                         tickerStr += `${match.isLive ? '🔥' : '🏏'} ${clean} | `;
                     });
                     document.getElementById('ticker-cricket').innerText = "LIVE FEED: " + tickerStr;
+
 
                     // 2. UPDATE SIDEBAR INTEL
                     const intel = document.getElementById('intel-container');
