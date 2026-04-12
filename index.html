@@ -330,20 +330,20 @@
             
 <div class="panel-header">LIVE CRICKET INTEL</div>
 <div id="intel-container" style="padding:15px; font-family: 'Rajdhani', sans-serif;">
-    <div style="color: #39FF14; font-weight: bold; margin-bottom: 10px;">âœ… APRIL 11 SUMMARY</div>
-    
-    <div class="match-card" style="border-bottom: 1px solid #222; margin-bottom: 10px;">
-        <div style="color: #FFF; font-size: 0.9rem;">CSK vs DC: <span style="color: #CCFF00;">CSK WON BY 23 RUNS</span></div>
-        <p style="color: #888; font-size: 0.75rem;">Samson Masterclass: 115* (56). Overton 4/18.</p>
+    <div style="color: #39FF14; font-weight: bold; margin-bottom: 10px;">âš¡ LIVE NOW</div>
+    <div class="match-card" style="border-left: 2px solid #39FF14; padding-left: 10px; margin-bottom: 15px;">
+        <div style="color: #FFF; font-size: 0.9rem;">MI vs RCB: <span style="color: #00F3FF;">IN PROGRESS</span></div>
+        <p style="color: #888; font-size: 0.75rem; margin-top: 5px;">Kohli 50, Phil Salt 78. RCB batting first at Wankhede.</p>
     </div>
 
-    <div class="match-card" style="border-bottom: 1px solid #222; margin-bottom: 10px;">
-        <div style="color: #FFF; font-size: 0.9rem;">PBKS vs SRH: <span style="color: #CCFF00;">PBKS WON BY 6 WICKETS</span></div>
-        <p style="color: #888; font-size: 0.75rem;">Iyer (69*) & Abhishek (74) chase down 219.</p>
+    <div style="color: #CCFF00; font-weight: bold; margin-bottom: 10px;">âœ… APRIL 12 SUMMARY</div>
+    <div class="match-card" style="border-left: 2px solid #CCFF00; padding-left: 10px; margin-bottom: 10px;">
+        <div style="color: #FFF; font-size: 0.9rem;">LSG vs GT: <span style="color: #CCFF00;">GT WON BY 7 WICKETS</span></div>
+        <p style="color: #888; font-size: 0.75rem; margin-top: 5px;">GT 165/3 (18.4) chased down 164. Gill steady knock.</p>
     </div>
 
-    <div style="color: #00F3FF; font-weight: bold; margin-top: 20px;">ðŸš€ TOMORROW (APRIL 12)</div>
-    <div style="color: #FFF; font-size: 0.8rem;">18:00 UAE: MI vs RCB (Kohli 9K Chase)</div>
+    <div style="color: #888; font-weight: bold; margin-top: 20px;">ðŸ“… COMING UP (APRIL 13)</div>
+    <div style="color: #FFF; font-size: 0.8rem; margin-top: 5px;">18:00 UAE: PBKS vs RR (Samson vs Dhawan)</div>
 </div>
 
             <div class="canvas-container" id="cricket-canvas-panel" style="margin-top: 20px; height: 320px;">
@@ -390,24 +390,68 @@
                 const data = await response.json();
                 
                 if (data.items && data.items.length > 0) {
-                    let tickerStr = "";
                     const priorities = ['IPL', 'INDIA', 'PAKISTAN', 'BANGLADESH', 'WPL', 'T20', 'ICC'];
-                    
                     const sorted = data.items.map(m => {
                         const t = m.title.toUpperCase();
-                        return { ...m, priority: priorities.some(p => t.includes(p)) };
+                        const isLive = !t.includes('WON BY') && !t.includes('DRAWN') && !t.includes('RESULT');
+                        return { ...m, priority: priorities.some(p => t.includes(p)), isLive: isLive };
                     }).sort((a,b) => b.priority - a.priority);
 
+                    // 1. UPDATE TICKER
+                    let tickerStr = "";
                     sorted.slice(0, 10).forEach(match => {
-                        // AUTO-REPAIR HTML ENTITIES & AMP
-                        let clean = match.title.replace(/&AMP;/g, '&').replace(/&amp;/g, '&').replace(/\s\s+/g, ' ').trim();
-                        tickerStr += `${match.priority ? '🔥' : '🏏'} ${clean} | `;
+                        let clean = match.title.replace(/&amp;/gi, '&').trim();
+                        tickerStr += `${match.isLive ? '🔥' : '🏏'} ${clean} | `;
                     });
-
                     document.getElementById('ticker-cricket').innerText = "LIVE FEED: " + tickerStr;
+
+                    // 2. UPDATE SIDEBAR INTEL
+                    const intel = document.getElementById('intel-container');
+                    if (intel) {
+                        let sidebarContent = "";
+                        const liveMatches = sorted.filter(m => m.isLive && m.priority).slice(0, 2);
+                        const results = sorted.filter(m => !m.isLive && m.priority).slice(0, 2);
+
+                        if (liveMatches.length > 0) {
+                            sidebarContent += `<div style="color: #39FF14; font-weight: bold; margin-bottom: 10px; font-size: 0.8rem; letter-spacing:1px;">⚡ LIVE NOW</div>`;
+                            liveMatches.forEach(m => {
+                                let title = m.title.replace(/&amp;/gi, '&');
+                                sidebarContent += `
+                                    <div class="match-card" style="border-left: 2px solid #39FF14; padding-left: 10px; margin-bottom: 15px;">
+                                        <div style="color: #FFF; font-size: 0.85rem; font-weight:700;">${title}</div>
+                                        <div style="color: #00F3FF; font-size: 0.7rem; margin-top:4px;">STATUS: IN PROGRESS</div>
+                                    </div>`;
+                            });
+                        }
+
+                        if (results.length > 0) {
+                            sidebarContent += `<div style="color: #CCFF00; font-weight: bold; margin: 15px 0 10px 0; font-size: 0.8rem; letter-spacing:1px;">✅ MATCH SUMMARY</div>`;
+                            results.forEach(m => {
+                                let title = m.title.replace(/&amp;/gi, '&');
+                                sidebarContent += `
+                                    <div class="match-card" style="border-left: 2px solid #CCFF00; padding-left: 10px; margin-bottom: 10px;">
+                                        <div style="color: #FFF; font-size: 0.85rem;">${title}</div>
+                                    </div>`;
+                            });
+                        }
+
+
+                        if (sidebarContent === "") {
+                            sidebarContent = `<div style="color: #888; font-size: 0.8rem;">Synthesizing global feeds... No live IPL matches detected.</div>`;
+                        }
+                        
+                        sidebarContent += `
+                            <div style="color: #555; font-size: 0.7rem; margin-top: 15px; border-top: 1px solid #222; padding-top: 10px;">
+                                <i class="fas fa-sync-alt fa-spin"></i> AUTO-SYNC ACTIVE
+                            </div>`;
+                        
+                        intel.innerHTML = sidebarContent;
+                    }
                 }
             } catch (e) { console.error("Cricket Data Error", e); }
         }
+
+
 
         function novaSpeak() {
             const phrases = [
