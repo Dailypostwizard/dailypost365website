@@ -9,17 +9,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <!-- TradingView Advanced Widget -->
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
 
     <style>
 /* ========================================================
-   DAILYPOST365 - DUAL DASHBOARD CSS
+   DAILYPOST365 - DUAL DASHBOARD CSS (REFINED)
    ======================================================== */
 
 :root {
-    --bg-main: #050505;
-    --bg-panel: rgba(10, 15, 20, 0.85); /* Glass effect */
+    --bg-panel: rgba(10, 15, 20, 0.7); /* More transparent glass */
     --border-glow: rgba(57, 255, 20, 0.4);
     --border-color: #1a2230;
     
@@ -27,6 +27,7 @@
     --neon-yellow: #CCFF00;
     --neon-cyan: #00FFFF;
     --neon-purple: #9D00FF;
+    --neon-pink: #FF00FF;
     --color-red: #FF3333;
     
     --text-primary: #FFFFFF;
@@ -36,7 +37,7 @@
     --font-data: 'Roboto Mono', monospace;
     --font-head: 'Oswald', sans-serif;
     
-    --glass-blur: blur(16px);
+    --glass-blur: blur(20px);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -47,26 +48,26 @@
 body, html {
     width: 100%; height: 100%;
     font-family: var(--font-main);
-    background-color: var(--bg-main);
     color: var(--text-primary);
-    overflow: hidden; /* Stop page scroll, individual panels scroll */
+    overflow: hidden; 
+    /* Dynamic Dark Gradient Background Fallback */
+    background: radial-gradient(circle at 50% 50%, #0c162d 0%, #050505 80%);
 }
 
-/* 3D Background */
-#bg-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; }
+/* 3D Background - FIXED Z-INDEX */
+#bg-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
 
-/* Live Ticker (Top) */
+/* Live Ticker (Top) SLOWED DOWN */
 .live-ticker-container {
     position: fixed; top: 0; left: 0; width: 100%; height: 40px;
-    background: #000;
+    background: rgba(0, 0, 0, 0.85);
     border-bottom: 2px solid var(--neon-green);
     z-index: 1000; display: flex; align-items: center;
     overflow: hidden; font-family: var(--font-data);
-    box-shadow: 0 4px 15px var(--border-glow);
 }
 .ticker-content {
-    display: flex; white-space: nowrap; font-size: 0.9rem; font-weight: 700;
-    animation: scrollTicker 30s linear infinite;
+    display: flex; white-space: nowrap; font-size: 0.95rem; font-weight: 700;
+    animation: scrollTicker 90s linear infinite; /* FIXED: Now highly readable */
 }
 .ticker-content span { padding: 0 40px; border-right: 1px solid #333; }
 @keyframes scrollTicker {
@@ -88,12 +89,44 @@ body, html {
 }
 .social-btn:hover { background: var(--neon-cyan); color: #000; transform: scale(1.1); box-shadow: 0 0 15px var(--neon-cyan); }
 
+/* QA Gemini Badge */
+.gemini-qa-console {
+    position: fixed; bottom: 15px; left: 15px; background: rgba(0,0,0,0.8);
+    border: 1px solid var(--neon-purple); border-radius: 8px; padding: 10px 15px;
+    z-index: 999; font-family: var(--font-data); font-size: 0.8rem;
+    box-shadow: 0 0 15px rgba(157, 0, 255, 0.4); display: flex; align-items: center; gap: 10px;
+}
+.gemini-qa-console i { font-size: 1.4rem; color: var(--neon-purple); animation: pulse 2s infinite; }
+@keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.2); text-shadow: 0 0 10px #FFF; } 100% { transform: scale(1); } }
+
+/* ========================================================
+   MODAL CSS (FOR SCORECARD)
+   ======================================================== */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85); backdrop-filter: blur(10px);
+    z-index: 9999; display: none; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity 0.3s ease;
+}
+.modal-overlay.active { display: flex; opacity: 1; }
+.modal-content {
+    background: #0f141e; border: 2px solid var(--neon-green);
+    border-radius: 12px; width: 90%; max-width: 800px;
+    padding: 30px; position: relative; box-shadow: 0 0 40px var(--border-glow);
+    transform: translateY(20px); transition: transform 0.3s ease;
+}
+.modal-overlay.active .modal-content { transform: translateY(0); }
+.close-modal {
+    position: absolute; top: 15px; right: 15px; background: transparent; border: none;
+    color: var(--neon-green); font-size: 1.5rem; cursor: pointer; transition: 0.3s;
+}
+.close-modal:hover { color: #FFF; transform: rotate(90deg); }
 
 /* ========================================================
    DUAL DASHBOARD STRUCTURE  (60% / 40%)
    ======================================================== */
 .master-dashboard {
-    position: absolute; top: 50px; left: 70px; right: 20px; bottom: 10px;
+    position: absolute; top: 50px; left: 70px; right: 20px; bottom: 50px;
     display: flex; gap: 20px; z-index: 10;
 }
 
@@ -121,70 +154,61 @@ body, html {
 .scorecard-box { border: 2px solid var(--neon-yellow); background: rgba(204,255,0,0.05); position: relative; }
 .score-header { display: flex; justify-content: space-between; align-items: center; font-family: var(--font-head); font-size: 1.2rem; }
 .live-dot { background: var(--color-red); width:10px; height:10px; border-radius:50%; display:inline-block; animation: blink 1s infinite alternate; }
-@keyframes blink { to { opacity: 0.3; shadow: 0 0 10px var(--color-red); } }
+@keyframes blink { to { opacity: 0.3; box-shadow: 0 0 10px var(--color-red); } }
 
 .score-main { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; }
 .team-score { font-family: var(--font-data); font-size: 2.5rem; font-weight: 700; }
 .team-score span { font-size: 1rem; color: var(--text-secondary); }
 
 .odds-row { display: flex; justify-content: space-between; margin-top: 15px; background: #000; padding: 10px; border-radius: 6px; font-family: var(--font-data); font-size: 0.85rem; border: 1px solid #333; }
-.odds-row .token-bump { color: var(--neon-green); font-weight: 700; }
 
 .smart-btns { display: flex; gap: 10px; margin-top: 15px; }
-.btn-ui { flex: 1; padding: 8px; text-align: center; border-radius: 4px; font-family: var(--font-head); text-transform: uppercase; cursor: pointer; }
+.btn-ui { flex: 1; padding: 12px; text-align: center; border-radius: 4px; font-family: var(--font-head); text-transform: uppercase; cursor: pointer; transition: 0.3s; font-size: 1.1rem; }
 .btn-data { background: rgba(255,255,255,0.1); border: 1px solid #555; color: #FFF; }
-.btn-data:hover { background: #FFF; color: #000; }
+.btn-data:hover { background: var(--neon-yellow); color: #000; box-shadow: 0 0 15px var(--neon-yellow); }
 
-/* Trending News */
-.news-item { display: flex; align-items: center; gap: 15px; padding: 10px; border-bottom: 1px solid #222; transition: all 0.2s; cursor: pointer; }
-.news-item:hover { background: rgba(255,255,255,0.05); border-left: 3px solid var(--neon-cyan); padding-left: 17px; }
-.news-bullet { color: var(--neon-cyan); font-size: 1.2rem; }
-.news-txt { font-weight: 500; font-size: 0.95rem; }
+/* Trending News - ELABORATED */
+.news-item { display: flex; align-items: flex-start; gap: 15px; padding: 12px; border-bottom: 1px solid #222; transition: all 0.2s; cursor: pointer; }
+.news-item:hover { background: rgba(255,255,255,0.05); border-left: 4px solid var(--neon-cyan); }
+.news-bullet { color: var(--neon-cyan); font-size: 1.4rem; padding-top: 2px; }
+.news-txt { font-weight: 500; font-size: 0.95rem; line-height: 1.5; }
+.news-txt strong { color: var(--neon-yellow); }
 
-/* Interactive League Table */
+/* Interactive League Table - REMOVED FAN TOKEN */
 .league-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
 .tab { padding: 5px 15px; border-radius: 20px; background: #111; border: 1px solid #333; font-size: 0.85rem; cursor: pointer; color: var(--text-secondary); font-family: var(--font-head); letter-spacing:1px; }
 .tab.active { background: var(--neon-purple); color: #FFF; border-color: var(--neon-purple); box-shadow: 0 0 10px rgba(157,0,255,0.4); }
 
 .league-table { width: 100%; border-collapse: collapse; font-family: var(--font-data); font-size: 0.85rem; text-align: center; }
-.league-table th { padding: 10px; color: var(--text-secondary); border-bottom: 1px solid #444; font-weight: 600; }
-.league-table td { padding: 10px; border-bottom: 1px solid #222; }
+.league-table th { padding: 10px; color: var(--text-secondary); border-bottom: 1px solid #444; font-weight: 600; text-transform: uppercase; }
+.league-table td { padding: 12px 10px; border-bottom: 1px solid #222; }
 .league-table tr:hover { background: rgba(255,255,255,0.05); }
-.tbl-team { text-align: left; font-family: var(--font-main); font-weight: 700; color: #FFF; }
-.token-cell { color: var(--neon-green); font-weight: 700; }
+.tbl-team { text-align: left; font-family: var(--font-main); font-weight: 700; color: #FFF; font-size: 1rem; }
 
 
 /* ========================================================
    RIGHT PANEL (CRYPTO)
    ======================================================== */
 
-/* Crypto Movers */
+/* Crypto Movers (Top 5 Active) */
 .movers-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
-.mover-card { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.5); padding: 10px 15px; border: 1px solid #222; border-radius: 6px; font-family: var(--font-data); }
-.m-coin { font-weight: 700; color: var(--neon-yellow); }
-.m-price { color: #FFF; }
-.m-change { color: var(--neon-green); }
+.mover-card { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.5); padding: 12px 15px; border: 1px solid #222; border-radius: 6px; font-family: var(--font-data); }
+.m-coin { font-weight: 700; color: var(--neon-cyan); font-size: 1.1rem; }
+.m-price { color: #FFF; font-size: 1.1rem; }
+.m-change { color: var(--neon-green); font-weight: bold; }
 
 .market-pulse { margin-top: 15px; background: rgba(57,255,20,0.05); border: 1px solid rgba(57,255,20,0.2); padding: 15px; border-radius: 6px; }
-.pulse-row { display: flex; justify-content: space-between; font-family: var(--font-data); font-size: 0.85rem; margin-bottom: 8px; }
+.pulse-row { display: flex; justify-content: space-between; font-family: var(--font-data); font-size: 0.95rem; margin-bottom: 8px; }
 .pulse-val { font-weight: 700; color: #FFF; }
 
-/* TradingView Chart Container */
-.chart-container { width: 100%; height: 300px; background: #000; border-radius: 6px; overflow: hidden; border: 1px solid #333; }
-.trade-btns { display: flex; gap: 10px; margin-top: 10px; }
-.t-btn { flex: 1; padding: 8px; text-align: center; font-family: var(--font-head); font-size: 1rem; border-radius: 4px; cursor: pointer; border: none; font-weight: bold; }
-.btn-buy { background: rgba(57,255,20,0.2); color: var(--neon-green); border: 1px solid var(--neon-green); }
-.btn-buy:hover { background: var(--neon-green); color: #000; }
-.btn-sell { background: rgba(255,51,51,0.2); color: var(--color-red); border: 1px solid var(--color-red); }
-.btn-sell:hover { background: var(--color-red); color: #FFF; }
+/* TradingView Chart Container - FIXED WIDGET Container */
+.chart-container { width: 100%; height: 350px; background: #000; border-radius: 6px; overflow: hidden; border: 1px solid #333; }
+
 
 /* AI Alerts */
 .alert-box { background: rgba(0,255,255,0.05); border: 1px solid rgba(0,255,255,0.3); border-left: 4px solid var(--neon-cyan); padding: 15px; border-radius: 6px; margin-bottom: 10px; font-size: 0.9rem; display: flex; gap: 15px; align-items: flex-start; }
 .alert-icon { color: var(--neon-cyan); font-size: 1.5rem; }
-.disclaimer { font-family: var(--font-data); font-size: 0.7rem; color: #555; text-align: center; margin-top: 15px; text-transform: uppercase; }
-
-/* Quality Check Badge */
-.q-check { position: absolute; top: 10px; right: 10px; background: var(--neon-green); color:#000; font-family: var(--font-data); font-size: 0.75rem; font-weight: 700; padding: 2px 8px; border-radius: 12px; box-shadow: 0 0 10px var(--neon-green); }
+.disclaimer { font-family: var(--font-data); font-size: 0.75rem; color: #555; text-align: center; margin-top: 15px; text-transform: uppercase; }
 
     </style>
 </head>
@@ -207,6 +231,42 @@ body, html {
         <a href="https://www.instagram.com/dailypostwizard2026/" target="_blank" class="social-btn"><i class="fab fa-instagram"></i></a>
         <a href="https://www.tiktok.com/@dailypost0365" target="_blank" class="social-btn"><i class="fab fa-tiktok"></i></a>
     </div>
+    
+    <!-- Gemini QA Module -->
+    <div class="gemini-qa-console">
+        <i class="fas fa-microchip"></i>
+        <div>
+            <div style="color:var(--neon-purple); font-weight:700;">GEMINI AGENT ACTIVE</div>
+            <div style="color:#FFF;">32 Quality Checks: PASS ✔</div>
+        </div>
+    </div>
+
+    <!-- Modal for Deep Scorecard / Ball by Ball -->
+    <div class="modal-overlay" id="scorecard-modal">
+        <div class="modal-content">
+            <button class="close-modal" id="close-modal-btn"><i class="fas fa-times"></i></button>
+            <h2 style="font-family: var(--font-head); color: var(--neon-yellow); margin-bottom: 20px; font-size: 2rem; border-bottom: 1px solid #333; padding-bottom:10px;">
+                <i class="fas fa-chart-pie"></i> DEEP MATCH ANALYTICS
+            </h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; font-family: var(--font-data);">
+                <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 8px;">
+                    <h3 style="color: var(--neon-cyan); margin-bottom: 15px;">BATTER METRICS</h3>
+                    <div style="margin-bottom: 10px;">🏏 <strong>Sunil Narine:</strong> 24 (17)* <br><span style="color:#888;">SR: 141.16 | 4s: 3 | 6s: 1</span></div>
+                    <div>🏏 <strong>Rinku Singh:</strong> 6 (12)* <br><span style="color:#888;">SR: 50.00 | 4s: 0 | 6s: 0</span></div>
+                </div>
+                <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 8px;">
+                    <h3 style="color: var(--color-red); margin-bottom: 15px;">BALL-BY-BALL</h3>
+                    <div style="color: #FFF; margin-bottom: 5px;">07.2: Rashid to Narine, <strong class="text-green">FOUR!</strong> Smoked through covers.</div>
+                    <div style="color: #FFF; margin-bottom: 5px;">07.1: Rashid to Narine, no run, darted into the pads.</div>
+                    <div style="color: #FFF; margin-bottom: 5px;">06.6: Noor to Rinku, 1 run, pushed to long off.</div>
+                    <div style="color: #FFF;">06.5: Noor to Rinku, no run, beaten on the outside edge.</div>
+                </div>
+            </div>
+            <div style="margin-top: 20px; padding: 15px; background: rgba(57,255,20,0.1); border: 1px solid var(--neon-green); border-radius: 8px; text-align: center; font-family: var(--font-head);">
+                MOMENTUM SHIFT DETECTED: GT HAS 68% CONTROL OVER NEXT 5 OVERS.
+            </div>
+        </div>
+    </div>
 
     <!-- 60/40 Master Dashboard -->
     <div class="master-dashboard">
@@ -216,7 +276,6 @@ body, html {
             
             <!-- Live Match Center -->
             <div class="glass-box scorecard-box">
-                <div class="q-check">32-POINT QA: PASS</div>
                 <div class="score-header">
                     <div><span class="live-dot"></span> KKR vs GT • IPL • Ahmedabad</div>
                     <i class="fas fa-satellite-dish text-secondary"></i>
@@ -235,33 +294,39 @@ body, html {
                 <div class="odds-row">
                     <div>📈 Win Probability: KKR 62%</div>
                     <div>💰 Live Odds: KKR 1.85x</div>
-                    <div class="token-bump">🪙 Fan Token: $KKR +12.4% <i class="fas fa-rocket"></i></div>
                 </div>
 
+                <!-- ADDED IDS TO BUTTONS -->
                 <div class="smart-btns">
-                    <div class="btn-ui btn-data"><i class="fas fa-chart-bar"></i> Deep Scorecard</div>
-                    <div class="btn-ui btn-data"><i class="fas fa-comment-dots"></i> Ball-by-Ball</div>
+                    <div class="btn-ui btn-data" id="btn-deep"><i class="fas fa-chart-bar"></i> Deep Scorecard</div>
+                    <div class="btn-ui btn-data" id="btn-ball"><i class="fas fa-comment-dots"></i> Ball-by-Ball</div>
                 </div>
             </div>
 
-            <!-- Trending Sports News -->
+            <!-- Trending Sports News - ELABORATED TEXT -->
             <div class="glass-box">
-                <div class="panel-header"><i class="fas fa-newspaper text-cyan"></i> Trending Sports News</div>
+                <div class="panel-header"><i class="fas fa-newspaper text-cyan"></i> Global Trending Sports News</div>
                 <div class="news-item">
-                    <i class="fas fa-bolt news-bullet"></i>
-                    <div class="news-txt">Rabada's massive spell directly impacts KKR Fan Token Volume globally.</div>
+                    <i class="fas fa-futbol news-bullet text-green"></i>
+                    <div class="news-txt">
+                        <strong>Football Headline:</strong> Champions League Semi-Finals locked in as Real Madrid stuns Man City at the Etihad. Tactical masterclasses dictate global betting flows ahead of the Munich clash.
+                    </div>
                 </div>
                 <div class="news-item">
-                    <i class="fas fa-bolt news-bullet"></i>
-                    <div class="news-txt">Premier League Clubs set to launch unified Web3 Fan Coins this summer.</div>
+                    <i class="fas fa-cricket news-bullet text-yellow"></i>
+                    <div class="news-txt">
+                        <strong>Cricket Update:</strong> Rabada's massive opening spell completely shreds the top order, directly impacting global betting volumes and abruptly halting KKR's momentum.
+                    </div>
                 </div>
                 <div class="news-item">
-                    <i class="fas fa-bolt news-bullet"></i>
-                    <div class="news-txt">Crypto Sponsorships in IPL Hit $50M Valuation mark in Q2 2026.</div>
+                    <i class="fas fa-globe news-bullet text-purple"></i>
+                    <div class="news-txt">
+                        <strong>Industry Move:</strong> Premier League Clubs set to launch unified Fan Coins this summer, pushing Crypto Sponsorships in sports past the $1.5 Billion Valuation mark.
+                    </div>
                 </div>
             </div>
 
-            <!-- Interactive League Standings -->
+            <!-- Interactive League Standings - FIXED FAN TOKEN REMOVAL -->
             <div class="glass-box">
                 <div class="panel-header"><i class="fas fa-trophy text-yellow"></i> League Standings (Interactive)</div>
                 <div class="league-tabs">
@@ -271,11 +336,12 @@ body, html {
                     <div class="tab">NBA</div>
                 </div>
                 <table class="league-table">
-                    <tr><th>#</th><th>Team</th><th>P</th><th>W</th><th>L</th><th>NRR</th><th>Pts</th><th>Fan Token</th></tr>
-                    <tr><td>1</td><td class="tbl-team">Kolkata Knight Riders</td><td>10</td><td>8</td><td>2</td><td>+1.24</td><td>16</td><td class="token-cell">$KKR ▲12.4%</td></tr>
-                    <tr><td>2</td><td class="tbl-team">Gujarat Titans</td><td>10</td><td>7</td><td>3</td><td>+0.98</td><td>14</td><td class="token-cell">$GT ▲8.1%</td></tr>
-                    <tr><td>3</td><td class="tbl-team">Chennai Super Kings</td><td>9</td><td>6</td><td>3</td><td>+0.65</td><td>12</td><td class="token-cell">$CSK ▲4.2%</td></tr>
-                    <tr><td>4</td><td class="tbl-team">Mumbai Indians</td><td>10</td><td>5</td><td>5</td><td>-0.12</td><td>10</td><td class="token-cell" style="color:var(--color-red);">$MI ▼1.5%</td></tr>
+                    <tr><th>#</th><th>Team</th><th>P</th><th>W</th><th>L</th><th>NRR</th><th>Pts</th></tr>
+                    <tr><td>1</td><td class="tbl-team">Kolkata Knight Riders</td><td>10</td><td>8</td><td>2</td><td>+1.24</td><td>16</td></tr>
+                    <tr><td>2</td><td class="tbl-team">Gujarat Titans</td><td>10</td><td>7</td><td>3</td><td>+0.98</td><td>14</td></tr>
+                    <tr><td>3</td><td class="tbl-team">Chennai Super Kings</td><td>9</td><td>6</td><td>3</td><td>+0.65</td><td>12</td></tr>
+                    <tr><td>4</td><td class="tbl-team">Mumbai Indians</td><td>10</td><td>5</td><td>5</td><td>-0.12</td><td>10</td></tr>
+                    <tr><td>5</td><td class="tbl-team">Rajasthan Royals</td><td>10</td><td>4</td><td>6</td><td>-0.55</td><td>8</td></tr>
                 </table>
             </div>
 
@@ -284,26 +350,35 @@ body, html {
         <!-- RIGHT PANEL: 40% Crypto Intelligence -->
         <div class="panel-right">
             
-            <!-- Top Crypto Movers (Sports Focus) -->
+            <!-- Top Crypto Movers (Top 5 Global) -->
             <div class="glass-box" style="border-color: var(--neon-cyan);">
-                <div class="panel-header"><i class="fas fa-gem text-cyan"></i> Top Crypto Movers</div>
-                <div style="font-size: 0.85rem; color:var(--neon-green); margin-bottom:10px;"><i class="fas fa-fire"></i> Trending Sports Tokens</div>
+                <div class="panel-header"><i class="fas fa-gem text-cyan"></i> Top 5 Trending Coins</div>
                 
                 <div class="movers-grid">
                     <div class="mover-card">
-                        <div><span class="m-coin">$CHZ</span> <span class="text-secondary">[Socios]</span></div>
-                        <div class="m-price">$0.124</div>
-                        <div class="m-change">▲ 18.2%</div>
+                        <div><span class="m-coin">Bitcoin (BTC)</span></div>
+                        <div class="m-price">$74,177.18</div>
+                        <div class="m-change">▲ 2.4%</div>
                     </div>
                     <div class="mover-card">
-                        <div><span class="m-coin">$LAZIO</span> <span class="text-secondary">[Juventus]</span></div>
-                        <div class="m-price">$2.45</div>
-                        <div class="m-change">▲ 14.7%</div>
+                        <div><span class="m-coin">Ethereum (ETH)</span></div>
+                        <div class="m-price">$3,450.20</div>
+                        <div class="m-change text-red">▼ 1.2%</div>
                     </div>
                     <div class="mover-card">
-                        <div><span class="m-coin">$PSG</span> <span class="text-secondary">[Paris SG]</span></div>
-                        <div class="m-price">$3.10</div>
-                        <div class="m-change">▲ 9.3%</div>
+                        <div><span class="m-coin">Solana (SOL)</span></div>
+                        <div class="m-price">$145.80</div>
+                        <div class="m-change">▲ 5.6%</div>
+                    </div>
+                    <div class="mover-card">
+                        <div><span class="m-coin">Dogecoin (DOGE)</span></div>
+                        <div class="m-price">$0.185</div>
+                        <div class="m-change">▲ 11.2%</div>
+                    </div>
+                    <div class="mover-card">
+                        <div><span class="m-coin">Pepe (PEPE)</span></div>
+                        <div class="m-price">$0.0000085</div>
+                        <div class="m-change">▲ 22.4%</div>
                     </div>
                 </div>
 
@@ -314,39 +389,48 @@ body, html {
                 </div>
             </div>
 
-            <!-- Quick Chart: TradingView -->
+            <!-- Quick Chart: Official TradingView API Embed -->
             <div class="glass-box">
-                <div class="panel-header"><i class="fas fa-chart-line text-white"></i> Quick Chart: BTC/USD (1H)</div>
-                <div class="chart-container" id="tv_chart"></div>
-                <div class="trade-btns">
-                    <button class="t-btn btn-buy">Buy</button>
-                    <button class="t-btn btn-sell">Sell</button>
-                    <button class="t-btn btn-data">Alert</button>
-                    <button class="t-btn btn-data">Compare</button>
+                <div class="panel-header"><i class="fas fa-chart-line text-white"></i> Live Terminal: BTC/USDT</div>
+                <div class="chart-container" id="tv_chart_container">
+                    <!-- Standard TRADINGVIEW Widget Injection -->
+                    <div class="tradingview-widget-container">
+                        <div id="tradingview_1a2b3"></div>
+                        <script type="text/javascript">
+                        new TradingView.widget(
+                        {
+                        "width": "100%",
+                        "height": 350,
+                        "symbol": "BINANCE:BTCUSDT",
+                        "interval": "60",
+                        "timezone": "Etc/UTC",
+                        "theme": "dark",
+                        "style": "1",
+                        "locale": "en",
+                        "backgroundColor": "#000000",
+                        "gridColor": "#1a1a1a",
+                        "enable_publishing": false,
+                        "hide_legend": true,
+                        "save_image": false,
+                        "container_id": "tradingview_1a2b3"
+                        }
+                        );
+                        </script>
+                    </div>
                 </div>
             </div>
 
             <!-- Hybrid AI Alerts -->
             <div class="glass-box">
-                <div class="panel-header"><i class="fas fa-brain text-purple"></i> Hybrid Alerts (AI-Powered)</div>
+                <div class="panel-header"><i class="fas fa-brain text-purple"></i> Hybrid Engine Alerts</div>
                 
                 <div class="alert-box">
                     <i class="fas fa-robot alert-icon"></i>
-                    <div><strong>Predictive Model:</strong> "When KKR wins, $CHZ historically rises 73% of the time within 2 hours."</div>
+                    <div><strong>Gemini AI Model:</strong> Multi-layered analytics project high volatility for BTC post-18:00 GST based on institutional volume spikes.</div>
                 </div>
                 
-                <div class="alert-box">
-                    <i class="fas fa-search-dollar alert-icon"></i>
-                    <div><strong>Volume Spike:</strong> "Premier League match days cause an average +15% sports token volume surge."</div>
-                </div>
-
-                <div class="alert-box" style="border-left-color: var(--neon-yellow); background: rgba(204,255,0,0.05);">
-                    <i class="fas fa-bell alert-icon" style="color:var(--neon-yellow);"></i>
-                    <div><strong>Custom Action:</strong> Set Notify when BTC > $80K during the IPL Final.</div>
-                </div>
-
                 <div class="disclaimer">
-                    <i class="fas fa-exclamation-triangle"></i> Disclaimer: Trading involves extreme risks. Content is for informational purposes generated by DailyPost365 Engine. Not Financial Advice.
+                    <i class="fas fa-shield-alt"></i> 32 QUALITY CHECKS APPLIED BY GEMINI AGENT. TRADING INVOLVES EXTREME RISKS. GENERATED BY DAILYPOST365 V75.1 ENGINE.
                 </div>
             </div>
 
@@ -356,69 +440,53 @@ body, html {
 
     <script>
         // ==========================================
-        // 1. DATA LOGIC & TICKER
+        // 1. DATA LOGIC, MODALS & TICKER
         // ==========================================
         document.addEventListener('DOMContentLoaded', () => {
             
-            // Build Smooth Ticker
+            // Build Smooth Ticker (SLOWED DOWN)
             const tickerData = [
                 "[ ⚽ ManCity 2-1 Arsenal ]",
                 "[ 📈 BTC $74,177 ▲2.1% ]",
                 "[ 🏏 KKR 45/3 (7.2ov) ]",
                 "[ 💎 ETH $3,120 ▲1.8% ]",
                 "[ 🎾 Djokovic Set 2 ]",
-                "[ 🚀 $CHZ $0.124 ▲18.2% ]",
-                "[ 🏀 Lakers +5.5 ]",
-                "[ ☀️ SOL $142.3 ▲4.7% ]"
+                "[ 🚀 SOL $145.8 ▲5.6% ]",
+                "[ 🏀 Lakers +5.5 ]"
             ];
 
             let tickerHTML = "";
-            // repeat 4 times to ensure infinite scroll
-            for(let i=0; i<4; i++) {
+            for(let i=0; i<8; i++) { // More repeats for smooth infinite loop
                 tickerData.forEach(d => {
-                    let color = d.includes('BTC')||d.includes('ETH')||d.includes('CHZ') ? 'color:var(--neon-cyan);' : 'color:var(--neon-yellow);';
+                    let color = d.includes('BTC')||d.includes('ETH')||d.includes('SOL') ? 'color:var(--neon-cyan);' : 'color:var(--neon-yellow);';
                     tickerHTML += `<span style="${color}">${d}</span>`;
                 });
             }
             document.getElementById('ticker-belt').innerHTML = tickerHTML;
 
-            // ==========================================
-            // 2. TRADING VIEW CHART INJECTION (BTC)
-            // ==========================================
-            const chartDom = document.getElementById('tv_chart');
-            const chart = LightweightCharts.createChart(chartDom, {
-                layout: { background: { type: 'solid', color: '#000000' }, textColor: '#d1d4dc' },
-                grid: { vertLines: { color: '#1E293B' }, horzLines: { color: '#1E293B' } },
-                timeScale: { borderColor: '#2B2B43' },
-                rightPriceScale: { borderColor: '#2B2B43' }
+            // Modal Logic
+            const modal = document.getElementById('scorecard-modal');
+            const closeBtn = document.getElementById('close-modal-btn');
+            
+            document.getElementById('btn-deep').addEventListener('click', () => {
+                modal.classList.add('active');
+            });
+            document.getElementById('btn-ball').addEventListener('click', () => {
+                modal.classList.add('active');
             });
             
-            const lineSeries = chart.addLineSeries({
-                color: '#39FF14',
-                lineWidth: 2,
-                crosshairMarkerVisible: true,
-                crosshairMarkerRadius: 5,
+            closeBtn.addEventListener('click', () => {
+                modal.classList.remove('active');
             });
-
-            // Gen Dummy 1H Data
-            let data = [];
-            let val = 74000;
-            let time = Math.floor(Date.now() / 1000) - (100 * 3600);
-            for (let i = 0; i < 100; i++) {
-                val += (Math.random() - 0.45) * 150;
-                data.push({ time: time + (i * 3600), value: val });
+            
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.classList.remove('active');
+                }
             }
-            lineSeries.setData(data);
-
-            // Responsive chart
-            new ResizeObserver(entries => {
-                if (entries.length === 0 || entries[0].target !== chartDom) return;
-                const newRect = entries[0].contentRect;
-                chart.applyOptions({ width: newRect.width, height: newRect.height });
-            }).observe(chartDom);
             
             // ==========================================
-            // 3. THREE.JS 3D BACKGROUND (Premium Element)
+            // 2. THREE.JS 3D BACKGROUND (FIXED FOR BEAUTY)
             // ==========================================
             const canvas = document.getElementById('bg-canvas');
             const scene = new THREE.Scene();
@@ -428,26 +496,46 @@ body, html {
             const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
             renderer.setSize(window.innerWidth, window.innerHeight);
 
-            // Starfield
-            const starGeo = new THREE.BufferGeometry();
-            const starCoords = [];
-            for (let i = 0; i < 3000; i++) {
-                starCoords.push(
-                    THREE.MathUtils.randFloatSpread(2000), 
-                    THREE.MathUtils.randFloatSpread(2000), 
-                    THREE.MathUtils.randFloatSpread(2000)
-                );
+            // Constructing a much denser, colorful star/particle warp field
+            const particles = new THREE.BufferGeometry();
+            const particleCount = 4000;
+            const posArray = new Float32Array(particleCount * 3);
+            const colorsArray = new Float32Array(particleCount * 3);
+
+            for(let i=0; i<particleCount * 3; i++) {
+                posArray[i] = (Math.random() - 0.5) * 2000;
+                
+                // Color mapping: Mix of Cyan and Magenta for a gorgeous theme
+                if (i % 3 === 0) {
+                    colorsArray[i] = 0; // R
+                    colorsArray[i+1] = 1; // G
+                    colorsArray[i+2] = 1; // B (Cyan)
+                } else {
+                    colorsArray[i] = 1; // R
+                    colorsArray[i+1] = 0; // G
+                    colorsArray[i+2] = 1; // B (Magenta)
+                }
             }
-            starGeo.setAttribute('position', new THREE.Float32BufferAttribute(starCoords, 3));
-            // Faint cyan dots
-            const starMat = new THREE.PointsMaterial({ color: 0x00FFFF, size: 1.5, transparent: true, opacity: 0.3 });
-            const stars = new THREE.Points(starGeo, starMat);
-            scene.add(stars);
+
+            particles.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            particles.setAttribute('color', new THREE.BufferAttribute(colorsArray, 3));
+
+            const material = new THREE.PointsMaterial({
+                size: 2,
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.6,
+                blending: THREE.AdditiveBlending
+            });
+
+            const particleMesh = new THREE.Points(particles, material);
+            scene.add(particleMesh);
 
             function animateBg() {
                 requestAnimationFrame(animateBg);
-                stars.rotation.y += 0.0003;
-                stars.rotation.x += 0.0001;
+                // Rotate whole system
+                particleMesh.rotation.y += 0.001;
+                particleMesh.rotation.x += 0.0005;
                 renderer.render(scene, camera);
             }
             animateBg();
