@@ -1,651 +1,618 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DailyPost365 | World's Best Automated Trading & Content App</title>
+    <title>DailyPost365 | Dense Intelligence Platform</title>
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500;700&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
-   
+    <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
     <style>
-        :root {
-            --neon-green: #39FF14;
-            --neon-yellow: #CCFF00;
-            --neon-cyan: #00FFFF;
-            --bg-dark: #050505;
-            --glass-bg: rgba(10, 10, 10, 0.9);
-            --border-glow: rgba(57, 255, 20, 0.4);
-        }
-       
-        * { box-sizing: border-box; }
+/* ========================================================
+   DAILYPOST365 - INFOGRAPHIC TERMINAL CSS
+   ======================================================== */
 
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
-        ::-webkit-scrollbar-thumb { background: var(--neon-yellow); border-radius: 10px; }
+   :root {
+    --bg-main: #0B0E14;
+    --bg-secondary: #161B22;
+    --border-color: #30363D;
+    
+    --text-primary: #C9D1D9;
+    --text-secondary: #8B949E;
+    
+    --accent-blue: #58A6FF;
+    --color-green: #39FF14;
+    --color-red: #FF3333;
+    --color-yellow: #FFD700;
+    --color-purple: #9D00FF;
+    --color-cyan: #00FFFF;
+    
+    --font-sans: 'Inter', sans-serif;
+    --font-mono: 'Roboto Mono', monospace;
+    --font-oswald: 'Oswald', sans-serif;
+}
 
-        body, html { 
-            margin: 0; 
-            padding: 0; 
-            width: 100%; 
-            height: 100%; 
-            background-color: var(--bg-dark); 
-            color: #FFF; 
-            font-family: 'Rajdhani', sans-serif; 
-            overflow: hidden; 
-        }
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-        #bg-canvas { 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100vw; 
-            height: 100vh; 
-            z-index: -1; 
-        }
+body {
+    font-family: var(--font-sans);
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    line-height: 1.5;
+    font-size: 14px; 
+}
 
-        .broadcast-ticker {
-            position: fixed; 
-            top: 0; 
-            width: 100%; 
-            height: 60px; 
-            background: rgba(0, 0, 0, 0.95);
-            border-bottom: 2px solid var(--neon-green); 
-            z-index: 1000;
-            display: flex; 
-            align-items: center; 
-            overflow: hidden; 
-            font-family: 'Orbitron', sans-serif;
-            box-shadow: 0 4px 15px rgba(57, 255, 20, 0.2);
-        }
-        
-        .ticker-content { 
-            display: flex; 
-            white-space: nowrap; 
-            animation: scrollTicker 60s linear infinite; 
-            font-size: 1.1rem; 
-            text-transform: uppercase; 
-            letter-spacing: 2px; 
-        }
-        
-        .ticker-content span { 
-            padding: 0 50px; 
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        @keyframes scrollTicker { 
-            0% { transform: translateX(100vw); } 
-            100% { transform: translateX(-100%); } 
-        }
+/* Utilities */
+.text-green { color: var(--color-green); }
+.text-red { color: var(--color-red); }
+.text-yellow { color: var(--color-yellow); }
+.text-purple { color: var(--color-purple); }
+.text-cyan { color: var(--color-cyan); }
+.text-white { color: #FFFFFF; }
+.text-grey { color: var(--text-secondary); }
+.text-sm { font-size: 0.85rem; }
+.text-right { text-align: right; }
+.text-center { text-align: center; }
+.mt-2 { margin-top: 0.5rem; }
+.mt-3 { margin-top: 1rem; }
+.mt-4 { margin-top: 1.5rem; }
+.mt-5 { margin-top: 2.5rem; }
 
-        .social-dock {
-            position: fixed; 
-            left: 20px; 
-            top: 55%; 
-            transform: translateY(-50%);
-            display: flex; 
-            flex-direction: column; 
-            gap: 20px; 
-            z-index: 9999;
-        }
-        
-        .social-icon {
-            width: 55px; 
-            height: 55px; 
-            background: rgba(0,0,0,0.8); 
-            border: 2px solid var(--neon-green);
-            border-radius: 50%; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            color: var(--neon-green); 
-            font-size: 1.5rem; 
-            text-decoration: none; 
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        
-        .social-icon:hover { 
-            background: var(--neon-green); 
-            color: #000; 
-            transform: scale(1.2) rotate(10deg); 
-            box-shadow: 0 0 25px var(--neon-green); 
-        }
+/* Layout Basics */
+.container { max-width: 1500px; margin: 0 auto; padding: 0; }
+a { color: inherit; text-decoration: none; }
+.main-layout { display: grid; grid-template-columns: 260px 1fr 340px; gap: 1.5rem; margin-top: 1.5rem; }
+@media (max-width: 1200px) { .main-layout { grid-template-columns: 1fr; } .col-left, .col-right { display: none; } }
 
-        .dashboard-grid {
-            display: grid; 
-            grid-template-columns: 380px 1fr 380px; 
-            gap: 25px;
-            width: calc(100% - 140px); 
-            height: calc(100vh - 100px);
-            margin: 80px 20px 20px 100px;
-        }
+/* Ribbon & Nav */
+.score-ribbon-container { display: flex; background: var(--bg-secondary); border-bottom: 1px solid var(--border-color); height: 48px; }
+.ribbon-title { padding: 0 1rem; display: flex; align-items: center; font-weight: 600; border-right: 1px solid var(--border-color); }
+.score-ribbon { flex: 1; display: flex; overflow-x: auto; }
+.score-ribbon::-webkit-scrollbar { display: none; }
+.mini-score-card { min-width: 200px; padding: 0.4rem 1rem; border-right: 1px solid var(--border-color); font-family: var(--font-mono); font-size: 0.85rem; }
+.mini-score-card .teams { display: flex; justify-content: space-between; font-weight: 600; }
 
-        .glass-panel {
-            background: var(--glass-bg); 
-            border: 1px solid rgba(57, 255, 20, 0.2);
-            border-radius: 25px; 
-            padding: 25px; 
-            display: flex; 
-            flex-direction: column;
-            backdrop-filter: blur(15px); 
-            position: relative; 
-            overflow: hidden;
-            transition: border-color 0.3s ease;
-        }
-        
-        .glass-panel:hover { border-color: rgba(57, 255, 20, 0.6); }
+.main-nav { display: flex; justify-content: space-between; align-items: center; padding: 0 1.5rem; height: 60px; background: transparent; border-bottom: 1px solid var(--border-color); }
+.nav-brand h1 { font-family: var(--font-oswald); font-size: 1.5rem; font-weight: 800; }
+.nav-brand span { color: var(--accent-blue); }
+.nav-links { display: flex; gap: 1.5rem; }
+.nav-links a.active { color: var(--color-cyan); }
+.nav-search input { background: transparent; border: 1px solid var(--border-color); padding: 0.4rem 1rem; color: #fff; width: 200px; border-radius: 4px; }
 
-        .panel-title {
-            font-family: 'Orbitron', sans-serif; 
-            font-size: 1.3rem; 
-            text-align: center;
-            margin-bottom: 20px; 
-            border-bottom: 1px solid rgba(255,255,255,0.1); 
-            padding-bottom: 12px;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-        }
+/* Sidebars */
+.dense-box { background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 6px; }
+.box-header { padding: 0.75rem 1rem; background: rgba(0,0,0,0.2); font-weight: 700; border-bottom: 1px solid var(--border-color); text-transform: uppercase; }
+.data-table { width: 100%; border-collapse: collapse; font-family: var(--font-mono); font-size: 0.85rem; }
+.data-table th, .data-table td { padding: 0.5rem 1rem; border-bottom: 1px solid var(--border-color); text-align: left; }
+.trending-list { list-style: none; padding: 0.5rem 1rem; }
+.trending-list li { display: flex; align-items: center; gap: 1rem; padding: 0.5rem 0; border-bottom: 1px solid var(--border-color); }
+.trend-num { font-size: 1.2rem; font-weight: 800; font-family: var(--font-oswald); color: var(--border-color); }
 
-        .canvas-container { 
-            width: 100%; 
-            height: 380px; 
-            position: relative; 
-            cursor: pointer; 
-            border-radius: 15px; 
-            overflow: hidden; 
-            background: radial-gradient(circle at center, #151515, #000); 
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        .interactive-overlay { 
-            position: absolute; 
-            top: 50%; 
-            left: 50%; 
-            transform: translate(-50%, -50%); 
-            text-align: center; 
-            pointer-events: none; 
-            width: 100%; 
-            padding: 20px;
-            display: none;
-        }
+/* ========================================================
+   INFOGRAPHIC 1: BTC MARKET TERMINAL
+   ======================================================== */
+.btc-terminal {
+    background: #0D1115;
+    border: 1px solid #1E293B;
+    border-radius: 8px;
+    padding: 1.5rem;
+    font-family: var(--font-oswald);
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
 
-        .shimmer-text {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2.8rem;
-            color: var(--neon-green);
-            text-shadow: 0 0 20px var(--neon-green);
-            animation: textPulse 2s infinite alternate;
-        }
+.term-header { font-size: 0.8rem; letter-spacing: 2px; color: var(--text-secondary); border-bottom: 1px solid #1E293B; padding-bottom: 0.25rem; }
+.term-title { font-size: 2rem; color: #FFF; margin-top: 0.5rem; text-transform: uppercase; }
+.term-price-row { display: flex; align-items: center; gap: 1rem; margin-top: 0.5rem; }
+.big-price { font-size: 3.5rem; font-weight: 700; line-height: 1; }
+.price-sub { font-size: 0.85rem; font-family: var(--font-sans); color: var(--text-secondary); }
 
-        @keyframes textPulse {
-            from { opacity: 0.7; transform: scale(0.98); }
-            to { opacity: 1; transform: scale(1.02); }
-        }
+.term-grid { display: grid; grid-template-columns: 1fr 280px; gap: 1rem; margin-top: 1.5rem; }
+.term-box { background: #12181F; border: 1px solid #1E293B; border-radius: 6px; padding: 1.25rem; position: relative; }
+.term-sec-title { font-size: 1.25rem; color: #FFF; margin-bottom: 1rem; text-transform: uppercase; line-height: 1.2; }
+.term-sec-title span { font-size: 0.85rem; color: var(--text-secondary); font-family: var(--font-sans); }
 
-        .click-hint { 
-            position: absolute; 
-            bottom: 15px; 
-            width: 100%; 
-            text-align: center; 
-            font-size: 0.8rem; 
-            color: #666; 
-            letter-spacing: 2px; 
-            animation: pulseHint 2s infinite;
-        }
-        
-        @keyframes pulseHint { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+/* Radar Simulation */
+.radar-box { text-align: center; overflow: hidden; }
+.radar-container {
+    width: 250px; height: 250px; margin: 0 auto;
+    border-radius: 50%;
+    border: 1px solid rgba(57, 255, 20, 0.3);
+    position: relative;
+    background: radial-gradient(circle, rgba(57,255,20,0.1) 0%, transparent 60%);
+}
+.radar-circle::before {
+    content: ''; position: absolute; inset: 20%; border: 1px solid rgba(57, 255, 20, 0.3); border-radius: 50%;
+}
+.radar-circle::after {
+    content: ''; position: absolute; inset: 40%; border: 1px solid rgba(57, 255, 20, 0.3); border-radius: 50%;
+}
+.radar-sweep { position: absolute; top: 0; left: 50%; width: 50%; height: 50%; background: conic-gradient(from 0deg, transparent 70%, rgba(57, 255, 20, 0.5)); transform-origin: 0% 100%; animation: sweep 4s linear infinite; }
+@keyframes sweep { 100% { transform: rotate(360deg); } }
+.radar-label { position: absolute; font-family: var(--font-sans); font-size: 0.75rem; font-weight: 700; text-align: left; }
+.radar-label.top-right { top: 10%; right: -20px; }
+.radar-label.bot-right { bottom: 10%; right: -20px; }
+.radar-price { font-size: 1rem; font-family: var(--font-mono); font-weight: 700; color: #FFF; }
 
-        .video-scroller {
-            flex: 1; 
-            overflow-y: auto; 
-            padding: 0 10px;
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
-            gap: 20px; 
-        }
-        
-        .video-wrapper { 
-            aspect-ratio: 9/16;
-            border-radius: 15px; 
-            border: 2px solid rgba(204, 255, 0, 0.2); 
-            overflow: hidden; 
-            transition: all 0.4s; 
-            background: #000; 
-        }
-        
-        .video-wrapper:hover { 
-            border-color: var(--neon-yellow); 
-            box-shadow: 0 0 25px rgba(204, 255, 0, 0.4); 
-            transform: translateY(-5px);
-        }
-        
-        iframe { width: 100%; height: 100%; border: none; }
+.claw-flex { display: flex; gap: 1rem; font-family: var(--font-sans); }
+.claw-icon i { font-size: 3rem; }
+.logic-exec { margin: 1rem 0 0.5rem 0; font-family: var(--font-oswald); font-size: 1.1rem; color: #FFF; }
+.logic-arrows { display: flex; align-items: center; gap: 1rem; font-size: 0.8rem; }
+.arr-box { background: rgba(0,0,0,0.3); padding: 0.5rem; border: 1px solid #1E293B; flex: 1; }
+.claw-pred { display: flex; align-items: center; gap: 1rem; margin-top: 1.5rem; }
+.pred-num { font-size: 4rem; font-weight: 700; line-height: 1; }
+.pred-txt { font-family: var(--font-sans); font-size: 0.85rem; color: var(--text-secondary); }
 
-        #nova-bot {
-            position: fixed; 
-            bottom: 30px; 
-            right: 30px; 
-            z-index: 10000;
-            display: flex; 
-            align-items: flex-end; 
-            gap: 15px;
-        }
-        
-        .nova-speech {
-            background: var(--neon-green); 
-            color: #000; 
-            padding: 15px 25px; 
-            border-radius: 25px 25px 0 25px;
-            font-weight: 700; 
-            font-size: 0.95rem; 
-            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
-            max-width: 280px;
-        }
-        
-        .nova-icon {
-            width: 80px; 
-            height: 80px; 
-            background: #0a0a0a; 
-            border: 3px solid var(--neon-green); 
-            border-radius: 50%;
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-size: 2.2rem; 
-            color: var(--neon-green);
-            box-shadow: 0 0 40px rgba(57, 255, 20, 0.5);
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .nova-icon:hover { transform: rotate(15deg) scale(1.1); }
+.shield-flex { display: flex; gap: 1.5rem; font-family: var(--font-sans); }
+.shield-icon i { font-size: 4rem; text-shadow: 0 0 20px rgba(57,255,20,0.5); }
+.shield-stats { display: flex; flex-direction: column; gap: 1rem; justify-content: center; }
+.sh-stat { display: flex; gap: 1rem; font-size: 0.8rem; }
+.sh-num { font-size: 2.5rem; font-weight: 700; line-height: 1; font-family: var(--font-oswald); width: 60px; }
 
-        @media (max-width: 1200px) {
-            .dashboard-grid { 
-                grid-template-columns: 1fr; 
-                overflow-y: auto; 
-                margin-left: 20px;
-                width: calc(100% - 40px);
-            }
-            .social-dock { display: none; }
-        }
+.trap-box { border-color: rgba(255,51,51,0.3); background: #1a0f12; }
+.trap-flow { display: flex; flex-direction: column; align-items: center; margin-top: 1rem; }
+.trap-step { border: 1px solid rgba(255,255,255,0.1); width: 100%; border-radius: 4px; padding: 0.75rem; display: flex; justify-content: space-between; align-items: center; font-family: var(--font-oswald); background: rgba(0,0,0,0.2); }
+.arr-down { font-size: 1.5rem; margin: 0.5rem 0; }
+.trap-icn { font-size: 2rem; }
+
+/* ========================================================
+   INFOGRAPHIC 2: IPL MATCH MEGA SUMMARY
+   ======================================================== */
+.ipl-terminal {
+    background: radial-gradient(circle at center, #1b0f28, #050505);
+    border: 1px solid var(--color-purple);
+    border-radius: 12px;
+    padding: 2rem;
+    font-family: var(--font-sans);
+    box-shadow: 0 0 30px rgba(157, 0, 255, 0.1);
+}
+
+.ipl-title { font-family: var(--font-oswald); font-size: 2rem; text-align: center; text-transform: uppercase; margin-bottom: 1.5rem; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
+.neon-box {
+    border: 2px solid var(--color-cyan);
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+    position: relative;
+    box-shadow: inset 0 0 20px rgba(0, 255, 255, 0.1), 0 0 15px rgba(0, 255, 255, 0.3);
+}
+.neon-title { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #050505; padding: 0 10px; font-weight: 700; font-size: 1.1rem; }
+.match-status-bar { font-family: var(--font-oswald); font-size: 1.3rem; margin-bottom: 0.5rem; }
+.score-spliter { display: flex; justify-content: center; gap: 0; }
+.team { padding: 0.5rem 2rem; font-family: var(--font-oswald); font-size: 2.2rem; font-weight: 700; }
+.csk-team { background: #FFD700; color: #000; border-radius: 4px 0 0 4px; }
+.kkr-team { background: #4B0082; color: #FFF; border-radius: 0 4px 4px 0; border: 1px solid #FFD700; border-left: none; }
+.score-sub { font-size: 0.85rem; margin-top: 0.5rem; }
+
+.final-sprint { background: rgba(0,255,255,0.1); padding: 0.5rem; border: 1px solid var(--color-cyan); font-family: var(--font-oswald); font-size: 1.3rem; border-radius: 4px; }
+
+.ipl-sec-header { text-align: center; font-family: var(--font-oswald); font-size: 1.4rem; font-weight: 500; }
+
+.powerplay-grid { display: flex; justify-content: center; align-items: center; gap: 2rem; }
+.pp-score { font-family: var(--font-oswald); font-size: 4rem; line-height: 1; font-weight: 800; text-shadow: 0 0 15px rgba(255,215,0,0.5); }
+.kkr-pp .pp-score { text-shadow: 0 0 15px rgba(157,0,255,0.5); }
+.big-bolt { font-size: 5rem; text-shadow: 0 0 20px rgba(255,255,255,0.8); }
+.pp-lbl { font-weight: 700; letter-spacing: 1px; font-size: 0.9rem; margin-bottom: 0.5rem; }
+.pp-sub { font-size: 0.8rem; width: 180px; margin: 0 auto; line-height: 1.3; }
+
+.mhatre-blaze { display: flex; align-items: center; justify-content: center; gap: 1rem; background: rgba(255,165,0,0.1); border: 1px solid orange; padding: 0.75rem; border-radius: 4px; text-align: left; }
+.mhatre-blaze i { font-size: 2.5rem; }
+
+.stars-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.star-card { border: 1px solid; border-radius: 8px; padding: 1.5rem; text-align: center; }
+.csk-star { border-color: var(--color-yellow); background: rgba(255,215,0,0.05); }
+.kkr-star { border-color: #FFF; background: rgba(255,255,255,0.05); }
+.star-flex { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-bottom: 0.5rem; }
+.star-avatar { font-size: 3.5rem; }
+.star-runs { font-family: var(--font-oswald); font-size: 3.5rem; font-weight: 700; line-height: 1; }
+.balls { font-size: 1.5rem; color: var(--text-secondary); }
+.star-name { font-weight: 700; font-size: 1.2rem; background: rgba(0,0,0,0.5); display: inline-block; padding: 2px 10px; border-radius: 4px; }
+.star-desc { font-size: 0.85rem; margin-top: 0.5rem; }
+
+.bottom-ipl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+.game-changer { font-family: var(--font-oswald); text-align: center; display: flex; flex-direction: column; justify-content: center; }
+.gc-title { font-size: 3rem; line-height: 1.1; font-weight: 800; font-style: italic; text-shadow: 0 0 10px rgba(255,215,0,0.5); }
+.gc-desc { font-family: var(--font-sans); font-size: 0.9rem; line-height: 1.4; }
+
+.struggle-table { width: 100%; border-collapse: collapse; font-family: var(--font-sans); font-size: 0.85rem; text-align: center; }
+.struggle-table th { background: var(--color-purple); color: #FFF; padding: 0.4rem; }
+.struggle-table td { background: rgba(255,255,255,0.1); color: #FFF; padding: 0.4rem; border: 1px solid #333; }
+.struggle-table tr:nth-child(even) td { background: rgba(255,255,255,0.05); }
+
     </style>
 </head>
 <body>
 
-    <canvas id="bg-canvas"></canvas>
-
-    <div class="broadcast-ticker">
-        <div class="ticker-content">
-            <span style="color:var(--neon-green)"><i class="fas fa-satellite-dish"></i> WHALE COMMAND ACTIVE</span>
-            <span id="ticker-btc" style="color:var(--neon-cyan)">BTC: SYNCING...</span>
-            <span id="ticker-eth" style="color:var(--neon-cyan)">ETH: SYNCING...</span>
-            <span id="ticker-cricket" style="color:var(--neon-yellow)">GLOBAL FEED: CONNECTING...</span>
-            <span style="color:var(--neon-green)"><i class="fas fa-microchip"></i> V75.0 MASTER CORE LIVE</span>
+    <!-- Cricbuzz Style Live Score Ribbon -->
+    <div class="score-ribbon-container">
+        <div class="ribbon-title">Matches</div>
+        <div class="score-ribbon" id="score-ribbon">
+            <!-- JS populated -->
         </div>
     </div>
 
-    <div class="social-dock">
-        <a href="https://www.youtube.com/@WhaleTrackerAlpha" class="social-icon" target="_blank"><i class="fab fa-youtube"></i></a>
-        <a href="https://t.me/DailyPost365Live" class="social-icon" target="_blank"><i class="fab fa-telegram-plane"></i></a>
-        <a href="https://www.instagram.com/dailypostwizard2026/" class="social-icon" target="_blank"><i class="fab fa-instagram"></i></a>
-        <a href="https://www.tiktok.com/@dailypost0365" class="social-icon" target="_blank"><i class="fab fa-tiktok"></i></a>
-    </div>
+    <!-- Mega Navigation -->
+    <nav class="main-nav">
+        <div class="nav-brand">
+            <h1>DailyPost<span>365</span></h1>
+        </div>
+        <div class="nav-links">
+            <a href="#sports" class="active">Live Sports</a>
+            <a href="#crypto">Crypto Markets</a>
+            <a href="#news">News Feed</a>
+        </div>
+        <div class="nav-search">
+            <input type="text" placeholder="Search Players, Coins...">
+            <i class="fas fa-search"></i>
+        </div>
+    </nav>
 
-    <div class="dashboard-grid">
+    <div class="container main-layout">
         
-        <div class="glass-panel">
-            <h2 class="panel-title" style="color:var(--neon-green)">Whale Radar V75.0-HYPER-ACTIVE</h2>
-            <div class="canvas-container" id="egg-container">
-                <div class="click-hint">INITIALIZE FRACTURE</div>
-                <div class="interactive-overlay" id="btc-reveal-panel">
-                    <i class="fab fa-bitcoin" style="font-size: 5rem; color: #F7931A; margin-bottom: 20px; display: block;"></i>
-                    <div id="btc-price-text" class="shimmer-text">WAITING...</div>
-                    <div style="color: #666; font-weight: 700; margin-top: 15px; font-size: 0.8rem;">SECURE NODE CONNECTED</div>
-                </div>
+        <!-- LEFT COLUMN: Quick Links -->
+        <aside class="col-left">
+            <div class="dense-box mt-3">
+                <h3 class="box-header">EPL Top 5</h3>
+                <table class="data-table small-table">
+                    <tr><th>Pos</th><th>Club</th><th>Pts</th></tr>
+                    <tr><td>1</td><td>Arsenal</td><td>86</td></tr>
+                    <tr><td>2</td><td>Man City</td><td>84</td></tr>
+                    <tr><td>3</td><td>Liverpool</td><td>78</td></tr>
+                    <tr><td>4</td><td>Aston Villa</td><td>68</td></tr>
+                </table>
             </div>
-            <div style="margin-top: 25px;">
-                <div id="audit-terminal" style="background:#000; border:1px solid #222; padding:15px; height:200px; overflow-y:auto; font-family:monospace; color:#39FF14; font-size:0.75rem; border-radius:12px; box-shadow: inset 0 0 15px #000;">
-                    <div id="log-flow">> INITIALIZING MASTER AUDIT...</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="glass-panel center">
-            <h2 class="panel-title" style="color:var(--neon-yellow)">Global Broadcast Command</h2>
-            <div class="video-scroller">
-                <div class="video-wrapper"><iframe src="https://www.instagram.com/p/DWjygltk4v4/embed" allow="autoplay; fullscreen"></iframe></div>
-                <div class="video-wrapper"><iframe src="https://www.instagram.com/p/DW7CwvAk9nU/embed" allow="autoplay; fullscreen"></iframe></div>
-                <div class="video-wrapper"><iframe src="https://www.instagram.com/p/DWhNIkzE1rL/embed" allow="autoplay; fullscreen"></iframe></div>
-                <div class="video-wrapper"><iframe src="https://www.instagram.com/p/DWeIODLEypV/embed" allow="autoplay; fullscreen"></iframe></div>
-                <div class="video-wrapper"><iframe src="https://www.instagram.com/p/DWGgu9uE3M-/embed" allow="autoplay; fullscreen"></iframe></div>
-                <div class="video-wrapper"><iframe src="https://www.instagram.com/p/DV_0ij2E4pq/embed" allow="autoplay; fullscreen"></iframe></div>
-            </div>
-        </div>
-
-        <div class="glass-panel">
             
-<div class="panel-header">LIVE CRICKET INTEL</div>
-<div id="intel-container" style="padding:15px; font-family: 'Rajdhani', sans-serif; display: none;">
-    <div style="color: #00F3FF; font-weight: bold; margin-bottom: 10px; font-size: 1.2rem; text-align: center;">
-        <i class="fas fa-spinner fa-spin"></i> FETCHING LIVE GLOBAL FEED...
-    </div>
-</div>
-
-            <div class="canvas-container" id="cricket-canvas-panel" style="margin-top: 20px; height: 320px;">
-                <div class="click-hint">BOWL TO UNLOCK INTEL</div>
+            <div class="dense-box mt-3">
+                <h3 class="box-header">Trending Search</h3>
+                <ul class="trending-list">
+                    <li><span class="trend-num">1</span> <div class="trend-txt">Solana Airdrops</div></li>
+                    <li><span class="trend-num">2</span> <div class="trend-txt">Champions League</div></li>
+                    <li><span class="trend-num">3</span> <div class="trend-txt">Rohit Sharma Stats</div></li>
+                </ul>
             </div>
-            <div style="margin-top: 25px; font-size: 0.9rem; color: #aaa; line-height: 1.8; border-top: 1px solid #222; padding-top: 15px;">
-                <p><i class="fas fa-broadcast-tower text-yellow"></i> <strong>Engine:</strong> Eternal Pulse V20.0</p>
-                <p><i class="fas fa-users text-yellow"></i> <strong>Goal:</strong> 365 Million Reach</p>
-                <p><i class="fas fa-bolt text-yellow"></i> <strong>Audit:</strong> 15-Stage Zero-Loss</p>
+        </aside>
+
+        <!-- CENTER COLUMN: INFOGRAPHIC DASHBOARDS -->
+        <main class="col-center">
+            
+            <!-- INFOGRAPHIC 1: HEDGE FUND TERMINAL (BTC) -->
+            <div class="info-terminal btc-terminal mt-3" id="crypto">
+                <div class="term-header">HEDGE FUND TERMINAL - V75.0-HYPER-ACTIVE</div>
+                <h2 class="term-title">BTC MARKET INTELLIGENCE: APRIL 16, 2026</h2>
+                <div class="term-price-row">
+                    <div class="big-price text-green" id="deep-btc-price">$74,177.18</div>
+                    <div class="price-sub">LIVE 1-HOUR MARKET VALUATION AS OF APRIL 16, 2026,<br>SHOWING CONSOLIDATION AFTER RECENT VOLATILITY.</div>
+                </div>
+
+                <div class="term-grid">
+                    <div class="col-left-term">
+                        <!-- Whale Signal Radar -->
+                        <div class="term-box radar-box">
+                            <h3 class="term-sec-title">THE WHALE SIGNAL:<br><span>INSTITUTIONAL ORDER FLOW</span></h3>
+                            <div class="radar-container">
+                                <div class="radar-circle">
+                                    <div class="radar-sweep"></div>
+                                    <div class="radar-ping p1"></div>
+                                    <div class="radar-ping p2"></div>
+                                    <div class="radar-sector red-sector"></div>
+                                    <div class="radar-sector green-sector"></div>
+                                </div>
+                                <div class="radar-label top-right text-red">HEAVY<br>INSTITUTIONAL<br>SELL WALLS<br><span class="radar-price">$75,500 - $76,000</span></div>
+                                <div class="radar-label bot-right text-green">PRIMARY BUY<br>SUPPORT<br><span class="radar-price">$72,000</span></div>
+                            </div>
+                        </div>
+
+                        <!-- Claw Strategy -->
+                        <div class="term-box claw-box mt-3">
+                            <h3 class="term-sec-title">THE CLAW STRATEGY<br><span>& PREDICTION</span></h3>
+                            <div class="claw-flex">
+                                <div class="claw-icon"><i class="fas fa-robot text-green"></i></div>
+                                <div class="claw-logic">
+                                    <div class="logic-line"><strong>STRATEGY STATUS:</strong> <span class="text-white">NEUTRAL</span><br>
+                                    <span class="text-grey">Current position is flat following a precision long exit at the $75,000 psychological resistance level.</span></div>
+                                    
+                                    <div class="logic-exec"><strong>EXECUTION LOGIC:</strong> 'THE CLAW' SCRIPT</div>
+                                    <div class="logic-arrows">
+                                        <div class="arr-box"><strong>ENTRY:</strong> PRICE &gt; MOVING AVERAGE + RSI &lt; 30</div>
+                                        <i class="fas fa-arrow-right text-green"></i>
+                                        <div class="arr-box"><strong>EXIT:</strong> CLOSE POSITION UPON HITTING A 2.8% PROFIT TARGET.</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="claw-pred">
+                                <div class="pred-num text-green">92%</div>
+                                <div class="pred-txt"><strong>CONFIDENCE PREDICTION ZONE</strong><br>
+                                Quantitative modeling targets a move to $76,400, contingent on current $74k support holding firm.</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Risk Shield -->
+                        <div class="term-box shield-box mt-3">
+                            <h3 class="term-sec-title">RISK SHIELD & QUALITY ASSURANCE</h3>
+                            <div class="shield-flex">
+                                <div class="shield-icon"><i class="fas fa-shield-alt text-green"></i></div>
+                                <div class="shield-stats">
+                                    <div class="sh-stat"><span class="sh-num text-green">94%</span> <div><strong>QUALITY CHECK PASS RATE</strong><br><span class="text-grey">The trade setup has cleared a rigorous 15-point institutional quality assessment protocol.</span></div></div>
+                                    <div class="sh-stat"><span class="sh-num text-green">1-2%</span> <div><strong>STOP-LOSS THRESHOLD</strong><br><span class="text-grey">Mandatory risk mitigation involves a strict exit if price action invalidates the setup by more than 2%.</span></div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-right-term">
+                        <!-- Trap Alert -->
+                        <div class="term-box trap-box">
+                            <h3 class="term-sec-title text-red">THE TRAP ALERT<br><span>(LIQUIDATION ANALYSIS)</span></h3>
+                            <div class="trap-title text-white">5-WHY LOGIC:<br><span class="text-grey text-sm">THE RETAIL LIQUIDATION CYCLE</span></div>
+                            
+                            <div class="trap-flow">
+                                <div class="trap-step">
+                                    <div class="ts-txt text-white"><span class="text-green text-sm">STEP 1:</span><br>RETAILERS<br>FOMO AT $75K<br>PEAKS</div>
+                                    <i class="fas fa-chart-line text-green trap-icn"></i>
+                                </div>
+                                <i class="fas fa-arrow-down text-red arr-down"></i>
+                                
+                                <div class="trap-step">
+                                    <div class="ts-txt text-white"><span class="text-green text-sm">STEP 2:</span><br>THEY SET<br>TIGHT STOPS</div>
+                                    <i class="fas fa-sliders-h text-yellow trap-icn"></i>
+                                </div>
+                                <i class="fas fa-arrow-down text-red arr-down"></i>
+
+                                <div class="trap-step">
+                                    <div class="ts-txt text-white"><span class="text-green text-sm">STEP 3:</span><br>WHALES HUNT<br>LIQUIDITY<br>BELOW $73K</div>
+                                    <i class="fas fa-fish text-red trap-icn"></i>
+                                </div>
+                                <i class="fas fa-arrow-down text-red arr-down"></i>
+
+                                <div class="trap-step">
+                                    <div class="ts-txt text-white"><span class="text-green text-sm">STEP 4:</span><br>PRICE<br>CASCADES</div>
+                                    <i class="fas fa-chart-area text-red trap-icn"></i>
+                                </div>
+                                <i class="fas fa-arrow-down text-red arr-down"></i>
+
+                                <div class="trap-step">
+                                    <div class="ts-txt text-white"><span class="text-green text-sm">STEP 5:</span><br>INSTITUTIONS<br>SCOOP THE<br>DISCOUNT</div>
+                                    <i class="fas fa-signal text-green trap-icn"></i>
+                                </div>
+                            </div>
+
+                            <div class="retail-hunting mt-3">
+                                <strong class="text-red">RETAIL LIQUIDITY HUNTING</strong><br>
+                                Whales actively target stop-loss clusters below $73,000 to fill large institutional buy orders at a discount.
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
 
-    </div>
 
-    <div id="nova-bot">
-        <div class="nova-speech">Master Command V75.0-HYPER-ACTIVE Active. 365M Target Locked.</div>
-        <div class="nova-icon" onclick="novaSpeak()"><i class="fas fa-robot"></i></div>
+            <!-- INFOGRAPHIC 2: IPL 2026 MATCH SUMMARY -->
+            <div class="info-terminal ipl-terminal mt-5" id="sports">
+                <h2 class="ipl-title text-yellow">IPL 2026: The Chepauk Charge <span class="text-purple">(CSK vs. KKR)</span></h2>
+                
+                <!-- Neon Box 1: The Live Equation -->
+                <div class="neon-box">
+                    <div class="neon-title">The Live Equation</div>
+                    <div class="match-status-bar text-cyan">MATCH STATUS:</div>
+                    <div class="score-spliter">
+                        <div class="team csk-team">CSK 192/5</div>
+                        <div class="team kkr-team">KKR 127/6</div>
+                    </div>
+                    <div class="score-sub text-white">As of 16.5 overs, commanding lead at Chennai.</div>
+                    
+                    <div class="final-sprint mt-2">
+                        <span class="text-cyan">THE FINAL SPRINT:</span> KKR needs <span class="text-yellow">66 off 19</span>
+                    </div>
+                    <div class="sprint-sub text-white">Required run rate over 20/over. An uphill battle against the clock and CSK bowling.</div>
+                </div>
+
+                <!-- Powerplay Comparison -->
+                <div class="ipl-sec-header mt-4 text-white">Momentum Shift: The Powerplay Comparison</div>
+                <div class="powerplay-grid mt-2">
+                    <div class="pp-side csk-pp text-center">
+                        <div class="pp-score text-yellow">72/2 <i class="fas fa-bolt text-yellow"></i></div>
+                        <div class="pp-lbl text-yellow">CSK POWERPLAY</div>
+                        <div class="pp-sub text-white">Doubled KKR's output in the first 6 overs, establishing a major gap.</div>
+                    </div>
+                    
+                    <i class="fas fa-bolt big-bolt text-white"></i>
+                    
+                    <div class="pp-side kkr-pp text-center">
+                        <div class="pp-score text-purple">36/2 <i class="fas fa-bolt text-purple hover-glow"></i></div>
+                        <div class="pp-lbl text-purple">KKR POWERPLAY</div>
+                        <div class="pp-sub text-white">Failed to capitalize early, unable to close the momentum gap.</div>
+                    </div>
+                </div>
+
+                <div class="mhatre-blaze mt-2">
+                    <i class="fas fa-meteor text-orange"></i>
+                    <div>
+                        <strong class="text-white">MHATRE'S POWERPLAY BLITZ:</strong><br>
+                        <span class="text-yellow">Ayush Mhatre ignited the stadium with an explosive 38 off 17 balls (6x4s, 2x6s, SR 223.53)</span>
+                    </div>
+                </div>
+
+                <!-- Star Performers -->
+                <div class="ipl-sec-header mt-4 text-white">CSK Batting Powerhouse</div>
+                <div class="stars-grid mt-2">
+                    <div class="star-card csk-star">
+                        <div class="star-flex">
+                            <i class="fas fa-user-astronaut star-avatar text-yellow"></i>
+                            <div class="star-runs text-yellow">48 <span class="balls">(32)</span></div>
+                        </div>
+                        <div class="star-name text-yellow">Sanju Samson</div>
+                        <div class="star-desc text-white">Wicketkeeper-batter anchored the innings with a balanced knock (4x4s, 3x6s).</div>
+                    </div>
+                    <div class="star-card kkr-star">
+                        <div class="star-flex">
+                            <i class="fas fa-user-ninja star-avatar text-white"></i>
+                            <div class="star-runs text-white">41 <span class="balls">(29)</span></div>
+                        </div>
+                        <div class="star-name text-white">Dewald Brevis</div>
+                        <div class="star-desc text-white">"Baby AB" kept the scoreboard ticking, ensuring a high-total finish (4x4s, 2x6s).</div>
+                    </div>
+                </div>
+
+                <div class="bottom-ipl-grid mt-4">
+                    <div class="game-changer">
+                        <div class="gc-subtitle text-white">The Game Changer</div>
+                        <div class="gc-title text-white">THE<br><span class="text-yellow">NOOR AHMAD</span><br>STORM <i class="fas fa-bolt text-yellow"></i></div>
+                        <div class="gc-desc text-white mt-2">CSK bowler <span class="text-yellow">Noor Ahmad</span> delivered a masterclass in spin bowling, claiming <span class="text-yellow">3/21</span> in 4 overs, including key wickets of Rahane, Rinku, and Green.</div>
+                    </div>
+                    
+                    <div class="batting-struggle">
+                        <div class="bs-title text-purple text-center">KKR Batting Struggle</div>
+                        <table class="struggle-table mt-2">
+                            <tr><th>Batter</th><th>Runs</th><th>Balls</th><th>Strike Rate</th></tr>
+                            <tr><td>Ajinkya Rahane</td><td>28</td><td>22</td><td>127.27</td></tr>
+                            <tr><td>Angkrish Raghuvanshi</td><td>27</td><td>19</td><td>142.11</td></tr>
+                            <tr><td>Sunil Narine</td><td>24</td><td>17</td><td>141.16</td></tr>
+                            <tr><td>Rinku Singh</td><td>6</td><td>12</td><td>50.00</td></tr>
+                        </table>
+                        <div class="bs-footer text-center text-white mt-2">KKR's key batters failed to keep pace with the required rate.</div>
+                    </div>
+                </div>
+
+            </div>
+
+        </main>
+
+
+        <!-- RIGHT COLUMN -->
+        <aside class="col-right">
+            <div class="dense-box mt-3">
+                <h3 class="box-header">CoinGecko Market Data</h3>
+                <div class="table-responsive">
+                    <table class="data-table master-table" id="cg-table">
+                        <thead><tr><th>#</th><th>Coin</th><th class="text-right">Price</th><th class="text-right">24h</th></tr></thead>
+                        <tbody id="cg-table-body">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </aside>
+
     </div>
 
     <script>
-        // ==========================================
-        // DATA PROCESSING ENGINE (AUTO-REPAIR)
-        // ==========================================
+/**
+ * DailyPost365 - Dense Dashboard Logic
+ */
 
-        async function fetchCryptoData() {
-            try {
-                const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd');
-                const data = await response.json();
-                
-                const fmt = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
-                const btc = fmt.format(data.bitcoin.usd);
-                const eth = fmt.format(data.ethereum.usd);
-                
-                document.getElementById('ticker-btc').innerHTML = `<i class="fab fa-bitcoin"></i> BTC: ${btc}`;
-                document.getElementById('ticker-eth').innerHTML = `<i class="fab fa-ethereum"></i> ETH: ${eth}`;
-                document.getElementById('btc-price-text').innerText = btc;
-            } catch (e) { console.error("Crypto Data Error", e); }
+ document.addEventListener('DOMContentLoaded', () => {
+    initScoreRibbon();
+    initCoinGeckoTable();
+});
+
+// ==========================================
+// 1. Cricbuzz-Style Horizontal Score Ribbon
+// ==========================================
+async function initScoreRibbon() {
+    const ribbon = document.getElementById('score-ribbon');
+    
+    // We will use highly detailed mock data to guarantee the ribbon is fully populated (dense)
+    const matches = [
+        { t1: "IND", t2: "PAK", status: "IND won by 6 wkts", live: false },
+        { t1: "MI", s1: "185/4", t2: "CSK", s2: "192/6", status: "CSK needs 8 runs", live: true },
+        { t1: "AUS", s1: "340 & 120/2", t2: "ENG", s2: "290", status: "Day 3: AUS lead by 170", live: true },
+        { t1: "RCB", t2: "KKR", status: "Tomorrow, 14:00", live: false },
+        { t1: "LIV", s1: "2", t2: "ARS", s2: "1", status: "78' Live", live: true },
+        { t1: "RMA", s1: "3", t2: "MCI", s2: "3", status: "FT", live: false },
+        { t1: "NZ", s1: "150/8", t2: "SA", s2: "151/4", status: "SA won by 6 wkts", live: false },
+        { t1: "PSG", t2: "FCB", status: "Today, 19:45", live: false }
+    ];
+
+    let html = '';
+    matches.forEach(m => {
+        let isLiveDot = m.live ? '<span class="text-red blink">●</span> ' : '';
+        let scoreHTML = m.s1 ? `
+            <div class="teams"><span>${m.t1}</span> <span>${m.s1}</span></div>
+            <div class="teams"><span>${m.t2}</span> <span>${m.s2}</span></div>
+        ` : `
+            <div class="teams"><span>${m.t1}</span> <span>vs</span></div>
+            <div class="teams"><span>${m.t2}</span> <span></span></div>
+        `;
+
+        html += `
+            <div class="mini-score-card">
+                ${scoreHTML}
+                <div class="status ${m.live ? 'text-red' : 'text-secondary'}">${isLiveDot}${m.status}</div>
+            </div>
+        `;
+    });
+
+    ribbon.innerHTML = html;
+}
+
+// ==========================================
+// 2. CoinGecko Master Table
+// ==========================================
+async function initCoinGeckoTable() {
+    const tbody = document.getElementById('cg-table-body');
+    if(!tbody) return;
+    const coins = ['bitcoin', 'ethereum', 'tether', 'binancecoin', 'solana', 'ripple', 'usdc', 'steth', 'cardano', 'avalanche-2'];
+    
+    const mockData = [
+        {rank: 1, id: 'bitcoin', symbol: 'BTC', name: 'Bitcoin', price: 74177.18, change: 2.45, img: 'https://assets.coingecko.com/coins/images/1/small/bitcoin.png'},
+        {rank: 2, id: 'ethereum', symbol: 'ETH', name: 'Ethereum', price: 3450.20, change: -1.20, img: 'https://assets.coingecko.com/coins/images/279/small/ethereum.png'},
+        {rank: 3, id: 'tether', symbol: 'USDT', name: 'Tether', price: 1.00, change: 0.01, img: 'https://assets.coingecko.com/coins/images/325/small/Tether.png'},
+        {rank: 4, id: 'binancecoin', symbol: 'BNB', name: 'BNB', price: 580.40, change: 0.80, img: 'https://assets.coingecko.com/coins/images/825/small/bnb-icon2_2x.png'},
+        {rank: 5, id: 'solana', symbol: 'SOL', name: 'Solana', price: 145.80, change: 5.60, img: 'https://assets.coingecko.com/coins/images/4128/small/solana.png'},
+        {rank: 6, id: 'ripple', symbol: 'XRP', name: 'XRP', price: 0.62, change: -0.50, img: 'https://assets.coingecko.com/coins/images/44/small/xrp-symbol-white-128.png'},
+        {rank: 7, id: 'usdc', symbol: 'USDC', name: 'USDC', price: 1.00, change: 0.00, img: 'https://assets.coingecko.com/coins/images/6319/small/USD_Coin_icon.png'},
+        {rank: 8, id: 'cardano', symbol: 'ADA', name: 'Cardano', price: 0.45, change: 1.10, img: 'https://assets.coingecko.com/coins/images/975/small/cardano.png'},
+        {rank: 9, id: 'avalanche-2', symbol: 'AVAX', name: 'Avalanche', price: 35.20, change: -2.30, img: 'https://assets.coingecko.com/coins/images/12559/small/Avalanche_Circle_RedWhite_Trans.png'}
+    ];
+
+    try {
+        const url = `https://api.coingecko.com/api/v3/simple/price?ids=${coins.join(',')}&vs_currencies=usd&include_24hr_change=true`;
+        const res = await fetch(url);
+        if(!res.ok) throw new Error("API Limit");
+        const apiData = await res.json();
+        
+        let html = '';
+        mockData.forEach(c => {
+            if(!apiData[c.id]) return;
+            const price = apiData[c.id].usd;
+            const change = apiData[c.id].usd_24h_change;
+            html += generateRow(c.rank, c.img, c.name, c.symbol, price, change);
+        });
+        tbody.innerHTML = html;
+        
+        // Update deep headline price as well
+        if(apiData['bitcoin'] && document.getElementById('deep-btc-price')) {
+            document.getElementById('deep-btc-price').innerText = formatPrice(apiData['bitcoin'].usd);
         }
 
-        async function fetchCricketData() {
-            try {
-                const rssUrl = 'https://static.cricinfo.com/rss/livescores.xml';
-                // RECAP: Increase count to 20 to ensure IPL matches are not cut off
-                const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}&t=${Date.now()}&count=20`);
-                const data = await response.json();
-                
-                if (data.items && data.items.length > 0) {
-                    // GENIUS PRIORITY: Include Team Names and South Asian Powerhouses
-                    const priorities = [
-                        'IPL', 'WPL', 'T20', 'MUMBAI', 'RCB', 'BANGALORE', 'GUJARAT', 'TITANS', 'LUCKNOW', 
-                        'LSG', 'GT', 'CSK', 'CHENNAI', 'KOLKATA', 'KKR', 'RAJASTHAN', 'DELHI', 'PUNJAB', 'HYDERABAD',
-                        'INDIA', 'PAKISTAN', 'BANGLADESH', 'SRI LANKA'
-                    ];
-                    
-                    const sorted = data.items.map(m => {
-                        const t = m.title.toUpperCase();
-                        const isLive = !t.includes('WON BY') && !t.includes('RESULT') && !t.includes('DRAWN');
-                        const hasPriority = priorities.some(p => t.includes(p));
-                        return { ...m, priority: hasPriority, isLive: isLive };
-                    }).sort((a,b) => b.priority - a.priority);
+    } catch(e) {
+        let html = '';
+        mockData.forEach(c => html += generateRow(c.rank, c.img, c.name, c.symbol, c.price, c.change));
+        tbody.innerHTML = html;
+    }
 
-                    // 1. UPDATE TICKER
-                    let tickerStr = "";
-                    sorted.slice(0, 15).forEach(match => {
-                        let clean = match.title.replace(/&amp;/gi, '&').trim();
-                        tickerStr += `${match.isLive ? '🔥' : '🏏'} ${clean} | `;
-                    });
-                    document.getElementById('ticker-cricket').innerText = "LIVE FEED: " + tickerStr;
-
-
-                    // 2. UPDATE SIDEBAR INTEL
-                    const intel = document.getElementById('intel-container');
-                    if (intel) {
-                        let sidebarContent = "";
-                        const liveMatches = sorted.filter(m => m.isLive && m.priority).slice(0, 2);
-                        const results = sorted.filter(m => !m.isLive && m.priority).slice(0, 2);
-
-                        if (liveMatches.length > 0) {
-                            sidebarContent += `<div style="color: #39FF14; font-weight: bold; margin-bottom: 10px; font-size: 0.8rem; letter-spacing:1px;">⚡ LIVE NOW</div>`;
-                            liveMatches.forEach(m => {
-                                let title = m.title.replace(/&amp;/gi, '&');
-                                sidebarContent += `
-                                    <div class="match-card" style="border-left: 2px solid #39FF14; padding-left: 10px; margin-bottom: 15px;">
-                                        <div style="color: #FFF; font-size: 0.85rem; font-weight:700;">${title}</div>
-                                        <div style="color: #00F3FF; font-size: 0.7rem; margin-top:4px;">STATUS: IN PROGRESS</div>
-                                    </div>`;
-                            });
-                        }
-
-                        if (results.length > 0) {
-                            sidebarContent += `<div style="color: #CCFF00; font-weight: bold; margin: 15px 0 10px 0; font-size: 0.8rem; letter-spacing:1px;">✅ MATCH SUMMARY</div>`;
-                            results.forEach(m => {
-                                let title = m.title.replace(/&amp;/gi, '&');
-                                sidebarContent += `
-                                    <div class="match-card" style="border-left: 2px solid #CCFF00; padding-left: 10px; margin-bottom: 10px;">
-                                        <div style="color: #FFF; font-size: 0.85rem;">${title}</div>
-                                    </div>`;
-                            });
-                        }
-
-
-                        if (sidebarContent === "") {
-                            sidebarContent = `<div style="color: #888; font-size: 0.8rem;">Synthesizing global feeds... No live IPL matches detected.</div>`;
-                        }
-                        
-                        sidebarContent += `
-                            <div style="color: #555; font-size: 0.7rem; margin-top: 15px; border-top: 1px solid #222; padding-top: 10px;">
-                                <i class="fas fa-sync-alt fa-spin"></i> AUTO-SYNC ACTIVE
-                            </div>`;
-                        
-                        intel.innerHTML = sidebarContent;
-                    }
-                }
-            } catch (e) { console.error("Cricket Data Error", e); }
-        }
-
-
-
-        function novaSpeak() {
-            const phrases = [
-                "Whale Tracking: 100% Secure.",
-                "Viral SEO: Dominance Initialized.",
-                "365M USD Target: Progression Stable.",
-                "Zero-Loss Pipeline: Operating.",
-                "Eternal Pulse V20: Synchronized."
-            ];
-            document.querySelector('.nova-speech').innerText = phrases[Math.floor(Math.random()*phrases.length)];
-        }
-
-        // ==========================================
-        // 3D HIGH-RES VISUAL ENGINE (V75 MASTER)
-        // ==========================================
-        let scene, camera, renderer, stars, animate;
-
-        window.onload = function() {
-            // 1. STARFIELD CORE
-            scene = new THREE.Scene();
-            camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 2000);
-            camera.position.z = 800;
-            
-            renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg-canvas'), alpha: true, antialias: true });
-            renderer.setPixelRatio(window.devicePixelRatio); // FIX: HIGH-RES
-            renderer.setSize(window.innerWidth, window.innerHeight);
-
-            const starGeo = new THREE.BufferGeometry();
-            const starCoords = [];
-            for(let i=0; i<6000; i++) {
-                starCoords.push(THREE.MathUtils.randFloatSpread(3000), THREE.MathUtils.randFloatSpread(3000), THREE.MathUtils.randFloatSpread(3000));
-            }
-            starGeo.setAttribute('position', new THREE.Float32BufferAttribute(starCoords, 3));
-            const starMat = new THREE.PointsMaterial({ color: 0x39FF14, size: 1.2, transparent: true });
-            stars = new THREE.Points(starGeo, starMat);
-            scene.add(stars);
-
-            // 2. CRYPTO EGG PANEL
-            const eggContainer = document.getElementById('egg-container');
-            const eggScene = new THREE.Scene();
-            const eggCam = new THREE.PerspectiveCamera(45, eggContainer.clientWidth/eggContainer.clientHeight, 0.1, 100);
-            eggCam.position.z = 6;
-            const eggRen = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            eggRen.setPixelRatio(window.devicePixelRatio); // FIX: HIGH-RES
-            eggRen.setSize(eggContainer.clientWidth, eggContainer.clientHeight);
-            eggContainer.appendChild(eggRen.domElement);
-
-            const eggGeo = new THREE.SphereGeometry(1.6, 64, 64);
-            eggGeo.scale(1, 1.4, 1);
-            const eggMat = new THREE.MeshPhongMaterial({ color: 0xCCFF00, wireframe: true, shininess: 100 });
-            const egg = new THREE.Mesh(eggGeo, eggMat);
-            eggScene.add(egg);
-            eggScene.add(new THREE.PointLight(0xffffff, 1.5, 100).clone().translateZ(5));
-
-            let cracked = false;
-            eggContainer.onclick = () => {
-                if(cracked) return;
-                cracked = true;
-                triggerMasterCrypto();
-                gsap.to(egg.scale, { x: 0, y: 0, z: 0, duration: 0.6, ease: "power2.in" });
-                setTimeout(() => {
-                    document.getElementById('btc-reveal-panel').style.display = 'block';
-                    gsap.from('#btc-reveal-panel', { opacity: 0, scale: 0.2, duration: 1.2, ease: "back.out(1.7)" });
-                    document.querySelector('#egg-container .click-hint').style.display = 'none';
-                }, 400);
-            };
-
-            // 3. CRICKET PITCH PANEL
-            const crickContainer = document.getElementById('cricket-canvas-panel');
-            const cScene = new THREE.Scene();
-            const cCam = new THREE.PerspectiveCamera(45, crickContainer.clientWidth/crickContainer.clientHeight, 0.1, 100);
-            cCam.position.set(0, 3, 8); cCam.lookAt(0,0,0);
-            const cRen = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            cRen.setPixelRatio(window.devicePixelRatio); // FIX: HIGH-RES
-            cRen.setSize(crickContainer.clientWidth, crickContainer.clientHeight);
-            crickContainer.appendChild(cRen.domElement);
-
-            const pitch = new THREE.Mesh(new THREE.BoxGeometry(3, 0.1, 7), new THREE.MeshPhongMaterial({ color: 0x1a4a1a }));
-            cScene.add(pitch);
-            const ball = new THREE.Mesh(new THREE.SphereGeometry(0.25, 32, 32), new THREE.MeshPhongMaterial({ color: 0xff0000 }));
-            ball.position.set(0, 0.4, 3);
-            cScene.add(ball);
-            cScene.add(new THREE.AmbientLight(0xffffff, 1));
-
-            let bit = false;
-            crickContainer.onclick = () => {
-                if(bit) return;
-                bit = true;
-                gsap.to(ball.position, { z: -3, y: 0.2, duration: 0.5, onComplete: () => {
-                    gsap.to(ball.position, { z: 12, y: 6, duration: 0.7 });
-                    playMasterCricket();
-                    document.querySelector('#cricket-canvas-panel .click-hint').style.display = 'none';
-                }});
-            };
-
-            animate = function() {
-                requestAnimationFrame(animate);
-                stars.rotation.y += 0.00025;
-                if(!cracked) egg.rotation.y += 0.02;
-                renderer.render(scene, camera);
-                eggRen.render(eggScene, eggCam);
-                cRen.render(cScene, cCam);
-            }
-            animate();
-
-            initializeAuditFlow();
-            injectHyperDriveForce();
-
-            window.addEventListener('resize', () => {
-                const w = window.innerWidth, h = window.innerHeight;
-                camera.aspect = w/h; camera.updateProjectionMatrix();
-                renderer.setSize(w, h);
-            });
-        };
-
-        // ==========================================
-        // V75.1 HYPER-ACTIVE MASTER LOGIC
-        // ==========================================
-
-        function triggerMasterCrypto() {
-            const geo = new THREE.IcosahedronGeometry(70, 0); 
-            const mat = new THREE.MeshBasicMaterial({ color: 0xCCFF00, wireframe: true, transparent: true, opacity: 0.4 });
-            const masterEgg = new THREE.Mesh(geo, mat);
-            masterEgg.position.set(-250, 100, 400);
-            scene.add(masterEgg);
-
-            gsap.to(masterEgg.rotation, { y: Math.PI * 4, duration: 2.5 });
-            gsap.to(masterEgg.scale, { x: 0, y: 0, z: 0, delay: 2.8, duration: 0.6, onComplete: () => {
-                scene.remove(masterEgg);
-            }});
-        }
-
-        function playMasterCricket() {
-            const ballGeo = new THREE.SphereGeometry(12, 32, 32);
-            const ballMat = new THREE.MeshBasicMaterial({ color: 0xFF0000 });
-            const mBall = new THREE.Mesh(ballGeo, ballMat);
-            mBall.position.set(500, -100, 400); 
-            scene.add(mBall);
-
-            gsap.to(mBall.position, { 
-                x: -500, y: 150, z: 100, 
-                duration: 1.4, ease: "power2.inOut",
-                onComplete: () => {
-                    scene.remove(mBall);
-                    const intel = document.getElementById('intel-container');
-                    intel.style.display = 'block';
-                    gsap.from(intel, { x: 300, opacity: 0, duration: 1, ease: "power3.out" });
-                }
-            });
-        }
-
-        function initializeAuditFlow() {
-            const stages = [
-                "VIRAL SEO: KOHLI/MI 2026 METRICS SYNCED",
-                "UAE-SOUTH ASIA BRIDGE (18:00 GST) ACTIVE",
-                "WHALE COMMAND NODE: RADAR SECURE",
-                "15-STAGE AUDIT: MATHEMATICAL CERTAINTY",
-                "SOUTH ASIAN DIASPORA TARGETING LOCKED",
-                "N8N AUTOMATION: MULTI-PLATFORM BLAST",
-                "DAILYPOST365 REVENUE ENGINE: 365M USD",
-                "STATUS: MASTER COMMAND LIVE"
-            ];
-            let idx = 0;
-            const flow = document.getElementById('log-flow');
-            const interval = setInterval(() => {
-                if (idx < stages.length) {
-                    flow.innerHTML += `<br><span style="color:#CCFF00">>></span> ${stages[idx]} ... <b style="color:#FFF">PASS</b>`;
-                    flow.scrollTop = flow.scrollHeight;
-                    idx++;
-                } else clearInterval(interval);
-            }, 2000);
-        }
-
-        function injectHyperDriveForce() {
-            const warpGeo = new THREE.BufferGeometry();
-            const warpCoords = [];
-            for(let i=0; i<2500; i++) {
-                warpCoords.push(THREE.MathUtils.randFloatSpread(4000), THREE.MathUtils.randFloatSpread(4000), THREE.MathUtils.randFloatSpread(4000));
-            }
-            warpGeo.setAttribute('position', new THREE.Float32BufferAttribute(warpCoords, 3));
-            const warpMat = new THREE.PointsMaterial({ color: 0x00FFFF, size: 0.8, transparent: true, opacity: 0.4 });
-            const warpPoints = new THREE.Points(warpGeo, warpMat);
-            scene.add(warpPoints); 
-
-            const origAnimate = animate;
-            animate = function() {
-                origAnimate();
-                warpPoints.rotation.z += 0.0015;
-                warpPoints.rotation.x += 0.0008;
-            };
-        }
-
-        fetchCryptoData();
-        fetchCricketData();
-        setInterval(fetchCryptoData, 30000);
-        setInterval(fetchCricketData, 60000);
+    function generateRow(rank, img, name, symbol, price, change) {
+        let isPos = change > 0;
+        let cClass = isPos ? 'text-green' : 'text-red';
+        return `
+            <tr>
+                <td>${rank}</td>
+                <td>
+                    <div class="coin-cell" style="display:flex; align-items:center; gap:0.5rem; font-weight:600;">
+                        <img src="${img}" alt="${symbol}" style="width:20px;height:20px;border-radius:50%;">
+                        <span>${symbol}</span>
+                    </div>
+                </td>
+                <td class="text-right">${formatPrice(price)}</td>
+                <td class="text-right ${cClass}">${isPos?'+':''}${change.toFixed(2)}%</td>
+            </tr>
+        `;
+    }
+    
+    function formatPrice(num) {
+        return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(num);
+    }
+}
     </script>
 </body>
 </html>
