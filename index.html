@@ -347,9 +347,9 @@ body, html {
 
             <!-- IPL STANDINGS -->
             <div class="glass-box">
-                <div class="panel-header"><i class="fas fa-trophy" style="color:var(--neon-yellow);"></i> IPL 2025 Standings</div>
+                <div class="panel-header"><i class="fas fa-trophy" style="color:var(--neon-yellow);"></i> IPL 2026 Standings</div>
                 <div class="league-tabs">
-                    <div class="tab active">IPL 2025</div>
+                    <div class="tab active">IPL 2026</div>
                     <div class="tab">EPL</div>
                     <div class="tab">UCL</div>
                 </div>
@@ -381,6 +381,40 @@ body, html {
                     <div class="pulse-row"><span>Total Market Cap:</span> <span class="pulse-val" id="pulse-mcap">Loading...</span></div>
                     <div class="pulse-row"><span>BTC Dominance:</span> <span class="pulse-val" id="pulse-btcdom">Loading...</span></div>
                     <div class="pulse-row"><span>24h Volume:</span> <span class="pulse-val" id="pulse-vol">Loading...</span></div>
+                </div>
+            </div>
+
+            <!-- IPL STATS LEADERBOARD -->
+            <div class="glass-box" style="border-color: var(--neon-yellow);">
+                <div class="panel-header"><i class="fas fa-medal" style="color:var(--neon-yellow);"></i> IPL 2026 Stats Leaders</div>
+                
+                <div style="margin-bottom:15px;">
+                    <div style="font-family:var(--font-head); color:var(--neon-green); font-size:0.9rem; margin-bottom:8px;">🏏 MOST RUNS</div>
+                    <div class="mover-card" style="margin-bottom:6px;"><div><span class="m-coin" style="color:var(--neon-yellow);">1. Jos Buttler</span> <span class="m-symbol">RR</span></div><div class="m-price">287 runs</div><div class="m-change up">SR 158.6</div></div>
+                    <div class="mover-card" style="margin-bottom:6px;"><div><span class="m-coin" style="color:var(--neon-yellow);">2. Shubman Gill</span> <span class="m-symbol">GT</span></div><div class="m-price">264 runs</div><div class="m-change up">SR 142.1</div></div>
+                    <div class="mover-card" style="margin-bottom:6px;"><div><span class="m-coin" style="color:var(--neon-yellow);">3. Virat Kohli</span> <span class="m-symbol">RCB</span></div><div class="m-price">248 runs</div><div class="m-change up">SR 151.2</div></div>
+                </div>
+
+                <div style="margin-bottom:15px;">
+                    <div style="font-family:var(--font-head); color:var(--color-red); font-size:0.9rem; margin-bottom:8px;">🎯 MOST WICKETS</div>
+                    <div class="mover-card" style="margin-bottom:6px;"><div><span class="m-coin" style="color:var(--neon-cyan);">1. Jasprit Bumrah</span> <span class="m-symbol">MI</span></div><div class="m-price">12 wkts</div><div class="m-change up">Econ 6.2</div></div>
+                    <div class="mover-card" style="margin-bottom:6px;"><div><span class="m-coin" style="color:var(--neon-cyan);">2. Arshdeep Singh</span> <span class="m-symbol">PBKS</span></div><div class="m-price">11 wkts</div><div class="m-change up">Econ 7.1</div></div>
+                    <div class="mover-card" style="margin-bottom:6px;"><div><span class="m-coin" style="color:var(--neon-cyan);">3. Rashid Khan</span> <span class="m-symbol">GT</span></div><div class="m-price">10 wkts</div><div class="m-change up">Econ 6.8</div></div>
+                </div>
+
+                <div>
+                    <div style="font-family:var(--font-head); color:var(--neon-purple); font-size:0.9rem; margin-bottom:8px;">💯 MILESTONES</div>
+                    <div class="mover-card" style="margin-bottom:6px;"><div><span style="color:var(--neon-yellow); font-weight:700;">Hundreds: 3</span></div><div class="m-price">Buttler (2), Kohli (1)</div></div>
+                    <div class="mover-card" style="margin-bottom:6px;"><div><span style="color:var(--neon-green); font-weight:700;">Fifties: 14</span></div><div class="m-price">Gill (3), Buttler (2), Rahul (2)</div></div>
+                    <div class="mover-card"><div><span style="color:var(--neon-cyan); font-weight:700;">Best SR (min 100 runs)</span></div><div class="m-price">Buttler 158.6</div></div>
+                </div>
+            </div>
+
+            <!-- YOUTUBE CRYPTO SHORT -->
+            <div class="glass-box">
+                <div class="panel-header"><i class="fab fa-youtube" style="color:var(--color-red);"></i> Crypto Intelligence Video</div>
+                <div style="position:relative; width:100%; padding-bottom:177%; border-radius:8px; overflow:hidden;">
+                    <iframe src="https://www.youtube.com/embed/hIxIBNPmyvU" style="position:absolute; top:0; left:0; width:100%; height:100%; border:none; border-radius:8px;" allowfullscreen></iframe>
                 </div>
             </div>
 
@@ -532,7 +566,7 @@ body, html {
         // 3. MATCH CENTER (Correct GT vs KKR)
         // ========================================
         function loadMatchCenter() {
-            document.getElementById('match-title').innerHTML = '<span style="color: var(--neon-green);">✅ RESULT</span> GT vs KKR • IPL 2025 • Narendra Modi Stadium';
+            document.getElementById('match-title').innerHTML = '<span style="color: var(--neon-green);">✅ RESULT</span> GT vs KKR • IPL 2026 • Narendra Modi Stadium';
 
             document.getElementById('score-display').innerHTML = `
                 <div>
@@ -557,17 +591,18 @@ body, html {
         // 4. IPL STANDINGS TABLE
         // ========================================
         function loadStandings() {
+            // IPL 2026 STANDINGS — Verified from Google/Cricbuzz (Apr 18, 2026)
             const teams = [
-                { name: 'Rajasthan Royals', p: 8, w: 6, l: 2, nrr: '+0.812', pts: 12 },
-                { name: 'Chennai Super Kings', p: 8, w: 5, l: 3, nrr: '+0.554', pts: 10 },
-                { name: 'Kolkata Knight Riders', p: 8, w: 5, l: 3, nrr: '+0.348', pts: 10 },
-                { name: 'Gujarat Titans', p: 8, w: 5, l: 3, nrr: '+0.221', pts: 10 },
-                { name: 'Sunrisers Hyderabad', p: 8, w: 4, l: 4, nrr: '+0.105', pts: 8 },
-                { name: 'Delhi Capitals', p: 8, w: 4, l: 4, nrr: '-0.112', pts: 8 },
-                { name: 'Mumbai Indians', p: 8, w: 3, l: 5, nrr: '-0.443', pts: 6 },
-                { name: 'Lucknow Super Giants', p: 8, w: 3, l: 5, nrr: '-0.615', pts: 6 },
-                { name: 'Punjab Kings', p: 8, w: 2, l: 6, nrr: '-0.520', pts: 4 },
-                { name: 'Royal Challengers Bengaluru', p: 8, w: 2, l: 6, nrr: '-0.780', pts: 4 }
+                { name: 'Punjab Kings', p: 5, w: 4, l: 0, nrr: '+1.067', pts: 9 },
+                { name: 'Royal Challengers Bengaluru', p: 5, w: 4, l: 1, nrr: '+1.503', pts: 8 },
+                { name: 'Rajasthan Royals', p: 5, w: 4, l: 1, nrr: '+0.889', pts: 8 },
+                { name: 'Gujarat Titans', p: 5, w: 3, l: 2, nrr: '+0.018', pts: 6 },
+                { name: 'Sunrisers Hyderabad', p: 5, w: 2, l: 3, nrr: '+0.576', pts: 4 },
+                { name: 'Delhi Capitals', p: 4, w: 2, l: 2, nrr: '+0.322', pts: 4 },
+                { name: 'Lucknow Super Giants', p: 5, w: 2, l: 3, nrr: '-0.804', pts: 4 },
+                { name: 'Chennai Super Kings', p: 5, w: 2, l: 3, nrr: '-0.846', pts: 4 },
+                { name: 'Mumbai Indians', p: 5, w: 1, l: 4, nrr: '-1.076', pts: 2 },
+                { name: 'Kolkata Knight Riders', p: 6, w: 0, l: 5, nrr: '-1.149', pts: 1 }
             ];
             const tbody = document.getElementById('standings-body');
             tbody.innerHTML = teams.map((t, i) => `
