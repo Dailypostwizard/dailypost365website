@@ -374,10 +374,12 @@ body, html {
                 </div>
             </div>
 
-            <!-- TRADINGVIEW REAL EMBED — BINANCE:BTCUSDT -->
+            <!-- TRADINGVIEW REAL EMBED — BINANCE:BTCUSDT (IFRAME) -->
             <div class="glass-box">
                 <div class="panel-header"><i class="fas fa-chart-line"></i> Live Terminal: BTC/USDT</div>
-                <div class="chart-container" id="tv_chart_container"></div>
+                <div class="chart-container">
+                    <iframe src="https://s.tradingview.com/widgetembed/?hideideas=1&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=en#%7B%22symbol%22%3A%22BINANCE%3ABTCUSDT%22%2C%22frameElementId%22%3A%22tradingview_dp365%22%2C%22interval%22%3A%2260%22%2C%22hide_side_toolbar%22%3A%220%22%2C%22allow_symbol_change%22%3A%221%22%2C%22save_image%22%3A%220%22%2C%22studies%22%3A%22%5B%5D%22%2C%22theme%22%3A%22dark%22%2C%22style%22%3A%221%22%2C%22timezone%22%3A%22Etc%2FUTC%22%2C%22withdateranges%22%3A%221%22%2C%22studies_overrides%22%3A%22%7B%7D%22%2C%22utm_source%22%3A%22www.tradingview.com%22%2C%22utm_medium%22%3A%22widget_new%22%2C%22utm_campaign%22%3A%22chart%22%2C%22utm_term%22%3A%22BINANCE%3ABTCUSDT%22%7D" style="width:100%; height:100%; border:none;"></iframe>
+                </div>
             </div>
 
             <!-- AI ALERTS + DISCLAIMER -->
@@ -402,26 +404,7 @@ body, html {
         </div>
     </div>
 
-    <!-- ============================================================
-         TRADINGVIEW OFFICIAL WIDGET SCRIPT
-         ============================================================ -->
-    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
-    {
-        "autosize": true,
-        "symbol": "BINANCE:BTCUSDT",
-        "interval": "60",
-        "timezone": "Etc/UTC",
-        "theme": "dark",
-        "style": "1",
-        "locale": "en",
-        "backgroundColor": "rgba(0, 0, 0, 1)",
-        "gridColor": "rgba(30, 41, 59, 0.5)",
-        "allow_symbol_change": true,
-        "calendar": false,
-        "support_host": "https://www.tradingview.com",
-        "container_id": "tv_chart_container"
-    }
-    </script>
+    <!-- TradingView loaded via iframe — no external script needed -->
 
     <script>
     // ============================================================
