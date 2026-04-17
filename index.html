@@ -43,11 +43,13 @@
 ::-webkit-scrollbar-thumb { background: var(--neon-cyan); border-radius: 10px; }
 
 body, html {
-    width: 100%; height: 100%;
+    width: 100%; min-height: 100%;
     font-family: var(--font-main);
     color: var(--text-primary);
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
     background: radial-gradient(ellipse at 30% 20%, #0d1b2a 0%, #050510 50%, #000 100%);
+    background-attachment: fixed;
 }
 
 #bg-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
@@ -136,8 +138,18 @@ body, html {
    DUAL DASHBOARD  60% / 40%
    ======================================== */
 .master-dashboard {
-    position: absolute; top: 52px; left: 65px; right: 15px; bottom: 45px;
+    padding: 55px 15px 20px 65px;
     display: flex; gap: 18px; z-index: 10;
+    position: relative; min-height: calc(100vh - 55px);
+}
+
+/* Full-width chart section below the panels */
+.full-width-section {
+    padding: 0 15px 20px 65px;
+    position: relative; z-index: 10;
+}
+.full-width-section .glass-box {
+    width: 100%;
 }
 
 .glass-box {
@@ -150,10 +162,8 @@ body, html {
 }
 .glass-box::-webkit-scrollbar { display: none; }
 
-.panel-left { flex: 6; display: flex; flex-direction: column; gap: 18px; overflow-y: auto; }
-.panel-left::-webkit-scrollbar { display: none; }
-.panel-right { flex: 4; display: flex; flex-direction: column; gap: 18px; overflow-y: auto; }
-.panel-right::-webkit-scrollbar { display: none; }
+.panel-left { flex: 6; display: flex; flex-direction: column; gap: 18px; }
+.panel-right { flex: 4; display: flex; flex-direction: column; gap: 18px; }
 .panel-header {
     font-family: var(--font-head); font-size: 1.3rem; text-transform: uppercase;
     color: #FFF; margin-bottom: 12px; border-bottom: 1px solid #333; padding-bottom: 5px;
@@ -222,8 +232,8 @@ body, html {
 .pulse-row { display: flex; justify-content: space-between; font-family: var(--font-data); font-size: 0.85rem; margin-bottom: 7px; }
 .pulse-val { font-weight: 700; color: #FFF; }
 
-/* TradingView Widget */
-.chart-container { width: 100%; min-height: 380px; height: 380px; background: #000; border-radius: 6px; overflow: hidden; border: 1px solid #222; position: relative; z-index: 20; }
+/* TradingView Widget — Full Width */
+.chart-container { width: 100%; min-height: 500px; height: 500px; background: #000; border-radius: 6px; overflow: hidden; border: 1px solid #222; position: relative; z-index: 20; }
 
 /* Alerts */
 .alert-box { background: rgba(0,255,255,0.04); border: 1px solid rgba(0,255,255,0.2); border-left: 4px solid var(--neon-cyan); padding: 14px; border-radius: 6px; margin-bottom: 10px; font-size: 0.85rem; display: flex; gap: 12px; align-items: flex-start; line-height: 1.5; }
@@ -374,33 +384,38 @@ body, html {
                 </div>
             </div>
 
-            <!-- TRADINGVIEW REAL EMBED — BINANCE:BTCUSDT (IFRAME) -->
-            <div class="glass-box">
-                <div class="panel-header"><i class="fas fa-chart-line"></i> Live Terminal: BTC/USDT</div>
-                <div class="chart-container">
-                    <iframe src="https://s.tradingview.com/widgetembed/?hideideas=1&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=en#%7B%22symbol%22%3A%22BINANCE%3ABTCUSDT%22%2C%22frameElementId%22%3A%22tradingview_dp365%22%2C%22interval%22%3A%2260%22%2C%22hide_side_toolbar%22%3A%220%22%2C%22allow_symbol_change%22%3A%221%22%2C%22save_image%22%3A%220%22%2C%22studies%22%3A%22%5B%5D%22%2C%22theme%22%3A%22dark%22%2C%22style%22%3A%221%22%2C%22timezone%22%3A%22Etc%2FUTC%22%2C%22withdateranges%22%3A%221%22%2C%22studies_overrides%22%3A%22%7B%7D%22%2C%22utm_source%22%3A%22www.tradingview.com%22%2C%22utm_medium%22%3A%22widget_new%22%2C%22utm_campaign%22%3A%22chart%22%2C%22utm_term%22%3A%22BINANCE%3ABTCUSDT%22%7D" style="width:100%; height:100%; border:none;"></iframe>
-                </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         FULL-WIDTH TRADINGVIEW SECTION (Scroll Down to See)
+         ============================================================ -->
+    <div class="full-width-section">
+        <div class="glass-box" style="border-color: var(--neon-green);">
+            <div class="panel-header"><i class="fas fa-chart-line" style="color:var(--neon-green);"></i> Live Terminal: BTC/USDT <span class="live-badge">LIVE</span></div>
+            <div class="chart-container">
+                <iframe src="https://s.tradingview.com/widgetembed/?hideideas=1&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=en#%7B%22symbol%22%3A%22BINANCE%3ABTCUSDT%22%2C%22frameElementId%22%3A%22tradingview_dp365%22%2C%22interval%22%3A%2260%22%2C%22hide_side_toolbar%22%3A%220%22%2C%22allow_symbol_change%22%3A%221%22%2C%22save_image%22%3A%220%22%2C%22studies%22%3A%22%5B%5D%22%2C%22theme%22%3A%22dark%22%2C%22style%22%3A%221%22%2C%22timezone%22%3A%22Etc%2FUTC%22%2C%22withdateranges%22%3A%221%22%2C%22studies_overrides%22%3A%22%7B%7D%22%2C%22utm_source%22%3A%22www.tradingview.com%22%2C%22utm_medium%22%3A%22widget_new%22%2C%22utm_campaign%22%3A%22chart%22%2C%22utm_term%22%3A%22BINANCE%3ABTCUSDT%22%7D" style="width:100%; height:100%; border:none;" allowfullscreen></iframe>
             </div>
+        </div>
+    </div>
 
-            <!-- AI ALERTS + DISCLAIMER -->
-            <div class="glass-box">
-                <div class="panel-header"><i class="fas fa-brain" style="color:var(--neon-purple);"></i> Intelligence Alerts</div>
-
-                <div class="alert-box">
+    <!-- FULL-WIDTH ALERTS SECTION -->
+    <div class="full-width-section">
+        <div class="glass-box">
+            <div class="panel-header"><i class="fas fa-brain" style="color:var(--neon-purple);"></i> Intelligence Alerts</div>
+            <div style="display:flex; gap:15px; flex-wrap:wrap;">
+                <div class="alert-box" style="flex:1; min-width:300px;">
                     <i class="fas fa-robot alert-icon"></i>
                     <div><strong>Market Signal:</strong> BTC showing strong momentum on the 1H timeframe. Volume spike detected on Binance suggesting institutional accumulation above key support levels.</div>
                 </div>
-
-                <div class="alert-box" style="border-left-color: var(--neon-yellow); background: rgba(204,255,0,0.04);">
+                <div class="alert-box" style="flex:1; min-width:300px; border-left-color: var(--neon-yellow); background: rgba(204,255,0,0.04);">
                     <i class="fas fa-bell alert-icon" style="color:var(--neon-yellow);"></i>
                     <div><strong>Custom Alert:</strong> Set notification triggers for BTC breakout above resistance. Monitor correlation between major sporting events and crypto volume spikes.</div>
                 </div>
-
-                <div class="disclaimer">
-                    <i class="fas fa-shield-alt"></i> DISCLAIMER: All information is sourced from free, open-source APIs (CoinGecko, public feeds). Trading involves extreme risk. Content generated by DailyPost365 V76.0 Engine is for informational purposes only — NOT financial advice. Crypto prices update every 60 seconds via CoinGecko API.
-                </div>
             </div>
-
+            <div class="disclaimer">
+                <i class="fas fa-shield-alt"></i> DISCLAIMER: All information is sourced from free, open-source APIs (CoinGecko, public feeds). Trading involves extreme risk. Content generated by DailyPost365 V76.0 Engine is for informational purposes only — NOT financial advice. Crypto prices update every 60 seconds via CoinGecko API.
+            </div>
         </div>
     </div>
 
