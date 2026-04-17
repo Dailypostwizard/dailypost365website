@@ -3,616 +3,461 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DailyPost365 | Dense Intelligence Platform</title>
+    <title>DailyPost365 | Global Intelligence Dashboard</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500;700&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
     <style>
 /* ========================================================
-   DAILYPOST365 - INFOGRAPHIC TERMINAL CSS
+   DAILYPOST365 - DUAL DASHBOARD CSS
    ======================================================== */
 
-   :root {
-    --bg-main: #0B0E14;
-    --bg-secondary: #161B22;
-    --border-color: #30363D;
+:root {
+    --bg-main: #050505;
+    --bg-panel: rgba(10, 15, 20, 0.85); /* Glass effect */
+    --border-glow: rgba(57, 255, 20, 0.4);
+    --border-color: #1a2230;
     
-    --text-primary: #C9D1D9;
+    --neon-green: #39FF14;
+    --neon-yellow: #CCFF00;
+    --neon-cyan: #00FFFF;
+    --neon-purple: #9D00FF;
+    --color-red: #FF3333;
+    
+    --text-primary: #FFFFFF;
     --text-secondary: #8B949E;
     
-    --accent-blue: #58A6FF;
-    --color-green: #39FF14;
-    --color-red: #FF3333;
-    --color-yellow: #FFD700;
-    --color-purple: #9D00FF;
-    --color-cyan: #00FFFF;
+    --font-main: 'Inter', sans-serif;
+    --font-data: 'Roboto Mono', monospace;
+    --font-head: 'Oswald', sans-serif;
     
-    --font-sans: 'Inter', sans-serif;
-    --font-mono: 'Roboto Mono', monospace;
-    --font-oswald: 'Oswald', sans-serif;
+    --glass-blur: blur(16px);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
+::-webkit-scrollbar-thumb { background: var(--neon-cyan); border-radius: 10px; }
 
-body {
-    font-family: var(--font-sans);
+body, html {
+    width: 100%; height: 100%;
+    font-family: var(--font-main);
     background-color: var(--bg-main);
     color: var(--text-primary);
-    line-height: 1.5;
-    font-size: 14px; 
+    overflow: hidden; /* Stop page scroll, individual panels scroll */
 }
 
-/* Utilities */
-.text-green { color: var(--color-green); }
-.text-red { color: var(--color-red); }
-.text-yellow { color: var(--color-yellow); }
-.text-purple { color: var(--color-purple); }
-.text-cyan { color: var(--color-cyan); }
-.text-white { color: #FFFFFF; }
-.text-grey { color: var(--text-secondary); }
-.text-sm { font-size: 0.85rem; }
-.text-right { text-align: right; }
-.text-center { text-align: center; }
-.mt-2 { margin-top: 0.5rem; }
-.mt-3 { margin-top: 1rem; }
-.mt-4 { margin-top: 1.5rem; }
-.mt-5 { margin-top: 2.5rem; }
+/* 3D Background */
+#bg-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; }
 
-/* Layout Basics */
-.container { max-width: 1500px; margin: 0 auto; padding: 0; }
-a { color: inherit; text-decoration: none; }
-.main-layout { display: grid; grid-template-columns: 260px 1fr 340px; gap: 1.5rem; margin-top: 1.5rem; }
-@media (max-width: 1200px) { .main-layout { grid-template-columns: 1fr; } .col-left, .col-right { display: none; } }
+/* Live Ticker (Top) */
+.live-ticker-container {
+    position: fixed; top: 0; left: 0; width: 100%; height: 40px;
+    background: #000;
+    border-bottom: 2px solid var(--neon-green);
+    z-index: 1000; display: flex; align-items: center;
+    overflow: hidden; font-family: var(--font-data);
+    box-shadow: 0 4px 15px var(--border-glow);
+}
+.ticker-content {
+    display: flex; white-space: nowrap; font-size: 0.9rem; font-weight: 700;
+    animation: scrollTicker 30s linear infinite;
+}
+.ticker-content span { padding: 0 40px; border-right: 1px solid #333; }
+@keyframes scrollTicker {
+    0% { transform: translateX(100vw); }
+    100% { transform: translateX(-100%); }
+}
 
-/* Ribbon & Nav */
-.score-ribbon-container { display: flex; background: var(--bg-secondary); border-bottom: 1px solid var(--border-color); height: 48px; }
-.ribbon-title { padding: 0 1rem; display: flex; align-items: center; font-weight: 600; border-right: 1px solid var(--border-color); }
-.score-ribbon { flex: 1; display: flex; overflow-x: auto; }
-.score-ribbon::-webkit-scrollbar { display: none; }
-.mini-score-card { min-width: 200px; padding: 0.4rem 1rem; border-right: 1px solid var(--border-color); font-family: var(--font-mono); font-size: 0.85rem; }
-.mini-score-card .teams { display: flex; justify-content: space-between; font-weight: 600; }
+/* Social Dock (Left Fixed) */
+.social-dock {
+    position: fixed; left: 15px; top: 50%; transform: translateY(-50%);
+    display: flex; flex-direction: column; gap: 15px; z-index: 999;
+}
+.social-btn {
+    width: 45px; height: 45px; border-radius: 50%;
+    background: rgba(0,0,0,0.6); border: 1px solid var(--neon-cyan);
+    color: var(--neon-cyan); display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; cursor: pointer; text-decoration: none;
+    transition: all 0.3s;
+}
+.social-btn:hover { background: var(--neon-cyan); color: #000; transform: scale(1.1); box-shadow: 0 0 15px var(--neon-cyan); }
 
-.main-nav { display: flex; justify-content: space-between; align-items: center; padding: 0 1.5rem; height: 60px; background: transparent; border-bottom: 1px solid var(--border-color); }
-.nav-brand h1 { font-family: var(--font-oswald); font-size: 1.5rem; font-weight: 800; }
-.nav-brand span { color: var(--accent-blue); }
-.nav-links { display: flex; gap: 1.5rem; }
-.nav-links a.active { color: var(--color-cyan); }
-.nav-search input { background: transparent; border: 1px solid var(--border-color); padding: 0.4rem 1rem; color: #fff; width: 200px; border-radius: 4px; }
-
-/* Sidebars */
-.dense-box { background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 6px; }
-.box-header { padding: 0.75rem 1rem; background: rgba(0,0,0,0.2); font-weight: 700; border-bottom: 1px solid var(--border-color); text-transform: uppercase; }
-.data-table { width: 100%; border-collapse: collapse; font-family: var(--font-mono); font-size: 0.85rem; }
-.data-table th, .data-table td { padding: 0.5rem 1rem; border-bottom: 1px solid var(--border-color); text-align: left; }
-.trending-list { list-style: none; padding: 0.5rem 1rem; }
-.trending-list li { display: flex; align-items: center; gap: 1rem; padding: 0.5rem 0; border-bottom: 1px solid var(--border-color); }
-.trend-num { font-size: 1.2rem; font-weight: 800; font-family: var(--font-oswald); color: var(--border-color); }
 
 /* ========================================================
-   INFOGRAPHIC 1: BTC MARKET TERMINAL
+   DUAL DASHBOARD STRUCTURE  (60% / 40%)
    ======================================================== */
-.btc-terminal {
-    background: #0D1115;
-    border: 1px solid #1E293B;
-    border-radius: 8px;
-    padding: 1.5rem;
-    font-family: var(--font-oswald);
-    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+.master-dashboard {
+    position: absolute; top: 50px; left: 70px; right: 20px; bottom: 10px;
+    display: flex; gap: 20px; z-index: 10;
 }
 
-.term-header { font-size: 0.8rem; letter-spacing: 2px; color: var(--text-secondary); border-bottom: 1px solid #1E293B; padding-bottom: 0.25rem; }
-.term-title { font-size: 2rem; color: #FFF; margin-top: 0.5rem; text-transform: uppercase; }
-.term-price-row { display: flex; align-items: center; gap: 1rem; margin-top: 0.5rem; }
-.big-price { font-size: 3.5rem; font-weight: 700; line-height: 1; }
-.price-sub { font-size: 0.85rem; font-family: var(--font-sans); color: var(--text-secondary); }
-
-.term-grid { display: grid; grid-template-columns: 1fr 280px; gap: 1rem; margin-top: 1.5rem; }
-.term-box { background: #12181F; border: 1px solid #1E293B; border-radius: 6px; padding: 1.25rem; position: relative; }
-.term-sec-title { font-size: 1.25rem; color: #FFF; margin-bottom: 1rem; text-transform: uppercase; line-height: 1.2; }
-.term-sec-title span { font-size: 0.85rem; color: var(--text-secondary); font-family: var(--font-sans); }
-
-/* Radar Simulation */
-.radar-box { text-align: center; overflow: hidden; }
-.radar-container {
-    width: 250px; height: 250px; margin: 0 auto;
-    border-radius: 50%;
-    border: 1px solid rgba(57, 255, 20, 0.3);
-    position: relative;
-    background: radial-gradient(circle, rgba(57,255,20,0.1) 0%, transparent 60%);
-}
-.radar-circle::before {
-    content: ''; position: absolute; inset: 20%; border: 1px solid rgba(57, 255, 20, 0.3); border-radius: 50%;
-}
-.radar-circle::after {
-    content: ''; position: absolute; inset: 40%; border: 1px solid rgba(57, 255, 20, 0.3); border-radius: 50%;
-}
-.radar-sweep { position: absolute; top: 0; left: 50%; width: 50%; height: 50%; background: conic-gradient(from 0deg, transparent 70%, rgba(57, 255, 20, 0.5)); transform-origin: 0% 100%; animation: sweep 4s linear infinite; }
-@keyframes sweep { 100% { transform: rotate(360deg); } }
-.radar-label { position: absolute; font-family: var(--font-sans); font-size: 0.75rem; font-weight: 700; text-align: left; }
-.radar-label.top-right { top: 10%; right: -20px; }
-.radar-label.bot-right { bottom: 10%; right: -20px; }
-.radar-price { font-size: 1rem; font-family: var(--font-mono); font-weight: 700; color: #FFF; }
-
-.claw-flex { display: flex; gap: 1rem; font-family: var(--font-sans); }
-.claw-icon i { font-size: 3rem; }
-.logic-exec { margin: 1rem 0 0.5rem 0; font-family: var(--font-oswald); font-size: 1.1rem; color: #FFF; }
-.logic-arrows { display: flex; align-items: center; gap: 1rem; font-size: 0.8rem; }
-.arr-box { background: rgba(0,0,0,0.3); padding: 0.5rem; border: 1px solid #1E293B; flex: 1; }
-.claw-pred { display: flex; align-items: center; gap: 1rem; margin-top: 1.5rem; }
-.pred-num { font-size: 4rem; font-weight: 700; line-height: 1; }
-.pred-txt { font-family: var(--font-sans); font-size: 0.85rem; color: var(--text-secondary); }
-
-.shield-flex { display: flex; gap: 1.5rem; font-family: var(--font-sans); }
-.shield-icon i { font-size: 4rem; text-shadow: 0 0 20px rgba(57,255,20,0.5); }
-.shield-stats { display: flex; flex-direction: column; gap: 1rem; justify-content: center; }
-.sh-stat { display: flex; gap: 1rem; font-size: 0.8rem; }
-.sh-num { font-size: 2.5rem; font-weight: 700; line-height: 1; font-family: var(--font-oswald); width: 60px; }
-
-.trap-box { border-color: rgba(255,51,51,0.3); background: #1a0f12; }
-.trap-flow { display: flex; flex-direction: column; align-items: center; margin-top: 1rem; }
-.trap-step { border: 1px solid rgba(255,255,255,0.1); width: 100%; border-radius: 4px; padding: 0.75rem; display: flex; justify-content: space-between; align-items: center; font-family: var(--font-oswald); background: rgba(0,0,0,0.2); }
-.arr-down { font-size: 1.5rem; margin: 0.5rem 0; }
-.trap-icn { font-size: 2rem; }
-
-/* ========================================================
-   INFOGRAPHIC 2: IPL MATCH MEGA SUMMARY
-   ======================================================== */
-.ipl-terminal {
-    background: radial-gradient(circle at center, #1b0f28, #050505);
-    border: 1px solid var(--color-purple);
+.glass-box {
+    background: var(--bg-panel);
+    backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--border-color);
     border-radius: 12px;
-    padding: 2rem;
-    font-family: var(--font-sans);
-    box-shadow: 0 0 30px rgba(157, 0, 255, 0.1);
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.5), 0 10px 30px rgba(0,0,0,0.6);
+    overflow-y: auto; padding: 20px;
 }
+.glass-box::-webkit-scrollbar { display: none; }
 
-.ipl-title { font-family: var(--font-oswald); font-size: 2rem; text-align: center; text-transform: uppercase; margin-bottom: 1.5rem; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
-.neon-box {
-    border: 2px solid var(--color-cyan);
-    border-radius: 8px;
-    padding: 1.5rem;
-    text-align: center;
-    position: relative;
-    box-shadow: inset 0 0 20px rgba(0, 255, 255, 0.1), 0 0 15px rgba(0, 255, 255, 0.3);
-}
-.neon-title { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #050505; padding: 0 10px; font-weight: 700; font-size: 1.1rem; }
-.match-status-bar { font-family: var(--font-oswald); font-size: 1.3rem; margin-bottom: 0.5rem; }
-.score-spliter { display: flex; justify-content: center; gap: 0; }
-.team { padding: 0.5rem 2rem; font-family: var(--font-oswald); font-size: 2.2rem; font-weight: 700; }
-.csk-team { background: #FFD700; color: #000; border-radius: 4px 0 0 4px; }
-.kkr-team { background: #4B0082; color: #FFF; border-radius: 0 4px 4px 0; border: 1px solid #FFD700; border-left: none; }
-.score-sub { font-size: 0.85rem; margin-top: 0.5rem; }
+.panel-left { flex: 6; display: flex; flex-direction: column; gap: 20px; }
+.panel-right { flex: 4; display: flex; flex-direction: column; gap: 20px; }
 
-.final-sprint { background: rgba(0,255,255,0.1); padding: 0.5rem; border: 1px solid var(--color-cyan); font-family: var(--font-oswald); font-size: 1.3rem; border-radius: 4px; }
+.panel-header { font-family: var(--font-head); font-size: 1.4rem; text-transform: uppercase; color: #FFF; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 5px; }
 
-.ipl-sec-header { text-align: center; font-family: var(--font-oswald); font-size: 1.4rem; font-weight: 500; }
 
-.powerplay-grid { display: flex; justify-content: center; align-items: center; gap: 2rem; }
-.pp-score { font-family: var(--font-oswald); font-size: 4rem; line-height: 1; font-weight: 800; text-shadow: 0 0 15px rgba(255,215,0,0.5); }
-.kkr-pp .pp-score { text-shadow: 0 0 15px rgba(157,0,255,0.5); }
-.big-bolt { font-size: 5rem; text-shadow: 0 0 20px rgba(255,255,255,0.8); }
-.pp-lbl { font-weight: 700; letter-spacing: 1px; font-size: 0.9rem; margin-bottom: 0.5rem; }
-.pp-sub { font-size: 0.8rem; width: 180px; margin: 0 auto; line-height: 1.3; }
+/* ========================================================
+   LEFT PANEL (SPORTS)
+   ======================================================== */
 
-.mhatre-blaze { display: flex; align-items: center; justify-content: center; gap: 1rem; background: rgba(255,165,0,0.1); border: 1px solid orange; padding: 0.75rem; border-radius: 4px; text-align: left; }
-.mhatre-blaze i { font-size: 2.5rem; }
+/* Live Scorecard */
+.scorecard-box { border: 2px solid var(--neon-yellow); background: rgba(204,255,0,0.05); position: relative; }
+.score-header { display: flex; justify-content: space-between; align-items: center; font-family: var(--font-head); font-size: 1.2rem; }
+.live-dot { background: var(--color-red); width:10px; height:10px; border-radius:50%; display:inline-block; animation: blink 1s infinite alternate; }
+@keyframes blink { to { opacity: 0.3; shadow: 0 0 10px var(--color-red); } }
 
-.stars-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-.star-card { border: 1px solid; border-radius: 8px; padding: 1.5rem; text-align: center; }
-.csk-star { border-color: var(--color-yellow); background: rgba(255,215,0,0.05); }
-.kkr-star { border-color: #FFF; background: rgba(255,255,255,0.05); }
-.star-flex { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-bottom: 0.5rem; }
-.star-avatar { font-size: 3.5rem; }
-.star-runs { font-family: var(--font-oswald); font-size: 3.5rem; font-weight: 700; line-height: 1; }
-.balls { font-size: 1.5rem; color: var(--text-secondary); }
-.star-name { font-weight: 700; font-size: 1.2rem; background: rgba(0,0,0,0.5); display: inline-block; padding: 2px 10px; border-radius: 4px; }
-.star-desc { font-size: 0.85rem; margin-top: 0.5rem; }
+.score-main { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; }
+.team-score { font-family: var(--font-data); font-size: 2.5rem; font-weight: 700; }
+.team-score span { font-size: 1rem; color: var(--text-secondary); }
 
-.bottom-ipl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-.game-changer { font-family: var(--font-oswald); text-align: center; display: flex; flex-direction: column; justify-content: center; }
-.gc-title { font-size: 3rem; line-height: 1.1; font-weight: 800; font-style: italic; text-shadow: 0 0 10px rgba(255,215,0,0.5); }
-.gc-desc { font-family: var(--font-sans); font-size: 0.9rem; line-height: 1.4; }
+.odds-row { display: flex; justify-content: space-between; margin-top: 15px; background: #000; padding: 10px; border-radius: 6px; font-family: var(--font-data); font-size: 0.85rem; border: 1px solid #333; }
+.odds-row .token-bump { color: var(--neon-green); font-weight: 700; }
 
-.struggle-table { width: 100%; border-collapse: collapse; font-family: var(--font-sans); font-size: 0.85rem; text-align: center; }
-.struggle-table th { background: var(--color-purple); color: #FFF; padding: 0.4rem; }
-.struggle-table td { background: rgba(255,255,255,0.1); color: #FFF; padding: 0.4rem; border: 1px solid #333; }
-.struggle-table tr:nth-child(even) td { background: rgba(255,255,255,0.05); }
+.smart-btns { display: flex; gap: 10px; margin-top: 15px; }
+.btn-ui { flex: 1; padding: 8px; text-align: center; border-radius: 4px; font-family: var(--font-head); text-transform: uppercase; cursor: pointer; }
+.btn-data { background: rgba(255,255,255,0.1); border: 1px solid #555; color: #FFF; }
+.btn-data:hover { background: #FFF; color: #000; }
+
+/* Trending News */
+.news-item { display: flex; align-items: center; gap: 15px; padding: 10px; border-bottom: 1px solid #222; transition: all 0.2s; cursor: pointer; }
+.news-item:hover { background: rgba(255,255,255,0.05); border-left: 3px solid var(--neon-cyan); padding-left: 17px; }
+.news-bullet { color: var(--neon-cyan); font-size: 1.2rem; }
+.news-txt { font-weight: 500; font-size: 0.95rem; }
+
+/* Interactive League Table */
+.league-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
+.tab { padding: 5px 15px; border-radius: 20px; background: #111; border: 1px solid #333; font-size: 0.85rem; cursor: pointer; color: var(--text-secondary); font-family: var(--font-head); letter-spacing:1px; }
+.tab.active { background: var(--neon-purple); color: #FFF; border-color: var(--neon-purple); box-shadow: 0 0 10px rgba(157,0,255,0.4); }
+
+.league-table { width: 100%; border-collapse: collapse; font-family: var(--font-data); font-size: 0.85rem; text-align: center; }
+.league-table th { padding: 10px; color: var(--text-secondary); border-bottom: 1px solid #444; font-weight: 600; }
+.league-table td { padding: 10px; border-bottom: 1px solid #222; }
+.league-table tr:hover { background: rgba(255,255,255,0.05); }
+.tbl-team { text-align: left; font-family: var(--font-main); font-weight: 700; color: #FFF; }
+.token-cell { color: var(--neon-green); font-weight: 700; }
+
+
+/* ========================================================
+   RIGHT PANEL (CRYPTO)
+   ======================================================== */
+
+/* Crypto Movers */
+.movers-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+.mover-card { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.5); padding: 10px 15px; border: 1px solid #222; border-radius: 6px; font-family: var(--font-data); }
+.m-coin { font-weight: 700; color: var(--neon-yellow); }
+.m-price { color: #FFF; }
+.m-change { color: var(--neon-green); }
+
+.market-pulse { margin-top: 15px; background: rgba(57,255,20,0.05); border: 1px solid rgba(57,255,20,0.2); padding: 15px; border-radius: 6px; }
+.pulse-row { display: flex; justify-content: space-between; font-family: var(--font-data); font-size: 0.85rem; margin-bottom: 8px; }
+.pulse-val { font-weight: 700; color: #FFF; }
+
+/* TradingView Chart Container */
+.chart-container { width: 100%; height: 300px; background: #000; border-radius: 6px; overflow: hidden; border: 1px solid #333; }
+.trade-btns { display: flex; gap: 10px; margin-top: 10px; }
+.t-btn { flex: 1; padding: 8px; text-align: center; font-family: var(--font-head); font-size: 1rem; border-radius: 4px; cursor: pointer; border: none; font-weight: bold; }
+.btn-buy { background: rgba(57,255,20,0.2); color: var(--neon-green); border: 1px solid var(--neon-green); }
+.btn-buy:hover { background: var(--neon-green); color: #000; }
+.btn-sell { background: rgba(255,51,51,0.2); color: var(--color-red); border: 1px solid var(--color-red); }
+.btn-sell:hover { background: var(--color-red); color: #FFF; }
+
+/* AI Alerts */
+.alert-box { background: rgba(0,255,255,0.05); border: 1px solid rgba(0,255,255,0.3); border-left: 4px solid var(--neon-cyan); padding: 15px; border-radius: 6px; margin-bottom: 10px; font-size: 0.9rem; display: flex; gap: 15px; align-items: flex-start; }
+.alert-icon { color: var(--neon-cyan); font-size: 1.5rem; }
+.disclaimer { font-family: var(--font-data); font-size: 0.7rem; color: #555; text-align: center; margin-top: 15px; text-transform: uppercase; }
+
+/* Quality Check Badge */
+.q-check { position: absolute; top: 10px; right: 10px; background: var(--neon-green); color:#000; font-family: var(--font-data); font-size: 0.75rem; font-weight: 700; padding: 2px 8px; border-radius: 12px; box-shadow: 0 0 10px var(--neon-green); }
 
     </style>
 </head>
 <body>
 
-    <!-- Cricbuzz Style Live Score Ribbon -->
-    <div class="score-ribbon-container">
-        <div class="ribbon-title">Matches</div>
-        <div class="score-ribbon" id="score-ribbon">
-            <!-- JS populated -->
+    <!-- Premium 3D Background -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Global Live Ticker -->
+    <div class="live-ticker-container">
+        <div class="ticker-content" id="ticker-belt">
+            <!-- Populated by JS -->
         </div>
     </div>
 
-    <!-- Mega Navigation -->
-    <nav class="main-nav">
-        <div class="nav-brand">
-            <h1>DailyPost<span>365</span></h1>
-        </div>
-        <div class="nav-links">
-            <a href="#sports" class="active">Live Sports</a>
-            <a href="#crypto">Crypto Markets</a>
-            <a href="#news">News Feed</a>
-        </div>
-        <div class="nav-search">
-            <input type="text" placeholder="Search Players, Coins...">
-            <i class="fas fa-search"></i>
-        </div>
-    </nav>
+    <!-- Social Dock -->
+    <div class="social-dock">
+        <a href="https://x.com/DailyPostW92945" target="_blank" class="social-btn"><i class="fab fa-x-twitter"></i></a>
+        <a href="https://www.youtube.com/@WhaleTrackerAlpha" target="_blank" class="social-btn"><i class="fab fa-youtube"></i></a>
+        <a href="https://www.instagram.com/dailypostwizard2026/" target="_blank" class="social-btn"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.tiktok.com/@dailypost0365" target="_blank" class="social-btn"><i class="fab fa-tiktok"></i></a>
+    </div>
 
-    <div class="container main-layout">
+    <!-- 60/40 Master Dashboard -->
+    <div class="master-dashboard">
         
-        <!-- LEFT COLUMN: Quick Links -->
-        <aside class="col-left">
-            <div class="dense-box mt-3">
-                <h3 class="box-header">EPL Top 5</h3>
-                <table class="data-table small-table">
-                    <tr><th>Pos</th><th>Club</th><th>Pts</th></tr>
-                    <tr><td>1</td><td>Arsenal</td><td>86</td></tr>
-                    <tr><td>2</td><td>Man City</td><td>84</td></tr>
-                    <tr><td>3</td><td>Liverpool</td><td>78</td></tr>
-                    <tr><td>4</td><td>Aston Villa</td><td>68</td></tr>
+        <!-- LEFT PANEL: 60% Sports Intelligence -->
+        <div class="panel-left">
+            
+            <!-- Live Match Center -->
+            <div class="glass-box scorecard-box">
+                <div class="q-check">32-POINT QA: PASS</div>
+                <div class="score-header">
+                    <div><span class="live-dot"></span> KKR vs GT • IPL • Ahmedabad</div>
+                    <i class="fas fa-satellite-dish text-secondary"></i>
+                </div>
+                
+                <div class="score-main">
+                    <div>
+                        <div class="team-score text-purple">KKR 45/3 <span>(7.2 ov)</span></div>
+                        <div style="color:var(--text-secondary); font-size:0.85rem; margin-top:5px;">CRR: 6.13 • Projected: 165</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div class="team-score text-white">GT <span>Yet to bat</span></div>
+                    </div>
+                </div>
+
+                <div class="odds-row">
+                    <div>📈 Win Probability: KKR 62%</div>
+                    <div>💰 Live Odds: KKR 1.85x</div>
+                    <div class="token-bump">🪙 Fan Token: $KKR +12.4% <i class="fas fa-rocket"></i></div>
+                </div>
+
+                <div class="smart-btns">
+                    <div class="btn-ui btn-data"><i class="fas fa-chart-bar"></i> Deep Scorecard</div>
+                    <div class="btn-ui btn-data"><i class="fas fa-comment-dots"></i> Ball-by-Ball</div>
+                </div>
+            </div>
+
+            <!-- Trending Sports News -->
+            <div class="glass-box">
+                <div class="panel-header"><i class="fas fa-newspaper text-cyan"></i> Trending Sports News</div>
+                <div class="news-item">
+                    <i class="fas fa-bolt news-bullet"></i>
+                    <div class="news-txt">Rabada's massive spell directly impacts KKR Fan Token Volume globally.</div>
+                </div>
+                <div class="news-item">
+                    <i class="fas fa-bolt news-bullet"></i>
+                    <div class="news-txt">Premier League Clubs set to launch unified Web3 Fan Coins this summer.</div>
+                </div>
+                <div class="news-item">
+                    <i class="fas fa-bolt news-bullet"></i>
+                    <div class="news-txt">Crypto Sponsorships in IPL Hit $50M Valuation mark in Q2 2026.</div>
+                </div>
+            </div>
+
+            <!-- Interactive League Standings -->
+            <div class="glass-box">
+                <div class="panel-header"><i class="fas fa-trophy text-yellow"></i> League Standings (Interactive)</div>
+                <div class="league-tabs">
+                    <div class="tab active">IPL 2026</div>
+                    <div class="tab">PSL</div>
+                    <div class="tab">EPL</div>
+                    <div class="tab">NBA</div>
+                </div>
+                <table class="league-table">
+                    <tr><th>#</th><th>Team</th><th>P</th><th>W</th><th>L</th><th>NRR</th><th>Pts</th><th>Fan Token</th></tr>
+                    <tr><td>1</td><td class="tbl-team">Kolkata Knight Riders</td><td>10</td><td>8</td><td>2</td><td>+1.24</td><td>16</td><td class="token-cell">$KKR ▲12.4%</td></tr>
+                    <tr><td>2</td><td class="tbl-team">Gujarat Titans</td><td>10</td><td>7</td><td>3</td><td>+0.98</td><td>14</td><td class="token-cell">$GT ▲8.1%</td></tr>
+                    <tr><td>3</td><td class="tbl-team">Chennai Super Kings</td><td>9</td><td>6</td><td>3</td><td>+0.65</td><td>12</td><td class="token-cell">$CSK ▲4.2%</td></tr>
+                    <tr><td>4</td><td class="tbl-team">Mumbai Indians</td><td>10</td><td>5</td><td>5</td><td>-0.12</td><td>10</td><td class="token-cell" style="color:var(--color-red);">$MI ▼1.5%</td></tr>
                 </table>
             </div>
+
+        </div>
+
+        <!-- RIGHT PANEL: 40% Crypto Intelligence -->
+        <div class="panel-right">
             
-            <div class="dense-box mt-3">
-                <h3 class="box-header">Trending Search</h3>
-                <ul class="trending-list">
-                    <li><span class="trend-num">1</span> <div class="trend-txt">Solana Airdrops</div></li>
-                    <li><span class="trend-num">2</span> <div class="trend-txt">Champions League</div></li>
-                    <li><span class="trend-num">3</span> <div class="trend-txt">Rohit Sharma Stats</div></li>
-                </ul>
-            </div>
-        </aside>
-
-        <!-- CENTER COLUMN: INFOGRAPHIC DASHBOARDS -->
-        <main class="col-center">
-            
-            <!-- INFOGRAPHIC 1: HEDGE FUND TERMINAL (BTC) -->
-            <div class="info-terminal btc-terminal mt-3" id="crypto">
-                <div class="term-header">HEDGE FUND TERMINAL - V75.0-HYPER-ACTIVE</div>
-                <h2 class="term-title">BTC MARKET INTELLIGENCE: APRIL 16, 2026</h2>
-                <div class="term-price-row">
-                    <div class="big-price text-green" id="deep-btc-price">$74,177.18</div>
-                    <div class="price-sub">LIVE 1-HOUR MARKET VALUATION AS OF APRIL 16, 2026,<br>SHOWING CONSOLIDATION AFTER RECENT VOLATILITY.</div>
-                </div>
-
-                <div class="term-grid">
-                    <div class="col-left-term">
-                        <!-- Whale Signal Radar -->
-                        <div class="term-box radar-box">
-                            <h3 class="term-sec-title">THE WHALE SIGNAL:<br><span>INSTITUTIONAL ORDER FLOW</span></h3>
-                            <div class="radar-container">
-                                <div class="radar-circle">
-                                    <div class="radar-sweep"></div>
-                                    <div class="radar-ping p1"></div>
-                                    <div class="radar-ping p2"></div>
-                                    <div class="radar-sector red-sector"></div>
-                                    <div class="radar-sector green-sector"></div>
-                                </div>
-                                <div class="radar-label top-right text-red">HEAVY<br>INSTITUTIONAL<br>SELL WALLS<br><span class="radar-price">$75,500 - $76,000</span></div>
-                                <div class="radar-label bot-right text-green">PRIMARY BUY<br>SUPPORT<br><span class="radar-price">$72,000</span></div>
-                            </div>
-                        </div>
-
-                        <!-- Claw Strategy -->
-                        <div class="term-box claw-box mt-3">
-                            <h3 class="term-sec-title">THE CLAW STRATEGY<br><span>& PREDICTION</span></h3>
-                            <div class="claw-flex">
-                                <div class="claw-icon"><i class="fas fa-robot text-green"></i></div>
-                                <div class="claw-logic">
-                                    <div class="logic-line"><strong>STRATEGY STATUS:</strong> <span class="text-white">NEUTRAL</span><br>
-                                    <span class="text-grey">Current position is flat following a precision long exit at the $75,000 psychological resistance level.</span></div>
-                                    
-                                    <div class="logic-exec"><strong>EXECUTION LOGIC:</strong> 'THE CLAW' SCRIPT</div>
-                                    <div class="logic-arrows">
-                                        <div class="arr-box"><strong>ENTRY:</strong> PRICE &gt; MOVING AVERAGE + RSI &lt; 30</div>
-                                        <i class="fas fa-arrow-right text-green"></i>
-                                        <div class="arr-box"><strong>EXIT:</strong> CLOSE POSITION UPON HITTING A 2.8% PROFIT TARGET.</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="claw-pred">
-                                <div class="pred-num text-green">92%</div>
-                                <div class="pred-txt"><strong>CONFIDENCE PREDICTION ZONE</strong><br>
-                                Quantitative modeling targets a move to $76,400, contingent on current $74k support holding firm.</div>
-                            </div>
-                        </div>
-                        
-                        <!-- Risk Shield -->
-                        <div class="term-box shield-box mt-3">
-                            <h3 class="term-sec-title">RISK SHIELD & QUALITY ASSURANCE</h3>
-                            <div class="shield-flex">
-                                <div class="shield-icon"><i class="fas fa-shield-alt text-green"></i></div>
-                                <div class="shield-stats">
-                                    <div class="sh-stat"><span class="sh-num text-green">94%</span> <div><strong>QUALITY CHECK PASS RATE</strong><br><span class="text-grey">The trade setup has cleared a rigorous 15-point institutional quality assessment protocol.</span></div></div>
-                                    <div class="sh-stat"><span class="sh-num text-green">1-2%</span> <div><strong>STOP-LOSS THRESHOLD</strong><br><span class="text-grey">Mandatory risk mitigation involves a strict exit if price action invalidates the setup by more than 2%.</span></div></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-right-term">
-                        <!-- Trap Alert -->
-                        <div class="term-box trap-box">
-                            <h3 class="term-sec-title text-red">THE TRAP ALERT<br><span>(LIQUIDATION ANALYSIS)</span></h3>
-                            <div class="trap-title text-white">5-WHY LOGIC:<br><span class="text-grey text-sm">THE RETAIL LIQUIDATION CYCLE</span></div>
-                            
-                            <div class="trap-flow">
-                                <div class="trap-step">
-                                    <div class="ts-txt text-white"><span class="text-green text-sm">STEP 1:</span><br>RETAILERS<br>FOMO AT $75K<br>PEAKS</div>
-                                    <i class="fas fa-chart-line text-green trap-icn"></i>
-                                </div>
-                                <i class="fas fa-arrow-down text-red arr-down"></i>
-                                
-                                <div class="trap-step">
-                                    <div class="ts-txt text-white"><span class="text-green text-sm">STEP 2:</span><br>THEY SET<br>TIGHT STOPS</div>
-                                    <i class="fas fa-sliders-h text-yellow trap-icn"></i>
-                                </div>
-                                <i class="fas fa-arrow-down text-red arr-down"></i>
-
-                                <div class="trap-step">
-                                    <div class="ts-txt text-white"><span class="text-green text-sm">STEP 3:</span><br>WHALES HUNT<br>LIQUIDITY<br>BELOW $73K</div>
-                                    <i class="fas fa-fish text-red trap-icn"></i>
-                                </div>
-                                <i class="fas fa-arrow-down text-red arr-down"></i>
-
-                                <div class="trap-step">
-                                    <div class="ts-txt text-white"><span class="text-green text-sm">STEP 4:</span><br>PRICE<br>CASCADES</div>
-                                    <i class="fas fa-chart-area text-red trap-icn"></i>
-                                </div>
-                                <i class="fas fa-arrow-down text-red arr-down"></i>
-
-                                <div class="trap-step">
-                                    <div class="ts-txt text-white"><span class="text-green text-sm">STEP 5:</span><br>INSTITUTIONS<br>SCOOP THE<br>DISCOUNT</div>
-                                    <i class="fas fa-signal text-green trap-icn"></i>
-                                </div>
-                            </div>
-
-                            <div class="retail-hunting mt-3">
-                                <strong class="text-red">RETAIL LIQUIDITY HUNTING</strong><br>
-                                Whales actively target stop-loss clusters below $73,000 to fill large institutional buy orders at a discount.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <!-- INFOGRAPHIC 2: IPL 2026 MATCH SUMMARY -->
-            <div class="info-terminal ipl-terminal mt-5" id="sports">
-                <h2 class="ipl-title text-yellow">IPL 2026: The Chepauk Charge <span class="text-purple">(CSK vs. KKR)</span></h2>
+            <!-- Top Crypto Movers (Sports Focus) -->
+            <div class="glass-box" style="border-color: var(--neon-cyan);">
+                <div class="panel-header"><i class="fas fa-gem text-cyan"></i> Top Crypto Movers</div>
+                <div style="font-size: 0.85rem; color:var(--neon-green); margin-bottom:10px;"><i class="fas fa-fire"></i> Trending Sports Tokens</div>
                 
-                <!-- Neon Box 1: The Live Equation -->
-                <div class="neon-box">
-                    <div class="neon-title">The Live Equation</div>
-                    <div class="match-status-bar text-cyan">MATCH STATUS:</div>
-                    <div class="score-spliter">
-                        <div class="team csk-team">CSK 192/5</div>
-                        <div class="team kkr-team">KKR 127/6</div>
+                <div class="movers-grid">
+                    <div class="mover-card">
+                        <div><span class="m-coin">$CHZ</span> <span class="text-secondary">[Socios]</span></div>
+                        <div class="m-price">$0.124</div>
+                        <div class="m-change">▲ 18.2%</div>
                     </div>
-                    <div class="score-sub text-white">As of 16.5 overs, commanding lead at Chennai.</div>
-                    
-                    <div class="final-sprint mt-2">
-                        <span class="text-cyan">THE FINAL SPRINT:</span> KKR needs <span class="text-yellow">66 off 19</span>
+                    <div class="mover-card">
+                        <div><span class="m-coin">$LAZIO</span> <span class="text-secondary">[Juventus]</span></div>
+                        <div class="m-price">$2.45</div>
+                        <div class="m-change">▲ 14.7%</div>
                     </div>
-                    <div class="sprint-sub text-white">Required run rate over 20/over. An uphill battle against the clock and CSK bowling.</div>
-                </div>
-
-                <!-- Powerplay Comparison -->
-                <div class="ipl-sec-header mt-4 text-white">Momentum Shift: The Powerplay Comparison</div>
-                <div class="powerplay-grid mt-2">
-                    <div class="pp-side csk-pp text-center">
-                        <div class="pp-score text-yellow">72/2 <i class="fas fa-bolt text-yellow"></i></div>
-                        <div class="pp-lbl text-yellow">CSK POWERPLAY</div>
-                        <div class="pp-sub text-white">Doubled KKR's output in the first 6 overs, establishing a major gap.</div>
-                    </div>
-                    
-                    <i class="fas fa-bolt big-bolt text-white"></i>
-                    
-                    <div class="pp-side kkr-pp text-center">
-                        <div class="pp-score text-purple">36/2 <i class="fas fa-bolt text-purple hover-glow"></i></div>
-                        <div class="pp-lbl text-purple">KKR POWERPLAY</div>
-                        <div class="pp-sub text-white">Failed to capitalize early, unable to close the momentum gap.</div>
+                    <div class="mover-card">
+                        <div><span class="m-coin">$PSG</span> <span class="text-secondary">[Paris SG]</span></div>
+                        <div class="m-price">$3.10</div>
+                        <div class="m-change">▲ 9.3%</div>
                     </div>
                 </div>
 
-                <div class="mhatre-blaze mt-2">
-                    <i class="fas fa-meteor text-orange"></i>
-                    <div>
-                        <strong class="text-white">MHATRE'S POWERPLAY BLITZ:</strong><br>
-                        <span class="text-yellow">Ayush Mhatre ignited the stadium with an explosive 38 off 17 balls (6x4s, 2x6s, SR 223.53)</span>
-                    </div>
-                </div>
-
-                <!-- Star Performers -->
-                <div class="ipl-sec-header mt-4 text-white">CSK Batting Powerhouse</div>
-                <div class="stars-grid mt-2">
-                    <div class="star-card csk-star">
-                        <div class="star-flex">
-                            <i class="fas fa-user-astronaut star-avatar text-yellow"></i>
-                            <div class="star-runs text-yellow">48 <span class="balls">(32)</span></div>
-                        </div>
-                        <div class="star-name text-yellow">Sanju Samson</div>
-                        <div class="star-desc text-white">Wicketkeeper-batter anchored the innings with a balanced knock (4x4s, 3x6s).</div>
-                    </div>
-                    <div class="star-card kkr-star">
-                        <div class="star-flex">
-                            <i class="fas fa-user-ninja star-avatar text-white"></i>
-                            <div class="star-runs text-white">41 <span class="balls">(29)</span></div>
-                        </div>
-                        <div class="star-name text-white">Dewald Brevis</div>
-                        <div class="star-desc text-white">"Baby AB" kept the scoreboard ticking, ensuring a high-total finish (4x4s, 2x6s).</div>
-                    </div>
-                </div>
-
-                <div class="bottom-ipl-grid mt-4">
-                    <div class="game-changer">
-                        <div class="gc-subtitle text-white">The Game Changer</div>
-                        <div class="gc-title text-white">THE<br><span class="text-yellow">NOOR AHMAD</span><br>STORM <i class="fas fa-bolt text-yellow"></i></div>
-                        <div class="gc-desc text-white mt-2">CSK bowler <span class="text-yellow">Noor Ahmad</span> delivered a masterclass in spin bowling, claiming <span class="text-yellow">3/21</span> in 4 overs, including key wickets of Rahane, Rinku, and Green.</div>
-                    </div>
-                    
-                    <div class="batting-struggle">
-                        <div class="bs-title text-purple text-center">KKR Batting Struggle</div>
-                        <table class="struggle-table mt-2">
-                            <tr><th>Batter</th><th>Runs</th><th>Balls</th><th>Strike Rate</th></tr>
-                            <tr><td>Ajinkya Rahane</td><td>28</td><td>22</td><td>127.27</td></tr>
-                            <tr><td>Angkrish Raghuvanshi</td><td>27</td><td>19</td><td>142.11</td></tr>
-                            <tr><td>Sunil Narine</td><td>24</td><td>17</td><td>141.16</td></tr>
-                            <tr><td>Rinku Singh</td><td>6</td><td>12</td><td>50.00</td></tr>
-                        </table>
-                        <div class="bs-footer text-center text-white mt-2">KKR's key batters failed to keep pace with the required rate.</div>
-                    </div>
-                </div>
-
-            </div>
-
-        </main>
-
-
-        <!-- RIGHT COLUMN -->
-        <aside class="col-right">
-            <div class="dense-box mt-3">
-                <h3 class="box-header">CoinGecko Market Data</h3>
-                <div class="table-responsive">
-                    <table class="data-table master-table" id="cg-table">
-                        <thead><tr><th>#</th><th>Coin</th><th class="text-right">Price</th><th class="text-right">24h</th></tr></thead>
-                        <tbody id="cg-table-body">
-                            <!-- Populated by JS -->
-                        </tbody>
-                    </table>
+                <div class="market-pulse">
+                    <div class="pulse-row"><span>BTC Dominance:</span> <span class="pulse-val" style="color:var(--color-red);">58.2% ▼ 0.4%</span></div>
+                    <div class="pulse-row"><span>Fear & Greed Index:</span> <span class="pulse-val text-green">72 (Greed) 😎</span></div>
+                    <div class="pulse-row"><span>Total Market Cap:</span> <span class="pulse-val text-cyan">$2.8T ▲ 2.1%</span></div>
                 </div>
             </div>
-        </aside>
+
+            <!-- Quick Chart: TradingView -->
+            <div class="glass-box">
+                <div class="panel-header"><i class="fas fa-chart-line text-white"></i> Quick Chart: BTC/USD (1H)</div>
+                <div class="chart-container" id="tv_chart"></div>
+                <div class="trade-btns">
+                    <button class="t-btn btn-buy">Buy</button>
+                    <button class="t-btn btn-sell">Sell</button>
+                    <button class="t-btn btn-data">Alert</button>
+                    <button class="t-btn btn-data">Compare</button>
+                </div>
+            </div>
+
+            <!-- Hybrid AI Alerts -->
+            <div class="glass-box">
+                <div class="panel-header"><i class="fas fa-brain text-purple"></i> Hybrid Alerts (AI-Powered)</div>
+                
+                <div class="alert-box">
+                    <i class="fas fa-robot alert-icon"></i>
+                    <div><strong>Predictive Model:</strong> "When KKR wins, $CHZ historically rises 73% of the time within 2 hours."</div>
+                </div>
+                
+                <div class="alert-box">
+                    <i class="fas fa-search-dollar alert-icon"></i>
+                    <div><strong>Volume Spike:</strong> "Premier League match days cause an average +15% sports token volume surge."</div>
+                </div>
+
+                <div class="alert-box" style="border-left-color: var(--neon-yellow); background: rgba(204,255,0,0.05);">
+                    <i class="fas fa-bell alert-icon" style="color:var(--neon-yellow);"></i>
+                    <div><strong>Custom Action:</strong> Set Notify when BTC > $80K during the IPL Final.</div>
+                </div>
+
+                <div class="disclaimer">
+                    <i class="fas fa-exclamation-triangle"></i> Disclaimer: Trading involves extreme risks. Content is for informational purposes generated by DailyPost365 Engine. Not Financial Advice.
+                </div>
+            </div>
+
+        </div>
 
     </div>
 
     <script>
-/**
- * DailyPost365 - Dense Dashboard Logic
- */
+        // ==========================================
+        // 1. DATA LOGIC & TICKER
+        // ==========================================
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // Build Smooth Ticker
+            const tickerData = [
+                "[ ⚽ ManCity 2-1 Arsenal ]",
+                "[ 📈 BTC $74,177 ▲2.1% ]",
+                "[ 🏏 KKR 45/3 (7.2ov) ]",
+                "[ 💎 ETH $3,120 ▲1.8% ]",
+                "[ 🎾 Djokovic Set 2 ]",
+                "[ 🚀 $CHZ $0.124 ▲18.2% ]",
+                "[ 🏀 Lakers +5.5 ]",
+                "[ ☀️ SOL $142.3 ▲4.7% ]"
+            ];
 
- document.addEventListener('DOMContentLoaded', () => {
-    initScoreRibbon();
-    initCoinGeckoTable();
-});
+            let tickerHTML = "";
+            // repeat 4 times to ensure infinite scroll
+            for(let i=0; i<4; i++) {
+                tickerData.forEach(d => {
+                    let color = d.includes('BTC')||d.includes('ETH')||d.includes('CHZ') ? 'color:var(--neon-cyan);' : 'color:var(--neon-yellow);';
+                    tickerHTML += `<span style="${color}">${d}</span>`;
+                });
+            }
+            document.getElementById('ticker-belt').innerHTML = tickerHTML;
 
-// ==========================================
-// 1. Cricbuzz-Style Horizontal Score Ribbon
-// ==========================================
-async function initScoreRibbon() {
-    const ribbon = document.getElementById('score-ribbon');
-    
-    // We will use highly detailed mock data to guarantee the ribbon is fully populated (dense)
-    const matches = [
-        { t1: "IND", t2: "PAK", status: "IND won by 6 wkts", live: false },
-        { t1: "MI", s1: "185/4", t2: "CSK", s2: "192/6", status: "CSK needs 8 runs", live: true },
-        { t1: "AUS", s1: "340 & 120/2", t2: "ENG", s2: "290", status: "Day 3: AUS lead by 170", live: true },
-        { t1: "RCB", t2: "KKR", status: "Tomorrow, 14:00", live: false },
-        { t1: "LIV", s1: "2", t2: "ARS", s2: "1", status: "78' Live", live: true },
-        { t1: "RMA", s1: "3", t2: "MCI", s2: "3", status: "FT", live: false },
-        { t1: "NZ", s1: "150/8", t2: "SA", s2: "151/4", status: "SA won by 6 wkts", live: false },
-        { t1: "PSG", t2: "FCB", status: "Today, 19:45", live: false }
-    ];
+            // ==========================================
+            // 2. TRADING VIEW CHART INJECTION (BTC)
+            // ==========================================
+            const chartDom = document.getElementById('tv_chart');
+            const chart = LightweightCharts.createChart(chartDom, {
+                layout: { background: { type: 'solid', color: '#000000' }, textColor: '#d1d4dc' },
+                grid: { vertLines: { color: '#1E293B' }, horzLines: { color: '#1E293B' } },
+                timeScale: { borderColor: '#2B2B43' },
+                rightPriceScale: { borderColor: '#2B2B43' }
+            });
+            
+            const lineSeries = chart.addLineSeries({
+                color: '#39FF14',
+                lineWidth: 2,
+                crosshairMarkerVisible: true,
+                crosshairMarkerRadius: 5,
+            });
 
-    let html = '';
-    matches.forEach(m => {
-        let isLiveDot = m.live ? '<span class="text-red blink">●</span> ' : '';
-        let scoreHTML = m.s1 ? `
-            <div class="teams"><span>${m.t1}</span> <span>${m.s1}</span></div>
-            <div class="teams"><span>${m.t2}</span> <span>${m.s2}</span></div>
-        ` : `
-            <div class="teams"><span>${m.t1}</span> <span>vs</span></div>
-            <div class="teams"><span>${m.t2}</span> <span></span></div>
-        `;
+            // Gen Dummy 1H Data
+            let data = [];
+            let val = 74000;
+            let time = Math.floor(Date.now() / 1000) - (100 * 3600);
+            for (let i = 0; i < 100; i++) {
+                val += (Math.random() - 0.45) * 150;
+                data.push({ time: time + (i * 3600), value: val });
+            }
+            lineSeries.setData(data);
 
-        html += `
-            <div class="mini-score-card">
-                ${scoreHTML}
-                <div class="status ${m.live ? 'text-red' : 'text-secondary'}">${isLiveDot}${m.status}</div>
-            </div>
-        `;
-    });
+            // Responsive chart
+            new ResizeObserver(entries => {
+                if (entries.length === 0 || entries[0].target !== chartDom) return;
+                const newRect = entries[0].contentRect;
+                chart.applyOptions({ width: newRect.width, height: newRect.height });
+            }).observe(chartDom);
+            
+            // ==========================================
+            // 3. THREE.JS 3D BACKGROUND (Premium Element)
+            // ==========================================
+            const canvas = document.getElementById('bg-canvas');
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 400;
 
-    ribbon.innerHTML = html;
-}
+            const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
 
-// ==========================================
-// 2. CoinGecko Master Table
-// ==========================================
-async function initCoinGeckoTable() {
-    const tbody = document.getElementById('cg-table-body');
-    if(!tbody) return;
-    const coins = ['bitcoin', 'ethereum', 'tether', 'binancecoin', 'solana', 'ripple', 'usdc', 'steth', 'cardano', 'avalanche-2'];
-    
-    const mockData = [
-        {rank: 1, id: 'bitcoin', symbol: 'BTC', name: 'Bitcoin', price: 74177.18, change: 2.45, img: 'https://assets.coingecko.com/coins/images/1/small/bitcoin.png'},
-        {rank: 2, id: 'ethereum', symbol: 'ETH', name: 'Ethereum', price: 3450.20, change: -1.20, img: 'https://assets.coingecko.com/coins/images/279/small/ethereum.png'},
-        {rank: 3, id: 'tether', symbol: 'USDT', name: 'Tether', price: 1.00, change: 0.01, img: 'https://assets.coingecko.com/coins/images/325/small/Tether.png'},
-        {rank: 4, id: 'binancecoin', symbol: 'BNB', name: 'BNB', price: 580.40, change: 0.80, img: 'https://assets.coingecko.com/coins/images/825/small/bnb-icon2_2x.png'},
-        {rank: 5, id: 'solana', symbol: 'SOL', name: 'Solana', price: 145.80, change: 5.60, img: 'https://assets.coingecko.com/coins/images/4128/small/solana.png'},
-        {rank: 6, id: 'ripple', symbol: 'XRP', name: 'XRP', price: 0.62, change: -0.50, img: 'https://assets.coingecko.com/coins/images/44/small/xrp-symbol-white-128.png'},
-        {rank: 7, id: 'usdc', symbol: 'USDC', name: 'USDC', price: 1.00, change: 0.00, img: 'https://assets.coingecko.com/coins/images/6319/small/USD_Coin_icon.png'},
-        {rank: 8, id: 'cardano', symbol: 'ADA', name: 'Cardano', price: 0.45, change: 1.10, img: 'https://assets.coingecko.com/coins/images/975/small/cardano.png'},
-        {rank: 9, id: 'avalanche-2', symbol: 'AVAX', name: 'Avalanche', price: 35.20, change: -2.30, img: 'https://assets.coingecko.com/coins/images/12559/small/Avalanche_Circle_RedWhite_Trans.png'}
-    ];
+            // Starfield
+            const starGeo = new THREE.BufferGeometry();
+            const starCoords = [];
+            for (let i = 0; i < 3000; i++) {
+                starCoords.push(
+                    THREE.MathUtils.randFloatSpread(2000), 
+                    THREE.MathUtils.randFloatSpread(2000), 
+                    THREE.MathUtils.randFloatSpread(2000)
+                );
+            }
+            starGeo.setAttribute('position', new THREE.Float32BufferAttribute(starCoords, 3));
+            // Faint cyan dots
+            const starMat = new THREE.PointsMaterial({ color: 0x00FFFF, size: 1.5, transparent: true, opacity: 0.3 });
+            const stars = new THREE.Points(starGeo, starMat);
+            scene.add(stars);
 
-    try {
-        const url = `https://api.coingecko.com/api/v3/simple/price?ids=${coins.join(',')}&vs_currencies=usd&include_24hr_change=true`;
-        const res = await fetch(url);
-        if(!res.ok) throw new Error("API Limit");
-        const apiData = await res.json();
-        
-        let html = '';
-        mockData.forEach(c => {
-            if(!apiData[c.id]) return;
-            const price = apiData[c.id].usd;
-            const change = apiData[c.id].usd_24h_change;
-            html += generateRow(c.rank, c.img, c.name, c.symbol, price, change);
+            function animateBg() {
+                requestAnimationFrame(animateBg);
+                stars.rotation.y += 0.0003;
+                stars.rotation.x += 0.0001;
+                renderer.render(scene, camera);
+            }
+            animateBg();
+
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
         });
-        tbody.innerHTML = html;
-        
-        // Update deep headline price as well
-        if(apiData['bitcoin'] && document.getElementById('deep-btc-price')) {
-            document.getElementById('deep-btc-price').innerText = formatPrice(apiData['bitcoin'].usd);
-        }
-
-    } catch(e) {
-        let html = '';
-        mockData.forEach(c => html += generateRow(c.rank, c.img, c.name, c.symbol, c.price, c.change));
-        tbody.innerHTML = html;
-    }
-
-    function generateRow(rank, img, name, symbol, price, change) {
-        let isPos = change > 0;
-        let cClass = isPos ? 'text-green' : 'text-red';
-        return `
-            <tr>
-                <td>${rank}</td>
-                <td>
-                    <div class="coin-cell" style="display:flex; align-items:center; gap:0.5rem; font-weight:600;">
-                        <img src="${img}" alt="${symbol}" style="width:20px;height:20px;border-radius:50%;">
-                        <span>${symbol}</span>
-                    </div>
-                </td>
-                <td class="text-right">${formatPrice(price)}</td>
-                <td class="text-right ${cClass}">${isPos?'+':''}${change.toFixed(2)}%</td>
-            </tr>
-        `;
-    }
-    
-    function formatPrice(num) {
-        return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(num);
-    }
-}
     </script>
 </body>
 </html>
