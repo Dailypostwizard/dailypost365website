@@ -19,77 +19,89 @@
    ================================================================ */
 
 :root {
-    --bg-dark: #05080a;
-    --neon-yellow: #CCFF00;
-    --neon-green: #39FF14;
-    --neon-red: #FF3131;
-    --neon-cyan: #00F3FF;
-    --glass-bg: rgba(255, 255, 255, 0.03);
-    --font-head: 'Oswald', sans-serif;
-    --font-data: 'Roboto Mono', monospace;
+    --bg-titan: #05070a;
+    --card-bg: rgba(15, 20, 30, 0.6);
+    --neon-cyan: #00f2ff;
+    --neon-green: #39ff14;
+    --neon-yellow: #ccff00;
+    --text-titan: #e1e7ef;
+    --text-muted: #8b949e;
+    --font-titan: 'Inter', sans-serif;
+    --font-heading: 'Oswald', sans-serif;
+    --border-titan: rgba(255, 255, 255, 0.08);
 }
 
-body, html {
-    background: var(--bg-dark);
+body {
+    background: var(--bg-titan);
+    color: var(--text-titan);
+    font-family: var(--font-titan);
     margin: 0; padding: 0;
-    font-family: 'Inter', sans-serif;
-    color: #FFF;
     overflow-x: hidden;
 }
 
-/* 9:16 Mobile First Container */
-.broadcast-blade {
-    max-width: 450px;
-    margin: 0 auto;
-    background: #000;
-    min-height: 100vh;
-    border-left: 1px solid #111;
-    border-right: 1px solid #111;
-    position: relative;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+/* Premium Header Match Carousel (Cricbuzz Style) */
+.match-carousel {
+    display: flex; gap: 15px; overflow-x: auto; padding: 15px;
+    background: #000; border-bottom: 1px solid var(--border-titan);
+    scrollbar-width: none; -ms-overflow-style: none;
+}
+.match-carousel::-webkit-scrollbar { display: none; }
+
+.match-card-mini {
+    min-width: 280px; background: #111; border-radius: 10px;
+    padding: 15px; border-left: 4px solid var(--neon-yellow);
+    flex-shrink: 0; transition: 0.3s;
+}
+.match-card-mini:hover { background: #161616; transform: translateY(-3px); }
+
+.mini-score { font-family: var(--font-titan); font-weight: 800; font-size: 1.1rem; }
+.mini-status { font-size: 0.75rem; color: var(--text-muted); margin-top: 5px; }
+
+/* Titan Grid Layout */
+.titan-container {
+    max-width: 1400px; margin: 0 auto; padding: 25px;
+    display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px;
 }
 
-.pulsing-border {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    pointer-events: none; border: 4px solid transparent;
-    transition: 0.3s; z-index: 9999;
-}
-.pulse-red { border-color: var(--neon-red); box-shadow: inset 0 0 50px var(--neon-red); }
-.pulse-cyan { border-color: var(--neon-cyan); box-shadow: inset 0 0 50px var(--neon-cyan); }
+@media (max-width: 1100px) { .titan-container { grid-template-columns: 1fr; } }
 
-/* 3D Glass Cards */
-.card-3d {
-    background: var(--glass-bg);
-    backdrop-filter: blur(15px);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 15px;
-    padding: 20px;
-    transform: perspective(1000px) rotateX(2deg);
-    transition: 0.4s;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+.titan-card {
+    grid-column: span 4; background: var(--card-bg);
+    backdrop-filter: blur(20px); border-radius: 12px;
+    border: 1px solid var(--border-titan); padding: 20px;
+    display: flex; flex-direction: column; gap: 15px;
+    transition: 0.3s;
 }
-.card-3d:hover {
-    transform: perspective(1000px) rotateX(0deg) translateY(-5px);
-    border-color: var(--neon-yellow);
+.titan-card:hover { border-color: var(--neon-cyan); box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+
+.card-header {
+    font-family: var(--font-heading); font-size: 1.1rem;
+    color: var(--neon-cyan); letter-spacing: 1px;
+    border-bottom: 1px solid var(--border-titan); padding-bottom: 10px;
+    display: flex; justify-content: space-between; align-items: center;
 }
 
-.score-text {
-    font-family: var(--font-head);
-    font-size: 2.8rem;
-    color: var(--neon-green);
-    text-shadow: 0 0 20px rgba(57, 255, 20, 0.5);
-    margin: 10px 0;
+/* High-Density Ticker (CoinGecko Style) */
+.ticker-titan {
+    grid-column: span 12; background: #000; border: 1px solid var(--border-titan);
+    border-radius: 8px; padding: 12px 20px; display: flex; gap: 40px;
+    white-space: nowrap; overflow: hidden; font-family: var(--font-titan);
 }
+.ticker-item { display: flex; gap: 10px; align-items: center; font-weight: 700; font-size:0.9rem; }
 
-.kinetic-up { animation: floatUp 0.5s ease-out; }
-@keyframes floatUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+/* Table Master (ESPN Style) */
+.titan-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+.titan-table th { text-align: left; padding: 10px; color: var(--text-muted); border-bottom: 1px solid var(--border-titan); }
+.titan-table td { padding: 12px 10px; border-bottom: 1px solid rgba(255,255,255,0.02); }
+.titan-table tr:hover { background: rgba(255,255,255,0.03); }
 
-.seo-h1 { font-family: var(--font-head); text-transform: uppercase; color: var(--neon-cyan); margin: 0 0 10px 0; font-size: 1.2rem; }
-.highlight { color: #ccc; font-size: 0.9rem; line-height: 1.5; }
-.cta-box { display: inline-block; padding: 8px 15px; background: var(--neon-yellow); color: #000; font-weight: 800; border-radius: 5px; margin-top: 15px; cursor: pointer; text-transform: uppercase; font-size: 0.8rem; }
+.team-pro { font-weight: 700; display: flex; align-items: center; gap: 8px; }
+
+/* AI Summaries */
+.ai-summary-titan {
+    background: rgba(204, 255, 0, 0.03); border-radius: 8px; padding: 15px;
+    border-left: 3px solid var(--neon-yellow); font-size: 0.9rem; line-height: 1.6;
+}
 
 #bg-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
 
@@ -342,54 +354,104 @@ body, html {
         </div>
     </div>
 
-    <div class="pulsing-border" id="pulse-layer"></div>
+    <!-- TITAN HEADER MATCH CENTER -->
+    <div class="match-carousel">
+        <div class="match-card-mini">
+            <div class="mini-score">IPL 2026</div>
+            <div class="mini-status" style="color:var(--neon-green);">Live Data Syncing</div>
+            <div class="mini-status">Jules Verified: Real-Time</div>
+        </div>
+        <div class="match-card-mini" style="border-color: var(--neon-cyan);">
+            <div class="mini-score">BTC Intelligence</div>
+            <div class="mini-status" style="color:var(--neon-cyan);">$75,763.00</div>
+            <div class="mini-status">Market Momentum: -0.59%</div>
+        </div>
+        <div class="match-card-mini" style="border-color: var(--neon-green);">
+            <div class="mini-score">EPL: City vs United</div>
+            <div class="mini-status">Kickoff in 45 min</div>
+        </div>
+    </div>
 
-    <div class="broadcast-blade">
+    <!-- TITAN TICKER -->
+    <div class="ticker-titan">
+        <div class="ticker-item"><i class="fab fa-bitcoin" style="color:var(--neon-cyan);"></i> BTC: $75,763.00</div>
+        <div class="ticker-item" style="color:var(--neon-yellow);">🏏 IPL 2026: Live Broadcast in Dubai Pulse Node</div>
+        <div class="ticker-item">🏆 EPL: Arsenal leads Title Chase</div>
+    </div>
+
+    <div class="titan-container">
         
-        <!-- MODULE: BTC PULSE (JOULES RECOVERY) -->
-        <div class="card-3d" style="border-top: 5px solid var(--neon-cyan);">
-            <div style="font-family:var(--font-head); color:var(--neon-cyan); letter-spacing:2px; font-size:0.8rem;">
-                <i class="fas fa-chart-line"></i> BTC INTELLIGENCE BROADCAST
+        <!-- CARD: MASTER MATCH INTELLIGENCE -->
+        <div class="titan-card" style="grid-column: span 8;">
+            <div class="card-header">
+                <div>🏏 LIVE INTELLIGENCE TERMINAL</div>
+                <div style="font-size:0.7rem; color:var(--neon-green);">MASTER VERIFIED</div>
             </div>
-            <div class="score-text kinetic-up" id="btc-price">$75,636.00</div>
-            <div style="color:var(--neon-red); font-weight:700; font-family:var(--font-data);">-0.76% (24H Pulse)</div>
-        </div>
-
-        <!-- MODULE: LIVE IPL SCORECARD -->
-        <div class="card-3d" style="border-top: 5px solid var(--neon-yellow);">
             <div style="display:flex; justify-content:space-between; align-items:center;">
-                <div style="font-family:var(--font-head); color:var(--neon-yellow); letter-spacing:1px;">LIVE MATCH CENTER</div>
-                <div style="background:var(--neon-green); color:#000; padding:2px 8px; border-radius:4px; font-size:0.6rem; font-weight:900;">V82.0 ACTIVE</div>
+                <div style="font-size:2.5rem; font-family:var(--font-heading); color:var(--neon-green);">Live Data Syncing</div>
+                <div style="text-align:right;">
+                    <div style="font-weight:700;">IPL 2026</div>
+                    <div style="font-size:0.8rem; color:var(--text-muted);">Jules Verified: Real-Time</div>
+                </div>
             </div>
-            <div style="font-size:1.1rem; margin-top:15px; font-weight:700;">IPL 2026</div>
-            <div class="score-text" id="ipl-score">Live Data Syncing</div>
-            <div style="color:#8b949e; font-size:0.85rem;">Jules Verified: Real-Time</div>
-            
-            <div style="margin-top:20px; padding:15px; background:rgba(0,0,0,0.3); border-radius:10px; font-size:0.9rem; line-height:1.4; border-left:3px solid var(--neon-yellow);">
-                <i class="fas fa-brain" style="color:var(--neon-yellow);"></i> <strong>AI SUMMARY:</strong> LIVE INTEL: IPL 2026 showing high volatility. Current State: Jules Verified: Real-Time. Data verified by Gemini Audit Node.
+            <div class="ai-summary-titan">
+                <i class="fas fa-brain" style="color:var(--neon-yellow);"></i> <strong>STRATEGY SUMMARY:</strong> LIVE INTEL: IPL 2026 showing high volatility. Current State: Jules Verified: Real-Time. Data verified by Gemini Audit Node.
             </div>
         </div>
 
-        <!-- MODULE: CRICKET CLOUD-FEED -->
-        <div class="card-3d" style="border-left:5px solid var(--neon-green);">
+        <!-- CARD: BTC PULSE -->
+        <div class="titan-card" style="grid-column: span 4;">
+            <div class="card-header">FINANCE PULSE</div>
+            <div style="font-size:1.8rem; font-weight:800; color:var(--neon-cyan);">$75,763.00</div>
+            <div style="color:var(--neon-red); font-weight:700;">-0.59% (24H PULSE)</div>
+            <div style="margin-top:auto;">
+                <div style="font-size:0.7rem; color:var(--text-muted);">WHALE ACTIVITY: MONITORING</div>
+            </div>
+        </div>
+
+        <!-- CARD: EPL STANDINGS -->
+        <div class="titan-card">
+            <div class="card-header">PREMIER LEAGUE</div>
+            <table class="titan-table">
+                <thead><tr><th>#</th><th>Club</th><th>P</th><th>Pts</th></tr></thead>
+                <tbody id="epl-body"><tr><td>1</td><td class='team-pro'>Arsenal</td><td>33</td><td>70</td></tr><tr><td>2</td><td class='team-pro'>Manchester City</td><td>32</td><td>67</td></tr><tr><td>3</td><td class='team-pro'>Manchester United</td><td>33</td><td>58</td></tr><tr><td>4</td><td class='team-pro'>Aston Villa</td><td>33</td><td>58</td></tr><tr><td>5</td><td class='team-pro'>Liverpool</td><td>33</td><td>55</td></tr><tr><td>6</td><td class='team-pro'>Chelsea</td><td>33</td><td>48</td></tr><tr><td>7</td><td class='team-pro'>Brentford</td><td>33</td><td>48</td></tr><tr><td>8</td><td class='team-pro'>Bournemouth</td><td>33</td><td>48</td></tr><tr><td>9</td><td class='team-pro'>Brighton</td><td>33</td><td>47</td></tr><tr><td>10</td><td class='team-pro'>Everton</td><td>33</td><td>47</td></tr></tbody>
+            </table>
+            <div style="font-size:0.75rem; color:var(--text-muted);">Arsenal maintains a razor-thin lead over City in a 70-point title race that could define the decade; Top 4 battle intensifies as Villa matches United's pace.</div>
+        </div>
+
+        <!-- CARD: LA LIGA STANDINGS -->
+        <div class="titan-card">
+            <div class="card-header">LA LIGA</div>
+            <table class="titan-table">
+                <thead><tr><th>#</th><th>Club</th><th>P</th><th>Pts</th></tr></thead>
+                <tbody id="laliga-body"><tr><td>1</td><td class='team-pro'>Barcelona</td><td>31</td><td>79</td></tr><tr><td>2</td><td class='team-pro'>Real Madrid</td><td>31</td><td>70</td></tr><tr><td>3</td><td class='team-pro'>Villarreal</td><td>31</td><td>61</td></tr><tr><td>4</td><td class='team-pro'>Atletico Madrid</td><td>31</td><td>57</td></tr><tr><td>5</td><td class='team-pro'>Real Betis</td><td>31</td><td>46</td></tr><tr><td>6</td><td class='team-pro'>Celta Vigo</td><td>31</td><td>44</td></tr><tr><td>7</td><td class='team-pro'>Real Sociedad</td><td>31</td><td>42</td></tr><tr><td>8</td><td class='team-pro'>Getafe</td><td>31</td><td>41</td></tr><tr><td>9</td><td class='team-pro'>Osasuna</td><td>31</td><td>39</td></tr><tr><td>10</td><td class='team-pro'>Espanyol</td><td>31</td><td>38</td></tr></tbody>
+            </table>
+            <div style="font-size:0.75rem; color:var(--text-muted);">Barcelona's 79-point dominance creates a massive 9-point chasm over Real Madrid; Villarreal holds a firm grip on the bronze position.</div>
+        </div>
+
+        <!-- CARD: IPL STANDINGS -->
+        <div class="titan-card">
+            <div class="card-header">IPL 2026 MASTER</div>
+            <table class="titan-table">
+                <thead><tr><th>#</th><th>Team</th><th>Pts</th></tr></thead>
+                <tbody id="ipl-body"><tr><td>1</td><td class='team-pro'>Punjab Kings</td><td>11</td></tr><tr><td>2</td><td class='team-pro'>Royal Challengers Bengaluru</td><td>8</td></tr><tr><td>3</td><td class='team-pro'>Rajasthan Royals</td><td>8</td></tr><tr><td>4</td><td class='team-pro'>Sunrisers Hyderabad</td><td>6</td></tr><tr><td>5</td><td class='team-pro'>Delhi Capitals</td><td>6</td></tr><tr><td>6</td><td class='team-pro'>Gujarat Titans</td><td>6</td></tr><tr><td>7</td><td class='team-pro'>Mumbai Indians</td><td>4</td></tr><tr><td>8</td><td class='team-pro'>Chennai Super Kings</td><td>4</td></tr><tr><td>9</td><td class='team-pro'>Lucknow Super Giants</td><td>4</td></tr><tr><td>10</td><td class='team-pro'>Kolkata Knight Riders</td><td>2</td></tr></tbody>
+            </table>
+            <div style="font-size:0.75rem; color:var(--text-muted);">PBKS remains clinical at the summit with 11 points after 6 high-intensity fixtures; RCB and RR locked in a dead-heat for the remaining podium spots.</div>
+        </div>
+
+        <!-- CARD: BLOGS -->
+        <div class="titan-card" style="grid-column: span 6;">
+            <div class="card-header">CRICKET CLOUD-FEED</div>
+            <i>Cloud-Feed Offline: Missing GOOGLE_DRIVE_API_KEY.</i>
+        </div>
+        <div class="titan-card" style="grid-column: span 6;">
+            <div class="card-header">CRYPTO CLOUD-FEED</div>
             <i>Cloud-Feed Offline: Missing GOOGLE_DRIVE_API_KEY.</i>
         </div>
 
-        <!-- MODULE: CRYPTO CLOUD-FEED -->
-        <div class="card-3d" style="border-left:5px solid var(--neon-purple);">
-            <i>Cloud-Feed Offline: Missing GOOGLE_DRIVE_API_KEY.</i>
-        </div>
-
-        <!-- STANDINGS: FOOTBALL PULSE -->
-        <div class="card-3d">
-            <div class="seo-h1"><i class="fas fa-futbol"></i> Elite League Standings</div>
-            <div style="font-size:0.8rem; color:#8b949e; margin-bottom:10px;">Arsenal maintains a razor-thin lead over City in a 70-point title race that could define the decade; Top 4 battle intensifies as Villa matches United's pace.</div>
-            <div style="font-size:0.8rem; color:#8b949e;">Barcelona's 79-point dominance creates a massive 9-point chasm over Real Madrid; Villarreal holds a firm grip on the bronze position.</div>
-        </div>
-
-        <!-- 3D TERMINAL CHART -->
-        <div class="card-3d" style="padding:0; overflow:hidden; min-height:300px;">
-             <div id="tradingview_blade" style="height:350px;"></div>
+        <!-- TRADINGVIEW TERMINAL -->
+        <div class="titan-card" style="grid-column: span 12; padding:0; height:500px; overflow:hidden;">
+            <div id="tradingview_titan" style="height:100%;"></div>
         </div>
 
     </div>
@@ -432,26 +494,22 @@ body, html {
     <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // TradingView Initialization
         new TradingView.widget({
             "width": "100%", "height": "100%",
             "symbol": "BINANCE:BTCUSDT", "interval": "1",
             "timezone": "Etc/UTC", "theme": "dark", "style": "1",
             "locale": "en", "toolbar_bg": "#000",
-            "container_id": "tradingview_blade"
+            "container_id": "tradingview_titan"
         });
 
-        // Pulse Layer Logic
-        const pulseLayer = document.getElementById('pulse-layer');
-        
-        function triggerPulse(type) {
-            pulseLayer.className = 'pulsing-border pulse-' + type;
-            setTimeout(() => pulseLayer.className = 'pulsing-border', 2000);
-        }
-
-        // Simulate Pulse on Wicket (example)
-        if ("Jules Verified: Real-Time".includes("Wicket")) triggerPulse('red');
-        if (parseFloat("-0.76%") < -1) triggerPulse('cyan');
+        // Ticker Animation
+        const ticker = document.querySelector('.ticker-titan');
+        setInterval(() => {
+            ticker.scrollLeft += 1;
+            if (ticker.scrollLeft >= ticker.scrollWidth - ticker.clientWidth) {
+                ticker.scrollLeft = 0;
+            }
+        }, 50);
     });
     </script>
 
