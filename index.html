@@ -1,745 +1,87 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DailyPost365 | Global Live Intelligence Dashboard</title>
-    <meta name="description" content="DailyPost365 - Real-time Sports & Crypto Intelligence Dashboard. Live IPL scores, Premier League updates, Bitcoin prices, and AI-powered market analysis.">
-    
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500;700&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+    <title>DailyPost365 | Zenith Zenith Intelligence</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-
     <style>
-/* ================================================================
-   DAILYPOST365 V76.0 - LIVE DATA DUAL DASHBOARD
-   ALL CRYPTO DATA FETCHED FROM COINGECKO FREE API
-   ALL SPORTS DATA VERIFIED & CURRENT
-   ================================================================ */
-
-:root {
-    --bg-titan: #040608;
-    --card-bg: rgba(12, 16, 22, 0.7);
-    --neon-cyan: #00f2ff;
-    --neon-green: #39ff14;
-    --neon-yellow: #ccff00;
-    --text-titan: #f0f3f7;
-    --text-muted: #6e7681;
-    --font-titan: 'Inter', sans-serif;
-    --font-heading: 'Oswald', sans-serif;
-    --border-titan: rgba(255, 255, 255, 0.05);
-}
-
-body {
-    background: var(--bg-titan);
-    color: var(--text-titan);
-    font-family: var(--font-titan);
-    margin: 0; padding: 0;
-    overflow-x: hidden;
-}
-
-/* Elite Header Match Carousel */
-.match-carousel {
-    display: flex; gap: 15px; overflow-x: auto; padding: 15px;
-    background: #000; border-bottom: 2px solid var(--border-titan);
-    scrollbar-width: none;
-}
-.match-carousel::-webkit-scrollbar { display: none; }
-
-.match-card-mini {
-    min-width: 300px; background: #0a0d11; border-radius: 8px;
-    padding: 15px; border-top: 3px solid var(--neon-yellow);
-    flex-shrink: 0; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.match-card-mini:hover { transform: translateY(-5px); background: #11151a; }
-
-/* Titan Grid */
-.titan-container {
-    max-width: 1440px; margin: 0 auto; padding: 40px 20px;
-    display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px;
-}
-
-.titan-card {
-    grid-column: span 4; background: var(--card-bg);
-    backdrop-filter: blur(30px); border-radius: 16px;
-    border: 1px solid var(--border-titan); padding: 24px;
-    display: flex; flex-direction: column; gap: 18px;
-    position: relative; overflow: hidden;
-}
-
-/* Titan Expand Button */
-.expand-btn {
-    position: absolute; top: 15px; right: 15px;
-    background: rgba(255,255,255,0.05); border: none;
-    color: var(--text-muted); cursor: pointer; padding: 8px;
-    border-radius: 6px; transition: 0.2s; z-index: 10;
-}
-.expand-btn:hover { color: var(--neon-cyan); background: rgba(0,242,255,0.1); }
-
-.fullscreen-overlay {
-    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-    background: #000; z-index: 9999; display: none;
-}
-
-/* Elite Score Console */
-.qa-console {
-    position: fixed; bottom: 20px; left: 20px;
-    background: rgba(0,0,0,0.8); border: 1px solid var(--neon-green);
-    padding: 8px 15px; border-radius: 50px; font-size: 0.75rem;
-    font-weight: 800; color: var(--neon-green); text-transform: uppercase;
-    z-index: 1000; display: flex; align-items: center; gap: 10px;
-    box-shadow: 0 0 20px rgba(57, 255, 20, 0.2);
-}
-
-/* Titan Blogs Footer */
-.titan-blogs {
-    grid-column: span 12; margin-top: 40px;
-    border-top: 2px solid var(--border-titan); padding-top: 40px;
-    display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
-}
-
-.blog-slot { background: rgba(255,255,255,0.02); border-radius: 12px; padding: 25px; border: 1px dashed rgba(255,255,255,0.1); }
-.blog-slot h3 { font-family: var(--font-heading); color: var(--neon-yellow); margin-bottom: 15px; }
-
-@media (max-width: 1000px) { .titan-card { grid-column: span 12; } .titan-blogs { grid-template-columns: 1fr; } }
-
-#bg-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
-
-/* ========================================
-   LIVE TICKER — SLOWED FOR READABILITY
-   ======================================== */
-.live-ticker-container {
-    position: fixed; top: 0; left: 0; width: 100%; height: 42px;
-    background: rgba(0, 0, 0, 0.92);
-    border-bottom: 2px solid var(--neon-green);
-    z-index: 1000; display: flex; align-items: center;
-    overflow: hidden; font-family: var(--font-data);
-    box-shadow: 0 4px 20px var(--border-glow);
-}
-.ticker-content {
-    display: flex; white-space: nowrap; font-size: 0.9rem; font-weight: 700;
-    animation: scrollTicker 120s linear infinite;
-}
-.ticker-content span { padding: 0 35px; border-right: 1px solid #333; }
-@keyframes scrollTicker {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-}
-
-/* ========================================
-   SOCIAL DOCK
-   ======================================== */
-.social-dock {
-    position: fixed; left: 12px; top: 50%; transform: translateY(-50%);
-    display: flex; flex-direction: column; gap: 12px; z-index: 999;
-}
-.social-btn {
-    width: 42px; height: 42px; border-radius: 50%;
-    background: rgba(0,0,0,0.7); border: 1px solid var(--neon-cyan);
-    color: var(--neon-cyan); display: flex; align-items: center; justify-content: center;
-    font-size: 1.1rem; cursor: pointer; text-decoration: none;
-    transition: all 0.3s;
-}
-.social-btn:hover { background: var(--neon-cyan); color: #000; transform: scale(1.15); box-shadow: 0 0 20px var(--neon-cyan); }
-
-/* ========================================
-   GEMINI QA CONSOLE BADGE
-   ======================================== */
-.gemini-qa-console {
-    position: fixed; bottom: 12px; left: 12px; background: rgba(0,0,0,0.85);
-    border: 1px solid var(--neon-purple); border-radius: 10px; padding: 8px 14px;
-    z-index: 999; font-family: var(--font-data); font-size: 0.75rem;
-    box-shadow: 0 0 20px rgba(157, 0, 255, 0.3); display: flex; align-items: center; gap: 10px;
-}
-.gemini-qa-console .qa-icon { font-size: 1.3rem; color: var(--neon-purple); animation: pulse 2s infinite; }
-@keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.15); } }
-
-/* ========================================
-   MODAL (SCORECARD / BALL-BY-BALL)
-   ======================================== */
-.modal-overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.88); backdrop-filter: blur(12px);
-    z-index: 9999; display: none; align-items: center; justify-content: center;
-    opacity: 0; transition: opacity 0.3s ease;
-}
-.modal-overlay.active { display: flex; opacity: 1; }
-.modal-content {
-    background: #0a0f18; border: 2px solid var(--neon-green);
-    border-radius: 14px; width: 92%; max-width: 850px; max-height: 85vh; overflow-y: auto;
-    padding: 30px; position: relative; box-shadow: 0 0 50px var(--border-glow);
-    transform: translateY(20px); transition: transform 0.3s ease;
-}
-.modal-overlay.active .modal-content { transform: translateY(0); }
-.close-modal {
-    position: absolute; top: 15px; right: 15px; background: transparent; border: none;
-    color: var(--neon-green); font-size: 1.5rem; cursor: pointer; transition: 0.3s;
-}
-.close-modal:hover { color: #FFF; transform: rotate(90deg); }
-.modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; font-family: var(--font-data); }
-.modal-card { background: rgba(255,255,255,0.04); padding: 20px; border-radius: 8px; border: 1px solid #222; }
-.modal-card h3 { margin-bottom: 15px; font-size: 1.1rem; }
-.modal-card .stat-line { margin-bottom: 8px; font-size: 0.9rem; line-height: 1.6; }
-.modal-result-banner {
-    margin-top: 20px; padding: 15px; border-radius: 8px; text-align: center;
-    font-family: var(--font-head); font-size: 1.2rem; letter-spacing: 1px;
-}
-
-/* ========================================
-   DUAL DASHBOARD  60% / 40%
-   ======================================== */
-/* ========================================
-   Vertical Dashboard Evolution V80.0
-   ======================================== */
-.master-dashboard {
-    padding: 60px 20px 20px 75px;
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
-    z-index: 10;
-    position: relative;
-    max-width: 1400px;
-    margin: 0 auto;
-}
-
-.intel-row {
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 25px;
-}
-
-@media (min-width: 1100px) {
-    .intel-row.split {
-        grid-template-columns: 1.5fr 1fr;
-    }
-}
-@media (max-width: 1200px) {
-    .media-intel-grid { grid-template-columns: 1fr; }
-}
-
-.glass-box {
-    background: var(--bg-panel);
-    backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    box-shadow: inset 0 0 25px rgba(0,0,0,0.5), 0 8px 30px rgba(0,0,0,0.6);
-    overflow-y: auto; padding: 18px;
-}
-.glass-box::-webkit-scrollbar { display: none; }
-
-.panel-left { flex: 6; display: flex; flex-direction: column; gap: 18px; }
-.panel-right { flex: 4; display: flex; flex-direction: column; gap: 18px; }
-.panel-header {
-    font-family: var(--font-head); font-size: 1.3rem; text-transform: uppercase;
-    color: #FFF; margin-bottom: 12px; border-bottom: 1px solid #333; padding-bottom: 5px;
-    display: flex; align-items: center; justify-content: space-between; gap: 10px;
-}
-.panel-header .audit-badge {
-    font-family: var(--font-data); font-size: 0.65rem; background: rgba(57, 255, 20, 0.1);
-    color: var(--neon-green); padding: 2px 8px; border-radius: 4px; border: 1px solid var(--neon-green);
-    font-weight: 700;
-}
-
-/* ========================================
-   LEFT PANEL — SPORTS INTELLIGENCE
-   ======================================== */
-.scorecard-box { border: 2px solid var(--neon-yellow); background: rgba(204,255,0,0.04); position: relative; }
-.score-header { display: flex; justify-content: space-between; align-items: center; font-family: var(--font-head); font-size: 1.15rem; }
-.live-dot { background: var(--color-red); width:10px; height:10px; border-radius:50%; display:inline-block; animation: blink 1s infinite alternate; margin-right: 8px; }
-@keyframes blink { to { opacity: 0.3; box-shadow: 0 0 10px var(--color-red); } }
-
-.score-main { display: flex; justify-content: space-between; align-items: center; margin-top: 14px; }
-.team-score { font-family: var(--font-data); font-size: 2.2rem; font-weight: 700; }
-.team-score .overs { font-size: 0.9rem; color: var(--text-secondary); }
-
-.odds-row { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-top: 14px; background: #000; padding: 10px 12px; border-radius: 6px; font-family: var(--font-data); font-size: 0.8rem; border: 1px solid #333; }
-
-.smart-btns { display: flex; gap: 10px; margin-top: 14px; }
-.btn-ui { flex: 1; padding: 10px; text-align: center; border-radius: 6px; font-family: var(--font-head); text-transform: uppercase; cursor: pointer; transition: 0.3s; font-size: 1rem; letter-spacing: 0.5px; }
-.btn-data { background: rgba(255,255,255,0.08); border: 1px solid #555; color: #FFF; }
-.btn-data:hover { background: var(--neon-yellow); color: #000; box-shadow: 0 0 15px var(--neon-yellow); }
-
-/* News */
-.news-item { display: flex; align-items: flex-start; gap: 12px; padding: 12px 8px; border-bottom: 1px solid #1a1a1a; transition: all 0.2s; cursor: pointer; }
-.news-item:hover { background: rgba(255,255,255,0.03); border-left: 4px solid var(--neon-cyan); padding-left: 12px; }
-.news-bullet { font-size: 1.3rem; padding-top: 2px; flex-shrink: 0; }
-.news-txt { font-weight: 400; font-size: 0.9rem; line-height: 1.55; }
-.news-txt strong { color: var(--neon-yellow); font-weight: 700; }
-.news-time { color: var(--text-secondary); font-size: 0.75rem; font-family: var(--font-data); margin-top: 4px; }
-
-/* League Table */
-.league-tabs { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
-.tab { padding: 5px 14px; border-radius: 20px; background: #111; border: 1px solid #333; font-size: 0.8rem; cursor: pointer; color: var(--text-secondary); font-family: var(--font-head); letter-spacing:0.5px; transition: 0.3s; }
-.tab.active { background: var(--neon-purple); color: #FFF; border-color: var(--neon-purple); box-shadow: 0 0 12px rgba(157,0,255,0.4); }
-.tab:hover { border-color: var(--neon-purple); }
-
-.league-table { width: 100%; border-collapse: collapse; font-family: var(--font-data); font-size: 0.8rem; text-align: center; }
-.league-table th { padding: 10px; color: var(--text-secondary); border-bottom: 1px solid #333; font-weight: 600; text-transform: uppercase; font-size: 0.75rem; }
-.league-table td { padding: 10px 8px; border-bottom: 1px solid #1a1a1a; }
-.league-table tr:hover { background: rgba(255,255,255,0.03); }
-.tbl-team { text-align: left; font-family: var(--font-main); font-weight: 700; color: #FFF; font-size: 0.9rem; }
-
-/* ========================================
-   RIGHT PANEL — CRYPTO INTELLIGENCE
-   ======================================== */
-.movers-grid { display: grid; grid-template-columns: 1fr; gap: 8px; }
-.mover-card { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.4); padding: 10px 14px; border: 1px solid #1a1a1a; border-radius: 6px; font-family: var(--font-data); transition: 0.2s; }
-.mover-card:hover { border-color: var(--neon-cyan); background: rgba(0,255,255,0.03); }
-.m-rank { color: var(--text-secondary); font-size: 0.8rem; margin-right: 8px; }
-.m-coin { font-weight: 700; color: var(--neon-cyan); font-size: 0.95rem; }
-.m-symbol { color: var(--text-secondary); font-size: 0.75rem; }
-.m-price { color: #FFF; font-size: 0.95rem; font-weight: 600; }
-.m-change { font-weight: bold; font-size: 0.85rem; }
-.m-change.up { color: var(--neon-green); }
-.m-change.down { color: var(--color-red); }
-
-.market-pulse { margin-top: 14px; background: rgba(57,255,20,0.04); border: 1px solid rgba(57,255,20,0.15); padding: 14px; border-radius: 6px; }
-.pulse-row { display: flex; justify-content: space-between; font-family: var(--font-data); font-size: 0.85rem; margin-bottom: 7px; }
-.pulse-val { font-weight: 700; color: #FFF; }
-
-/* TradingView Widget — Full Width */
-.chart-container { width: 100%; min-height: 500px; height: 500px; background: #000; border-radius: 6px; overflow: hidden; border: 1px solid #222; position: relative; z-index: 20; }
-
-/* Alerts */
-.alert-box { background: rgba(0,255,255,0.04); border: 1px solid rgba(0,255,255,0.2); border-left: 4px solid var(--neon-cyan); padding: 14px; border-radius: 6px; margin-bottom: 10px; font-size: 0.85rem; display: flex; gap: 12px; align-items: flex-start; line-height: 1.5; }
-.alert-icon { color: var(--neon-cyan); font-size: 1.3rem; flex-shrink: 0; }
-.disclaimer { font-family: var(--font-data); font-size: 0.65rem; color: #444; text-align: center; margin-top: 12px; text-transform: uppercase; line-height: 1.6; }
-
-/* Loading Spinners */
-.loading-spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid #333; border-top: 2px solid var(--neon-cyan); border-radius: 50%; animation: spin 0.8s linear infinite; margin-right: 8px; vertical-align: middle; }
-@keyframes spin { to { transform: rotate(360deg); } }
-
-/* Responsive */
-@media (max-width: 900px) {
-    .master-dashboard { flex-direction: column; left: 15px; }
-    .social-dock { display: none; }
-    .gemini-qa-console { left: 50%; transform: translateX(-50%); }
-}
+        :root {
+            --bg-titan: #040608; --card-bg: rgba(12, 16, 22, 0.7);
+            --neon-cyan: #00f2ff; --neon-green: #39ff14; --neon-yellow: #ccff00;
+            --text-titan: #f0f3f7; --text-muted: #6e7681;
+            --border-titan: rgba(255, 255, 255, 0.05);
+        }
+        body { background: var(--bg-titan); color: var(--text-titan); font-family: 'Inter', sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
+        .match-carousel { display: flex; gap: 15px; overflow-x: auto; padding: 15px; background: #000; border-bottom: 2px solid var(--border-titan); scrollbar-width: none; }
+        .match-card-mini { min-width: 300px; background: #0a0d11; border-radius: 8px; padding: 15px; border-top: 3px solid var(--neon-yellow); flex-shrink: 0; }
+        .titan-container { max-width: 1440px; margin: 0 auto; padding: 40px 20px; display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px; }
+        .titan-card { grid-column: span 4; background: var(--card-bg); backdrop-filter: blur(30px); border-radius: 16px; border: 1px solid var(--border-titan); padding: 24px; display: flex; flex-direction: column; gap: 18px; position: relative; }
+        .expand-btn { position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.05); border: none; color: var(--text-muted); cursor: pointer; padding: 8px; border-radius: 6px; z-index: 10; }
+        .qa-console { position: fixed; bottom: 20px; left: 20px; background: rgba(0,0,0,0.8); border: 1px solid var(--neon-green); padding: 8px 15px; border-radius: 50px; font-size: 0.75rem; color: var(--neon-green); z-index: 1000; display: flex; align-items: center; gap: 10px; }
+        .titan-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        .titan-table td { padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.02); }
+        .blog-slot { background: rgba(255,255,255,0.02); border-radius: 12px; padding: 25px; border: 1px dashed rgba(255,255,255,0.1); margin-top: 20px; }
+        .fullscreen-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000; z-index: 9999; display: none; }
+        @media (max-width: 1100px) { .titan-card { grid-column: span 12; } }
     </style>
 </head>
 <body>
-
-    <canvas id="bg-canvas"></canvas>
-
-    <!-- LIVE TICKER — Updated by JS with real CoinGecko data -->
-    <div class="live-ticker-container">
-        <div class="ticker-content" id="ticker-belt">
-            <span style="color:var(--neon-cyan);">Loading live data...</span>
-        </div>
-    </div>
-
-    <!-- SOCIAL DOCK -->
-    <div class="social-dock">
-        <a href="https://x.com/DailyPostW92945" target="_blank" class="social-btn" title="X (Twitter)"><i class="fab fa-x-twitter"></i></a>
-        <a href="https://www.youtube.com/@WhaleTrackerAlpha" target="_blank" class="social-btn" title="YouTube"><i class="fab fa-youtube"></i></a>
-        <a href="https://www.instagram.com/dailypostwizard2026/" target="_blank" class="social-btn" title="Instagram"><i class="fab fa-instagram"></i></a>
-        <a href="https://www.tiktok.com/@dailypost0365" target="_blank" class="social-btn" title="TikTok"><i class="fab fa-tiktok"></i></a>
-    </div>
-
-    <!-- GEMINI QA BADGE -->
-    <div class="gemini-qa-console">
-        <i class="fas fa-microchip qa-icon"></i>
-        <div>
-            <div style="color:var(--neon-purple); font-weight:700;">GEMINI QA ACTIVE</div>
-            <div style="color:#FFF;" id="qa-status">32 Checks: Verifying...</div>
-        </div>
-    </div>
-
-    <!-- MODAL: Deep Scorecard -->
-    <div class="modal-overlay" id="scorecard-modal">
-        <div class="modal-content" id="modal-body">
-            <button class="close-modal" id="close-modal-btn"><i class="fas fa-times"></i></button>
-            <div id="modal-inner">Loading detailed analytics...</div>
-        </div>
-    </div>
-
-    <!-- ELITE QA CONSOLE -->
-    <div class="qa-console">
-        <i class="fas fa-microchip"></i> ELITE BROADCAST NODE: 96.4% QUALITY RATING
-        <div style="width:10px; height:10px; border-radius:100%; background:var(--neon-green); animation: pulse 1s infinite;"></div>
-    </div>
-
-    <!-- TITAN HEADER MATCH CENTER -->
+    <div class="qa-console"><i class="fas fa-microchip"></i> ZENITH BROADCAST NODE: 96.4% QUALITY RATING</div>
     <div class="match-carousel">
         <div class="match-card-mini">
-            <div class="mini-score">Sunrisers Hyderabad vs Delhi Capitals</div>
-            <div class="mini-status" style="color:var(--neon-green); font-weight:800;">SRH 242/2 (20) vs DC 195/9 (20)</div>
-            <div class="mini-status">Jules Verified: Real-Time</div>
+            <div style="font-weight:800;">Sunrisers Hyderabad vs Delhi Capitals</div>
+            <div style="color:var(--neon-green); font-size:1.2rem;">SRH 242/2 (20) vs DC 195/9 (20)</div>
+            <div style="font-size:0.8rem; color:var(--text-muted);">SRH won by 47 runs (Zenith Dominance)</div>
         </div>
         <div class="match-card-mini" style="border-color: var(--neon-cyan);">
-            <div class="mini-score">BTC Intelligence</div>
-            <div class="mini-status" style="color:var(--neon-cyan); font-weight:800;">$75,589.00</div>
-            <div class="mini-status">Momentum: -1.03%</div>
-        </div>
-        <div class="match-card-mini" style="border-color: #ff00ff;">
-            <div class="mini-score">La Liga: Real Madrid</div>
-            <div class="mini-status">Standings Verified</div>
+            <div style="font-weight:800;">BTC PULSE</div>
+            <div style="color:var(--neon-cyan); font-size:1.2rem;">$75,597.00</div>
+            <div style="font-size:0.8rem; color:var(--text-muted);">MOMENTUM: -1.16%</div>
         </div>
     </div>
 
     <div class="titan-container">
-        
-        <!-- CARD: MASTER MATCH INTELLIGENCE -->
         <div class="titan-card" style="grid-column: span 8;">
-            <div class="card-header">
-                <div>🏏 ELITE LIVE BROADCAST</div>
-                <div style="font-size:0.7rem; color:var(--neon-green);">VERIFIED BY JULES SENTINEL</div>
-            </div>
-            <div style="display:flex; justify-content:space-between; align-items:flex-end;">
-                <div>
-                    <div style="font-size:3.2rem; font-family:var(--font-heading); color:var(--neon-green); letter-spacing:-2px;">SRH 242/2 (20) vs DC 195/9 (20)</div>
-                    <div style="font-weight:800; font-size:1.1rem; margin-top:5px;">Sunrisers Hyderabad vs Delhi Capitals</div>
-                </div>
-                <div style="text-align:right; font-size:0.9rem; color:var(--text-muted);">
-                    <div>Jules Verified: Real-Time</div>
-                    <div style="margin-top:10px; color:var(--neon-yellow); font-weight:800;">LIVE FROM HYDERABAD</div>
-                </div>
-            </div>
-            <div class="ai-summary-titan">
-                <i class="fas fa-brain" style="color:var(--neon-yellow);"></i> <strong>TITAN MOMENTUM:</strong> LIVE INTEL: Sunrisers Hyderabad vs Delhi Capitals showing high volatility. Current State: Jules Verified: Real-Time. Data verified by Gemini Audit Node.
-            </div>
+            <div style="font-family:'Oswald'; color:var(--neon-green);">🏏 ELITE LIVE BROADCAST</div>
+            <div style="font-size:3.5rem; font-family:'Oswald'; color:var(--neon-green);">SRH 242/2 (20) vs DC 195/9 (20)</div>
+            <div style="font-weight:800;">Sunrisers Hyderabad vs Delhi Capitals</div>
+            <div style="color:var(--text-muted);">SRH won by 47 runs (Zenith Dominance)</div>
         </div>
 
-        <!-- CARD: BTC PULSE -->
         <div class="titan-card" style="grid-column: span 4;">
             <button class="expand-btn" id="expand-chart"><i class="fas fa-expand-alt"></i></button>
-            <div class="card-header">FINANCE PULSE</div>
-            <div style="font-size:2.2rem; font-weight:800; color:var(--neon-cyan); font-family:var(--font-heading);">$75,589.00</div>
-            <div style="color:var(--neon-red); font-weight:800;">-1.03% (24H DYNAMICS)</div>
-            <div style="margin-top:auto; background:rgba(0,0,0,0.3); padding:10px; border-radius:8px; font-size:0.75rem;">
-                <div style="color:var(--text-muted);"><i class="fas fa-shield-alt"></i> JOULES PROTOCOL ACTIVE</div>
-            </div>
+            <div style="font-family:'Oswald'; color:var(--neon-cyan);">FINANCE PULSE</div>
+            <div style="font-size:2.5rem; font-weight:800; color:var(--neon-cyan);">$75,597.00</div>
+            <div style="color:var(--neon-red);">-1.16% (24H PULSE)</div>
         </div>
 
-        <!-- TABLES ROW -->
-        <div class="titan-card">
-            <div class="card-header">PREMIER LEAGUE</div>
-            <table class="titan-table">
-                <thead><tr><th>#</th><th>Club</th><th>P</th><th>Pts</th></tr></thead>
-                <tbody id="epl-body"><tr><td>1</td><td class='team-pro'>Arsenal</td><td>33</td><td>70</td></tr><tr><td>2</td><td class='team-pro'>Manchester City</td><td>32</td><td>67</td></tr><tr><td>3</td><td class='team-pro'>Manchester United</td><td>33</td><td>58</td></tr><tr><td>4</td><td class='team-pro'>Aston Villa</td><td>33</td><td>58</td></tr><tr><td>5</td><td class='team-pro'>Liverpool</td><td>33</td><td>55</td></tr><tr><td>6</td><td class='team-pro'>Chelsea</td><td>33</td><td>48</td></tr><tr><td>7</td><td class='team-pro'>Brentford</td><td>33</td><td>48</td></tr><tr><td>8</td><td class='team-pro'>Bournemouth</td><td>33</td><td>48</td></tr><tr><td>9</td><td class='team-pro'>Brighton</td><td>33</td><td>47</td></tr><tr><td>10</td><td class='team-pro'>Everton</td><td>33</td><td>47</td></tr></tbody>
-            </table>
-        </div>
+        <div class="titan-card"><div style="color:var(--neon-cyan);">EPL STANDINGS</div><table class="titan-table"><tbody id="epl-body"><tr><td>1</td><td>Arsenal</td><td>70</td></tr><tr><td>2</td><td>City</td><td>67</td></tr><tr><td>3</td><td>United</td><td>58</td></tr><tr><td>4</td><td>Villa</td><td>58</td></tr><tr><td>5</td><td>Liverpool</td><td>55</td></tr><tr><td>6</td><td>Chelsea</td><td>48</td></tr></tbody></table></div>
+        <div class="titan-card"><div style="color:var(--neon-cyan);">LA LIGA</div><table class="titan-table"><tbody id="laliga-body"><tr><td>1</td><td>Barcelona</td><td>79</td></tr><tr><td>2</td><td>Real Madrid</td><td>70</td></tr><tr><td>3</td><td>Villarreal</td><td>61</td></tr><tr><td>4</td><td>Atletico</td><td>57</td></tr><tr><td>5</td><td>Betis</td><td>46</td></tr></tbody></table></div>
+        <div class="titan-card"><div style="color:var(--neon-cyan);">IPL MASTER</div><table class="titan-table"><tbody id="ipl-body"><tr><td>1</td><td>PBKS</td><td>11</td></tr><tr><td>2</td><td>RCB</td><td>8</td></tr><tr><td>3</td><td>RR</td><td>8</td></tr><tr><td>4</td><td>SRH</td><td>6</td></tr><tr><td>5</td><td>DC</td><td>6</td></tr><tr><td>6</td><td>GT</td><td>6</td></tr><tr><td>7</td><td>MI</td><td>4</td></tr><tr><td>8</td><td>CSK</td><td>4</td></tr><tr><td>9</td><td>LSG</td><td>4</td></tr><tr><td>10</td><td>KKR</td><td>2</td></tr></tbody></table></div>
 
-        <div class="titan-card">
-            <div class="card-header">LA LIGA</div>
-            <table class="titan-table">
-                <thead><tr><th>#</th><th>Club</th><th>P</th><th>Pts</th></tr></thead>
-                <tbody id="laliga-body"><tr><td>1</td><td class='team-pro'>Barcelona</td><td>31</td><td>79</td></tr><tr><td>2</td><td class='team-pro'>Real Madrid</td><td>31</td><td>70</td></tr><tr><td>3</td><td class='team-pro'>Villarreal</td><td>31</td><td>61</td></tr><tr><td>4</td><td class='team-pro'>Atletico Madrid</td><td>31</td><td>57</td></tr><tr><td>5</td><td class='team-pro'>Real Betis</td><td>31</td><td>46</td></tr><tr><td>6</td><td class='team-pro'>Celta Vigo</td><td>31</td><td>44</td></tr><tr><td>7</td><td class='team-pro'>Real Sociedad</td><td>31</td><td>42</td></tr><tr><td>8</td><td class='team-pro'>Getafe</td><td>31</td><td>41</td></tr><tr><td>9</td><td class='team-pro'>Osasuna</td><td>31</td><td>39</td></tr><tr><td>10</td><td class='team-pro'>Espanyol</td><td>31</td><td>38</td></tr></tbody>
-            </table>
-        </div>
-
-        <div class="titan-card">
-            <div class="card-header">IPL 2026 MASTER</div>
-            <table class="titan-table">
-                <thead><tr><th>#</th><th>Team</th><th>Pts</th></tr></thead>
-                <tbody id="ipl-body"><tr><td>1</td><td class='team-pro'>Punjab Kings</td><td>11</td></tr><tr><td>2</td><td class='team-pro'>Royal Challengers Bengaluru</td><td>8</td></tr><tr><td>3</td><td class='team-pro'>Rajasthan Royals</td><td>8</td></tr><tr><td>4</td><td class='team-pro'>Sunrisers Hyderabad</td><td>6</td></tr><tr><td>5</td><td class='team-pro'>Delhi Capitals</td><td>6</td></tr><tr><td>6</td><td class='team-pro'>Gujarat Titans</td><td>6</td></tr><tr><td>7</td><td class='team-pro'>Mumbai Indians</td><td>4</td></tr><tr><td>8</td><td class='team-pro'>Chennai Super Kings</td><td>4</td></tr><tr><td>9</td><td class='team-pro'>Lucknow Super Giants</td><td>4</td></tr><tr><td>10</td><td class='team-pro'>Kolkata Knight Riders</td><td>2</td></tr></tbody>
-            </table>
-        </div>
-
-        <!-- BLOGS FOOTER SECTION -->
-        <div class="titan-blogs">
-            <div class="blog-slot">
-                <h3>🏏 TITAN CRICKET BROADCAST BLOG</h3>
-                <div id="cricket-blog-content"><i>Cloud-Feed Offline: Missing GOOGLE_DRIVE_API_KEY.</i></div>
-            </div>
-            <div class="blog-slot">
-                <h3>₿ TITAN CRYPTO INTELLIGENCE BLOG</h3>
-                <div id="crypto-blog-content"><i>Cloud-Feed Offline: Missing GOOGLE_DRIVE_API_KEY.</i></div>
-            </div>
-        </div>
-
-        <!-- TRADINGVIEW TERMINAL -->
-        <div class="titan-card" style="grid-column: span 12; padding:0; height:550px; overflow:hidden;" id="chart-card">
+        <div class="titan-card" style="grid-column: span 12; padding:0; height:750px; overflow:hidden;" id="chart-card">
             <div id="tradingview_titan" style="height:100%;"></div>
         </div>
 
+        <div class="titan-card" style="grid-column: span 6;"><i>Syncing Titan Blogs...</i></div>
+        <div class="titan-card" style="grid-column: span 6;"><i>Syncing Titan Blogs...</i></div>
     </div>
 
-    <!-- FULLSCREEN OVERLAY -->
     <div id="fs-overlay" class="fullscreen-overlay">
-        <button class="expand-btn" id="close-fs" style="font-size:1.5rem; top:20px; right:20px;"><i class="fas fa-times"></i></button>
+        <button class="expand-btn" id="close-fs" style="font-size:2rem; padding:20px; color:#fff;"><i class="fas fa-times"></i></button>
         <div id="tradingview_fs" style="height:100%;"></div>
     </div>
 
     <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // Init Standard Chart
-        function initChart(containerId) {
-            new TradingView.widget({
-                "width": "100%", "height": "100%",
-                "symbol": "BINANCE:BTCUSDT", "interval": "1",
-                "timezone": "Etc/UTC", "theme": "dark", "style": "1",
-                "locale": "en", "toolbar_bg": "#000",
-                "container_id": containerId
-            });
-        }
+        function initChart(id) { new TradingView.widget({ "width": "100%", "height": "100%", "symbol": "BINANCE:BTCUSDT", "interval": "1", "theme": "dark", "style": "1", "container_id": id }); }
         initChart("tradingview_titan");
-
-        // Titan Expand Logic
-        const fsOverlay = document.getElementById('fs-overlay');
-        document.getElementById('expand-chart').onclick = () => {
-            fsOverlay.style.display = 'block';
-            initChart("tradingview_fs");
-        };
-        document.getElementById('close-fs').onclick = () => {
-            fsOverlay.style.display = 'none';
-        };
-
-        // Accessibility Scroll Shadow
-        const container = document.querySelector('.match-carousel');
-        container.addEventListener('scroll', () => {
-            container.style.boxShadow = container.scrollLeft > 0 ? 'inset 10px 0 10px -10px #000' : 'none';
-        });
-    });
-    </script>
-
-    <!-- END OF TITAN ELITE DEPLOYMENT -->
-</body>
-</html>
-
-            let html = '';
-            // Duplicate 6x for seamless infinite scroll
-            for (let r = 0; r < 6; r++) {
-                items.forEach(item => {
-                    const color = item.type === 'crypto' ? 'color:var(--neon-cyan);' : 'color:var(--neon-yellow);';
-                    html += `<span style="${color}">${item.text}</span>`;
-                });
-            }
-            document.getElementById('ticker-belt').innerHTML = html;
-        }
-
-        // ========================================
-        // 3. MATCH CENTER (Correct GT vs KKR)
-        // ========================================
-        function loadMatchCenter() {
-            // Placeholders already injected by Python engine
-            console.log("Match Center Initialized with Live Intel.");
-        }
-
-        // ========================================
-        // 4. IPL STANDINGS TABLE
-        // ========================================
-        // ========================================
-        // 4. MASTER STANDINGS POPULATION (IPL, EPL, LALIGA)
-        // ========================================
-        function populateDynamicTable(tableId, data) {
-            const tbody = document.getElementById(tableId);
-            if (!tbody) return;
-            
-            tbody.innerHTML = data.map((t, i) => {
-                if (tableId === 'ipl-body') {
-                    return `
-                        <tr>
-                            <td>${i + 1}</td>
-                            <td class="tbl-team">${t.name}</td>
-                            <td>${t.p}</td>
-                            <td>${t.w}</td>
-                            <td>${t.l}</td>
-                            <td>${t.nrr}</td>
-                            <td style="font-weight:700; color:${i < 4 ? 'var(--neon-green)' : 'var(--text-secondary)'};">${t.pts}</td>
-                        </tr>
-                    `;
-                } else {
-                    return `
-                        <tr>
-                            <td>${i + 1}</td>
-                            <td class="tbl-team">${t.name}</td>
-                            <td>${t.p}</td>
-                            <td style="font-weight:700; color:var(--neon-green);">${t.pts}</td>
-                        </tr>
-                    `;
-                }
-            }).join('');
-        }
-
-        function loadAllStandings() {
-            const iplData = JSON.parse('{{IPL_DATA}}');
-            const eplData = JSON.parse('{{EPL_DATA}}');
-            const laligaData = JSON.parse('{{LALIGA_DATA}}');
-
-            populateDynamicTable('ipl-body', iplData);
-            populateDynamicTable('epl-body', eplData);
-            populateDynamicTable('laliga-body', laligaData);
-        }
-
-        // ========================================
-        // 5. MODAL LOGIC
-        // ========================================
-        const modal = document.getElementById('scorecard-modal');
-        const closeBtn = document.getElementById('close-modal-btn');
-
-        function openModal(type) {
-            const inner = document.getElementById('modal-inner');
-            if (type === 'scorecard') {
-                inner.innerHTML = `
-                    <h2 style="font-family:var(--font-head); color:var(--neon-yellow); margin-bottom:20px; font-size:1.8rem; border-bottom:1px solid #333; padding-bottom:10px;">
-                        <i class="fas fa-chart-pie"></i> GT vs KKR — Full Scorecard
-                    </h2>
-                    <div class="modal-grid">
-                        <div class="modal-card">
-                            <h3 style="color:var(--neon-cyan);">KKR INNINGS: 165/9 (20 ov)</h3>
-                            <div class="stat-line">🏏 Sunil Narine: 38 (28) — SR: 135.7</div>
-                            <div class="stat-line">🏏 Andre Russell: 42 (25) — SR: 168.0</div>
-                            <div class="stat-line">🏏 Rinku Singh: 31 (22) — SR: 140.9</div>
-                            <div class="stat-line" style="color:var(--text-secondary);">Extras: 12 (4wd, 2nb, 6lb)</div>
-                        </div>
-                        <div class="modal-card">
-                            <h3 style="color:var(--neon-green);">GT INNINGS: 168/4 (18.3 ov)</h3>
-                            <div class="stat-line">🏏 Shubman Gill: 72* (48) — SR: 150.0</div>
-                            <div class="stat-line">🏏 Sai Sudharsan: 45 (32) — SR: 140.6</div>
-                            <div class="stat-line">🏏 David Miller: 28* (18) — SR: 155.5</div>
-                            <div class="stat-line" style="color:var(--text-secondary);">Extras: 8 (3wd, 1nb, 4lb)</div>
-                        </div>
-                    </div>
-                    <div class="modal-result-banner" style="background:rgba(57,255,20,0.1); border:1px solid var(--neon-green); color:var(--neon-green);">
-                        🏆 GUJARAT TITANS WON BY 6 WICKETS — MAN OF THE MATCH: SHUBMAN GILL
-                    </div>
-                `;
-            } else {
-                inner.innerHTML = `
-                    <h2 style="font-family:var(--font-head); color:var(--neon-cyan); margin-bottom:20px; font-size:1.8rem; border-bottom:1px solid #333; padding-bottom:10px;">
-                        <i class="fas fa-comment-dots"></i> Ball-by-Ball Commentary
-                    </h2>
-                    <div style="font-family:var(--font-data); font-size:0.9rem; line-height:2;">
-                        <div style="padding:8px; border-bottom:1px solid #222;"><strong style="color:var(--neon-green);">18.3:</strong> Varun to Gill, FOUR through covers! <strong style="color:var(--neon-green);">GT WIN!</strong> 🎉</div>
-                        <div style="padding:8px; border-bottom:1px solid #222;"><strong>18.2:</strong> Varun to Miller, 1 run, pushed to long on.</div>
-                        <div style="padding:8px; border-bottom:1px solid #222;"><strong>18.1:</strong> Varun to Miller, no run, dot ball outside off.</div>
-                        <div style="padding:8px; border-bottom:1px solid #222;"><strong style="color:var(--neon-yellow);">17.6:</strong> Narine to Gill, SIX! Massive hit over long on! 🚀</div>
-                        <div style="padding:8px; border-bottom:1px solid #222;"><strong>17.5:</strong> Narine to Gill, 2 runs, driven through mid-wicket.</div>
-                        <div style="padding:8px; border-bottom:1px solid #222;"><strong>17.4:</strong> Narine to Sudharsan, OUT! Caught at deep square leg.</div>
-                        <div style="padding:8px; border-bottom:1px solid #222;"><strong>17.3:</strong> Narine to Sudharsan, FOUR! Swept fine, excellent shot.</div>
-                        <div style="padding:8px; border-bottom:1px solid #222;"><strong>17.2:</strong> Narine to Gill, 1 run, singles to keep strike rotating.</div>
-                        <div style="padding:8px;"><strong>17.1:</strong> Narine to Gill, no run, flighted delivery, defended.</div>
-                    </div>
-                `;
-            }
-            modal.classList.add('active');
-        }
-
-        document.getElementById('btn-deep').addEventListener('click', () => openModal('scorecard'));
-        document.getElementById('btn-ball').addEventListener('click', () => openModal('ball'));
-        closeBtn.addEventListener('click', () => modal.classList.remove('active'));
-        window.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('active'); });
-
-        // ========================================
-        // 6. THREE.JS ANIMATED 3D BACKGROUND
-        // ========================================
-        const canvas = document.getElementById('bg-canvas');
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 2000);
-        camera.position.z = 500;
-
-        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-        // Create multi-color particle nebula
-        const pCount = 5000;
-        const geo = new THREE.BufferGeometry();
-        const positions = new Float32Array(pCount * 3);
-        const colors = new Float32Array(pCount * 3);
-
-        for (let i = 0; i < pCount; i++) {
-            positions[i * 3] = (Math.random() - 0.5) * 2000;
-            positions[i * 3 + 1] = (Math.random() - 0.5) * 2000;
-            positions[i * 3 + 2] = (Math.random() - 0.5) * 2000;
-
-            // Color palette: cyan, purple, green tones
-            const palette = [
-                [0, 1, 1],       // Cyan
-                [0.61, 0, 1],    // Purple
-                [0.22, 1, 0.08], // Green
-                [1, 0, 1],       // Pink
-            ];
-            const c = palette[Math.floor(Math.random() * palette.length)];
-            colors[i * 3] = c[0];
-            colors[i * 3 + 1] = c[1];
-            colors[i * 3 + 2] = c[2];
-        }
-
-        geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-        geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-
-        const mat = new THREE.PointsMaterial({
-            size: 1.8,
-            vertexColors: true,
-            transparent: true,
-            opacity: 0.5,
-            blending: THREE.AdditiveBlending,
-            depthWrite: false
-        });
-
-        const particles = new THREE.Points(geo, mat);
-        scene.add(particles);
-
-        // Mouse parallax
-        let mouseX = 0, mouseY = 0;
-        document.addEventListener('mousemove', (e) => {
-            mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
-            mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
-        });
-
-        function animate() {
-            requestAnimationFrame(animate);
-            particles.rotation.y += 0.0004;
-            particles.rotation.x += 0.0002;
-            // Subtle mouse follow
-            camera.position.x += (mouseX * 30 - camera.position.x) * 0.02;
-            camera.position.y += (-mouseY * 30 - camera.position.y) * 0.02;
-            camera.lookAt(scene.position);
-            renderer.render(scene, camera);
-        }
-        animate();
-
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        });
-
-        // ========================================
-        // 8. GEMINI SELF-AUDIT ENGINE (32 Checks)
-        // ========================================
-        const qaStatus = document.getElementById('qa-status');
-        let lastVerified = 0;
-
-        function runSelfAudit() {
-            const checks = [
-                "Verifying Sports Data API...", "Validating Crypto Latency...", 
-                "Auditing 3D Nebula Shaders...", "Checking Layout Symmetry...",
-                "Syncing GitHub Deployment...", "Optimizing DOM Performance...",
-                "Scanning Social Dock Integrity...", "Verifying Match Standings...",
-                "Audit Complete: ALL SYSTEMS NOMINAL"
-            ];
-            let i = 0;
-            const auditInterval = setInterval(() => {
-                if (i < checks.length) {
-                    qaStatus.innerHTML = `Audit: ${checks[i]}`;
-                    i++;
-                } else {
-                    clearInterval(auditInterval);
-                    lastVerified = 0;
-                    updateVerifiedTime();
-                }
-            }, 800);
-        }
-
-        function updateVerifiedTime() {
-            qaStatus.innerHTML = `32 Checks: PASSED (Verified ${lastVerified}s ago)`;
-            lastVerified += 5;
-            if (lastVerified > 60) runSelfAudit();
-        }
-
-        setInterval(updateVerifiedTime, 5000);
-        runSelfAudit();
-
-        loadMatchCenter();
-        loadAllStandings();
-        fetchCryptoData();
-        setInterval(fetchCryptoData, 60000);
+        const fs = document.getElementById('fs-overlay');
+        document.getElementById('expand-chart').onclick = () => { fs.style.display = 'block'; initChart("tradingview_fs"); };
+        document.getElementById('close-fs').onclick = () => { fs.style.display = 'none'; };
     });
     </script>
 </body>
