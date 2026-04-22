@@ -3,151 +3,196 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DailyPost365 | Master Dashboard V87.0</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=JetBrains+Mono:wght@500;700&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+    <title>DailyPost365 | Million-Dollar Lift V87.0</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg-master: #0B0E14; --card-bg: rgba(22, 26, 34, 0.7);
-            --border-neon: #00F2FF; --accent-orange: #F7931A;
+            --bg-main: #040608; --card-bg: rgba(12, 16, 22, 0.7);
+            --border-color: rgba(255, 255, 255, 0.05);
             --text-primary: #f0f3f7; --text-muted: #6e7681;
+            --neon-cyan: #00f2ff; --neon-yellow: #ccff00; --neon-green: #39ff14;
         }
-        body { background: var(--bg-master); color: var(--text-primary); font-family: 'Inter', sans-serif; margin: 0; }
-        .mono { font-family: 'JetBrains Mono', monospace; }
-
-        /* 12-COLUMN MASTER GRID */
-        .master-layout { display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px; max-width: 1600px; margin: 40px auto; padding: 0 20px; }
+        [data-theme="solar"] {
+            --bg-main: #F0F2F5; --card-bg: #FFFFFF;
+            --border-color: #E2E8F0; --text-primary: #1A1D21; --text-muted: #94a3b8;
+            --neon-cyan: #0088CC; --neon-yellow: #B69200; --neon-green: #0D9488;
+        }
+        body { background: var(--bg-main); color: var(--text-primary); font-family: 'Inter', sans-serif; margin: 0; transition: 0.3s; perspective: 1000px; }
         
-        /* LEFT 8: MASONRY NEWS */
-        .news-feed { grid-column: span 8; column-count: 2; column-gap: 20px; }
-        .news-card {
-            break-inside: avoid; background: var(--card-bg); border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 12px; padding: 24px; margin-bottom: 20px; position: relative;
-            backdrop-filter: blur(10px); transition: 0.3s;
-        }
-        .news-card:hover { border-color: var(--border-neon); }
-
-        /* RIGHT 4: MARKET SIDEBAR */
-        .market-sidebar { grid-column: span 4; display: flex; flex-direction: column; gap: 24px; }
+        .main-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1440px; margin: 40px auto; padding: 0 20px; }
         
-        .crypto-hub {
-            border: 1px solid var(--accent-orange); background: var(--card-bg);
-            border-radius: 16px; aspect-ratio: 1 / 1; width: 100%; overflow: hidden;
-            position: relative; display: flex; flex-direction: column;
+        .card-monitor {
+            background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px;
+            padding: 24px; height: 320px; display: flex; flex-direction: column; gap: 15px; position: relative;
+            backdrop-filter: blur(20px); transition: 0.3s; transform-style: preserve-3d;
+        }
+        
+        /* 3D CATEGORY FX (V87.0) */
+        .fx-crypto { animation: float-coin 3s infinite ease-in-out; border-color: var(--neon-cyan); }
+        @keyframes float-coin { 0%, 100% { transform: translateZ(0); } 50% { transform: translateZ(30px); } }
+        
+        .fx-sports { animation: stadium-pulse 4s infinite ease-in-out; border-color: var(--neon-yellow); }
+        @keyframes stadium-pulse {
+            0%, 100% { box-shadow: 0 0 5px var(--neon-yellow); }
+            50% { box-shadow: 0 0 25px var(--neon-yellow); }
         }
 
-        /* LIVE PULSE BADGE */
-        .live-badge {
-            background: #FF0055; color: #fff; padding: 4px 10px; border-radius: 4px;
-            font-size: 0.65rem; font-weight: 800; animation: live-pulse 1s infinite alternate;
+        .audit-badge {
+            position: fixed; bottom: 20px; left: 20px; background: rgba(0,0,0,0.8);
+            border: 1px solid var(--neon-yellow); padding: 8px 15px; border-radius: 50px;
+            font-size: 0.7rem; color: var(--neon-yellow); display: flex; align-items: center; gap: 8px;
+            animation: heartbeat 2s infinite ease-in-out;
+            transition: 0.5s; z-index: 2000;
         }
-        @keyframes live-pulse { from { opacity: 0.7; } to { opacity: 1; transform: scale(1.1); } }
+        .audit-live { border-color: var(--neon-green); color: var(--neon-green); }
+        @keyframes heartbeat { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.05); opacity: 1; } }
 
-        /* ALTCOIN TICKER */
-        .ticker-wrap { background: #000; padding: 12px; border-radius: 8px; overflow: hidden; white-space: nowrap; }
-        .ticker-scroll { display: inline-block; animation: ticker-fade 30s linear infinite; }
-        @keyframes ticker-fade { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
-        .ticker-item { display: inline-block; margin-right: 40px; font-size: 0.8rem; font-weight: 700; color: var(--border-neon); }
-
-        @media (max-width: 1100px) {
-            .news-feed, .market-sidebar { grid-column: span 12; }
-            .news-feed { column-count: 1; order: 2; }
-            .market-sidebar { order: 1; }
+        .theme-toggle {
+            position: fixed; bottom: 20px; right: 20px; width: 50px; height: 50px;
+            border-radius: 50%; background: var(--card-bg); border: 1px solid var(--border-color);
+            display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 1000;
         }
+
+        #chart-zone { height: 1500px; grid-column: span 3; border-radius: 16px; overflow: hidden; border: 1px solid var(--border-color); }
+        .fullscreen-btn { position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.05); border: none; color: var(--text-muted); cursor: pointer; padding: 10px; border-radius: 8px; }
+        
+        /* FOOTER COMPLIANCE V87.0 */
+        .legal-shield {
+            background: var(--bg-main); border-top: 1px solid var(--border-color);
+            padding: 40px 20px; text-align: center; color: var(--text-muted);
+            font-size: 10px; text-transform: uppercase; letter-spacing: 0.2em; line-height: 1.8;
+        }
+        .social-dock { display: flex; justify-content: center; gap: 40px; margin-bottom: 20px; font-size: 1.8rem; }
+        .social-dock a { transition: 0.3s; opacity: 0.8; }
+        .social-dock a:hover { transform: scale(1.2) translateY(-5px); opacity: 1; text-shadow: 0 0 10px currentColor; }
+
+        @media (max-width: 1100px) { .main-grid { grid-template-columns: 1fr; } #chart-zone { grid-column: span 1; } }
     </style>
 </head>
 <body>
-    <header style="padding: 40px 20px; text-align: center;">
-        <h1 style="font-family:'Oswald'; font-size: 3rem; margin: 0;">DAILYPOST365 <span style="color:var(--border-neon);">MASTER NODE</span></h1>
+    <div class="audit-badge" id="audit-heartbeat"><i class="fas fa-shield-check"></i> MILLION-DOLLAR LIFT: NOMINAL</div>
+    
+    <div class="theme-toggle" id="theme-btn"><i class="fas fa-sun"></i></div>
+
+    <header style="padding: 60px 20px; text-align: center;">
+        <h1 style="font-family:'Oswald'; font-size: 3.5rem; margin: 0; color: var(--neon-cyan);">DAILYPOST365 <span style="color: var(--text-primary);">ZENITH MASTER</span></h1>
+        <p style="color: var(--text-muted); letter-spacing: 0.1em;">MILLION-DOLLAR LIFT V87.0 | BROADCAST READY</p>
     </header>
 
-    <main class="master-layout">
-        <!-- LEFT: MASONRY FEED -->
-        <section class="news-feed" id="live-news">
-            <article class="news-card" style="border-left: 4px solid var(--border-neon);">
-                <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
-                    <span class="live-badge">LIVE INTEL</span>
-                    <span style="font-size:0.7rem; color:var(--text-muted);">CRICKET MASTER</span>
-                </div>
-                <div style="font-weight: 700; font-size:1.1rem;">Mumbai Indians vs Gujarat Titans: MI wins by 99 runs! Tilak Varma 101* (62), Ashwani Kumar 4/24.</div>
-            </article>
-            <article class="news-card" style="border-left: 4px solid var(--accent-orange);">
-                <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
-                    <span style="font-size:0.7rem; color:var(--text-muted);">SOCCER UPDATE</span>
-                </div>
-                <div style="font-weight: 700;">EPL FOCUS: Arsenal vs Man City title race intensifies. Kolo Muani on Liverpool radar.</div>
-            </article>
-            <!-- ASYNC CARDS POPULATE HERE -->
-        </section>
-
-        <!-- RIGHT: MARKET SIDEBAR -->
-        <aside class="market-sidebar">
-            <div class="crypto-hub">
-                <div style="padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.05); display:flex; justify-content:space-between; align-items:center;">
-                    <span style="font-weight:800; color:var(--accent-orange);"><i class="fab fa-bitcoin"></i> BTC PULSE</span>
-                    <span class="mono" style="color:var(--accent-orange);">+2.45%</span>
-                </div>
-                <div style="flex-grow:1; background:#000;" id="tv_chart"></div>
-                <div style="padding: 15px; text-align:center; font-size:1.5rem; font-weight:800;" class="mono">$76,119.79</div>
+    <main class="main-grid">
+        <!-- BTC CARD (3D FLOAT) -->
+        <article class="card-monitor fx-crypto" id="btc-card">
+            <div style="display: flex; justify-content: space-between;">
+                <span style="font-weight: 800; color: var(--neon-cyan);">₿ CRYPTO WHALE PULSE</span>
+                <span style="font-size: 0.7rem; color: var(--text-muted);">3D ENGINE</span>
             </div>
-
-            <div class="ticker-wrap">
-                <div class="ticker-scroll">
-                    <span class='ticker-item mono'>ETH $3,842</span><span class='ticker-item mono'>SOL $145</span><span class='ticker-item mono'>XRP $0.62</span><span class='ticker-item mono'>ADA $0.45</span><span class='ticker-item mono'>AVAX $38</span><span class='ticker-item mono'>DOGE $0.16</span><span class='ticker-item mono'>TRX $0.12</span><span class='ticker-item mono'>DOT $7.2</span><span class='ticker-item mono'>LINK $18</span><span class='ticker-item mono'>MATIC $0.92</span>
-                </div>
+            <div style="font-size: 2.8rem; font-family:'Oswald'; color:var(--neon-cyan);">$76,119.79 (Whale Target: $78,000)</div>
+            <div style="font-weight: 800; color: var(--neon-green);">+2.45% (MOMENTUM)</div>
+            <div style="margin-top: auto; font-size: 0.8rem; color: var(--text-muted);">
+                BTC Mastering $76k Zone. 1.5s Sentinel Active.
             </div>
-        </aside>
+        </article>
+
+        <!-- CRICKET CARD (STADIUM PULSE) -->
+        <article class="card-monitor fx-sports" id="cricket-card">
+            <div style="display: flex; justify-content: space-between;">
+                <span style="font-weight: 800; color: var(--neon-yellow);">🏏 CRICKET MASTER</span>
+                <span style="font-size: 0.7rem; color: var(--text-muted);" id="cricket-sync">MASTER-MIRROR ACTIVE</span>
+            </div>
+            <div style="font-size: 1rem; line-height: 1.6; font-weight: 500;" id="cricket-text">Mumbai Indians vs Gujarat Titans: 99-run victory for MI! Hero: Tilak Varma 101* (62 balls). Ashwani Kumar 4/24 in 4 overs. (LIVE MASTER RECONSTRUCTION)</div>
+            <div style="margin-top: auto; font-size: 0.7rem; color: var(--text-muted);">Unique Atmosphere: Stadium Pulse FX v87.</div>
+        </article>
+
+        <!-- SOCCER CARD (STADIUM PULSE) -->
+        <article class="card-monitor fx-sports" style="border-color: var(--neon-green);" id="soccer-card">
+            <div style="display: flex; justify-content: space-between;">
+                <span style="font-weight: 800; color: var(--neon-green);">⚽ SOCCER INTEL</span>
+                <span style="font-size: 0.7rem; color: var(--text-muted);" id="soccer-sync">MASTER-MIRROR ACTIVE</span>
+            </div>
+            <div style="font-size: 1rem; line-height: 1.6; font-weight: 500;" id="soccer-text">EPL FOCUS: Arsenal and Man City continue deadlocked title race. Man City (73 Pts) over Arsenal (71 Pts) with game in hand. Intelligence Hub Active.</div>
+            <div style="margin-top: auto; font-size: 0.7rem; color: var(--text-muted);">EPL/La Liga Direct Intelligence Bridge.</div>
+        </article>
+
+        <!-- 1500PX WHALE TERMINAL -->
+        <div id="chart-zone" style="position: relative;">
+            <button class="fullscreen-btn" id="expand-btn"><i class="fas fa-expand-alt"></i></button>
+            <div id="tradingview_hub" style="height: 100%;"></div>
+        </div>
     </main>
 
-    <footer style="padding: 60px 20px; text-align:center; font-size:10px; color:var(--text-muted); opacity:0.8; letter-spacing:0.1em; border-top: 1px solid rgba(255,255,255,0.05);">
-        <div style="margin-bottom: 15px; font-weight: 800; color: var(--border-neon);">
-            <i class="fas fa-certificate"></i> JULES QUALITY AUDIT VERIFIED: 100.0%
+    <footer class="legal-shield">
+        <div class="social-dock">
+            <a href="https://t.me/dailypost365" style="color: var(--neon-cyan);"><i class="fab fa-telegram"></i></a>
+            <a href="https://youtube.com/@DailyPost365" style="color: #FF0000;"><i class="fab fa-youtube"></i></a>
+            <a href="https://tiktok.com/@dailypost365" style="color: #000;"><i class="fab fa-tiktok"></i></a>
+            <a href="https://instagram.com/dailypost365" style="color: #E4405F;"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.snapchat.com/add/DailyPost365" style="color: #FFFC00;"><i class="fab fa-snapchat"></i></a>
         </div>
-        V87.2 MASTER DASHBOARD | 12-COLUMN MASONRY GRID | JOULES CORE V3.1 | LEGAL DISCLOSURE APPLIES
+        <div style="max-width: 1200px; margin: 0 auto; opacity:0.6;">
+            LEGAL DISCLOSURE & RISK WARNING: <br><br>
+            1. DailyPost365 provides educational market analysis. Technical indicators (Bollinger/RSI) for BTC/USDT are informational and not financial advice. Trade at your own risk.<br><br>
+            2. Sports Match intelligence is synchronized from third-party bridge nodes. While we prioritize 100% fidelity, we are not liable for data latency during global broadcasts.
+        </div>
     </footer>
 
     <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
     <script>
     document.addEventListener('DOMContentLoaded', () => {
+        // 1. THEME ENGINE
+        const themeBtn = document.getElementById('theme-btn');
+        const setMode = (mode) => {
+            document.body.setAttribute('data-theme', mode);
+            localStorage.setItem('dp-theme', mode);
+            themeBtn.innerHTML = mode === 'solar' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+        };
+        setMode(localStorage.getItem('dp-theme') || 'midnight');
+        themeBtn.onclick = () => setMode(document.body.getAttribute('data-theme') === 'solar' ? 'midnight' : 'solar');
+
+        // 2. 1.5S LATENCY SENTINEL
+        const feeds = {
+            cricket: "https://docs.google.com/spreadsheets/d/1piaurYSY_FDRgMREtoJaFd9NHkc8jfJkKQv0Vb-JpmM/gviz/tq?tqx=out:json",
+            soccer: "https://docs.google.com/spreadsheets/d/10pweZl3028wNtZOrxfs8COBQAfmgRkc8J5KxsHusmA8/gviz/tq?tqx=out:json"
+        };
+        
+        async function fetchWithTimeout(url, timeout = 1500) {
+            const controller = new AbortController();
+            const id = setTimeout(() => controller.abort(), timeout);
+            const response = await fetch(url, { signal: controller.signal });
+            clearTimeout(id);
+            return response;
+        }
+
+        async function syncFeed(key, url) {
+            try {
+                const r = await fetchWithTimeout(url);
+                const text = await r.text();
+                const raw = text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1);
+                const data = JSON.parse(raw);
+                const summary = data.table.rows[0].c[1] ? data.table.rows[0].c[1].v : data.table.rows[0].c[2].v;
+                
+                document.getElementById(key + '-text').innerText = summary;
+                document.getElementById(key + '-sync').innerText = "LIVE SYNC ACTIVE";
+                document.getElementById('audit-heartbeat').classList.add('audit-live');
+                document.getElementById('audit-heartbeat').innerHTML = '<i class="fas fa-shield-check"></i> LIVE BROADCAST SYNCED';
+            } catch (e) { console.log(key + " bridge latency detected. Maintaining Master-Mirror."); }
+        }
+
+        syncFeed('cricket', feeds.cricket);
+        syncFeed('soccer', feeds.soccer);
+
+        // 3. WHALE TERMINAL
         new TradingView.widget({
             "width": "100%", "height": "100%", "symbol": "BINANCE:BTCUSDT",
-            "interval": "1", "theme": "dark", "style": "1", "container_id": "tv_chart",
-            "studies": ["MAExp@tv-basicstudies"]
+            "interval": "1", "theme": "dark", "style": "1", "container_id": "tradingview_hub",
+            "studies": ["BollingerBands@tv-basicstudies", "RelativeStrengthIndex@tv-basicstudies", "VolumeProfile@tv-basicstudies"]
         });
 
-        // V87.2 PARALLEL-LOADING RSS ENGINE
-        async function fetchLiveNews() {
-            const rssFeeds = [
-                { name: "CRICKET MASTER", url: "https://www.espncricinfo.com/rss/content/story/feeds/0.xml", color: "var(--border-neon)" },
-                { name: "SOCCER INTEL", url: "https://www.goal.com/en/feeds/news/1", color: "var(--accent-orange)" }
-            ];
-            
-            for (let feed of rssFeeds) {
-                try {
-                    const proxyUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}`;
-                    const r = await fetch(proxyUrl);
-                    const data = await r.json();
-                    
-                    if (data.status === 'ok') {
-                        data.items.slice(0, 4).forEach(item => {
-                            const description = item.description.replace(/<[^>]*>?/gm, '').substring(0, 150) + "...";
-                            const html = `
-                                <article class="news-card" style="border-left: 4px solid ${feed.color};">
-                                    <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
-                                        <span class="live-badge">MATCH SUMMARY</span>
-                                        <span style="font-size:0.7rem; color:var(--text-muted);">${feed.name}</span>
-                                    </div>
-                                    <div style="font-weight: 700; color: var(--text-primary); margin-bottom: 8px;">${item.title}</div>
-                                    <div style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">${description}</div>
-                                </article>
-                            `;
-                            document.getElementById('live-news').insertAdjacentHTML('afterbegin', html);
-                        });
-                    }
-                } catch(e) { console.warn("Feed latency detected:", feed.name); }
-            }
-        }
-        fetchLiveNews();
+        const chartZone = document.getElementById('chart-zone');
+        document.getElementById('expand-btn').onclick = () => {
+            if (chartZone.requestFullscreen) chartZone.requestFullscreen();
+            else if (chartZone.webkitRequestFullscreen) chartZone.webkitRequestFullscreen();
+        };
     });
     </script>
 </body>
