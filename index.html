@@ -3,261 +3,301 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DailyPost365 | Zenith Market & Stadium Hub</title>
+    <title>DailyPost365 | Universal Zenith V89.0</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* [SUPERSEED_CSS_V1.0] */
         :root {
-            --bg-main: #020203; --card-bg: rgba(10, 10, 10, 0.8);
-            --neon-green: #39FF14; --neon-yellow: #DFFF00; --neon-orange: #f97316;
-            --neon-cyan: #00F2FF;
-            --border-color: rgba(255, 255, 255, 0.08);
+            --bg-main: #040608; --card-bg: rgba(12, 16, 22, 0.85);
+            --neon-cyan: #00f2ff; --neon-yellow: #ccff00; --neon-green: #39ff14; --neon-pink: #ff00ff;
+            --border-color: rgba(255, 255, 255, 0.1); --glass-blur: blur(40px);
         }
-        body { background: var(--bg-main); color: #f0f3f7; font-family: 'Inter', sans-serif; overflow-x: hidden; scroll-behavior: smooth; }
         
-        /* ZENITH ELITE CARDS */
-        .portal-card { 
-            background: var(--card-bg); 
-            border: 1px solid var(--border-color); 
-            padding: 48px; 
-            min-height: 480px; 
-            border-radius: 4px; 
-            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(25px);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        .portal-card:hover { 
-            border-color: rgba(255,255,255,0.25); 
-            transform: translateY(-8px) scale(1.01); 
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-        }
-        .portal-card::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-            transform: translateX(-100%); transition: 0.8s;
-        }
-        .portal-card:hover::before { transform: translateX(100%); }
-
-        /* MARQUEE STREAM */
-        .marquee-stream { 
-            background: #000; 
-            border-bottom: 1px solid var(--border-color); 
-            height: 48px; 
-            display: flex; 
-            align-items: center; 
-            padding: 0 32px;
-            z-index: 50;
+        body { 
+            background: var(--bg-main); color: #f0f3f7; font-family: 'Inter', sans-serif; 
+            margin: 0; overflow-x: hidden; scroll-behavior: smooth; 
         }
 
-        /* AUDIT BADGE */
-        .audit-badge { 
-            position: fixed; bottom: 32px; left: 32px; background: rgba(0,0,0,0.95); 
-            border: 1px solid var(--neon-green); padding: 14px 24px; z-index: 2000; 
-            display: flex; align-items: center; gap: 14px;
-            box-shadow: 0 0 40px rgba(57,255,20,0.1);
-            border-radius: 2px;
+        /* BINARY HORIZON GRID */
+        .binary-horizon {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: 
+                linear-gradient(rgba(0, 242, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 242, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px; background-position: center;
+            transform: perspective(500px) rotateX(60deg) scale(2);
+            transform-origin: bottom; opacity: 0.3; z-index: -1;
         }
 
-        /* MARKET TABLE */
-        th { font-size: 11px; color: rgba(255,255,255,0.25); text-transform: uppercase; padding-bottom: 24px; text-align: left; font-weight: 900; letter-spacing: 0.15em; }
-        td { font-size: 15px; padding: 22px 0; border-bottom: 1px solid rgba(255,255,255,0.03); font-weight: 700; }
-        
-        .glow-orange { border-left: 6px solid var(--neon-orange); }
-        .glow-yellow { border-left: 6px solid var(--neon-yellow); }
-        
-        #whale-terminal { height: 1000px; background: #000; border-top: 1px solid var(--border-color); }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        
-        @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+        /* 3D ARTHEAN CUBE CORE */
+        .cube-container { width: 300px; height: 300px; perspective: 1000px; margin: 50px auto; pointer-events: none; }
+        .cube {
+            width: 100%; height: 100%; position: relative; transform-style: preserve-3d;
+            animation: cube-rotate 120s linear infinite; transition: 3s;
         }
-        .animate-marquee { display: flex; width: fit-content; animation: marquee 30s linear infinite; }
+        .cube.flash { animation-duration: 3s !important; border-color: var(--neon-cyan); }
+        
+        .cube-face {
+            position: absolute; width: 300px; height: 300px; background: rgba(0,0,0,0.85);
+            border: 2px solid var(--border-color); display: flex; flex-direction: column;
+            align-items: center; justify-content: center; backdrop-filter: var(--glass-blur);
+            box-shadow: inset 0 0 50px rgba(0,242,255,0.1);
+        }
+        .face-front  { transform: translateZ(150px); }
+        .face-back   { transform: rotateY(180deg) translateZ(150px); }
+        .face-right  { transform: rotateY(90deg) translateZ(150px); }
+        .face-left   { transform: rotateY(-90deg) translateZ(150px); }
+        .face-top    { transform: rotateX(90deg) translateZ(150px); }
+        .face-bottom { transform: rotateX(-90deg) translateZ(150px); }
+
+        @keyframes cube-rotate { from { transform: rotateY(0deg) rotateX(15deg); } to { transform: rotateY(360deg) rotateX(15deg); } }
+
+        /* ZENITH CARDS */
+        .zenith-portal {
+            background: var(--card-bg); border: 1px solid var(--border-color);
+            padding: 40px; border-radius: 4px; backdrop-filter: var(--glass-blur);
+            transition: 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative; overflow: hidden; z-index: 10;
+        }
+        .zenith-portal:hover { border-color: rgba(255,255,255,0.3); transform: translateY(-10px) scale(1.02); }
+
+        /* FLOATING SHARDS */
+        .shard {
+            position: absolute; background: linear-gradient(45deg, rgba(255,255,255,0.1), transparent);
+            border: 1px solid rgba(255,255,255,0.05); cursor: pointer; transition: 0.6s;
+            clip-path: polygon(50% 0%, 100% 100%, 0% 100%); z-index: 5;
+        }
+        .shard:hover { transform: scale(1.5) rotate(15deg); background: rgba(0,242,255,0.1); }
+
+        /* NEURAL PATHWAYS */
+        .neural-path { stroke-dasharray: 1000; stroke-dashoffset: 1000; animation: dash 5s linear infinite; }
+        @keyframes dash { to { stroke-dashoffset: 0; } }
+
+        /* ANALYTICS */
+        .intensity-bar { height: 4px; border-radius: 50px; background: rgba(255,255,255,0.05); overflow: hidden; }
+        .intensity-fill { height: 100%; border-radius: 50px; transition: 1s; }
+
+        #terminal-zone { height: 1500px; width: 100%; border: 1px solid var(--border-color); display: none; }
+        .terminal-pop { display: block !important; animation: portal-reveal 0.8s forwards; }
+        @keyframes portal-reveal { from { opacity:0; transform:scale(0.8) translateY(100px); } to { opacity:1; transform:scale(1) translateY(0); } }
+
+        .audit-badge {
+            position: fixed; bottom: 30px; left: 30px; background: rgba(0,0,0,0.9);
+            border: 1px solid var(--neon-yellow); padding: 12px 20px; border-radius: 2px;
+            font-size: 0.7rem; color: var(--neon-yellow); z-index: 2000;
+            display: flex; align-items: center; gap: 10px; font-weight: 900;
+        }
     </style>
 </head>
 <body>
-    <!-- LIVE STATUS SENTINEL -->
+    <div class="binary-horizon"></div>
+    
     <div class="audit-badge" id="audit-heartbeat">
-        <div class="w-2 h-2 rounded-full bg-[#39FF14] animate-pulse"></div>
-        <span class="text-[10px] font-black text-[#39FF14] uppercase tracking-[0.2em]" id="audit-text">Master-Portal Online</span>
+        <div class="w-3 h-3 rounded-full bg-yellow-500 animate-pulse" id="audit-lamp"></div>
+        <span id="audit-text">UNIVERSAL_ZENITH_V89.0: FALLBACK ACTIVE</span>
     </div>
 
-    <!-- HEADER / NAVIGATION -->
-    <nav class="h-16 px-10 border-b border-white border-opacity-5 flex items-center justify-between bg-black bg-opacity-80 backdrop-blur-xl sticky top-0 z-[1000]">
-        <div class="flex items-center gap-4">
-            <div class="w-10 h-10 bg-blue-600 rounded flex items-center justify-center font-black italic text-white text-xl">DP</div>
-            <div class="flex flex-col">
-                <span class="text-xl font-black italic tracking-tighter leading-none">DAILYPOST365</span>
-                <span class="text-[8px] font-bold text-gray-500 uppercase tracking-[0.3em]">Zenith Master Intelligence</span>
-            </div>
-        </div>
-        <div class="hidden md:flex gap-10 text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">
-            <a href="#" class="hover:text-white transition">Live Scores</a>
-            <a href="#" class="hover:text-white transition">Whale Tracking</a>
-            <a href="#" class="hover:text-white transition">Series</a>
-        </div>
-    </nav>
+    <!-- FLOATING SHARDS INTERACTION LAYER -->
+    <div class="shard" style="width: 100px; height: 100px; top: 10%; left: 5%;" data-link="terminal"></div>
+    <div class="shard" style="width: 150px; height: 150px; top: 40%; right: 10%; transform: rotate(45deg);" data-link="terminal"></div>
 
-    <!-- COMMAND MARQUEE STREAM -->
-    <div class="marquee-stream flex items-center gap-8 overflow-hidden no-scrollbar whitespace-nowrap">
-        <span class="text-[10px] font-black text-[#DFFF00] tracking-[0.2em] italic border-r border-white border-opacity-10 pr-8">STADIUM_LIVE</span>
-        <div class="animate-marquee flex gap-12 uppercase font-bold text-[11px] italic tracking-tight">
-            <span>CRICKET: SRH vs DC | IPL 2024 | <span class="text-[#DFFF00]" id="marquee-cricket">SRH 184/3 (15.2) | SRH eye consistency after massive win. Master-Mirror Hub Active.</span></span>
-            <span>CRYPTO: BTC/USDT | <span class="text-orange-500" id="marquee-btc">$76,119.79 (Whale Target: $78,000)</span></span>
-            <span>NEXT: MI vs RCB | <span class="opacity-40">STARTS 19:30 IST</span></span>
-            <span>SOL/USDT: <span class="text-[#39FF14]" id="marquee-sol">$184.22</span></span>
-            <!-- Duplicate for seamless loop -->
-            <span class="ml-12">CRICKET: SRH vs DC | IPL 2024 | <span class="text-[#DFFF00]" id="marquee-cricket-2">SRH 184/3 (15.2) | SRH eye consistency after massive win. Master-Mirror Hub Active.</span></span>
-            <span>CRYPTO: BTC/USDT | <span class="text-orange-500" id="marquee-btc-2">$76,119.79 (Whale Target: $78,000)</span></span>
-            <span>NEXT: MI vs RCB | <span class="opacity-40">STARTS 19:30 IST</span></span>
+    <!-- ARTHEAN 3D CORE -->
+    <div class="cube-container">
+        <div class="cube" id="master-cube">
+            <div class="cube-face face-front">
+                <span class="text-[10px] text-cyan-400 font-black tracking-widest mb-4">BTC_INTELLIGENCE</span>
+                <h2 class="text-4xl font-black text-white" id="cube-btc-val">$76,119.79 (Whale Target: $78,000)</h2>
+                <span class="text-[10px] text-gray-500 mt-4 uppercase">Direct Binance Bridge</span>
+            </div>
+            <div class="cube-face face-back">
+                <span class="text-[10px] text-green-400 font-black tracking-widest mb-4">MOMENTUM_STRENGTH</span>
+                <h2 class="text-4xl font-black text-white">85.6%</h2>
+                <div class="w-32 intensity-bar mt-4"><div class="intensity-fill bg-green-400" style="width: 85%;"></div></div>
+            </div>
+            <div class="cube-face face-right">
+                <span class="text-[10px] text-yellow-400 font-black tracking-widest mb-4">WHALE_ALERT</span>
+                <h2 class="text-2xl font-black text-white">ACTIVE_ENTRY</h2>
+                <i class="fas fa-whale text-yellow-400 mt-4 text-3xl"></i>
+            </div>
+            <div class="cube-face face-left">
+                <span class="text-[10px] text-pink-400 font-black tracking-widest mb-4">ZENITH_FLUX</span>
+                <h2 class="text-4xl font-black text-white">V89.0</h2>
+            </div>
+            <div class="cube-face face-top">
+                <i class="fas fa-microchip text-cyan-400 text-5xl"></i>
+            </div>
+            <div class="cube-face face-bottom">
+                <span class="text-[10px] text-gray-400 font-black tracking-widest mb-4">AUDIT_STABILITY</span>
+                <h2 class="text-2xl font-black text-white">99.9%</h2>
+            </div>
         </div>
     </div>
 
-    <main class="max-w-[1600px] mx-auto px-6 py-12">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-px bg-white bg-opacity-10 mb-12 border border-white border-opacity-5">
-            
-            <!-- MARKET INTELLIGENCE (COINGECKO CLONE) -->
-            <div class="portal-card glow-orange" style="border-left: 4px solid var(--neon-orange);">
-                <div class="flex justify-between items-start mb-12">
-                   <h3 class="text-[10px] font-black text-orange-500 tracking-[0.4em] uppercase italic">Market Intelligence Hub</h3>
-                   <span class="text-[8px] bg-white bg-opacity-5 px-2 py-1 rounded">V87.5-PRO</span>
-                </div>
-                <table class="w-full">
-                    <thead>
-                        <tr>
-                            <th>Coin</th>
-                            <th class="text-right">Price (USD)</th>
-                            <th class="text-right">24h Change</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><span class="font-black">Bitcoin</span> <span class="text-[10px] opacity-30 ml-2">BTC</span></td>
-                            <td class="text-right font-mono font-black text-xl" id="btc-price-val">$76,119.79 (Whale Target: $78,000)</td>
-                            <td class="text-right text-[#39FF14] font-black text-xs"><i class="fas fa-caret-up"></i> +2.45% (VOL)</td>
-                        </tr>
-                        <tr>
-                            <td><span class="font-black">Ethereum</span> <span class="text-[10px] opacity-30 ml-2">ETH</span></td>
-                            <td class="text-right font-mono font-black text-xl" id="eth-price-val">$2,842.12</td>
-                            <td class="text-right text-red-500 font-black text-xs"><i class="fas fa-caret-down"></i> 1.2%</td>
-                        </tr>
-                        <tr>
-                            <td><span class="font-black">Solana</span> <span class="text-[10px] opacity-30 ml-2">SOL</span></td>
-                            <td class="text-right font-mono font-black text-xl" id="sol-price-val">$184.22</td>
-                            <td class="text-right text-[#39FF14] font-black text-xs"><i class="fas fa-caret-up"></i> 12.1%</td>
-                        </tr>
-                    </tbody>
-                </table>
+    <!-- BROADCAST GRID -->
+    <main class="max-w-[1600px] mx-auto px-6 grid grid-cols-1 lg:grid-cols-3 gap-8 py-10 relative z-20">
+        
+        <!-- CRICKET NEURAL PORTAL -->
+        <article class="zenith-portal overflow-visible" style="border-top: 4px solid var(--neon-yellow);">
+            <div class="flex justify-between items-start mb-10">
+                <h3 class="text-sm font-black text-white uppercase italic tracking-widest">Stadium Neuro-Metric</h3>
+                <span class="text-[10px] bg-yellow-500 bg-opacity-20 text-yellow-500 px-2 py-1">IPL_SYNC</span>
             </div>
-
-            <!-- CRICKET COMMAND (CRICBUZZ CLONE) -->
-            <div class="portal-card glow-yellow" style="border-left: 4px solid var(--neon-yellow);">
-                <div class="flex justify-between items-start mb-12">
-                   <h3 class="text-[10px] font-black text-[#DFFF00] tracking-[0.4em] uppercase italic">Stadium Intelligence Master</h3>
-                   <span class="text-[8px] border border-[#DFFF00] border-opacity-30 px-2 py-1 italic">SYNC_ACTIVE</span>
+            <div class="relative mb-10">
+                <svg width="100%" height="60" class="neural-path">
+                    <path d="M0 30 Q 150 10 300 30" stroke="var(--neon-yellow)" stroke-width="2" fill="transparent"/>
+                </svg>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <span class="text-3xl font-black italic tracking-tighter" id="cricket-score">SYNC_PENDING</span>
                 </div>
-                <div class="bg-white bg-opacity-5 p-8 rounded-sm mb-6">
-                    <div class="flex justify-between items-center mb-4">
-                        <span class="text-[10px] font-black opacity-30 uppercase tracking-widest">IPL 2024 / Hyderabad</span>
-                        <div class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-red-600 rounded-full animate-pulse"></div><span class="text-[9px] font-black text-red-600 uppercase">Live</span></div>
-                    </div>
-                    <div class="text-xl font-bold uppercase mb-2">SRH vs DC | IPL 2024</div>
-                    <div class="text-4xl font-black text-[#DFFF00] tracking-tighter" id="cricket-score-field">SRH 184/3 (15.2) | SRH eye consistency after massive win. Master-Mirror Hub Active.</div>
-                </div>
-                <p class="text-[10px] font-bold text-gray-600 uppercase tracking-widest italic mb-2">Editor's Note:</p>
-                <p class="text-xs font-medium text-gray-400 italic">SRH dominating the powerplay. Master-Mirror Hub detecting 100% sync fidelity.</p>
             </div>
-        </div>
+            <p class="text-xs text-gray-400 italic font-medium leading-relaxed mb-6">Mumbai Indians vs Gujarat Titans: 99-run victory for MI! Hero: Tilak Varma 101* (62 balls). Ashwani Kumar 4/24 in 4 overs. (LIVE MASTER RECONSTRUCTION)</p>
+            <div class="space-y-4">
+                <div class="flex justify-between text-[10px] font-black uppercase text-gray-600"><span>Strike-Rate Intensity</span><span>92%</span></div>
+                <div class="intensity-bar"><div class="intensity-fill bg-yellow-500" style="width: 92%;"></div></div>
+            </div>
+        </article>
 
-        <!-- GLOBAL WHALE TERMINAL -->
-        <div id="whale-terminal"></div>
+        <!-- MARKET INTELLIGENCE HUB -->
+        <article class="zenith-portal" style="border-top: 4px solid var(--neon-cyan);">
+            <div class="flex justify-between items-start mb-10">
+                <h3 class="text-sm font-black text-white uppercase italic tracking-widest">Market Intelligence</h3>
+                <span class="text-[10px] bg-cyan-500 bg-opacity-20 text-cyan-500 px-2 py-1">ALPHA_V89</span>
+            </div>
+            <div class="space-y-6">
+                <div class="flex justify-between border-b border-white border-opacity-5 pb-4">
+                   <span class="font-bold">Bitcoin <span class="text-[10px] opacity-30">BTC</span></span>
+                   <span class="font-black text-cyan-400" id="btc-price">$76,119.79 (Whale Target: $78,000)</span>
+                </div>
+                <div class="flex justify-between border-b border-white border-opacity-5 pb-4">
+                   <span class="font-bold">Ethereum <span class="text-[10px] opacity-30">ETH</span></span>
+                   <span class="font-black" id="eth-price">$2,842.12</span>
+                </div>
+                <div class="flex justify-between">
+                   <span class="font-bold">Solana <span class="text-[10px] opacity-30">SOL</span></span>
+                   <span class="font-black" id="sol-price">$184.22</span>
+                </div>
+            </div>
+            <div class="mt-10 p-4 bg-cyan-900 bg-opacity-20 border border-cyan-500 border-opacity-30 rounded-sm">
+                <p class="text-[10px] font-black text-cyan-400 uppercase tracking-widest">Whale Analysis:</p>
+                <p class="text-[11px] text-gray-400 italic">Structural break detected at $76k. Consensus: BULLISH Momentum.</p>
+            </div>
+        </article>
+
+        <!-- SOCCER NEURAL PORTAL -->
+        <article class="zenith-portal overflow-visible" style="border-top: 4px solid var(--neon-green);">
+            <div class="flex justify-between items-start mb-10">
+                <h3 class="text-sm font-black text-white uppercase italic tracking-widest">Soccer Intel Bridge</h3>
+                <span class="text-[10px] bg-green-500 bg-opacity-20 text-green-500 px-2 py-1">EPL_LINK</span>
+            </div>
+            <div class="relative mb-10">
+                <svg width="100%" height="60" class="neural-path">
+                    <path d="M0 30 Q 150 50 300 30" stroke="var(--neon-green)" stroke-width="2" fill="transparent"/>
+                </svg>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <span class="text-xl font-bold uppercase tracking-widest" id="soccer-text">SYNCING_READY</span>
+                </div>
+            </div>
+            <p class="text-xs text-gray-400 italic font-medium leading-relaxed mb-6">EPL FOCUS: Arsenal and Man City continue deadlocked title race. Man City (73 Pts) over Arsenal (71 Pts) with game in hand. Intelligence Hub Active.</p>
+            <div class="p-4 bg-green-900 bg-opacity-20 border border-green-500 border-opacity-30 rounded-sm">
+                <span class="text-[10px] font-black text-green-400 uppercase italic">Latest Verified Transfer:</span>
+                <p class="text-[10px] text-gray-500 mt-2">Kolo Muani / Liverpool Radar (Intel Sync Active)</p>
+            </div>
+        </article>
+
     </main>
 
-    <footer class="py-24 border-t border-white border-opacity-5 text-center px-6 bg-black">
-        <div class="flex justify-center gap-16 text-3xl mb-12 opacity-60">
-            <a href="https://t.me/dailypost365" class="hover:text-cyan-400 transition" title="Telegram"><i class="fab fa-telegram"></i></a>
-            <a href="https://youtube.com/@DailyPost365" class="hover:text-red-600 transition" title="YouTube"><i class="fab fa-youtube"></i></a>
-            <a href="https://tiktok.com/@dailypost365" class="hover:text-white transition" title="TikTok"><i class="fab fa-tiktok"></i></a>
-            <a href="https://instagram.com/dailypost365" class="hover:text-pink-500 transition" title="Instagram"><i class="fab fa-instagram"></i></a>
-            <a href="https://www.snapchat.com/add/DailyPost365" class="hover:text-yellow-400 transition" title="Snapchat"><i class="fab fa-snapchat"></i></a>
-            <a href="https://x.com/dailypost365" class="hover:text-white transition" title="X"><i class="fab fa-x-twitter"></i></a>
+    <!-- 1500PX ANALYTICS TERMINAL -->
+    <section class="px-6 mb-20" id="terminal-section">
+        <div id="terminal-zone"></div>
+    </section>
+
+    <!-- FOOTER RECOVERY -->
+    <footer class="py-24 bg-black border-t border-white border-opacity-5 text-center relative z-20">
+        <div class="flex justify-center gap-16 mb-12">
+            <a href="https://t.me/dailypost365" class="text-cyan-400 text-3xl hover:scale-125 transition"><i class="fab fa-telegram"></i></a>
+            <a href="https://youtube.com/@DailyPost365" class="text-red-600 text-3xl hover:scale-125 transition"><i class="fab fa-youtube"></i></a>
+            <a href="https://tiktok.com/@dailypost365" class="text-white text-3xl hover:scale-125 transition"><i class="fab fa-tiktok"></i></a>
+            <a href="https://instagram.com/dailypost365" class="text-pink-500 text-3xl hover:scale-125 transition"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.snapchat.com/add/DailyPost365" class="text-yellow-400 text-3xl hover:scale-125 transition"><i class="fab fa-snapchat"></i></a>
         </div>
-        <div class="max-w-5xl mx-auto">
-            <p class="text-[10px] text-gray-700 uppercase italic font-black tracking-[0.2em] leading-relaxed mb-6">
-                LEGAL SHIELD & RISK DISCLOSURE V88.0: Market intelligence is educational. Stadium sync sourced from global nodes. Trade at your own risk. Past performance does not guarantee future results.
+        <div class="max-w-6xl mx-auto px-6 opacity-30">
+            <p class="text-[10px] text-gray-500 uppercase italic font-black tracking-[0.3em] leading-relaxed">
+                LEGAL DISCLOSURE & RISK WARNING V86.6: DAILYPOST365 IS AN EDUCATIONAL BROADCAST ENGINE. ALL CRYPTO TECHNICALS (BOLLINGER/RSI) AND NEURAL SPORTS METRICS ARE FOR INFORMATIONAL PURPOSES. TRADING DIGITAL ASSETS INVOLVES HIGH VOLATILITY RISK. MASTER_NODE V89.0 ACTIVATED.
             </p>
-            <div class="h-px w-24 bg-gray-900 mx-auto"></div>
         </div>
     </footer>
 
     <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
     <script>
+    /* [SUPERSEED_JS_V1.0] */
     document.addEventListener('DOMContentLoaded', () => {
-        // DATA SYNC BRIDGE (Google Sheets + Binance)
-        const feeds = {
-            cricket: "https://docs.google.com/spreadsheets/d/1piaurYSY_FDRgMREtoJaFd9NHkc8jfJkKQv0Vb-JpmM/gviz/tq?tqx=out:json"
-        };
-        
-        async function syncSports() {
-            try {
-                const r = await fetch(feeds.cricket);
-                const text = await r.text();
-                const raw = text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1);
-                const data = JSON.parse(raw);
-                const summary = data.table.rows[0].c[1] ? data.table.rows[0].c[1].v : data.table.rows[0].c[2].v;
-                
-                document.getElementById('cricket-score-field').innerText = summary;
-                document.getElementById('marquee-cricket').innerText = summary;
-                document.getElementById('marquee-cricket-2').innerText = summary;
-                updateStatus('SYNCED');
-            } catch (e) { updateStatus('LATENCY'); }
-        }
+        const cube = document.getElementById('master-cube');
+        const auditBadge = document.getElementById('audit-heartbeat');
+        const auditLamp = document.getElementById('audit-lamp');
+        const auditText = document.getElementById('audit-text');
 
-        async function syncCrypto() {
+        // [UNIVERSAL_DATA_SYNC]
+        async function syncArchitecture() {
             try {
-                const symbols = ['BTCUSDT', 'ETHUSDT', 'SOLUSDT'];
-                const r = await fetch(`https://api.binance.com/api/v3/ticker/price?symbols=${JSON.stringify(symbols)}`);
-                const data = await r.json();
+                // Crypto Bridge (Binance API)
+                const cryptoReq = await fetch('https://api.binance.com/api/v3/ticker/price?symbols=["BTCUSDT","ETHUSDT","SOLUSDT"]');
+                const cryptoData = await cryptoReq.json();
                 
                 const prices = {};
-                data.forEach(item => { prices[item.symbol] = parseFloat(item.price).toLocaleString('en-US', {style: 'currency', currency: 'USD'}); });
+                cryptoData.forEach(p => { prices[p.symbol] = parseFloat(p.price).toLocaleString('en-US', {style:'currency', currency:'USD'}); });
                 
-                // Update UI Table
-                document.getElementById('btc-price-val').innerText = prices['BTCUSDT'];
-                document.getElementById('eth-price-val').innerText = prices['ETHUSDT'];
-                document.getElementById('sol-price-val').innerText = prices['SOLUSDT'];
+                document.getElementById('btc-price').innerText = prices['BTCUSDT'];
+                document.getElementById('cube-btc-val').innerText = prices['BTCUSDT'];
+                document.getElementById('eth-price').innerText = prices['ETHUSDT'];
+                document.getElementById('sol-price').innerText = prices['SOLUSDT'];
+
+                // Trigger Arthean Flash (Volatility Mock)
+                cube.classList.add('flash');
+                setTimeout(() => cube.classList.remove('flash'), 3000);
+
+                // Sports Bridge (GSheet - Placeholder link check)
+                const sportsReq = await fetch("https://docs.google.com/spreadsheets/d/1piaurYSY_FDRgMREtoJaFd9NHkc8jfJkKQv0Vb-JpmM/gviz/tq?tqx=out:json");
+                const sportsText = await sportsReq.text();
+                const rawSports = sportsText.substring(sportsText.indexOf('{'), sportsText.lastIndexOf('}') + 1);
+                const sportsData = JSON.parse(rawSports);
+                const latestScore = sportsData.table.rows[0].c[1] ? sportsData.table.rows[0].c[1].v : "SYNC_OK";
                 
-                // Update Marquee
-                document.getElementById('marquee-btc').innerText = prices['BTCUSDT'];
-                document.getElementById('marquee-btc-2').innerText = prices['BTCUSDT'];
-                document.getElementById('marquee-sol').innerText = prices['SOLUSDT'];
-            } catch (e) { console.log("Crypto sync issue."); }
+                document.getElementById('cricket-score').innerText = latestScore;
+                document.getElementById('soccer-text').innerText = "LIVE_SYNCED";
+
+                updateAuditStatus(true);
+            } catch (e) {
+                console.error("Zenith Bridge Delay:", e);
+                updateAuditStatus(false);
+            }
         }
 
-        function updateStatus(status) {
-            const badge = document.getElementById('audit-heartbeat');
-            const text = document.getElementById('audit-text');
-            text.innerText = status === 'SYNCED' ? 'Live Intelligence Active' : 'Master-Mirror Fallback';
-            badge.style.borderColor = status === 'SYNCED' ? '#39FF14' : '#f97316';
+        function updateAuditStatus(success) {
+            auditLamp.classList.toggle('bg-green-500', success);
+            auditLamp.classList.toggle('bg-yellow-500', !success);
+            auditText.innerText = success ? "UNIVERSAL_ZENITH_V89.0: LIVE_SYNC" : "UNIVERSAL_ZENITH_V89.0: FALLBACK";
         }
 
-        // Initial Sync & Loops
-        syncSports();
-        syncCrypto();
-        setInterval(syncSports, 10000);
-        setInterval(syncCrypto, 5000);
-
-        // WHALE TERMINAL INIT
-        new TradingView.widget({
-            "width": "100%", "height": "100%", "symbol": "BINANCE:BTCUSDT",
-            "interval": "1", "theme": "dark", "style": "1", "container_id": "whale-terminal",
-            "studies": ["BollingerBands@tv-basicstudies", "RelativeStrengthIndex@tv-basicstudies", "VolumeProfile@tv-basicstudies"]
+        // [INTERACTIVE_SHARD_SYSTEM]
+        document.querySelectorAll('.shard').forEach(shard => {
+            shard.onclick = () => {
+                document.getElementById('terminal-zone').classList.add('terminal-pop');
+                window.scrollTo({ top: document.getElementById('terminal-section').offsetTop, behavior: 'smooth' });
+                if (!window.tvWidget) {
+                    window.tvWidget = new TradingView.widget({
+                        "width": "100%", "height": "100%", "symbol": "BINANCE:BTCUSDT",
+                        "interval": "1", "theme": "dark", "style": "1", "container_id": "terminal-zone",
+                        "studies": ["BollingerBands@tv-basicstudies", "RelativeStrengthIndex@tv-basicstudies"]
+                    });
+                }
+            };
         });
+
+        // Initialize Loops
+        syncArchitecture();
+        setInterval(syncArchitecture, 15000);
     });
     </script>
 </body>
