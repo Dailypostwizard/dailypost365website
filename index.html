@@ -3,154 +3,195 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DailyPost365 | Million-Dollar Lift V87.0</title>
+    <title>DailyPost365 | Zenith Market & Stadium Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --bg-main: #050505; --card-bg: #0a0a0a;
+            --neon-green: #39FF14; --neon-yellow: #DFFF00; --neon-orange: #f97316;
             --border-color: rgba(255, 255, 255, 0.05);
-            --text-primary: #f0f3f7; --text-muted: #6e7681;
-            --neon-blue: #3b82f6; --neon-yellow: #DFFF00; --neon-orange: #f97316;
         }
-        body { 
-            background: var(--bg-main); 
-            color: var(--text-primary); 
-            font-family: 'Inter', sans-serif; 
-            margin: 0; 
-            overflow-x: hidden;
-        }
+        body { background: var(--bg-main); color: #f0f3f7; font-family: 'Inter', sans-serif; overflow-x: hidden; }
         
-        /* MATCH CAROUSEL */
-        .match-card {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid var(--border-color);
-            transition: 0.3s;
+        /* ZENITH PORTAL CARDS */
+        .portal-card { 
+            background: var(--card-bg); 
+            border: 1px solid var(--border-color); 
+            padding: 40px; 
+            height: 100%; 
+            border-radius: 2px; 
+            transition: 0.4s;
+            position: relative;
+            overflow: hidden;
         }
-        .match-card:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.2); }
+        .portal-card:hover { border-color: rgba(255,255,255,0.15); transform: translateY(-4px); }
 
-        /* HEADER */
-        .header-nav { height: 64px; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; padding: 0 40px; background: rgba(0,0,0,0.8); backdrop-filter: blur(20px); position: sticky; top: 0; z-index: 1000; }
-
-        /* 3D CARDS */
-        .card-zenith {
-            background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 1px;
-            padding: 32px; min-height: 350px; position: relative;
-            transition: 0.5s;
+        /* MARQUEE STREAM */
+        .marquee-stream { 
+            background: #000; 
+            border-bottom: 1px solid var(--border-color); 
+            height: 44px; 
+            display: flex; 
+            align-items: center; 
+            padding: 0 24px;
         }
-        .card-zenith:hover { border-color: rgba(255,255,255,0.2); transform: translateY(-5px); }
+
+        /* AUDIT BADGE */
+        .audit-badge { 
+            position: fixed; bottom: 24px; left: 24px; background: rgba(0,0,0,0.9); 
+            border: 1px solid var(--neon-green); padding: 12px 20px; z-index: 2000; 
+            display: flex; align-items: center; gap: 12px;
+            box-shadow: 0 0 30px rgba(57,255,20,0.05);
+        }
+
+        /* MARKET TABLE */
+        th { font-size: 10px; color: rgba(255,255,255,0.2); text-transform: uppercase; padding-bottom: 20px; text-align: left; font-weight: 900; letter-spacing: 0.1em; }
+        td { font-size: 14px; padding: 18px 0; border-bottom: 1px solid rgba(255,255,255,0.02); font-weight: 700; }
         
-        .glow-cricket { border-left: 4px solid var(--neon-yellow); box-shadow: -10px 0 30px rgba(223, 255, 0, 0.02); }
-        .glow-crypto { border-left: 4px solid var(--neon-orange); box-shadow: -10px 0 30px rgba(249, 115, 22, 0.02); }
-
-        .audit-badge {
-            position: fixed; bottom: 20px; left: 20px; background: rgba(0,0,0,0.9);
-            border: 1px solid #3b82f6; padding: 10px 20px; border-radius: 2px;
-            font-size: 10px; color: #3b82f6; font-weight: 900; letter-spacing: 0.2em;
-            z-index: 2000; text-transform: uppercase;
-        }
-
-        #chart-zone { height: 1200px; grid-column: span 2; border: 1px solid var(--border-color); }
-
-        @media (max-width: 1024px) { .grid-master { grid-template-columns: 1fr; } #chart-zone { grid-column: span 1; } }
+        .glow-orange { box-shadow: -20px 0 50px rgba(249, 115, 22, 0.03); }
+        .glow-yellow { box-shadow: -20px 0 50px rgba(223, 255, 0, 0.03); }
+        
+        #whale-terminal { height: 900px; background: #000; border-top: 1px solid var(--border-color); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
     </style>
 </head>
 <body>
-    <div class="audit-badge" id="audit-heartbeat">MASTER ZENITH V87.0: NOMINAL</div>
-    
-    <header class="header-nav">
+    <!-- LIVE STATUS SENTINEL -->
+    <div class="audit-badge" id="audit-heartbeat">
+        <div class="w-2 h-2 rounded-full bg-[#39FF14] animate-pulse"></div>
+        <span class="text-[10px] font-black text-[#39FF14] uppercase tracking-[0.2em]" id="audit-text">Master-Portal Online</span>
+    </div>
+
+    <!-- HEADER / NAVIGATION -->
+    <nav class="h-16 px-10 border-b border-white border-opacity-5 flex items-center justify-between bg-black bg-opacity-80 backdrop-blur-xl sticky top-0 z-[1000]">
         <div class="flex items-center gap-4">
-            <div class="w-10 h-10 bg-blue-600 rounded flex items-center justify-center font-black text-white italic">DP</div>
+            <div class="w-10 h-10 bg-blue-600 rounded flex items-center justify-center font-black italic text-white text-xl">DP</div>
             <div class="flex flex-col">
                 <span class="text-xl font-black italic tracking-tighter leading-none">DAILYPOST365</span>
                 <span class="text-[8px] font-bold text-gray-500 uppercase tracking-[0.3em]">Zenith Master Intelligence</span>
             </div>
         </div>
-        <div class="hidden md:flex gap-8 text-[10px] font-black uppercase tracking-widest text-gray-400">
-            <a href="#" class="hover:text-white">Live Scores</a>
-            <a href="#" class="hover:text-white">Whale Tracking</a>
-            <a href="#" class="hover:text-white">Series</a>
+        <div class="hidden md:flex gap-10 text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">
+            <a href="#" class="hover:text-white transition">Live Scores</a>
+            <a href="#" class="hover:text-white transition">Whale Tracking</a>
+            <a href="#" class="hover:text-white transition">Series</a>
         </div>
-    </header>
+    </nav>
 
-    <!-- MATCH CAROUSEL -->
-    <div class="w-full bg-[#0a0a0a] border-b border-white border-opacity-5 h-12 flex items-center overflow-hidden px-4 gap-4">
-        <div class="text-[9px] font-black text-[#DFFF00] uppercase tracking-widest border-r border-white border-opacity-10 pr-4">STADIUM_LIVE</div>
-        <div class="flex gap-4 overflow-x-auto no-scrollbar">
-            <div class="match-card px-4 py-1.5 min-w-[200px] rounded flex flex-col justify-center">
-                <div class="flex justify-between items-center text-[8px] font-bold text-white opacity-40 mb-1"><span>CRICKET</span> <span class="text-red-500 animate-pulse font-black">LIVE</span></div>
-                <div class="flex justify-between font-black text-xs"><span>SRH vs DC</span> <span class="text-[#DFFF00]">184/3 (15.2)</span></div>
-            </div>
-            <div class="match-card px-4 py-1.5 min-w-[200px] rounded flex flex-col justify-center">
-                <div class="flex justify-between items-center text-[8px] font-bold text-white opacity-40 mb-1"><span>CRYPTO</span> <span class="text-white opacity-60 font-black">WHALE_HUB</span></div>
-                <div class="flex justify-between font-black text-xs"><span>BTC/USDT</span> <span class="text-orange-500">$76,119.79 (Whale Target: $78,000)</span></div>
-            </div>
+    <!-- COMMAND MARQUEE STREAM -->
+    <div class="marquee-stream flex items-center gap-6 overflow-hidden no-scrollbar whitespace-nowrap">
+        <span class="text-[9px] font-black text-[#DFFF00] tracking-widest italic border-r border-white border-opacity-10 pr-6">STADIUM_LIVE</span>
+        <div class="flex-1 flex gap-16 animate-marquee uppercase font-black text-xs italic tracking-tighter">
+            <span>CRICKET: SRH vs DC | IPL 2024 | <span class="text-[#DFFF00]">SRH 184/3 (15.2) | SRH eye consistency after massive win. Master-Mirror Hub Active.</span></span>
+            <span>CRYPTO: BTC/USDT | <span class="text-orange-500">$76,119.79 (Whale Target: $78,000)</span></span>
+            <span>NEXT: MI vs RCB | <span class="opacity-40">STARTS 19:30 IST</span></span>
+            <span>SOL/USDT: <span class="text-[#39FF14]">$184.22</span></span>
         </div>
     </div>
 
-    <main class="max-w-7xl mx-auto px-6 py-12">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-px bg-white bg-opacity-10 grid-master">
-            <!-- CRYPTO CARD -->
-            <article class="card-zenith glow-crypto">
-                <h3 class="text-[10px] font-black text-orange-500 tracking-[0.3em] uppercase mb-8">Whale Intelligence Hub</h3>
-                <div class="text-6xl font-black tracking-tighter mb-4">$76,119.79 (Whale Target: $78,000)</div>
-                <div class="text-sm font-black text-green-500 mb-8">+2.45% VOLUME MOMENTUM</div>
-                <p class="text-xs text-gray-500 italic font-bold uppercase leading-relaxed">Liquidating $76k Short positions. Large institutional accumulation detected in secondary Asian markets.</p>
-            </article>
+    <main class="max-w-[1600px] mx-auto px-6 py-12">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-px bg-white bg-opacity-10 mb-12 border border-white border-opacity-5">
+            
+            <!-- MARKET INTELLIGENCE (COINGECKO CLONE) -->
+            <div class="portal-card glow-orange" style="border-left: 4px solid var(--neon-orange);">
+                <div class="flex justify-between items-start mb-12">
+                   <h3 class="text-[10px] font-black text-orange-500 tracking-[0.4em] uppercase italic">Market Intelligence Hub</h3>
+                   <span class="text-[8px] bg-white bg-opacity-5 px-2 py-1 rounded">V87.5-PRO</span>
+                </div>
+                <table class="w-full">
+                    <thead>
+                        <tr>
+                            <th>Coin</th>
+                            <th class="text-right">Price (USD)</th>
+                            <th class="text-right">24h Change</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="font-black">Bitcoin</span> <span class="text-[10px] opacity-30 ml-2">BTC</span></td>
+                            <td class="text-right font-mono font-black text-lg">$76,119.79 (Whale Target: $78,000)</td>
+                            <td class="text-right text-[#39FF14] font-black text-xs"><i class="fas fa-caret-up"></i> +2.45% (VOL)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="font-black">Ethereum</span> <span class="text-[10px] opacity-30 ml-2">ETH</span></td>
+                            <td class="text-right font-mono font-black text-lg">$2,842.12</td>
+                            <td class="text-right text-red-500 font-black text-xs"><i class="fas fa-caret-down"></i> 1.2%</td>
+                        </tr>
+                        <tr>
+                            <td><span class="font-black">Solana</span> <span class="text-[10px] opacity-30 ml-2">SOL</span></td>
+                            <td class="text-right font-mono font-black text-lg">$184.22</td>
+                            <td class="text-right text-[#39FF14] font-black text-xs"><i class="fas fa-caret-up"></i> 12.1%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-            <!-- CRICKET CARD -->
-            <article class="card-zenith glow-cricket">
-                <h3 class="text-[10px] font-black text-[#DFFF00] tracking-[0.3em] uppercase mb-8">Stadium Pulse Master</h3>
-                <div class="text-xl font-bold leading-tight uppercase mb-4" id="cricket-text">IPL 2024 INTEL: Mumbai Indians vs Gujarat Titans. Massive 99-run victory for MI. Hero: Tilak Varma 101* (62 balls). Stadium Pulse FX Active.</div>
-                <p class="text-[10px] font-mono text-gray-600 mt-auto uppercase tracking-widest">Master-Mirror Live-Sync v87.0 Active</p>
-            </article>
-
-            <!-- TRADING TERMINAL -->
-            <div id="chart-zone" class="mt-12 bg-black col-span-1 lg:col-span-2">
-                <div id="tradingview_hub" style="height: 100%;"></div>
+            <!-- CRICKET COMMAND (CRICBUZZ CLONE) -->
+            <div class="portal-card glow-yellow" style="border-left: 4px solid var(--neon-yellow);">
+                <div class="flex justify-between items-start mb-12">
+                   <h3 class="text-[10px] font-black text-[#DFFF00] tracking-[0.4em] uppercase italic">Stadium Intelligence Master</h3>
+                   <span class="text-[8px] border border-[#DFFF00] border-opacity-30 px-2 py-1 italic">SYNC_ACTIVE</span>
+                </div>
+                <div class="bg-white bg-opacity-5 p-8 rounded-sm mb-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-[10px] font-black opacity-30 uppercase tracking-widest">IPL 2024 / Hyderabad</span>
+                        <div class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-red-600 rounded-full animate-pulse"></div><span class="text-[9px] font-black text-red-600 uppercase">Live</span></div>
+                    </div>
+                    <div class="text-xl font-bold uppercase mb-2">SRH vs DC | IPL 2024</div>
+                    <div class="text-4xl font-black text-[#DFFF00] tracking-tighter" id="cricket-score-field">SRH 184/3 (15.2) | SRH eye consistency after massive win. Master-Mirror Hub Active.</div>
+                </div>
+                <p class="text-[10px] font-bold text-gray-600 uppercase tracking-widest italic mb-2">Editor's Note:</p>
+                <p class="text-xs font-medium text-gray-400 italic">SRH dominating the powerplay. Master-Mirror Hub detecting 100% sync fidelity.</p>
             </div>
         </div>
+
+        <!-- GLOBAL WHALE TERMINAL -->
+        <div id="whale-terminal"></div>
     </main>
 
-    <footer class="mt-24 border-t border-white border-opacity-5 py-12 text-center">
-        <div class="flex justify-center gap-12 mb-8 text-2xl">
-            <a href="#" class="text-cyan-400 hover:scale-110 transition-transform"><i class="fab fa-telegram"></i></a>
-            <a href="#" class="text-red-600 hover:scale-110 transition-transform"><i class="fab fa-youtube"></i></a>
-            <a href="#" class="text-white hover:scale-110 transition-transform"><i class="fab fa-tiktok"></i></a>
+    <footer class="py-16 border-t border-white border-opacity-5 text-center px-6">
+        <div class="flex justify-center gap-12 text-2xl mb-10 opacity-70">
+            <a href="https://t.me/dailypost365" class="text-cyan-400"><i class="fab fa-telegram"></i></a>
+            <a href="https://youtube.com/@DailyPost365" class="text-red-600"><i class="fab fa-youtube"></i></a>
+            <a href="https://tiktok.com/@dailypost365" class="text-white"><i class="fab fa-tiktok"></i></a>
         </div>
-        <p class="text-[9px] text-gray-600 max-w-4xl mx-auto uppercase italic tracking-tighter font-bold leading-relaxed">
-            LEGAL SHIELD V87.0: ALL DATA IS FOR INTELLIGENCE PURPOSES. TRADING INVOLVES SIGNIFICANT RISK. DAILYPOST365 IS NOT LIABLE FOR MARKET LATENCY OR SCORE DISCREPANCIES.
+        <p class="text-[9px] text-gray-700 max-w-4xl mx-auto uppercase italic font-bold tracking-tighter leading-loose">
+            LEGAL SHIELD & RISK DISCLOSURE V87.5: Market intelligence is informational. Stadium sync is sourced from third-party nodes. Trade at your own risk. DailyPost365 is not liable for data latency during global broadcasts.
         </p>
     </footer>
 
     <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // DATA SYNC ENGINE
+        // DATA SYNC BRIDGE
         const feeds = {
             cricket: "https://docs.google.com/spreadsheets/d/1piaurYSY_FDRgMREtoJaFd9NHkc8jfJkKQv0Vb-JpmM/gviz/tq?tqx=out:json"
         };
         
         async function syncFeed(key, url) {
             try {
-                const response = await fetch(url);
-                const text = await response.text();
+                const r = await fetch(url);
+                const text = await r.text();
                 const raw = text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1);
                 const data = JSON.parse(raw);
                 const summary = data.table.rows[0].c[1] ? data.table.rows[0].c[1].v : data.table.rows[0].c[2].v;
-                document.getElementById(key + '-text').innerText = summary;
-                document.getElementById('audit-heartbeat').innerText = 'LIVE BROADCAST SYNCED';
-                document.getElementById('audit-heartbeat').style.color = '#39ff14';
-                document.getElementById('audit-heartbeat').style.borderColor = '#39ff14';
-            } catch (e) { console.log(key + " bridge latency detects."); }
+                
+                if(key === 'cricket') document.getElementById('cricket-score-field').innerText = summary;
+                document.getElementById('audit-text').innerText = 'LIVE BROADCAST SYNCED';
+                document.getElementById('audit-heartbeat').style.borderColor = '#39FF14';
+                document.getElementById('audit-heartbeat').style.color = '#39FF14';
+            } catch (e) { console.log(key + " bridge latency."); }
         }
 
         syncFeed('cricket', feeds.cricket);
 
+        // WHALE TERMINAL INIT
         new TradingView.widget({
             "width": "100%", "height": "100%", "symbol": "BINANCE:BTCUSDT",
-            "interval": "1", "theme": "dark", "style": "1", "container_id": "tradingview_hub"
+            "interval": "1", "theme": "dark", "style": "1", "container_id": "whale-terminal",
+            "studies": ["BollingerBands@tv-basicstudies", "RelativeStrengthIndex@tv-basicstudies"]
         });
     });
     </script>
