@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DailyPost365 | Intelligence Table V93.0</title>
+    <title>DailyPost365 | Whale Terminal Dominance</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* [SUPERSEED_CSS_V93.0] */
+        /* [SUPERSEED_CSS_V94.0] */
         :root {
-            --bg-main: #050505; --card-bg: #0a0a0a;
-            --neon-yellow: #FFFF00; --neon-cyan: #00F2FE;
+            --bg-main: #020204; --card-bg: #0a0a0a;
+            --neon-cyan: #00F2FE; --neon-yellow: #FFFF00;
             --border-color: rgba(255, 255, 255, 0.05);
-            --glass-blur: blur(40px);
+            --glass-blur: blur(50px);
         }
         
         body { 
@@ -21,220 +21,142 @@
             margin: 0; overflow-x: hidden; scroll-behavior: smooth; 
         }
 
-        /* MASTER INTEL TABLE */
-        .intel-table { width: 100%; border-collapse: separate; border-spacing: 0 12px; }
-        .intel-table th { 
-            font-size: 10px; font-weight: 900; color: #475569; text-transform: uppercase; 
-            letter-spacing: 0.3em; padding: 0 20px 10px; text-align: left;
+        /* SOVEREIGN CHART DOMINANCE */
+        .master-terminal-container {
+            width: 100%; height: 900px; background: #000;
+            border: 1px solid var(--border-color); position: relative;
+            box-shadow: 0 0 50px rgba(0, 242, 254, 0.05);
         }
-        .intel-row { 
-            background: #0d0d0d; border: 1px solid var(--border-color); 
-            transition: 0.4s; position: relative; cursor: pointer;
-        }
-        .intel-row:hover { 
-            background: rgba(255, 255, 255, 0.02); 
-            transform: scale(1.005); z-index: 100;
-        }
-        .intel-row td { padding: 24px 20px; font-size: 13px; font-weight: 700; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); }
-        .intel-row td:first-child { border-left: 1px solid var(--border-color); border-radius: 4px 0 0 4px; }
-        .intel-row td:last-child { border-right: 1px solid var(--border-color); border-radius: 0 4px 4px 0; text-align: right; }
-
-        /* NEON PULSE FOR TODAY */
-        .pulse-today { border-left: 4px solid var(--neon-yellow) !important; box-shadow: -10px 0 20px rgba(255, 255, 0, 0.05); }
-
-        /* 3D ACTION BUTTON */
-        .action-btn {
-            background: linear-gradient(135deg, var(--neon-cyan), #0088CC);
-            color: #000; font-size: 9px; font-weight: 900; padding: 10px 20px;
-            text-transform: uppercase; letter-spacing: 0.1em; border-radius: 2px;
-            box-shadow: 0 4px 0 #005577; transition: 0.2s; display: inline-block;
-        }
-        .action-btn:hover { transform: translateY(2px); box-shadow: 0 2px 0 #005577; }
-
-        /* FLOATING TOOLTIP */
-        .summary-tooltip {
-            position: absolute; width: 400px; background: rgba(10, 10, 10, 0.95);
-            border: 1px solid var(--neon-cyan); padding: 24px; border-radius: 4px;
-            backdrop-filter: var(--glass-blur); box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-            z-index: 1000; opacity: 0; pointer-events: none; transition: 0.3s;
-            transform: translateY(10px);
-        }
-        .intel-row:hover .summary-tooltip { opacity: 1; transform: translateY(0); }
-
-        /* SQUARE BTC CHRONOS */
-        .sidebar-chart { 
-            width: 100%; aspect-ratio: 1/1; background: #000; 
-            border: 1px solid var(--border-color); border-radius: 4px; position: sticky; top: 120px;
+        .terminal-glow {
+            position: absolute; inset: 0; pointer-events: none;
+            border: 1px solid rgba(0, 242, 254, 0.1); z-index: 5;
         }
 
-        /* MOBILE CARDS */
-        @media (max-width: 1024px) {
-            .intel-table, .intel-table thead { display: none; }
-            .mobile-news-card {
-                background: #0d0d0d; border: 1px solid var(--border-color);
-                margin-bottom: 20px; padding: 24px; border-radius: 4px;
-            }
+        /* STUDIO MEDIA CARDS */
+        .studio-header {
+            display: flex; align-items: center; gap: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 20px;
+            margin-bottom: 40px; margin-top: 80px;
         }
+        .live-pulse {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: var(--neon-cyan); box-shadow: 0 0 10px var(--neon-cyan);
+            animation: pulse-bloom 2s infinite;
+        }
+        @keyframes pulse-bloom { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(3); opacity: 0; } }
 
-        .audit-badge {
-            position: fixed; bottom: 30px; left: 30px; background: rgba(0,0,0,0.98);
-            border: 1px solid var(--neon-yellow); padding: 14px 24px; z-index: 2000;
-            display: flex; align-items: center; gap: 12px; font-weight: 900; font-size: 0.7rem;
+        .studio-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 32px; padding: 0 0 80px; }
+        .media-card {
+            background: var(--card-bg); border: 1px solid var(--border-color);
+            border-radius: 4px; overflow: hidden; position: relative;
+            transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            backdrop-filter: var(--glass-blur); min-height: 480px;
+        }
+        .media-card:hover { border-color: rgba(255,255,255,0.2); transform: translateY(-10px); }
+
+        /* FOOTER IMPERIAL */
+        .footer-lock { padding: 100px 20px; background: #000; border-top: 1px solid var(--border-color); text-align: center; }
+        .social-link { font-size: 2.2rem; transition: 0.4s; opacity: 0.5; padding: 0 25px; display: inline-block; }
+        .social-link:hover { opacity: 1; transform: scale(1.2); filter: drop-shadow(0 0 10px currentColor); }
+
+        .legal-shield {
+            font-size: 11px; color: #475569; max-width: 900px; margin: 50px auto 0;
+            text-transform: uppercase; letter-spacing: 0.15em; line-height: 2;
+            opacity: 0.6; font-weight: 700;
         }
     </style>
 </head>
 <body>
-    <div class="audit-badge" id="audit-heartbeat">
-        <div class="w-3 h-3 rounded-full bg-yellow-500 animate-pulse" id="status-lamp"></div>
-        <span class="text-white uppercase tracking-[0.3em]" id="status-text">INTELLIGENCE_TABLE_V93.0: ACTIVE</span>
-    </div>
 
     <!-- HEADER NAVIGATION -->
     <nav class="h-20 px-12 border-b border-white border-opacity-5 flex items-center justify-between bg-black sticky top-0 z-[1000]">
         <div class="flex items-center gap-6">
-            <div class="w-12 h-12 bg-yellow-400 rounded flex items-center justify-center font-black italic text-black text-2xl">DP</div>
+            <div class="w-12 h-12 bg-blue-700 rounded flex items-center justify-center font-black italic text-white text-2xl">W</div>
             <div class="flex flex-col">
                 <span class="text-2xl font-black italic tracking-tighter leading-none">DAILYPOST365</span>
-                <span class="text-[9px] font-bold text-gray-500 uppercase tracking-[0.4em]">Broadcast Intelligence Node</span>
+                <span class="text-[9px] font-bold text-gray-500 uppercase tracking-[0.4em]">Whale Terminal Dominance</span>
             </div>
         </div>
         <div class="flex gap-10 text-[11px] font-black uppercase tracking-[0.2em] text-gray-400">
-            <a href="#" class="hover:text-yellow-400 transition">Neural Feed</a>
-            <a href="#" class="hover:text-cyan-400 transition">Whale Map</a>
+            <a href="#" class="hover:text-[#00F2FE] transition text-white">Market Intel</a>
+            <a href="#" class="hover:text-white transition">Archives</a>
         </div>
     </nav>
 
-    <main class="max-w-[1700px] mx-auto px-8 py-16 grid grid-cols-1 lg:grid-cols-12 gap-16">
+    <main class="max-w-[1750px] mx-auto px-8 py-12">
         
-        <!-- CENTRAL HUB: INTELLIGENCE TABLE (8 COLS) -->
-        <section class="lg:col-span-8">
-            <div class="flex items-center gap-4 mb-10">
-                <div class="w-2 h-2 bg-yellow-400 rounded-full"></div>
-                <h2 class="text-2xl font-black italic tracking-tighter uppercase text-white">Broadcast Intelligence Feed</h2>
-            </div>
-            
-            <table class="intel-table" id="master-intel-table">
-                <thead>
-                    <tr>
-                        <th style="width: 15%;">TIME</th>
-                        <th style="width: 15%;">INTEL_SOURCE</th>
-                        <th style="width: 55%;">BROADCAST_HEADLINE</th>
-                        <th style="width: 15%;">ACTION</th>
-                    </tr>
-                </thead>
-                <tbody id="intel-body">
-                    <!-- Dynamic Rows Injected Here -->
-                </tbody>
-            </table>
-            <div id="mobile-news-container" class="lg:hidden"></div>
-        </section>
-
-        <!-- SIDEBAR: WHALE CHRONOS (4 COLS) -->
-        <section class="lg:col-span-4">
-            <h2 class="text-xl font-black italic tracking-tighter uppercase mb-6 text-cyan-400">Market Intelligence</h2>
-            <div class="sidebar-chart">
-                <div id="whale-terminal" style="height: 100%; width: 100%;"></div>
-                <div class="absolute bottom-6 left-6 p-4 bg-black bg-opacity-90 border-l-2 border-cyan-400 backdrop-blur-xl">
-                    <span class="text-[8px] font-black text-cyan-400 uppercase tracking-[0.4em]">BTC_LIVE_FEED</span>
-                    <div class="text-2xl font-black text-white mt-1" id="btc-val">$77,074.57</div>
-                    <div class="text-[10px] font-bold text-red-500 uppercase mt-1">-1.32% VOL</div>
+        <!-- MASTER WHALE TERMINAL (DOMINANT SECTION) -->
+        <section class="mb-20">
+            <div class="flex justify-between items-end mb-8">
+                <div>
+                    <h2 class="text-3xl font-black italic tracking-tighter uppercase text-white">Market Intelligence Center</h2>
+                    <p class="text-xs text-gray-500 font-bold tracking-widest uppercase mt-2">Zero-Latency Whale Flow Bridge (V94.0)</p>
+                </div>
+                <div class="text-right">
+                    <span class="text-[10px] text-cyan-400 font-black uppercase tracking-widest block">BTC_USDT_LIVE</span>
+                    <div class="text-3xl font-black text-white" id="btc-val">$77,074.57</div>
                 </div>
             </div>
+
+            <div class="master-terminal-container">
+                <div class="terminal-glow"></div>
+                <div id="whale-master-terminal" style="height: 100%; width: 100%;"></div>
+            </div>
         </section>
+
+        <!-- STUDIO HIGHLIGHTS (MEDIA GRID) -->
+        <div class="studio-header">
+            <div class="live-pulse"></div>
+            <h2 class="text-3xl font-black italic tracking-tighter uppercase text-white">Studio Highlights</h2>
+        </div>
+
+        <div class="studio-grid">
+            <div class="media-card">
+                <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DW7CwvAk9nU/" data-instgrm-version="14"></blockquote>
+            </div>
+            <div class="media-card">
+                <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DWjygltk4v4/" data-instgrm-version="14"></blockquote>
+            </div>
+            <div class="media-card">
+                <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DWhNIkzE1rL/" data-instgrm-version="14"></blockquote>
+            </div>
+            <div class="media-card">
+                <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DWeIODLEypV/" data-instgrm-version="14"></blockquote>
+            </div>
+            <div class="media-card">
+                <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DV33Z_kE8e5/" data-instgrm-version="14"></blockquote>
+            </div>
+            <div class="media-card" style="min-height: 520px;">
+                <iframe src="https://www.youtube.com/embed/fTATPgWpDtQ" style="width: 100%; height: 100%;" allowfullscreen></iframe>
+            </div>
+        </div>
+
     </main>
 
     <!-- FOOTER LOCKDOWN -->
-    <footer class="py-24 bg-black border-t border-white border-opacity-5 text-center">
-        <div class="flex justify-center gap-16 mb-16">
-            <a href="https://www.youtube.com/@WhaleTrackerAlpha" class="text-red-600 text-3xl hover:scale-110 transition"><i class="fab fa-youtube"></i></a>
-            <a href="https://www.tiktok.com/@dailypost0365" class="text-white text-3xl hover:scale-110 transition"><i class="fab fa-tiktok"></i></a>
-            <a href="https://x.com/DailyPostW92945" class="text-blue-400 text-3xl hover:scale-110 transition"><i class="fab fa-x-twitter"></i></a>
-            <a href="https://www.snapchat.com/add/DailyPost365" class="text-yellow-400 text-3xl hover:scale-110 transition"><i class="fab fa-snapchat"></i></a>
+    <footer class="footer-lock">
+        <div class="flex justify-center gap-6 mb-16">
+            <a href="https://www.youtube.com/@WhaleTrackerAlpha" class="social-link text-red-600"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.tiktok.com/@dailypost0365" class="social-link text-white"><i class="fab fa-tiktok"></i></a>
+            <a href="https://x.com/DailyPostW92945" class="social-link text-blue-400"><i class="fab fa-x-twitter"></i></a>
+            <a href="https://www.snapchat.com/add/DailyPost365" class="social-link text-yellow-400"><i class="fab fa-snapchat"></i></a>
         </div>
-        <p class="text-[11px] text-gray-500 max-w-5xl mx-auto uppercase italic font-bold tracking-[0.1em] leading-relaxed px-6">
-            LEGAL DISCLOSURE: DailyPost365 provides high-fidelity market intelligence for educational purposes only. We are not licensed financial advisors (VARA/SCA). Trading digital assets involves significant risk. Sports data is synchronized via external bridges; accuracy is not guaranteed. V86.6 Compliance.
+        <p class="legal-shield">
+            LEGAL DISCLOSURE: DailyPost365 provides high-fidelity market intelligence for educational purposes only. We are not licensed financial advisors (VARA/SCA). Trading digital assets involves significant risk. All data is synchronized via external bridges; accuracy is not guaranteed. V86.6 Compliance.
         </p>
     </footer>
 
+    <script async src="//www.instagram.com/embed.js"></script>
     <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
     <script>
-    /* [SUPERSEED_JS_V93.0] */
     document.addEventListener('DOMContentLoaded', () => {
-        const BRIDGE_URL = "https://script.google.com/macros/s/AKfycbx11G1g-ZKuESqAFRjL9IJE892zIrtMBBhxAcTbCXv37Q7vGWu4VUcsJHWMDWk6KtDI/exec";
-        const tableBody = document.getElementById('intel-body');
-        const mobileContainer = document.getElementById('mobile-news-container');
-        
-        async function fetchIntelligence() {
-            const cache = localStorage.getItem('intel_cache');
-            if(cache) renderIntelligence(JSON.parse(cache));
-
-            try {
-                const response = await fetch(BRIDGE_URL);
-                const data = await response.json();
-                
-                if (data && data.length > 0) {
-                    localStorage.setItem('intel_cache', JSON.stringify(data));
-                    renderIntelligence(data);
-                    updateAudit(true);
-                }
-            } catch (e) { updateAudit(false); }
-        }
-
-        function renderIntelligence(items) {
-            tableBody.innerHTML = '';
-            mobileContainer.innerHTML = '';
-            const today = new Date().toLocaleDateString();
-
-            items.forEach(item => {
-                const isToday = item.Date && item.Date.includes(today.split('/')[1]); // Basic today check
-                
-                // Desktop Row
-                const row = document.createElement('tr');
-                row.className = `intel-row ${isToday ? 'pulse-today' : ''}`;
-                row.innerHTML = `
-                    <td style="color: #64748b;">${item.Time || '00:00'}</td>
-                    <td style="color: var(--neon-cyan);">${item.Source || 'GLOBAL'}</td>
-                    <td class="relative">
-                        ${item.Title || 'INTEL_DATA_NOMINAL'}
-                        <div class="summary-tooltip">
-                            <span class="text-[10px] text-cyan-400 font-bold uppercase tracking-widest block mb-2">Detailed Summary</span>
-                            <p class="text-xs text-gray-400 leading-relaxed">${item.Summary || 'Intelligence summary is processing.'}</p>
-                        </div>
-                    </td>
-                    <td><a href="${item.Link || '#'}" target="_blank" class="action-btn">Read Intel</a></td>
-                `;
-                tableBody.appendChild(row);
-
-                // Mobile Card
-                const card = document.createElement('div');
-                card.className = 'mobile-news-card';
-                card.innerHTML = `
-                    <div class="flex justify-between text-[9px] font-black uppercase text-gray-500 mb-2">
-                        <span>${item.Time} | ${item.Source}</span>
-                    </div>
-                    <div class="text-sm font-bold text-white mb-4">${item.Title}</div>
-                    <a href="${item.Link || '#'}" class="action-btn text-center block w-full">Read Intel</a>
-                `;
-                mobileContainer.appendChild(card);
-            });
-        }
-
-        function updateAudit(live) {
-            const lamp = document.getElementById('status-lamp');
-            const text = document.getElementById('status-text');
-            lamp.className = live ? "w-3 h-3 rounded-full bg-green-500 animate-pulse" : "w-3 h-3 rounded-full bg-yellow-500 animate-pulse";
-            text.innerText = live ? "INTELLIGENCE_TABLE_V93.0: LIVE_SYNC" : "INTELLIGENCE_TABLE_V93.0: CACHE_MODE";
-        }
-
-        // Initialize BTC Square Sidebar Chart
+        // [WHALE_TERMINAL_INITIALIZATION]
         new TradingView.widget({
             "width": "100%", "height": "100%", "symbol": "BINANCE:BTCUSDT",
-            "interval": "60", "theme": "dark", "style": "1", "container_id": "whale-terminal",
-            "studies": ["BollingerBands@tv-basicstudies", "RSI@tv-basicstudies"]
+            "interval": "60", "theme": "dark", "style": "1", "container_id": "whale-master-terminal",
+            "studies": ["BollingerBands@tv-basicstudies", "RSI@tv-basicstudies"],
+            "allow_symbol_change": true, "show_popup_button": true, "popup_width": "1000", "popup_height": "650"
         });
-
-        fetchIntelligence();
-        setInterval(fetchIntelligence, 300000); 
 
         // Price Sync (Binance)
         setInterval(async () => {
