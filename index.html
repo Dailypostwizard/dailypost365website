@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DailyPost365 | Neural Totality V98.0</title>
+    <title>DailyPost365 | Neural Century V100.0</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* [SUPERSEED_CSS_V98.0] */
+        /* [SUPERSEED_CSS_V100.0] */
         :root {
             --bg-main: #020204; --card-bg: rgba(10, 10, 10, 0.85); --text-main: #f0f3f7;
             --neon-cyan: #00F2FE; --neon-yellow: #FFFF00; --border-color: rgba(255, 255, 255, 0.05);
@@ -25,157 +25,155 @@
             margin: 0; overflow-x: hidden; scroll-behavior: smooth; transition: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* 3D TOTAL BACKGROUND (V96+V97 STACK) */
-        #neural-world-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; pointer-events: none; }
+        #neural-bg-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; pointer-events: none; opacity: 0.4; }
 
-        /* COMMAND CENTER GRID */
-        .command-center {
-            display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 40px;
-            max-width: 1850px; margin: 40px auto; padding: 0 40px; align-items: start;
-        }
+        /* COMMAND CENTER COCKPIT */
+        .command-center { display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 40px; max-width: 1850px; margin: 40px auto; padding: 0 40px; }
         @media (max-width: 1440px) { .command-center { grid-template-columns: 1fr; } }
 
-        /* SIDEBAR 3D ENGINES */
-        .sidebar-engine {
-            width: 100%; aspect-ratio: 1 / 1; background: var(--card-bg);
-            border: 1px solid var(--border-color); border-radius: 4px; position: relative;
-            backdrop-filter: var(--glass-blur); overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-        }
-        .engine-label {
-            position: absolute; top: 20px; left: 20px; font-size: 9px; font-weight: 900;
-            text-transform: uppercase; letter-spacing: 0.3em; color: var(--neon-cyan);
-        }
+        .sidebar-engine { width: 100%; aspect-ratio: 1 / 1; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 4px; position: relative; backdrop-filter: var(--glass-blur); overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        .engine-label { position: absolute; top: 20px; left: 20px; font-size: 8px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.3em; color: var(--neon-cyan); opacity: 0.6; }
 
-        /* CENTER 1:1 WHALE HUB */
-        .whale-master-hub {
-            width: 100%; aspect-ratio: 1 / 1; background: var(--card-bg);
-            border: 1px solid var(--border-color); position: relative;
-            box-shadow: 0 40px 100px rgba(0,0,0,0.9); backdrop-filter: var(--glass-blur);
-        }
+        .whale-master-hub { width: 100%; aspect-ratio: 1 / 1; background: var(--card-bg); border: 1px solid var(--border-color); position: relative; box-shadow: 0 40px 100px rgba(0,0,0,0.9); backdrop-filter: var(--glass-blur); }
 
-        /* STUDIO RECOVERY GRID */
-        .studio-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 32px; padding: 100px 40px; }
-        .media-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 4px; overflow: hidden; backdrop-filter: var(--glass-blur); }
+        /* COMIC CENTURY HUB */
+        .comic-hub { padding: 100px 40px; }
+        .comic-header { border-left: 4px solid var(--neon-yellow); padding-left: 24px; margin-bottom: 60px; }
+        .comic-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(480px, 1fr)); gap: 40px; }
+        .comic-card {
+            background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; 
+            overflow: hidden; transition: 0.8s cubic-bezier(0.2, 1, 0.3, 1); position: relative;
+            cursor: pointer;
+        }
+        .comic-card:hover { transform: scale(1.03) translateY(-10px); border-color: var(--neon-yellow); box-shadow: 0 0 50px rgba(255, 255, 0, 0.1); }
+        .comic-card img { transition: 0.4s; filter: contrast(1.1); }
+        .comic-card:hover img { filter: contrast(1.2) brightness(1.1); }
+        
+        .label-tag {
+            position: absolute; top: 20px; right: 20px; background: var(--neon-yellow);
+            color: #000; font-size: 9px; font-weight: 900; padding: 6px 14px; border-radius: 40px;
+            text-transform: uppercase; letter-spacing: 0.1em; box-shadow: 0 0 20px rgba(255, 255, 0, 0.3);
+        }
 
         /* FOOTER */
         footer { padding: 100px 20px; background: #000; border-top: 1px solid var(--border-color); text-align: center; }
         .social-link { font-size: 2.2rem; transition: 0.4s; opacity: 0.4; padding: 0 20px; display: inline-block; }
         .social-link:hover { opacity: 1; transform: scale(1.1); filter: drop-shadow(0 0 10px currentColor); }
-        .legal-shield { font-size: 11px; opacity: 0.4; color: #fff; max-width: 900px; margin: 40px auto 0; text-transform: uppercase; letter-spacing: 0.1em; line-height: 2; }
+        .legal-shield { font-size: 11px; opacity: 0.4; color: #fff; max-width: 900px; margin: 40px auto 0; text-transform: uppercase; letter-spacing: 0.12em; line-height: 2; font-weight: 700; }
         
-        .zenith-btn {
-            background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-main);
-            padding: 8px 16px; border-radius: 2px; font-size: 10px; font-weight: 900;
-            text-transform: uppercase; letter-spacing: 0.2em; transition: 0.3s;
-        }
+        .anniversary-badge { position: absolute; -top-4; -right-4; background: #FF0000; color: #fff; padding: 5px 15px; font-weight: 900; skew-x-12: ; font-size: 10px; z-index: 20; transform: rotate(5deg); }
     </style>
 </head>
 <body>
-    <canvas id="neural-world-bg"></canvas>
+    <canvas id="neural-bg-canvas"></canvas>
 
-    <!-- HEADER NAVIGATION -->
     <nav class="h-20 px-12 border-b border-white border-opacity-5 flex items-center justify-between bg-black bg-opacity-80 backdrop-blur-xl sticky top-0 z-[1000]">
         <div class="flex items-center gap-6">
             <div class="w-12 h-12 bg-blue-700 rounded flex items-center justify-center font-black italic text-white text-2xl shadow-2xl">W</div>
             <div class="flex flex-col">
                 <span class="text-2xl font-black italic tracking-tighter leading-none text-white">DAILYPOST365</span>
-                <span class="text-[9px] font-bold text-blue-400 uppercase tracking-[0.4em]">Neural Totality V98.0</span>
+                <span class="text-[9px] font-bold text-blue-400 uppercase tracking-[0.4em]">Neural Century V100.0</span>
             </div>
         </div>
         <div class="flex gap-8 items-center">
-            <button class="zenith-btn" id="theme-switch">Zenith Switch</button>
+            <button class="zenith-btn bg-black bg-opacity-40 border border-white border-opacity-10 text-white px-4 py-2 font-black text-[10px] uppercase tracking-widest" id="theme-switch">Zenith Switch</button>
             <div class="hidden md:flex gap-10 text-[11px] font-black uppercase tracking-[0.2em] text-gray-400">
-                <a href="#" class="hover:text-white transition">Intel</a>
-                <a href="https://www.instagram.com/dailypostwizard2026/" target="_blank" class="hover:text-white transition text-white">Studio</a>
+                <a href="#laugh-hub" class="hover:text-yellow-400 transition">Laugh Intel Hub</a>
+                <a href="https://www.instagram.com/dailypostwizard2026/" target="_blank" class="hover:text-white transition">Studio</a>
             </div>
         </div>
     </nav>
 
     <main class="max-w-[1900px] mx-auto">
         <div class="command-center mt-20">
-            <!-- LEFT: BITCOIN ATOM -->
-            <aside class="sidebar-engine">
-                <span class="engine-label">BTC_ATOM_CORE</span>
-                <canvas id="left-atom-canvas"></canvas>
-            </aside>
-
-            <!-- CENTER: MASTER CHRONOS -->
+            <aside class="sidebar-engine"><span class="engine-label">ATOM_SYNC</span><canvas id="left-atom-canvas"></canvas></aside>
             <section>
                 <div class="flex justify-between items-end mb-8">
                     <div>
-                        <h2 class="text-3xl font-black italic tracking-tighter uppercase text-white">Market Command Hub</h2>
-                        <div class="flex items-center gap-2 mt-2">
-                           <div class="w-2 h-2 bg-blue-400 animate-ping rounded-full"></div>
-                           <span class="text-[9px] text-gray-500 font-bold tracking-[0.4em] uppercase">Sovereign Totality (V98.0) Active</span>
-                        </div>
+                        <h2 class="text-3xl font-black italic tracking-tighter uppercase text-white">Master Cockpit</h2>
+                        <span class="text-[9px] text-gray-500 font-bold tracking-[0.4em] uppercase">Centurion Deployment Active</span>
                     </div>
                     <div class="text-right">
-                        <span class="text-[9px] text-cyan-400 font-black uppercase tracking-widest block">BTC_USDT_LIVE</span>
+                        <span class="text-[9px] text-cyan-400 font-black uppercase tracking-widest block">BTC_SYNC</span>
                         <div class="text-4xl font-black text-white" id="btc-val">$77,074.57</div>
                     </div>
                 </div>
                 <div class="whale-master-hub" id="terminal-root">
-                    <div id="whale-master-terminal" style="height: 100%; width: 100%;"></div>
+                   <div id="whale-master-terminal" style="height: 100%; width: 100%;"></div>
                 </div>
             </section>
-
-            <!-- RIGHT: BINARY TUNNEL -->
-            <aside class="sidebar-engine">
-                <span class="engine-label">DATA_TUNNEL_FLOW</span>
-                <canvas id="right-tunnel-canvas"></canvas>
-            </aside>
+            <aside class="sidebar-engine"><span class="engine-label">TUNNEL_FLOW</span><canvas id="right-tunnel-canvas"></canvas></aside>
         </div>
 
-        <div class="studio-grid" id="ig-container"></div>
+        <!-- COMIC CENTURY HUB -->
+        <section class="comic-hub" id="laugh-hub">
+            <div class="comic-header">
+                <h2 class="text-4xl font-black italic tracking-tighter uppercase text-white">Laugh Intelligence Hub</h2>
+                <p class="text-[10px] text-yellow-400 font-bold tracking-[0.4em] uppercase mt-4">V100 Celebration: Imperial Humor Protocol</p>
+            </div>
+            
+            <div class="comic-grid">
+                <!-- NEW COMIC (USER ATTACHED 2) -->
+                <div class="comic-card">
+                    <div class="anniversary-badge">V100_NEW</div>
+                    <span class="label-tag">Market Psych</span>
+                    <img src="https://i.ibb.co/3sX8t4g/crypto-humor-v2.jpg" alt="Crypto Comic 2" class="w-full h-auto">
+                </div>
+                <!-- PREVIOUS COMIC (USER ATTACHED 1) -->
+                <div class="comic-card">
+                    <span class="label-tag">Moon Logic</span>
+                    <img src="https://i.ibb.co/vzRP6hR/crypto-comic-v1.jpg" alt="Crypto Comic 1" class="w-full h-auto">
+                </div>
+                <!-- CRICKET COMIC 1 -->
+                <div class="comic-card">
+                    <span class="label-tag">Cricket Intel</span>
+                    <img src="https://i.ibb.co/ZmsyCrG/cricket-funny-1.png" alt="Cricket Comic 1" class="w-full h-auto">
+                </div>
+                <!-- CRICKET COMIC 2 -->
+                <div class="comic-card">
+                    <span class="label-tag">DRS Analysis</span>
+                    <img src="https://i.ibb.co/377vSk0/cricket-funny-2.png" alt="Cricket Comic 2" class="w-full h-auto">
+                </div>
+            </div>
+        </section>
     </main>
 
-    <footer class="footer-lock">
-        <div class="flex justify-center gap-10 mb-16">
+    <footer>
+        <div class="flex justify-center gap-12 mb-16">
             <a href="https://www.youtube.com/@WhaleTrackerAlpha" class="social-link text-red-600"><i class="fab fa-youtube"></i></a>
             <a href="https://www.tiktok.com/@dailypost0365" class="social-link text-white"><i class="fab fa-tiktok"></i></a>
             <a href="https://x.com/DailyPostW92945" class="social-link text-blue-400"><i class="fab fa-x-twitter"></i></a>
             <a href="https://www.instagram.com/dailypostwizard2026/" class="social-link text-pink-500"><i class="fab fa-instagram"></i></a>
         </div>
         <p class="legal-shield">
-            LEGAL DISCLOSURE: DailyPost365 provides high-fidelity market intelligence for educational purposes only. We are not licensed financial advisors (VARA/SCA). Trading digital assets involves significant risk. All data is synchronized via external bridges; accuracy is not guaranteed. V86.6 TOTALITY CONTROL.
+            LEGAL DISCLOSURE: DailyPost365 provides high-fidelity market intelligence for educational purposes only. UAE Compliance. V86.6 CENTURY CONTROL.
         </p>
     </footer>
 
-    <script async src="//www.instagram.com/embed.js"></script>
     <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
     document.addEventListener('DOMContentLoaded', () => {
 
-        // ========================================
-        // 1. NEURAL TOTALITY: THREE.JS MASTER MERGE
-        // ========================================
-        
-        // --- V96: WORLD BACKGROUND GRID & CUBES ---
-        const bgCanvas = document.getElementById('neural-world-bg');
+        // 3D ENGINES INITIALIZATION (V100 MASTER)
+        const bgCanvas = document.getElementById('neural-bg-canvas');
         const bgScene = new THREE.Scene();
         const bgCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         const bgRenderer = new THREE.WebGLRenderer({ canvas: bgCanvas, alpha: true, antialias: true });
         bgRenderer.setSize(window.innerWidth, window.innerHeight);
 
         const worldGrid = new THREE.GridHelper(1000, 100, 0x00F2FE, 0x111111);
-        worldGrid.rotation.x = Math.PI / 10;
-        worldGrid.position.y = -150;
-        bgScene.add(worldGrid);
+        worldGrid.rotation.x = Math.PI/10; worldGrid.position.y = -150; bgScene.add(worldGrid);
 
         const worldCubes = [];
-        const cubeGeo = new THREE.BoxGeometry(2, 2, 2);
         const cubeMat = new THREE.MeshBasicMaterial({ color: 0x00F2FE, wireframe: true, transparent: true, opacity: 0.1 });
-        for(let i=0; i<80; i++) {
-            const cube = new THREE.Mesh(cubeGeo, cubeMat);
+        for(let i=0; i<60; i++) {
+            const cube = new THREE.Mesh(new THREE.BoxGeometry(2,2,2), cubeMat);
             cube.position.set(Math.random()*400-200, Math.random()*200-100, Math.random()*400-200);
-            bgScene.add(cube);
-            worldCubes.push(cube);
+            bgScene.add(cube); worldCubes.push(cube);
         }
         bgCamera.position.z = 200;
 
-        // --- V97: SIDEBAR ENGINES ---
         function setupEngine(id) {
             const canvas = document.getElementById(id);
             const scene = new THREE.Scene();
@@ -185,54 +183,25 @@
             return { scene, camera, renderer };
         }
 
-        // Left: Bitcoin Atom
         const left = setupEngine('left-atom-canvas');
         const atomGroup = new THREE.Group();
         const atomCore = new THREE.Mesh(new THREE.SphereGeometry(1.5, 32, 32), new THREE.MeshBasicMaterial({ color: 0xFFFF00, wireframe: true }));
         atomGroup.add(atomCore);
-        for(let i=0; i<3; i++){
-            const r = new THREE.Mesh(new THREE.TorusGeometry(3+i*1.2, 0.05, 16, 100), new THREE.MeshBasicMaterial({ color: 0xFFFF00, transparent: true, opacity: 0.3 }));
-            r.rotation.x=Math.random()*Math.PI; r.rotation.y=Math.random()*Math.PI;
-            atomGroup.add(r);
-        }
-        left.scene.add(atomGroup);
-        left.camera.position.z = 8;
+        left.scene.add(atomGroup); left.camera.position.z = 8;
 
-        // Right: Binary Tunnel
         const right = setupEngine('right-tunnel-canvas');
         const tunnelGrid = new THREE.GridHelper(50, 20, 0x00F2FE, 0x111111);
-        tunnelGrid.rotation.x = Math.PI / 2.5;
-        right.scene.add(tunnelGrid);
-        right.camera.position.z = 10;
+        tunnelGrid.rotation.x = Math.PI/2.5; right.scene.add(tunnelGrid); right.camera.position.z = 10;
 
-        // ========================================
-        // 2. MASTER ANIMATION LOOP (TOTAL SYNC)
-        // ========================================
         let btcSpeed = 0.01;
         function animate() {
             requestAnimationFrame(animate);
-            
-            // Background Animation
-            worldGrid.position.z += 0.4;
-            if(worldGrid.position.z > 50) worldGrid.position.z = 0;
-            worldCubes.forEach(c => { c.rotation.x += 0.005; c.rotation.y += 0.005; });
-            bgRenderer.render(bgScene, bgCamera);
-
-            // Left Atom Animation
-            atomGroup.rotation.y += btcSpeed;
-            atomGroup.rotation.x += btcSpeed * 0.5;
-            left.renderer.render(left.scene, left.camera);
-
-            // Right Tunnel Animation
-            tunnelGrid.position.z += 0.05;
-            if(tunnelGrid.position.z > 2) tunnelGrid.position.z = 0;
-            right.renderer.render(right.scene, right.camera);
+            worldGrid.position.z += 0.4; if(worldGrid.position.z > 50) worldGrid.position.z = 0;
+            atomGroup.rotation.y += btcSpeed; tunnelGrid.position.z += 0.05; if(tunnelGrid.position.z > 2) tunnelGrid.position.z = 0;
+            bgRenderer.render(bgScene, bgCamera); left.renderer.render(left.scene, left.camera); right.renderer.render(right.scene, right.camera);
         }
         animate();
 
-        // ========================================
-        // 3. THEME & CHART & MEDIA
-        // ========================================
         new TradingView.widget({
             "width": "100%", "height": "100%", "symbol": "BINANCE:BTCUSDT",
             "interval": "60", "theme": "dark", "style": "1", "container_id": "whale-master-terminal"
@@ -240,28 +209,12 @@
 
         const themeBtn = document.getElementById('theme-switch');
         themeBtn.onclick = () => {
-            const curr = document.documentElement.getAttribute('data-theme');
-            const target = curr === 'dark' ? 'bright' : 'dark';
-            document.documentElement.setAttribute('data-theme', target);
-            
-            const cyan = target === 'dark' ? 0x00F2FE : 0x0088CC;
-            const yellow = target === 'dark' ? 0xFFFF00 : 0xCC8800;
-            worldGrid.material.color.setHex(cyan);
-            cubeMat.color.setHex(cyan);
-            atomCore.material.color.setHex(yellow);
-            tunnelGrid.material.color.setHex(cyan);
+            const t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'bright' : 'dark';
+            document.documentElement.setAttribute('data-theme', t);
+            const c = t === 'dark' ? 0x00F2FE : 0x0088CC;
+            worldGrid.material.color.setHex(c); cubeMat.color.setHex(c); tunnelGrid.material.color.setHex(c);
         };
 
-        const igContainer = document.getElementById('ig-container');
-        const spots = ["DW7CwvAk9nU", "DWjygltk4v4", "DWhNIkzE1rL", "DWeIODLEypV", "DV33Z_kE8e5"];
-        spots.forEach(id => {
-            const card = document.createElement('div'); card.className = 'media-card';
-            card.innerHTML = `<blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/${id}/" data-instgrm-version="14" style="width: 100%; border:0; background:transparent;"></blockquote>`;
-            igContainer.appendChild(card);
-        });
-        if(window.instgrm) window.instgrm.Embeds.process();
-
-        // Price Sync (Binance)
         setInterval(async () => {
             try {
                 const r = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT');
@@ -270,12 +223,6 @@
                 btcSpeed = 0.01 + (parseFloat(d.price)/100000) * 0.05;
             } catch (e) {}
         }, 10000);
-
-        window.onresize = () => {
-            bgCamera.aspect = window.innerWidth / window.innerHeight;
-            bgCamera.updateProjectionMatrix();
-            bgRenderer.setSize(window.innerWidth, window.innerHeight);
-        };
     });
     </script>
 </body>
