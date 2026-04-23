@@ -9,52 +9,75 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg-main: #050505; --card-bg: #0a0a0a;
+            --bg-main: #020203; --card-bg: rgba(10, 10, 10, 0.8);
             --neon-green: #39FF14; --neon-yellow: #DFFF00; --neon-orange: #f97316;
-            --border-color: rgba(255, 255, 255, 0.05);
+            --neon-cyan: #00F2FF;
+            --border-color: rgba(255, 255, 255, 0.08);
         }
-        body { background: var(--bg-main); color: #f0f3f7; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        body { background: var(--bg-main); color: #f0f3f7; font-family: 'Inter', sans-serif; overflow-x: hidden; scroll-behavior: smooth; }
         
-        /* ZENITH PORTAL CARDS */
+        /* ZENITH ELITE CARDS */
         .portal-card { 
             background: var(--card-bg); 
             border: 1px solid var(--border-color); 
-            padding: 40px; 
-            height: 100%; 
-            border-radius: 2px; 
-            transition: 0.4s;
+            padding: 48px; 
+            min-height: 480px; 
+            border-radius: 4px; 
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
             position: relative;
             overflow: hidden;
+            backdrop-filter: blur(25px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
-        .portal-card:hover { border-color: rgba(255,255,255,0.15); transform: translateY(-4px); }
+        .portal-card:hover { 
+            border-color: rgba(255,255,255,0.25); 
+            transform: translateY(-8px) scale(1.01); 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+        .portal-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: translateX(-100%); transition: 0.8s;
+        }
+        .portal-card:hover::before { transform: translateX(100%); }
 
         /* MARQUEE STREAM */
         .marquee-stream { 
             background: #000; 
             border-bottom: 1px solid var(--border-color); 
-            height: 44px; 
+            height: 48px; 
             display: flex; 
             align-items: center; 
-            padding: 0 24px;
+            padding: 0 32px;
+            z-index: 50;
         }
 
         /* AUDIT BADGE */
         .audit-badge { 
-            position: fixed; bottom: 24px; left: 24px; background: rgba(0,0,0,0.9); 
-            border: 1px solid var(--neon-green); padding: 12px 20px; z-index: 2000; 
-            display: flex; align-items: center; gap: 12px;
-            box-shadow: 0 0 30px rgba(57,255,20,0.05);
+            position: fixed; bottom: 32px; left: 32px; background: rgba(0,0,0,0.95); 
+            border: 1px solid var(--neon-green); padding: 14px 24px; z-index: 2000; 
+            display: flex; align-items: center; gap: 14px;
+            box-shadow: 0 0 40px rgba(57,255,20,0.1);
+            border-radius: 2px;
         }
 
         /* MARKET TABLE */
-        th { font-size: 10px; color: rgba(255,255,255,0.2); text-transform: uppercase; padding-bottom: 20px; text-align: left; font-weight: 900; letter-spacing: 0.1em; }
-        td { font-size: 14px; padding: 18px 0; border-bottom: 1px solid rgba(255,255,255,0.02); font-weight: 700; }
+        th { font-size: 11px; color: rgba(255,255,255,0.25); text-transform: uppercase; padding-bottom: 24px; text-align: left; font-weight: 900; letter-spacing: 0.15em; }
+        td { font-size: 15px; padding: 22px 0; border-bottom: 1px solid rgba(255,255,255,0.03); font-weight: 700; }
         
-        .glow-orange { box-shadow: -20px 0 50px rgba(249, 115, 22, 0.03); }
-        .glow-yellow { box-shadow: -20px 0 50px rgba(223, 255, 0, 0.03); }
+        .glow-orange { border-left: 6px solid var(--neon-orange); }
+        .glow-yellow { border-left: 6px solid var(--neon-yellow); }
         
-        #whale-terminal { height: 900px; background: #000; border-top: 1px solid var(--border-color); }
+        #whale-terminal { height: 1000px; background: #000; border-top: 1px solid var(--border-color); }
         .no-scrollbar::-webkit-scrollbar { display: none; }
+        
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-marquee { display: flex; width: fit-content; animation: marquee 30s linear infinite; }
     </style>
 </head>
 <body>
@@ -81,13 +104,17 @@
     </nav>
 
     <!-- COMMAND MARQUEE STREAM -->
-    <div class="marquee-stream flex items-center gap-6 overflow-hidden no-scrollbar whitespace-nowrap">
-        <span class="text-[9px] font-black text-[#DFFF00] tracking-widest italic border-r border-white border-opacity-10 pr-6">STADIUM_LIVE</span>
-        <div class="flex-1 flex gap-16 animate-marquee uppercase font-black text-xs italic tracking-tighter">
-            <span>CRICKET: SRH vs DC | IPL 2024 | <span class="text-[#DFFF00]">SRH 184/3 (15.2) | SRH eye consistency after massive win. Master-Mirror Hub Active.</span></span>
-            <span>CRYPTO: BTC/USDT | <span class="text-orange-500">$76,119.79 (Whale Target: $78,000)</span></span>
+    <div class="marquee-stream flex items-center gap-8 overflow-hidden no-scrollbar whitespace-nowrap">
+        <span class="text-[10px] font-black text-[#DFFF00] tracking-[0.2em] italic border-r border-white border-opacity-10 pr-8">STADIUM_LIVE</span>
+        <div class="animate-marquee flex gap-12 uppercase font-bold text-[11px] italic tracking-tight">
+            <span>CRICKET: SRH vs DC | IPL 2024 | <span class="text-[#DFFF00]" id="marquee-cricket">SRH 184/3 (15.2) | SRH eye consistency after massive win. Master-Mirror Hub Active.</span></span>
+            <span>CRYPTO: BTC/USDT | <span class="text-orange-500" id="marquee-btc">$76,119.79 (Whale Target: $78,000)</span></span>
             <span>NEXT: MI vs RCB | <span class="opacity-40">STARTS 19:30 IST</span></span>
-            <span>SOL/USDT: <span class="text-[#39FF14]">$184.22</span></span>
+            <span>SOL/USDT: <span class="text-[#39FF14]" id="marquee-sol">$184.22</span></span>
+            <!-- Duplicate for seamless loop -->
+            <span class="ml-12">CRICKET: SRH vs DC | IPL 2024 | <span class="text-[#DFFF00]" id="marquee-cricket-2">SRH 184/3 (15.2) | SRH eye consistency after massive win. Master-Mirror Hub Active.</span></span>
+            <span>CRYPTO: BTC/USDT | <span class="text-orange-500" id="marquee-btc-2">$76,119.79 (Whale Target: $78,000)</span></span>
+            <span>NEXT: MI vs RCB | <span class="opacity-40">STARTS 19:30 IST</span></span>
         </div>
     </div>
 
@@ -111,17 +138,17 @@
                     <tbody>
                         <tr>
                             <td><span class="font-black">Bitcoin</span> <span class="text-[10px] opacity-30 ml-2">BTC</span></td>
-                            <td class="text-right font-mono font-black text-lg">$76,119.79 (Whale Target: $78,000)</td>
+                            <td class="text-right font-mono font-black text-xl" id="btc-price-val">$76,119.79 (Whale Target: $78,000)</td>
                             <td class="text-right text-[#39FF14] font-black text-xs"><i class="fas fa-caret-up"></i> +2.45% (VOL)</td>
                         </tr>
                         <tr>
                             <td><span class="font-black">Ethereum</span> <span class="text-[10px] opacity-30 ml-2">ETH</span></td>
-                            <td class="text-right font-mono font-black text-lg">$2,842.12</td>
+                            <td class="text-right font-mono font-black text-xl" id="eth-price-val">$2,842.12</td>
                             <td class="text-right text-red-500 font-black text-xs"><i class="fas fa-caret-down"></i> 1.2%</td>
                         </tr>
                         <tr>
                             <td><span class="font-black">Solana</span> <span class="text-[10px] opacity-30 ml-2">SOL</span></td>
-                            <td class="text-right font-mono font-black text-lg">$184.22</td>
+                            <td class="text-right font-mono font-black text-xl" id="sol-price-val">$184.22</td>
                             <td class="text-right text-[#39FF14] font-black text-xs"><i class="fas fa-caret-up"></i> 12.1%</td>
                         </tr>
                     </tbody>
@@ -151,47 +178,85 @@
         <div id="whale-terminal"></div>
     </main>
 
-    <footer class="py-16 border-t border-white border-opacity-5 text-center px-6">
-        <div class="flex justify-center gap-12 text-2xl mb-10 opacity-70">
-            <a href="https://t.me/dailypost365" class="text-cyan-400"><i class="fab fa-telegram"></i></a>
-            <a href="https://youtube.com/@DailyPost365" class="text-red-600"><i class="fab fa-youtube"></i></a>
-            <a href="https://tiktok.com/@dailypost365" class="text-white"><i class="fab fa-tiktok"></i></a>
+    <footer class="py-24 border-t border-white border-opacity-5 text-center px-6 bg-black">
+        <div class="flex justify-center gap-16 text-3xl mb-12 opacity-60">
+            <a href="https://t.me/dailypost365" class="hover:text-cyan-400 transition" title="Telegram"><i class="fab fa-telegram"></i></a>
+            <a href="https://youtube.com/@DailyPost365" class="hover:text-red-600 transition" title="YouTube"><i class="fab fa-youtube"></i></a>
+            <a href="https://tiktok.com/@dailypost365" class="hover:text-white transition" title="TikTok"><i class="fab fa-tiktok"></i></a>
+            <a href="https://instagram.com/dailypost365" class="hover:text-pink-500 transition" title="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.snapchat.com/add/DailyPost365" class="hover:text-yellow-400 transition" title="Snapchat"><i class="fab fa-snapchat"></i></a>
+            <a href="https://x.com/dailypost365" class="hover:text-white transition" title="X"><i class="fab fa-x-twitter"></i></a>
         </div>
-        <p class="text-[9px] text-gray-700 max-w-4xl mx-auto uppercase italic font-bold tracking-tighter leading-loose">
-            LEGAL SHIELD & RISK DISCLOSURE V87.5: Market intelligence is informational. Stadium sync is sourced from third-party nodes. Trade at your own risk. DailyPost365 is not liable for data latency during global broadcasts.
-        </p>
+        <div class="max-w-5xl mx-auto">
+            <p class="text-[10px] text-gray-700 uppercase italic font-black tracking-[0.2em] leading-relaxed mb-6">
+                LEGAL SHIELD & RISK DISCLOSURE V88.0: Market intelligence is educational. Stadium sync sourced from global nodes. Trade at your own risk. Past performance does not guarantee future results.
+            </p>
+            <div class="h-px w-24 bg-gray-900 mx-auto"></div>
+        </div>
     </footer>
 
     <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // DATA SYNC BRIDGE
+        // DATA SYNC BRIDGE (Google Sheets + Binance)
         const feeds = {
             cricket: "https://docs.google.com/spreadsheets/d/1piaurYSY_FDRgMREtoJaFd9NHkc8jfJkKQv0Vb-JpmM/gviz/tq?tqx=out:json"
         };
         
-        async function syncFeed(key, url) {
+        async function syncSports() {
             try {
-                const r = await fetch(url);
+                const r = await fetch(feeds.cricket);
                 const text = await r.text();
                 const raw = text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1);
                 const data = JSON.parse(raw);
                 const summary = data.table.rows[0].c[1] ? data.table.rows[0].c[1].v : data.table.rows[0].c[2].v;
                 
-                if(key === 'cricket') document.getElementById('cricket-score-field').innerText = summary;
-                document.getElementById('audit-text').innerText = 'LIVE BROADCAST SYNCED';
-                document.getElementById('audit-heartbeat').style.borderColor = '#39FF14';
-                document.getElementById('audit-heartbeat').style.color = '#39FF14';
-            } catch (e) { console.log(key + " bridge latency."); }
+                document.getElementById('cricket-score-field').innerText = summary;
+                document.getElementById('marquee-cricket').innerText = summary;
+                document.getElementById('marquee-cricket-2').innerText = summary;
+                updateStatus('SYNCED');
+            } catch (e) { updateStatus('LATENCY'); }
         }
 
-        syncFeed('cricket', feeds.cricket);
+        async function syncCrypto() {
+            try {
+                const symbols = ['BTCUSDT', 'ETHUSDT', 'SOLUSDT'];
+                const r = await fetch(`https://api.binance.com/api/v3/ticker/price?symbols=${JSON.stringify(symbols)}`);
+                const data = await r.json();
+                
+                const prices = {};
+                data.forEach(item => { prices[item.symbol] = parseFloat(item.price).toLocaleString('en-US', {style: 'currency', currency: 'USD'}); });
+                
+                // Update UI Table
+                document.getElementById('btc-price-val').innerText = prices['BTCUSDT'];
+                document.getElementById('eth-price-val').innerText = prices['ETHUSDT'];
+                document.getElementById('sol-price-val').innerText = prices['SOLUSDT'];
+                
+                // Update Marquee
+                document.getElementById('marquee-btc').innerText = prices['BTCUSDT'];
+                document.getElementById('marquee-btc-2').innerText = prices['BTCUSDT'];
+                document.getElementById('marquee-sol').innerText = prices['SOLUSDT'];
+            } catch (e) { console.log("Crypto sync issue."); }
+        }
+
+        function updateStatus(status) {
+            const badge = document.getElementById('audit-heartbeat');
+            const text = document.getElementById('audit-text');
+            text.innerText = status === 'SYNCED' ? 'Live Intelligence Active' : 'Master-Mirror Fallback';
+            badge.style.borderColor = status === 'SYNCED' ? '#39FF14' : '#f97316';
+        }
+
+        // Initial Sync & Loops
+        syncSports();
+        syncCrypto();
+        setInterval(syncSports, 10000);
+        setInterval(syncCrypto, 5000);
 
         // WHALE TERMINAL INIT
         new TradingView.widget({
             "width": "100%", "height": "100%", "symbol": "BINANCE:BTCUSDT",
             "interval": "1", "theme": "dark", "style": "1", "container_id": "whale-terminal",
-            "studies": ["BollingerBands@tv-basicstudies", "RelativeStrengthIndex@tv-basicstudies"]
+            "studies": ["BollingerBands@tv-basicstudies", "RelativeStrengthIndex@tv-basicstudies", "VolumeProfile@tv-basicstudies"]
         });
     });
     </script>
