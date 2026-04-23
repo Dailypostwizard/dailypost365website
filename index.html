@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DailyPost365 | Universal Zenith V89.0</title>
+    <title>DailyPost365 | Sovereign Master V90.0</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* [SUPERSEED_CSS_V1.0] */
+        /* [SUPERSEED_CSS_V2.0] */
         :root {
-            --bg-main: #040608; --card-bg: rgba(12, 16, 22, 0.85);
-            --neon-cyan: #00f2ff; --neon-yellow: #ccff00; --neon-green: #39ff14; --neon-pink: #ff00ff;
-            --border-color: rgba(255, 255, 255, 0.1); --glass-blur: blur(40px);
+            --bg-main: #020204; --card-bg: rgba(10, 10, 15, 0.9);
+            --neon-cyan: #00F2FE; --neon-yellow: #DFFF00; --neon-orange: #f97316;
+            --border-color: rgba(255, 255, 255, 0.08); 
+            --glass-blur: blur(40px);
         }
         
         body { 
@@ -20,74 +21,59 @@
             margin: 0; overflow-x: hidden; scroll-behavior: smooth; 
         }
 
-        /* BINARY HORIZON GRID */
+        /* BINARY NEURAL BACKGROUND */
         .binary-horizon {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: 
-                linear-gradient(rgba(0, 242, 255, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 242, 255, 0.05) 1px, transparent 1px);
-            background-size: 50px 50px; background-position: center;
-            transform: perspective(500px) rotateX(60deg) scale(2);
-            transform-origin: bottom; opacity: 0.3; z-index: -1;
+            background: radial-gradient(circle at center, rgba(0, 242, 254, 0.05) 0%, transparent 70%);
+            z-index: -1;
         }
 
-        /* 3D ARTHEAN CUBE CORE */
-        .cube-container { width: 300px; height: 300px; perspective: 1000px; margin: 50px auto; pointer-events: none; }
-        .cube {
-            width: 100%; height: 100%; position: relative; transform-style: preserve-3d;
-            animation: cube-rotate 120s linear infinite; transition: 3s;
+        /* 1:1 SQUARE MASTER ARCHITECTURE */
+        .square-master {
+            width: 100%; aspect-ratio: 1 / 1; max-width: 800px;
+            margin: 0 auto; position: relative; border: 1px solid var(--border-color);
+            background: var(--card-bg); backdrop-filter: var(--glass-blur);
+            overflow: hidden; border-radius: 4px; transition: 0.5s;
         }
-        .cube.flash { animation-duration: 3s !important; border-color: var(--neon-cyan); }
-        
-        .cube-face {
-            position: absolute; width: 300px; height: 300px; background: rgba(0,0,0,0.85);
-            border: 2px solid var(--border-color); display: flex; flex-direction: column;
-            align-items: center; justify-content: center; backdrop-filter: var(--glass-blur);
-            box-shadow: inset 0 0 50px rgba(0,242,255,0.1);
+        .square-master.pulse { animation: cyan-pulse 2s infinite ease-in-out; border-color: var(--neon-cyan); }
+        @keyframes cyan-pulse { 0%, 100% { box-shadow: 0 0 10px rgba(0, 242, 254, 0.1); } 50% { box-shadow: 0 0 40px rgba(0, 242, 254, 0.3); } }
+
+        /* NEURAL OVERLAY LAYER */
+        .neural-background {
+            position: absolute; inset: 0; width: 100%; height: 100%;
+            background-image: url('https://user-images.githubusercontent.com/placeholder-image-2.png'); /* Mock Neural UI */
+            background-size: cover; opacity: 0.1; filter: saturate(0.5); z-index: -1;
         }
-        .face-front  { transform: translateZ(150px); }
-        .face-back   { transform: rotateY(180deg) translateZ(150px); }
-        .face-right  { transform: rotateY(90deg) translateZ(150px); }
-        .face-left   { transform: rotateY(-90deg) translateZ(150px); }
-        .face-top    { transform: rotateX(90deg) translateZ(150px); }
-        .face-bottom { transform: rotateX(-90deg) translateZ(150px); }
 
-        @keyframes cube-rotate { from { transform: rotateY(0deg) rotateX(15deg); } to { transform: rotateY(360deg) rotateX(15deg); } }
-
-        /* ZENITH CARDS */
-        .zenith-portal {
+        /* ZENITH PORTAL CARD (CRICKET) */
+        .portal-card {
             background: var(--card-bg); border: 1px solid var(--border-color);
-            padding: 40px; border-radius: 4px; backdrop-filter: var(--glass-blur);
-            transition: 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-            position: relative; overflow: hidden; z-index: 10;
+            padding: 32px; border-radius: 4px; backdrop-filter: var(--glass-blur);
+            border-left: 6px solid var(--neon-yellow);
         }
-        .zenith-portal:hover { border-color: rgba(255,255,255,0.3); transform: translateY(-10px) scale(1.02); }
 
-        /* FLOATING SHARDS */
-        .shard {
-            position: absolute; background: linear-gradient(45deg, rgba(255,255,255,0.1), transparent);
-            border: 1px solid rgba(255,255,255,0.05); cursor: pointer; transition: 0.6s;
-            clip-path: polygon(50% 0%, 100% 100%, 0% 100%); z-index: 5;
+        /* MEDIA GRID */
+        .media-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; }
+        .media-item { background: #000; border: 1px solid var(--border-color); border-radius: 4px; overflow: hidden; height: 500px; position: relative; }
+        iframe { width: 100%; height: 100%; border: none; }
+
+        /* FOOTER IMPERIAL */
+        .footer-imperial {
+            padding: 80px 20px; background: #000; border-top: 1px solid var(--border-color); text-align: center;
         }
-        .shard:hover { transform: scale(1.5) rotate(15deg); background: rgba(0,242,255,0.1); }
-
-        /* NEURAL PATHWAYS */
-        .neural-path { stroke-dasharray: 1000; stroke-dashoffset: 1000; animation: dash 5s linear infinite; }
-        @keyframes dash { to { stroke-dashoffset: 0; } }
-
-        /* ANALYTICS */
-        .intensity-bar { height: 4px; border-radius: 50px; background: rgba(255,255,255,0.05); overflow: hidden; }
-        .intensity-fill { height: 100%; border-radius: 50px; transition: 1s; }
-
-        #terminal-zone { height: 1500px; width: 100%; border: 1px solid var(--border-color); display: none; }
-        .terminal-pop { display: block !important; animation: portal-reveal 0.8s forwards; }
-        @keyframes portal-reveal { from { opacity:0; transform:scale(0.8) translateY(100px); } to { opacity:1; transform:scale(1) translateY(0); } }
+        .social-link { font-size: 2rem; transition: 0.4s; opacity: 0.6; padding: 0 20px; display: inline-block; }
+        .social-link:hover { opacity: 1; transform: translateY(-5px); text-shadow: 0 0 15px currentColor; }
+        
+        .legal-disclosure {
+            font-size: 11px; color: #64748b; max-width: 900px; margin: 40px auto 0;
+            text-transform: uppercase; letter-spacing: 0.1em; line-height: 1.8;
+            font-weight: 500;
+        }
 
         .audit-badge {
-            position: fixed; bottom: 30px; left: 30px; background: rgba(0,0,0,0.9);
-            border: 1px solid var(--neon-yellow); padding: 12px 20px; border-radius: 2px;
-            font-size: 0.7rem; color: var(--neon-yellow); z-index: 2000;
-            display: flex; align-items: center; gap: 10px; font-weight: 900;
+            position: fixed; bottom: 30px; left: 30px; background: rgba(0,0,0,0.95);
+            border: 1px solid var(--neon-cyan); padding: 12px 20px; z-index: 2000;
+            display: flex; align-items: center; gap: 12px; font-weight: 900;
         }
     </style>
 </head>
@@ -95,209 +81,143 @@
     <div class="binary-horizon"></div>
     
     <div class="audit-badge" id="audit-heartbeat">
-        <div class="w-3 h-3 rounded-full bg-yellow-500 animate-pulse" id="audit-lamp"></div>
-        <span id="audit-text">UNIVERSAL_ZENITH_V89.0: FALLBACK ACTIVE</span>
+        <div class="w-3 h-3 rounded-full bg-[#00F2FE] animate-pulse"></div>
+        <span class="text-[10px] uppercase tracking-widest text-[#00F2FE]" id="audit-text">Sovereign Master V90.0: Active</span>
     </div>
 
-    <!-- FLOATING SHARDS INTERACTION LAYER -->
-    <div class="shard" style="width: 100px; height: 100px; top: 10%; left: 5%;" data-link="terminal"></div>
-    <div class="shard" style="width: 150px; height: 150px; top: 40%; right: 10%; transform: rotate(45deg);" data-link="terminal"></div>
-
-    <!-- ARTHEAN 3D CORE -->
-    <div class="cube-container">
-        <div class="cube" id="master-cube">
-            <div class="cube-face face-front">
-                <span class="text-[10px] text-cyan-400 font-black tracking-widest mb-4">BTC_INTELLIGENCE</span>
-                <h2 class="text-4xl font-black text-white" id="cube-btc-val">$76,119.79 (Whale Target: $78,000)</h2>
-                <span class="text-[10px] text-gray-500 mt-4 uppercase">Direct Binance Bridge</span>
-            </div>
-            <div class="cube-face face-back">
-                <span class="text-[10px] text-green-400 font-black tracking-widest mb-4">MOMENTUM_STRENGTH</span>
-                <h2 class="text-4xl font-black text-white">85.6%</h2>
-                <div class="w-32 intensity-bar mt-4"><div class="intensity-fill bg-green-400" style="width: 85%;"></div></div>
-            </div>
-            <div class="cube-face face-right">
-                <span class="text-[10px] text-yellow-400 font-black tracking-widest mb-4">WHALE_ALERT</span>
-                <h2 class="text-2xl font-black text-white">ACTIVE_ENTRY</h2>
-                <i class="fas fa-whale text-yellow-400 mt-4 text-3xl"></i>
-            </div>
-            <div class="cube-face face-left">
-                <span class="text-[10px] text-pink-400 font-black tracking-widest mb-4">ZENITH_FLUX</span>
-                <h2 class="text-4xl font-black text-white">V89.0</h2>
-            </div>
-            <div class="cube-face face-top">
-                <i class="fas fa-microchip text-cyan-400 text-5xl"></i>
-            </div>
-            <div class="cube-face face-bottom">
-                <span class="text-[10px] text-gray-400 font-black tracking-widest mb-4">AUDIT_STABILITY</span>
-                <h2 class="text-2xl font-black text-white">99.9%</h2>
+    <!-- HEADER / NAVIGATION -->
+    <nav class="h-20 px-12 border-b border-white border-opacity-5 flex items-center justify-between bg-black sticky top-0 z-[1000]">
+        <div class="flex items-center gap-6">
+            <div class="w-12 h-12 bg-blue-700 rounded flex items-center justify-center font-black italic text-white text-2xl shadow-lg">W</div>
+            <div class="flex flex-col">
+                <span class="text-2xl font-black italic tracking-tighter leading-none">DAILYPOST365</span>
+                <span class="text-[9px] font-bold text-gray-500 uppercase tracking-[0.4em]">Imperial Intelligence Hub</span>
             </div>
         </div>
-    </div>
+        <div class="hidden md:flex gap-12 text-[11px] font-black uppercase tracking-[0.2em] text-gray-400">
+            <a href="#" class="hover:text-[#00F2FE] transition">Direct Feed</a>
+            <a href="#" class="hover:text-[#00F2FE] transition">Whale Flow</a>
+            <a href="#" class="hover:text-white transition">Archives</a>
+        </div>
+    </nav>
 
-    <!-- BROADCAST GRID -->
-    <main class="max-w-[1600px] mx-auto px-6 grid grid-cols-1 lg:grid-cols-3 gap-8 py-10 relative z-20">
+    <main class="max-w-[1600px] mx-auto px-8 py-16">
         
-        <!-- CRICKET NEURAL PORTAL -->
-        <article class="zenith-portal overflow-visible" style="border-top: 4px solid var(--neon-yellow);">
-            <div class="flex justify-between items-start mb-10">
-                <h3 class="text-sm font-black text-white uppercase italic tracking-widest">Stadium Neuro-Metric</h3>
-                <span class="text-[10px] bg-yellow-500 bg-opacity-20 text-yellow-500 px-2 py-1">IPL_SYNC</span>
-            </div>
-            <div class="relative mb-10">
-                <svg width="100%" height="60" class="neural-path">
-                    <path d="M0 30 Q 150 10 300 30" stroke="var(--neon-yellow)" stroke-width="2" fill="transparent"/>
-                </svg>
-                <div class="absolute inset-0 flex items-center justify-center">
-                    <span class="text-3xl font-black italic tracking-tighter" id="cricket-score">SYNC_PENDING</span>
-                </div>
-            </div>
-            <p class="text-xs text-gray-400 italic font-medium leading-relaxed mb-6">Mumbai Indians vs Gujarat Titans: 99-run victory for MI! Hero: Tilak Varma 101* (62 balls). Ashwani Kumar 4/24 in 4 overs. (LIVE MASTER RECONSTRUCTION)</p>
-            <div class="space-y-4">
-                <div class="flex justify-between text-[10px] font-black uppercase text-gray-600"><span>Strike-Rate Intensity</span><span>92%</span></div>
-                <div class="intensity-bar"><div class="intensity-fill bg-yellow-500" style="width: 92%;"></div></div>
-            </div>
-        </article>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-20 items-start">
+            
+            <!-- LEFT COLUMN: CRICKET INTEL -->
+            <div class="lg:col-span-1 space-y-8">
+                <article class="portal-card">
+                    <h3 class="text-[10px] font-black text-[#DFFF00] tracking-[0.4em] uppercase italic mb-8">Stadium Intensity Master</h3>
+                    <div class="bg-white bg-opacity-5 p-8 rounded-sm mb-6 border border-white border-opacity-5">
+                       <span class="text-[10px] font-black opacity-30 uppercase tracking-widest block mb-2">IPL 2024 / STADIUM_LIVE</span>
+                       <div class="text-4xl font-black text-[#DFFF00] tracking-tighter mb-4" id="cricket-score">SYNC_PENDING</div>
+                       <p class="text-xs font-medium text-gray-400 italic">SRH vs DC | IPL 2024: SRH eye consistency after massive win. Master-Mirror Hub Active.</p>
+                    </div>
+                </article>
 
-        <!-- MARKET INTELLIGENCE HUB -->
-        <article class="zenith-portal" style="border-top: 4px solid var(--neon-cyan);">
-            <div class="flex justify-between items-start mb-10">
-                <h3 class="text-sm font-black text-white uppercase italic tracking-widest">Market Intelligence</h3>
-                <span class="text-[10px] bg-cyan-500 bg-opacity-20 text-cyan-500 px-2 py-1">ALPHA_V89</span>
-            </div>
-            <div class="space-y-6">
-                <div class="flex justify-between border-b border-white border-opacity-5 pb-4">
-                   <span class="font-bold">Bitcoin <span class="text-[10px] opacity-30">BTC</span></span>
-                   <span class="font-black text-cyan-400" id="btc-price">$76,119.79 (Whale Target: $78,000)</span>
-                </div>
-                <div class="flex justify-between border-b border-white border-opacity-5 pb-4">
-                   <span class="font-bold">Ethereum <span class="text-[10px] opacity-30">ETH</span></span>
-                   <span class="font-black" id="eth-price">$2,842.12</span>
-                </div>
-                <div class="flex justify-between">
-                   <span class="font-bold">Solana <span class="text-[10px] opacity-30">SOL</span></span>
-                   <span class="font-black" id="sol-price">$184.22</span>
+                <div class="p-8 bg-black border border-white border-opacity-5">
+                    <span class="text-[10px] font-black text-white uppercase tracking-[0.3em] block mb-4">Master Signal</span>
+                    <p class="text-xs text-gray-500 leading-relaxed italic">Intelligence Hub detecting 100% sync fidelity through Sovereign Master bridge nodes. Neutral-Bearish signals detected in the Whale Flux.</p>
                 </div>
             </div>
-            <div class="mt-10 p-4 bg-cyan-900 bg-opacity-20 border border-cyan-500 border-opacity-30 rounded-sm">
-                <p class="text-[10px] font-black text-cyan-400 uppercase tracking-widest">Whale Analysis:</p>
-                <p class="text-[11px] text-gray-400 italic">Structural break detected at $76k. Consensus: BULLISH Momentum.</p>
-            </div>
-        </article>
 
-        <!-- SOCCER NEURAL PORTAL -->
-        <article class="zenith-portal overflow-visible" style="border-top: 4px solid var(--neon-green);">
-            <div class="flex justify-between items-start mb-10">
-                <h3 class="text-sm font-black text-white uppercase italic tracking-widest">Soccer Intel Bridge</h3>
-                <span class="text-[10px] bg-green-500 bg-opacity-20 text-green-500 px-2 py-1">EPL_LINK</span>
-            </div>
-            <div class="relative mb-10">
-                <svg width="100%" height="60" class="neural-path">
-                    <path d="M0 30 Q 150 50 300 30" stroke="var(--neon-green)" stroke-width="2" fill="transparent"/>
-                </svg>
-                <div class="absolute inset-0 flex items-center justify-center">
-                    <span class="text-xl font-bold uppercase tracking-widest" id="soccer-text">SYNCING_READY</span>
+            <!-- CENTER/RIGHT COLUMN: 1:1 SQUARE CHRONOS -->
+            <div class="lg:col-span-2">
+                <div class="square-master pulse" id="master-chart-container">
+                    <div class="neural-background"></div>
+                    <div id="whale-terminal" style="height: 100%; width: 100%;"></div>
+                    
+                    <!-- HUD OVERLAY -->
+                    <div class="absolute top-8 left-8 p-4 bg-black bg-opacity-80 border-l border-[#00F2FE] backdrop-blur-md">
+                        <span class="text-[9px] font-black text-[#00F2FE] uppercase tracking-[0.3em]">HIFI_MARKET_FEED</span>
+                        <div class="text-2xl font-black text-white mt-1" id="btc-price-val">$77,074.57 (Neutral-Bearish Momentum)</div>
+                        <div class="text-[10px] font-bold text-red-500 uppercase mt-1">-1.32% Momentum</div>
+                    </div>
                 </div>
             </div>
-            <p class="text-xs text-gray-400 italic font-medium leading-relaxed mb-6">EPL FOCUS: Arsenal and Man City continue deadlocked title race. Man City (73 Pts) over Arsenal (71 Pts) with game in hand. Intelligence Hub Active.</p>
-            <div class="p-4 bg-green-900 bg-opacity-20 border border-green-500 border-opacity-30 rounded-sm">
-                <span class="text-[10px] font-black text-green-400 uppercase italic">Latest Verified Transfer:</span>
-                <p class="text-[10px] text-gray-500 mt-2">Kolo Muani / Liverpool Radar (Intel Sync Active)</p>
+        </div>
+
+        <!-- MEDIA INTELLIGENCE: STUDIO HIGHLIGHTS -->
+        <h2 class="text-2xl font-black italic tracking-tighter uppercase mb-12 border-b border-white border-opacity-10 pb-4">Studio Highlights <span class="text-[10px] text-gray-500 italic ml-4">Imperial Media Recovery</span></h2>
+        
+        <div class="media-grid">
+            <!-- Instagram Embeds (V90.0 Verified) -->
+            <div class="media-item">
+                <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DW7CwvAk9nU/" data-instgrm-version="14"></blockquote>
             </div>
-        </article>
+            <div class="media-item">
+                <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DWjygltk4v4/" data-instgrm-version="14"></blockquote>
+            </div>
+            <div class="media-item">
+                <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DWhNIkzE1rL/" data-instgrm-version="14"></blockquote>
+            </div>
+            <div class="media-item">
+                <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DWeIODLEypV/" data-instgrm-version="14"></blockquote>
+            </div>
+            <div class="media-item">
+                <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DV33Z_kE8e5/" data-instgrm-version="14"></blockquote>
+            </div>
+
+            <!-- YouTube Shorts -->
+            <div class="media-item">
+                <iframe src="https://www.youtube.com/embed/fTATPgWpDtQ" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
 
     </main>
 
-    <!-- 1500PX ANALYTICS TERMINAL -->
-    <section class="px-6 mb-20" id="terminal-section">
-        <div id="terminal-zone"></div>
-    </section>
-
-    <!-- FOOTER RECOVERY -->
-    <footer class="py-24 bg-black border-t border-white border-opacity-5 text-center relative z-20">
-        <div class="flex justify-center gap-16 mb-12">
-            <a href="https://t.me/dailypost365" class="text-cyan-400 text-3xl hover:scale-125 transition"><i class="fab fa-telegram"></i></a>
-            <a href="https://youtube.com/@DailyPost365" class="text-red-600 text-3xl hover:scale-125 transition"><i class="fab fa-youtube"></i></a>
-            <a href="https://tiktok.com/@dailypost365" class="text-white text-3xl hover:scale-125 transition"><i class="fab fa-tiktok"></i></a>
-            <a href="https://instagram.com/dailypost365" class="text-pink-500 text-3xl hover:scale-125 transition"><i class="fab fa-instagram"></i></a>
-            <a href="https://www.snapchat.com/add/DailyPost365" class="text-yellow-400 text-3xl hover:scale-125 transition"><i class="fab fa-snapchat"></i></a>
+    <footer class="footer-imperial">
+        <div class="flex justify-center gap-4 mb-16">
+            <a href="https://www.youtube.com/@WhaleTrackerAlpha" class="social-link text-red-600" title="YouTube"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.tiktok.com/@dailypost0365" class="social-link text-white" title="TikTok"><i class="fab fa-tiktok"></i></a>
+            <a href="https://x.com/DailyPostW92945" class="social-link text-blue-400" title="X"><i class="fab fa-x-twitter"></i></a>
+            <a href="#" class="social-link text-yellow-400" title="Snapchat"><i class="fab fa-snapchat"></i></a>
+            <a href="#" class="social-link text-pink-500" title="Instagram"><i class="fab fa-instagram"></i></a>
         </div>
-        <div class="max-w-6xl mx-auto px-6 opacity-30">
-            <p class="text-[10px] text-gray-500 uppercase italic font-black tracking-[0.3em] leading-relaxed">
-                LEGAL DISCLOSURE & RISK WARNING V86.6: DAILYPOST365 IS AN EDUCATIONAL BROADCAST ENGINE. ALL CRYPTO TECHNICALS (BOLLINGER/RSI) AND NEURAL SPORTS METRICS ARE FOR INFORMATIONAL PURPOSES. TRADING DIGITAL ASSETS INVOLVES HIGH VOLATILITY RISK. MASTER_NODE V89.0 ACTIVATED.
-            </p>
+        
+        <div class="legal-disclosure">
+            LEGAL DISCLOSURE: DailyPost365 provides high-fidelity market intelligence for educational purposes only. We are not licensed financial advisors (VARA/SCA). Trading digital assets involves significant risk. Sports data is synchronized via external bridges; accuracy is not guaranteed.
         </div>
     </footer>
 
+    <script async src="//www.instagram.com/embed.js"></script>
     <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
     <script>
-    /* [SUPERSEED_JS_V1.0] */
     document.addEventListener('DOMContentLoaded', () => {
-        const cube = document.getElementById('master-cube');
-        const auditBadge = document.getElementById('audit-heartbeat');
-        const auditLamp = document.getElementById('audit-lamp');
-        const auditText = document.getElementById('audit-text');
-
-        // [UNIVERSAL_DATA_SYNC]
-        async function syncArchitecture() {
+        // [SUPERSEED_JS_V2.0]
+        const syncArchitecture = async () => {
             try {
-                // Crypto Bridge (Binance API)
-                const cryptoReq = await fetch('https://api.binance.com/api/v3/ticker/price?symbols=["BTCUSDT","ETHUSDT","SOLUSDT"]');
-                const cryptoData = await cryptoReq.json();
-                
-                const prices = {};
-                cryptoData.forEach(p => { prices[p.symbol] = parseFloat(p.price).toLocaleString('en-US', {style:'currency', currency:'USD'}); });
-                
-                document.getElementById('btc-price').innerText = prices['BTCUSDT'];
-                document.getElementById('cube-btc-val').innerText = prices['BTCUSDT'];
-                document.getElementById('eth-price').innerText = prices['ETHUSDT'];
-                document.getElementById('sol-price').innerText = prices['SOLUSDT'];
+                // BTC Price Check (Binance)
+                const r = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT');
+                const d = await r.json();
+                const price = parseFloat(d.price).toLocaleString('en-US', {style:'currency', currency:'USD'});
+                document.getElementById('btc-price-val').innerText = price;
 
-                // Trigger Arthean Flash (Volatility Mock)
-                cube.classList.add('flash');
-                setTimeout(() => cube.classList.remove('flash'), 3000);
-
-                // Sports Bridge (GSheet - Placeholder link check)
+                // Cricket Feed (GSheet)
                 const sportsReq = await fetch("https://docs.google.com/spreadsheets/d/1piaurYSY_FDRgMREtoJaFd9NHkc8jfJkKQv0Vb-JpmM/gviz/tq?tqx=out:json");
                 const sportsText = await sportsReq.text();
                 const rawSports = sportsText.substring(sportsText.indexOf('{'), sportsText.lastIndexOf('}') + 1);
-                const sportsData = JSON.parse(rawSports);
-                const latestScore = sportsData.table.rows[0].c[1] ? sportsData.table.rows[0].c[1].v : "SYNC_OK";
-                
-                document.getElementById('cricket-score').innerText = latestScore;
-                document.getElementById('soccer-text').innerText = "LIVE_SYNCED";
+                const sData = JSON.parse(rawSports);
+                const score = sData.table.rows[0].c[1] ? sData.table.rows[0].c[1].v : "SYNC_OK";
+                document.getElementById('cricket-score').innerText = score;
+            } catch (e) { console.log("Sync delay."); }
+        };
 
-                updateAuditStatus(true);
-            } catch (e) {
-                console.error("Zenith Bridge Delay:", e);
-                updateAuditStatus(false);
-            }
-        }
-
-        function updateAuditStatus(success) {
-            auditLamp.classList.toggle('bg-green-500', success);
-            auditLamp.classList.toggle('bg-yellow-500', !success);
-            auditText.innerText = success ? "UNIVERSAL_ZENITH_V89.0: LIVE_SYNC" : "UNIVERSAL_ZENITH_V89.0: FALLBACK";
-        }
-
-        // [INTERACTIVE_SHARD_SYSTEM]
-        document.querySelectorAll('.shard').forEach(shard => {
-            shard.onclick = () => {
-                document.getElementById('terminal-zone').classList.add('terminal-pop');
-                window.scrollTo({ top: document.getElementById('terminal-section').offsetTop, behavior: 'smooth' });
-                if (!window.tvWidget) {
-                    window.tvWidget = new TradingView.widget({
-                        "width": "100%", "height": "100%", "symbol": "BINANCE:BTCUSDT",
-                        "interval": "1", "theme": "dark", "style": "1", "container_id": "terminal-zone",
-                        "studies": ["BollingerBands@tv-basicstudies", "RelativeStrengthIndex@tv-basicstudies"]
-                    });
-                }
-            };
+        // TradingView Mastery (1:1 Aspect Ratio)
+        new TradingView.widget({
+            "width": "100%", "height": "100%", "symbol": "BINANCE:BTCUSDT",
+            "interval": "60", "theme": "dark", "style": "1", "container_id": "whale-terminal",
+            "studies": [
+                "BollingerBands@tv-basicstudies", 
+                "RSI@tv-basicstudies", 
+                "VolumeProfile@tv-basicstudies"
+            ],
+            "hide_side_toolbar": false, "allow_symbol_change": true, "details": true, "hotlist": true, "calendar": true
         });
 
-        // Initialize Loops
         syncArchitecture();
-        setInterval(syncArchitecture, 15000);
+        setInterval(syncArchitecture, 10000);
     });
     </script>
 </body>
