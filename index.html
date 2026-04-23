@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DailyPost365 | Whale Terminal Dominance</title>
+    <title>DailyPost365 | Whale Master Expansion</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* [SUPERSEED_CSS_V94.0] */
+        /* [SUPERSEED_CSS_V95.0] */
         :root {
             --bg-main: #020204; --card-bg: #0a0a0a;
             --neon-cyan: #00F2FE; --neon-yellow: #FFFF00;
@@ -21,38 +21,48 @@
             margin: 0; overflow-x: hidden; scroll-behavior: smooth; 
         }
 
-        /* SOVEREIGN CHART DOMINANCE */
+        /* 1:1 MASTER CHRONOS ARCHITECTURE */
         .master-terminal-container {
-            width: 100%; height: 900px; background: #000;
-            border: 1px solid var(--border-color); position: relative;
+            width: 100%; max-width: 900px; aspect-ratio: 1 / 1; 
+            background: #000; border: 1px solid var(--border-color); 
+            position: relative; margin: 0 auto;
             box-shadow: 0 0 50px rgba(0, 242, 254, 0.05);
+            transition: 0.8s cubic-bezier(0.23, 1, 0.32, 1);
         }
-        .terminal-glow {
-            position: absolute; inset: 0; pointer-events: none;
-            border: 1px solid rgba(0, 242, 254, 0.1); z-index: 5;
+        .master-terminal-container:fullscreen { max-width: 100% !important; width: 100vw !important; height: 100vh !important; }
+        
+        .terminal-hud {
+            position: absolute; top: 20px; right: 20px; z-index: 100;
+            display: flex; gap: 12px;
         }
+        .hud-btn {
+            background: rgba(0,0,0,0.8); border: 1px solid var(--border-color);
+            color: #fff; padding: 10px; border-radius: 4px; cursor: pointer;
+            backdrop-filter: blur(10px); transition: 0.3s; font-size: 14px;
+        }
+        .hud-btn:hover { border-color: var(--neon-cyan); color: var(--neon-cyan); box-shadow: 0 0 15px rgba(0, 242, 254, 0.2); }
 
-        /* STUDIO MEDIA CARDS */
-        .studio-header {
-            display: flex; align-items: center; gap: 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 20px;
-            margin-bottom: 40px; margin-top: 80px;
+        /* NEURAL INSTAGRAM GALLERY */
+        .ig-header {
+            display: flex; align-items: center; justify-content: space-between;
+            border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 24px;
+            margin: 100px 0 40px;
         }
-        .live-pulse {
-            width: 8px; height: 8px; border-radius: 50%;
-            background: var(--neon-cyan); box-shadow: 0 0 10px var(--neon-cyan);
-            animation: pulse-bloom 2s infinite;
-        }
-        @keyframes pulse-bloom { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(3); opacity: 0; } }
-
-        .studio-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 32px; padding: 0 0 80px; }
-        .media-card {
+        .ig-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 32px; padding-bottom: 100px; }
+        .ig-card {
             background: var(--card-bg); border: 1px solid var(--border-color);
             border-radius: 4px; overflow: hidden; position: relative;
-            transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-            backdrop-filter: var(--glass-blur); min-height: 480px;
+            transition: 0.5s; backdrop-filter: var(--glass-blur); min-height: 400px;
         }
-        .media-card:hover { border-color: rgba(255,255,255,0.2); transform: translateY(-10px); }
+        .ig-card:hover { border-color: var(--neon-yellow); transform: translateY(-8px); }
+
+        .live-signal {
+            display: flex; align-items: center; gap: 8px; font-size: 10px;
+            font-weight: 900; color: var(--neon-cyan); text-transform: uppercase;
+            letter-spacing: 0.2em;
+        }
+        .pulse-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--neon-cyan); animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(3); } }
 
         /* FOOTER IMPERIAL */
         .footer-lock { padding: 100px 20px; background: #000; border-top: 1px solid var(--border-color); text-align: center; }
@@ -74,61 +84,49 @@
             <div class="w-12 h-12 bg-blue-700 rounded flex items-center justify-center font-black italic text-white text-2xl">W</div>
             <div class="flex flex-col">
                 <span class="text-2xl font-black italic tracking-tighter leading-none">DAILYPOST365</span>
-                <span class="text-[9px] font-bold text-gray-500 uppercase tracking-[0.4em]">Whale Terminal Dominance</span>
+                <span class="text-[9px] font-bold text-gray-500 uppercase tracking-[0.4em]">Whale Master Expansion</span>
             </div>
         </div>
         <div class="flex gap-10 text-[11px] font-black uppercase tracking-[0.2em] text-gray-400">
             <a href="#" class="hover:text-[#00F2FE] transition text-white">Market Intel</a>
-            <a href="#" class="hover:text-white transition">Archives</a>
+            <a href="https://www.instagram.com/dailypostwizard2026/" target="_blank" class="hover:text-white transition">Instagram Hub</a>
         </div>
     </nav>
 
     <main class="max-w-[1750px] mx-auto px-8 py-12">
         
-        <!-- MASTER WHALE TERMINAL (DOMINANT SECTION) -->
+        <!-- MASTER WHALE TERMINAL (1:1 RATIO + EXPANSION) -->
         <section class="mb-20">
-            <div class="flex justify-between items-end mb-8">
+            <div class="flex justify-between items-end mb-8 max-w-[900px] mx-auto">
                 <div>
                     <h2 class="text-3xl font-black italic tracking-tighter uppercase text-white">Market Intelligence Center</h2>
-                    <p class="text-xs text-gray-500 font-bold tracking-widest uppercase mt-2">Zero-Latency Whale Flow Bridge (V94.0)</p>
+                    <div class="live-signal mt-2"><div class="pulse-dot"></div> Sovereign Bridge (V95.0)</div>
                 </div>
                 <div class="text-right">
                     <span class="text-[10px] text-cyan-400 font-black uppercase tracking-widest block">BTC_USDT_LIVE</span>
-                    <div class="text-3xl font-black text-white" id="btc-val">$77,074.57</div>
+                    <div class="text-4xl font-black text-white" id="btc-val">$77,074.57</div>
                 </div>
             </div>
 
-            <div class="master-terminal-container">
-                <div class="terminal-glow"></div>
+            <div class="master-terminal-container" id="terminal-root">
+                <div class="terminal-hud">
+                    <button class="hud-btn" id="full-toggle" title="Full Screen Dominance"><i class="fas fa-expand"></i></button>
+                </div>
                 <div id="whale-master-terminal" style="height: 100%; width: 100%;"></div>
             </div>
         </section>
 
-        <!-- STUDIO HIGHLIGHTS (MEDIA GRID) -->
-        <div class="studio-header">
-            <div class="live-pulse"></div>
-            <h2 class="text-3xl font-black italic tracking-tighter uppercase text-white">Studio Highlights</h2>
+        <!-- AUTOMATED INSTAGRAM RECOVERY HUB -->
+        <div class="ig-header">
+            <h2 class="text-3xl font-black italic tracking-tighter uppercase text-white">Studio Highlights <span class="text-xs text-gray-500 ml-4 font-bold tracking-widest lowercase">@dailypostwizard2026</span></h2>
+            <a href="https://www.instagram.com/dailypostwizard2026/" target="_blank" class="text-[10px] font-black uppercase tracking-widest text-cyan-400 border-b border-cyan-400 hover:text-white transition">View Live Feed</a>
         </div>
 
-        <div class="studio-grid">
-            <div class="media-card">
-                <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DW7CwvAk9nU/" data-instgrm-version="14"></blockquote>
-            </div>
-            <div class="media-card">
-                <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DWjygltk4v4/" data-instgrm-version="14"></blockquote>
-            </div>
-            <div class="media-card">
-                <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DWhNIkzE1rL/" data-instgrm-version="14"></blockquote>
-            </div>
-            <div class="media-card">
-                <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DWeIODLEypV/" data-instgrm-version="14"></blockquote>
-            </div>
-            <div class="media-card">
-                <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DV33Z_kE8e5/" data-instgrm-version="14"></blockquote>
-            </div>
-            <div class="media-card" style="min-height: 520px;">
-                <iframe src="https://www.youtube.com/embed/fTATPgWpDtQ" style="width: 100%; height: 100%;" allowfullscreen></iframe>
-            </div>
+        <div class="ig-grid" id="ig-container">
+            <!-- FALLBACK SKELETONS - JS WILL PULSE NEW UPDATES HERE -->
+            <div class="ig-card"><div class="animate-pulse bg-gray-900 w-full h-full"></div></div>
+            <div class="ig-card"><div class="animate-pulse bg-gray-900 w-full h-full"></div></div>
+            <div class="ig-card"><div class="animate-pulse bg-gray-900 w-full h-full"></div></div>
         </div>
 
     </main>
@@ -139,7 +137,7 @@
             <a href="https://www.youtube.com/@WhaleTrackerAlpha" class="social-link text-red-600"><i class="fab fa-youtube"></i></a>
             <a href="https://www.tiktok.com/@dailypost0365" class="social-link text-white"><i class="fab fa-tiktok"></i></a>
             <a href="https://x.com/DailyPostW92945" class="social-link text-blue-400"><i class="fab fa-x-twitter"></i></a>
-            <a href="https://www.snapchat.com/add/DailyPost365" class="social-link text-yellow-400"><i class="fab fa-snapchat"></i></a>
+            <a href="https://www.instagram.com/dailypostwizard2026/" class="social-link text-pink-500"><i class="fab fa-instagram"></i></a>
         </div>
         <p class="legal-shield">
             LEGAL DISCLOSURE: DailyPost365 provides high-fidelity market intelligence for educational purposes only. We are not licensed financial advisors (VARA/SCA). Trading digital assets involves significant risk. All data is synchronized via external bridges; accuracy is not guaranteed. V86.6 Compliance.
@@ -150,13 +148,44 @@
     <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // [WHALE_TERMINAL_INITIALIZATION]
-        new TradingView.widget({
+
+        // [CHART_INITIALIZATION]
+        const tvWidget = new TradingView.widget({
             "width": "100%", "height": "100%", "symbol": "BINANCE:BTCUSDT",
             "interval": "60", "theme": "dark", "style": "1", "container_id": "whale-master-terminal",
             "studies": ["BollingerBands@tv-basicstudies", "RSI@tv-basicstudies"],
-            "allow_symbol_change": true, "show_popup_button": true, "popup_width": "1000", "popup_height": "650"
+            "allow_symbol_change": true, "show_popup_button": true
         });
+
+        // [FULLSCREEN_DOMINANCE]
+        const terminal = document.getElementById('terminal-root');
+        const toggleBtn = document.getElementById('full-toggle');
+        
+        toggleBtn.onclick = () => {
+            if (!document.fullscreenElement) {
+                terminal.requestFullscreen().catch(err => { console.error(`Error: ${err.message}`); });
+            } else {
+                document.exitFullscreen();
+            }
+        };
+
+        // [INSTAGRAM_BRIDGE_V95]
+        // Mock Automation for V95 Deployment: Map latest confirmed recovery spots
+        const recoverySpots = [
+            "DW7CwvAk9nU", "DWjygltk4v4", "DWhNIkzE1rL", "DWeIODLEypV", "DV33Z_kE8e5"
+        ];
+
+        function renderIGGrid() {
+            const container = document.getElementById('ig-container');
+            container.innerHTML = '';
+            recoverySpots.forEach(id => {
+                const card = document.createElement('div');
+                card.className = 'ig-card';
+                card.innerHTML = `<blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/${id}/" data-instgrm-version="14" style="width: 100%; height: 100%; border: none; background: transparent;"></blockquote>`;
+                container.appendChild(card);
+            });
+            if (window.instgrm) window.instgrm.Embeds.process();
+        }
 
         // Price Sync (Binance)
         setInterval(async () => {
@@ -166,6 +195,8 @@
                 document.getElementById('btc-val').innerText = parseFloat(d.price).toLocaleString('en-US', {style:'currency', currency:'USD'});
             } catch (e) {}
         }, 10000);
+
+        renderIGGrid();
     });
     </script>
 </body>
