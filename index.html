@@ -3,15 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DAILYPOST365 | Neural Catalyst V108.0</title>
+    <title>DAILYPOST365 | Neural Restoration V109.0</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* [SUPERSEED_CSS_V108.0] - NEURAL CATALYST ANIMATION ENGINE */
+        /* [SUPERSEED_CSS_V109.0] - BROADCAST PURITY ENGINE */
         :root {
-            --bg-deep: #010204; --sidebar-bg: #040608; --card-bg: rgba(10, 15, 25, 0.7);
+            --bg-deep: #010204; --sidebar-bg: #030508; --card-bg: rgba(10, 14, 20, 0.7);
             --neon-cyan: #00F2FE; --neon-gold: #feb316; --text-main: #f0f6fc;
             --glass-blur: blur(60px);
         }
@@ -21,109 +20,99 @@
             margin: 0; overflow-x: hidden; scroll-behavior: smooth;
         }
 
-        h1, h2, h3, .font-vortex { font-family: 'Space Grotesk', sans-serif; letter-spacing: -0.02em; }
+        h1, h2, h3, .font-vortex { font-family: 'Space Grotesk', sans-serif; letter-spacing: -0.01em; }
 
-        /* 1. ASCENT ANIMATION (Pulsing Depth) */
-        @keyframes ascentMotion {
-            0%, 100% { transform: translateY(0) scale(1.0); }
-            50% { transform: translateY(-15px) scale(1.03); }
-        }
-        .animate-ascent { animation: ascentMotion 6s ease-in-out infinite; }
+        #vortex-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; pointer-events: none; opacity: 0.8; }
 
-        /* 2. SHATTER PULSE (Glow Radiance) */
-        @keyframes shardPulse {
-            0%, 100% { filter: brightness(1) drop-shadow(0 0 5px rgba(0, 242, 254, 0.15)); }
-            50% { filter: brightness(1.4) drop-shadow(0 0 20px rgba(0, 242, 254, 0.5)); }
-        }
-        .animate-shatter { animation: shardPulse 3s infinite ease-in-out; }
-
-        /* 3. BLOOM TEXT GLOW */
-        .bloom-text { text-shadow: 0 0 10px rgba(0, 242, 254, 0.6); }
-
-        #vortex-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; pointer-events: none; }
-
+        /* IMPERIAL SIDEBAR */
         .imperial-sidebar {
             width: 320px; height: 100vh; position: fixed; left: 0; top: 0;
             background: var(--sidebar-bg); border-right: 1px solid rgba(255, 255, 255, 0.05);
             padding: 40px 32px; z-index: 100;
         }
 
+        /* MASTER TERMINAL LAYOUT */
         .master-layout { margin-left: 320px; padding: 40px; }
         @media (max-width: 1200px) { .imperial-sidebar { display: none; } .master-layout { margin-left: 0; } }
 
         .glass-terminal {
             background: var(--card-bg); border: 1px solid rgba(255, 255, 255, 0.05);
-            backdrop-filter: var(--glass-blur); border-radius: 4px; transition: 0.5s;
+            backdrop-filter: var(--glass-blur); border-radius: 4px; transition: 0.4s;
         }
-        .glass-terminal:hover { border-color: var(--neon-cyan); box-shadow: 0 0 40px rgba(0, 242, 254, 0.05); }
+        .glass-terminal:hover { border-color: var(--neon-cyan); }
 
         .ticker-item { padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.02); display: flex; justify-content: space-between; align-items: center; }
-        .orb-ascent { width: 24px; height: 24px; border-radius: 100px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 900; }
+        .coin-orb { width: 22px; height: 22px; border-radius: 100px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 900; }
 
-        .ipl-capsule-cat { background: rgba(0, 242, 254, 0.02); border: 1px dotted rgba(0, 242, 254, 0.3); border-radius: 2px; }
+        .grid-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 32px; }
 
-        footer { padding: 80px; background: #000; text-align: center; }
-        .legal-shield { font-size: 9px; opacity: 0.3; color: #fff; max-width: 1000px; margin: 40px auto 0; text-transform: uppercase; letter-spacing: 0.2em; line-height: 2.2; font-weight: 700; }
+        /* IPL CAPSULE */
+        .ipl-bridge { background: rgba(0, 242, 254, 0.03); border: 1px solid rgba(0, 242, 254, 0.1); border-radius: 4px; }
+
+        footer { padding: 100px 40px; background: #000; text-align: center; }
+        .legal-shield { font-size: 9px; opacity: 0.3; color: #fff; max-width: 900px; margin: 40px auto 0; text-transform: uppercase; letter-spacing: 0.22em; line-height: 2.2; font-weight: 700; }
         
-        .zenith-btn { background: rgba(0, 242, 254, 0.02); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 10px 24px; border-radius: 2px; font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.3em; transition: 0.3s; }
+        .zenith-btn { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 10px 24px; border-radius: 2px; font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.3em; transition: 0.3s; }
     </style>
 </head>
 <body>
     <canvas id="vortex-canvas"></canvas>
 
-    <!-- IMPERIAL SIDEBAR: ASCENT-SYNCED ASSETS -->
+    <!-- IMPERIAL SIDEBAR: CLEAN ASSET PULSE -->
     <aside class="imperial-sidebar hidden lg:flex flex-col">
-        <div class="flex items-center gap-6 mb-20 animate-ascent">
-            <div class="w-14 h-14 bg-blue-600 rounded flex items-center justify-center font-black italic text-white text-4xl shadow-2xl animate-shatter">W</div>
+        <div class="flex items-center gap-6 mb-20">
+            <div class="w-14 h-14 bg-blue-700 rounded-sm flex items-center justify-center font-black italic text-white text-4xl shadow-2xl">W</div>
             <div class="flex flex-col">
-                <span class="text-2xl font-black font-vortex text-white italic tracking-tighter bloom-text">DAILYPOST365</span>
-                <span class="text-[9px] font-black text-cyan-400 uppercase tracking-[0.5em]">Neural Catalyst</span>
+                <span class="text-2xl font-black font-vortex text-white italic tracking-tighter">DAILYPOST365</span>
+                <span class="text-[9px] font-black text-gray-500 uppercase tracking-[0.4em]">Neural Restoration</span>
             </div>
         </div>
 
         <div class="mb-12">
-            <h3 class="text-[9px] font-black uppercase tracking-[0.5em] text-gray-600 mb-8 border-b border-white border-opacity-5 pb-2">Sentiment_Analysis</h3>
+            <h3 class="text-[10px] font-black uppercase tracking-[0.4em] text-gray-600 mb-8">Universal_Pulse</h3>
             <div class="space-y-1">
-                <div class="ticker-item"><div class="flex items-center gap-4"><div class="orb-ascent bg-yellow-500 text-black animate-ascent">B</div> <span class="text-xs font-black">BTC</span></div> <div class="text-right"><div class="text-[11px] font-black text-white" id="val-btc">...</div><div class="text-[8px] text-green-400 flex items-center justify-end gap-1 font-bold"><span class="material-symbols-outlined text-[10px]" style="font-variation-settings: 'FILL' 1">sentiment_very_satisfied</span>OPTIMISTIC</div></div></div>
-                <div class="ticker-item"><div class="flex items-center gap-4"><div class="orb-ascent bg-blue-500 text-white animate-ascent" style="animation-delay: -1s">E</div> <span class="text-xs font-black">ETH</span></div> <div class="text-right"><div class="text-[11px] font-black text-white" id="val-eth">...</div><div class="text-[8px] text-orange-400 flex items-center justify-end gap-1 font-bold"><span class="material-symbols-outlined text-[10px]" style="font-variation-settings: 'FILL' 1">sentiment_satisfied</span>NEUTRAL</div></div></div>
-                <div class="ticker-item"><div class="flex items-center gap-4"><div class="orb-ascent bg-purple-500 text-white animate-ascent" style="animation-delay: -2s">S</div> <span class="text-xs font-black">SOL</span></div> <div class="text-right"><div class="text-[11px] font-black text-white" id="val-sol">...</div><div class="text-[8px] text-green-400 flex items-center justify-end gap-1 font-bold"><span class="material-symbols-outlined text-[10px]" style="font-variation-settings: 'FILL' 1">sentiment_very_satisfied</span>ACTIVE</div></div></div>
+                <div class="ticker-item"><div class="flex items-center gap-4"><div class="coin-orb bg-yellow-500 text-black">B</div> <span class="text-xs font-black">BTC</span></div> <span class="text-[11px] font-black text-white" id="val-btc">...</span></div>
+                <div class="ticker-item"><div class="flex items-center gap-4"><div class="coin-orb bg-blue-500 text-white">E</div> <span class="text-xs font-black">ETH</span></div> <span class="text-[11px] font-black text-white" id="val-eth">...</span></div>
+                <div class="ticker-item"><div class="flex items-center gap-4"><div class="coin-orb bg-purple-500 text-white">S</div> <span class="text-xs font-black">SOL</span></div> <span class="text-[11px] font-black text-white" id="val-sol">...</span></div>
+                <div class="ticker-item"><div class="flex items-center gap-4"><div class="coin-orb bg-gray-500 text-white">S</div> <span class="text-xs font-black">SUI</span></div> <span class="text-[11px] font-black text-white" id="val-sui">...</span></div>
+                <div class="ticker-item"><div class="flex items-center gap-4"><div class="coin-orb bg-yellow-600 text-black">B</div> <span class="text-xs font-black">BNB</span></div> <span class="text-[11px] font-black text-white" id="val-bnb">...</span></div>
             </div>
         </div>
 
         <nav class="flex flex-col gap-8 text-[11px] font-black uppercase tracking-[0.4em] text-gray-500 mt-auto">
-            <a href="#" class="text-cyan-400 border-l-2 border-cyan-400 pl-4 py-1">Terminal_Core</a>
-            <a href="#intel-repository" class="hover:text-white transition pl-4 py-1">Intel_Hub</a>
-            <a href="https://www.instagram.com/dailypostwizard2026/" target="_blank" class="hover:text-white transition pl-4 py-1">Recovery_IG</a>
+            <a href="#" class="text-cyan-400">Terminal_Core</a>
+            <a href="#intel-grid" class="hover:text-white transition">Intel_Repository</a>
+            <a href="https://www.instagram.com/dailypostwizard2026/" target="_blank" class="hover:text-white transition">IG_Master_Feed</a>
         </nav>
     </aside>
 
     <main class="master-layout">
-        <!-- CATALYST BROADCAST BAR -->
+        <!-- CLEAN IMPERIAL BROADCAST BAR -->
         <header class="flex justify-between items-center mb-16">
             <div class="flex items-center gap-12">
-                <div class="animate-ascent">
-                    <h1 class="text-4xl font-black italic tracking-tighter uppercase text-white bloom-text leading-none">Kinetic Command</h1>
-                    <span class="text-[10px] text-gray-500 font-bold tracking-[0.5em] uppercase mt-4 block">Ascension Sequence (V108.0) Active</span>
+                <div>
+                    <h1 class="text-4xl font-black italic tracking-tighter uppercase text-white leading-none">Imperial Command</h1>
+                    <span class="text-[10px] text-gray-500 font-bold tracking-[0.4em] uppercase mt-4 block">Neural Restoration (V109.0) Active</span>
                 </div>
-                <!-- IPL LIVE CATALYST -->
-                <div class="glass-terminal ipl-capsule-cat px-10 py-6 flex items-center gap-12 animate-shatter">
+                <!-- IPL LIVE BRIDGE -->
+                <div class="glass-terminal ipl-bridge px-8 py-5 flex items-center gap-10">
                     <div class="flex flex-col">
-                        <span class="text-[10px] font-black uppercase tracking-[0.4em] text-cyan-400 mb-2">IPL_PULSE_LIVE</span>
-                        <div class="text-sm font-black text-white tracking-widest" id="ipl-match">ESTABLISHING_V108_BRIDGE...</div>
+                        <span class="text-[9px] font-black uppercase tracking-[0.4em] text-cyan-400 mb-1 animate-pulse">IPL_INTEL_BRIDGE</span>
+                        <div class="text-[14px] font-black text-white" id="ipl-match">SYNCING_MATCH_FEED...</div>
                     </div>
                     <div class="text-right">
-                        <div class="text-2xl font-black text-white" id="ipl-score">-- / --</div>
-                        <span class="text-[9px] font-bold text-gray-500" id="ipl-status">SYNC_INTEL_READY</span>
+                        <div class="text-xl font-black text-white" id="ipl-score">-- / --</div>
+                        <span class="text-[9px] font-black text-gray-500" id="ipl-status">SYNC_READY</span>
                     </div>
                 </div>
             </div>
             <button class="zenith-btn" id="theme-switch">Zenith Switch</button>
         </header>
 
-        <!-- MASTER WHALE TERMINAL (FULL WIDTH CATALYST) -->
+        <!-- MASTER TERMINAL (FULL WIDTH) -->
         <section class="grid grid-cols-12 gap-10">
             <div class="col-span-12">
-                <div class="glass-terminal p-1 overflow-hidden shadow-2xl">
+                <div class="glass-terminal p-1 overflow-hidden">
                     <div class="relative w-full aspect-video rounded overflow-hidden" id="terminal-root">
                          <div id="whale-master-terminal" style="height: 100%; width: 100%;"></div>
                     </div>
@@ -131,27 +120,27 @@
             </div>
         </section>
 
-        <!-- INTELLIGENCE REPOSITORY -->
-        <section class="mt-28 pt-28 border-t border-white border-opacity-5" id="intel-repository">
+        <!-- INTELLIGENCE REPOSITORY (10 SPOTS) -->
+        <section class="mt-28 pt-28 border-t border-white border-opacity-5" id="intel-grid">
             <div class="flex justify-between items-center mb-16">
-                <h2 class="text-4xl font-black italic tracking-tighter uppercase text-white bloom-text">Intelligence Repository</h2>
-                <span class="text-[10px] text-gray-500 font-black tracking-[0.5em] uppercase">Multi-Vertical Broadcast Nodes</span>
+                <h2 class="text-4xl font-black italic tracking-tighter uppercase text-white">Intelligence Repository</h2>
+                <span class="text-[10px] text-gray-500 font-black tracking-[0.5em] uppercase">V109_STABLE_RECOVERY</span>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10" id="ig-container"></div>
+            <div class="grid-gallery" id="ig-container"></div>
         </section>
     </main>
 
     <footer>
-        <div class="flex justify-center gap-16 mb-20 animate-ascent">
-            <a href="#" class="text-3xl opacity-20 hover:opacity-100 hover:text-red-500 transition"><i class="fab fa-youtube"></i></a>
-            <a href="#" class="text-3xl opacity-20 hover:opacity-100 hover:text-white transition"><i class="fab fa-tiktok"></i></a>
-            <a href="#" class="text-3xl opacity-20 hover:opacity-100 hover:text-blue-400 transition"><i class="fab fa-x-twitter"></i></a>
-            <a href="https://www.instagram.com/dailypostwizard2026/" class="text-3xl opacity-20 hover:opacity-100 hover:text-pink-500 transition"><i class="fab fa-instagram"></i></a>
+        <div class="flex justify-center gap-16 mb-20 text-3xl opacity-20">
+            <a href="#" class="hover:opacity-100 hover:text-red-600 transition"><i class="fab fa-youtube"></i></a>
+            <a href="#" class="hover:opacity-100 hover:text-white transition"><i class="fab fa-tiktok"></i></a>
+            <a href="#" class="hover:opacity-100 hover:text-blue-400 transition"><i class="fab fa-x-twitter"></i></a>
+            <a href="https://www.instagram.com/dailypostwizard2026/" class="hover:opacity-100 hover:text-pink-500 transition"><i class="fab fa-instagram"></i></a>
         </div>
         <div class="legal-shield">
-            LEGAL DISCLOSURE: DailyPost365 provides high-fidelity market intelligence and sports analysis for informational utility only. 
-            Cryptocurrency trading involves significant variable market risk. IPL Match status is aggregated from open broadcast news sources. 
-            No licensed financial advice (VARA/SCA). V108.0 NEURAL CATALYST SECURED.
+            LEGAL DISCLOSURE: DailyPost365 provides high-fidelity market intelligence and sports analysis for educational utility only. 
+            Cryptocurrency trading involves variable market risk. IPL Match Status provided for informational purposes via open sources. 
+            No licensed financial advice (VARA/SCA). V109.0 RESTORATION COMPLETE.
         </div>
     </footer>
 
@@ -162,7 +151,7 @@
     document.addEventListener('DOMContentLoaded', () => {
 
         // ========================================
-        // 1. VORTEX STAR WORLD (ASCENT ENHANCED)
+        // 1. STAR VORTEX WORLD (CLEAN IMPERIAL)
         // ========================================
         const bgCanvas = document.getElementById('vortex-canvas');
         const scene = new THREE.Scene();
@@ -170,36 +159,24 @@
         const renderer = new THREE.WebGLRenderer({ canvas: bgCanvas, alpha: true, antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
 
-        const starCount = 800;
+        const vortexGroup = new THREE.Group();
         const starGeo = new THREE.BufferGeometry();
-        const starPos = new Float32Array(starCount * 3);
-        for(let i=0; i<starCount*3; i++){ starPos[i] = (Math.random()-0.5)*1500; }
+        const starPos = new Float32Array(600 * 3);
+        for(let i=0; i<600*3; i++){ starPos[i] = (Math.random()-0.5)*1200; }
         starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
-        const stars = new THREE.Points(starGeo, new THREE.PointsMaterial({ color: 0x00F2FE, size: 1.5, transparent:true, opacity:0.3 }));
-        scene.add(stars);
-
-        // KINETIC CRYSTALS (Animate Ascent via Three.js Loop)
-        const crystals = [];
-        for(let i=0; i<4; i++) {
-            const crystal = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.OctahedronGeometry(6, 0)), new THREE.LineBasicMaterial({ color: i%2===0?0xfeb316:0x00F2FE, transparent:true, opacity:0.1 }));
-            crystal.position.set((Math.random()-0.5)*200, (Math.random()-0.5)*150, (Math.random()-0.5)*100);
-            scene.add(crystal); crystals.append(crystal);
-        }
-
-        camera.position.z = 300;
+        const stars = new THREE.Points(starGeo, new THREE.PointsMaterial({ color: 0x00F2FE, size: 1.2, transparent:true, opacity:0.4 }));
+        vortexGroup.add(stars);
+        scene.add(vortexGroup); camera.position.z = 250;
 
         function animate() {
-            requestAnimationFrame(animate);
-            stars.rotation.y += 0.0005;
-            stars.position.y += Math.sin(Date.now()*0.001)*0.1; // Subtle Ascent global
-            renderer.render(scene, camera);
+            requestAnimationFrame(animate); vortexGroup.rotation.y += 0.001; renderer.render(scene, camera);
         }
         animate();
 
         // ========================================
-        // 2. KINETIC DATA SYNC
+        // 2. DATA SYNC (UNCHANGED)
         // ========================================
-        const coins = ['BTCUSDT', 'ETHUSDT', 'SOLUSDT'];
+        const coins = ['BTCUSDT', 'ETHUSDT', 'SOLUSDT', 'SUIUSDT', 'BNBUSDT'];
         async function syncPrices() {
             for(const pair of coins) {
                 try {
@@ -226,7 +203,7 @@
         updateIPL(); setInterval(updateIPL, 600000);
 
         // ========================================
-        // 3. MASTER TERMINAL & GALLERY
+        // 3. MASTER TERMINAL & GALLERY (UNCHANGED)
         // ========================================
         new TradingView.widget({
             "width": "100%", "height": "100%", "symbol": "BINANCE:BTCUSDT",
