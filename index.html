@@ -53,9 +53,84 @@
         .legal-shield { font-size: 9px; opacity: 0.3; color: #fff; max-width: 900px; margin: 40px auto 0; text-transform: uppercase; letter-spacing: 0.22em; line-height: 2.2; font-weight: 700; }
         
         .zenith-btn { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 10px 24px; border-radius: 2px; font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.3em; transition: 0.3s; }
+
+        /* ========================================================
+           CRICKET TELEMETRY SCROLLER v2.0 — ADDITIVE LAYER
+           Scope: IPL 2026 + IND AUS ENG NZ SA SL WI AFG
+           Data: CricAPI (free) → Google News RSS → No-match msg
+           ======================================================== */
+        .ct-bar {
+            position: fixed; top: 0; left: 0; width: 100%;
+            height: 34px; z-index: 9999;
+            background: rgba(0,0,0,0.97);
+            border-bottom: 2px solid #00FF00;
+            box-shadow: 0 3px 18px rgba(0,255,0,0.2);
+            display: flex; align-items: center; overflow: hidden;
+            font-family: 'Roboto Mono', 'Courier New', monospace;
+            font-size: 0.75rem;
+        }
+        .ct-label {
+            flex-shrink: 0; background: #00FF00; color: #000;
+            font-size: 0.6rem; font-weight: 900; letter-spacing: 0.07em;
+            padding: 0 10px; height: 100%;
+            display: flex; align-items: center; gap: 5px;
+            text-transform: uppercase; white-space: nowrap;
+            border-right: 2px solid rgba(0,255,0,0.3); user-select: none;
+        }
+        .ct-status-dot {
+            width: 6px; height: 6px; border-radius: 50%;
+            background: #555; flex-shrink: 0; transition: background 0.4s;
+        }
+        .ct-track {
+            flex: 1; overflow: hidden; display: flex; align-items: center;
+            mask-image: linear-gradient(to right, transparent 0, black 2%, black 98%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to right, transparent 0, black 2%, black 98%, transparent 100%);
+        }
+        .ct-track:hover #ct-belt { animation-play-state: paused !important; }
+        #ct-belt {
+            display: inline-flex; white-space: nowrap;
+            will-change: transform;
+            animation: ct-scroll 65s linear infinite;
+        }
+        @keyframes ct-scroll {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .ct-entry {
+            display: inline-flex; align-items: center; gap: 5px;
+            padding: 0 20px;
+            border-right: 1px solid rgba(0,255,0,0.12);
+            color: #d8d8d8; cursor: default;
+            transition: background 0.15s; line-height: 34px;
+        }
+        .ct-entry:hover { background: rgba(0,255,0,0.05); }
+        .ct-livepip { color: #FF3333; font-size: 0.55rem; font-weight: 900;
+            animation: ct-blink 0.85s infinite alternate; text-transform: uppercase; margin-right: 2px; }
+        @keyframes ct-blink { to { opacity: 0.2; } }
+        .ct-endpip { color: #39FF14; font-size: 0.55rem; font-weight: 700; opacity: 0.8; margin-right: 2px; }
+        .ct-tag { color: #00FF00; font-weight: 800; font-size: 0.65rem; letter-spacing: 0.06em; }
+        .ct-teams { color: #fff; font-weight: 600; font-size: 0.75rem; }
+        .ct-score { color: #CCFF00; font-weight: 700; font-size: 0.75rem; }
+        .ct-status { color: #e0e0e0; font-size: 0.72rem; font-style: italic; }
+        .ct-time { color: #8B949E; font-size: 0.68rem; }
+        .ct-sep { color: rgba(0,255,0,0.28); padding: 0 5px; font-size: 0.6rem; }
+        .ct-meta { color: #8B949E; font-size: 0.7rem; }
+        /* Push body content below cricket bar */
+        body { padding-top: 34px; }
     </style>
 </head>
 <body>
+    <!-- CRICKET TELEMETRY SCROLLER v2.0 — IPL + IND AUS ENG NZ SA SL WI AFG -->
+    <div class="ct-bar" id="ct-bar" role="marquee" aria-label="Live Cricket: IPL and International">
+        <div class="ct-label">
+            <span id="ct-status-dot" class="ct-status-dot"></span>
+            <span id="ct-label-text">CRICKET</span>
+        </div>
+        <div class="ct-track">
+            <div id="ct-belt"><span class="ct-meta">&#x23f3; Loading cricket data...</span></div>
+        </div>
+    </div>
+
     <canvas id="vortex-canvas"></canvas>
 
     <!-- IMPERIAL SIDEBAR: CLEAN ASSET PULSE -->
@@ -219,6 +294,164 @@
         });
         if(window.instgrm) window.instgrm.Embeds.process();
     });
+
+    // ============================================================
+    // CRICKET TELEMETRY SCROLLER v2.0 — INLINE MODULE
+    // Scope: IPL 2026 + IND AUS ENG NZ SA SL WI AFG (today only)
+    // ============================================================
+    (function() {
+        const CT_KEY  = 'f2510692-1ed0-403b-8377-d493d8bf149d';
+        const PROXY   = 'https://api.allorigins.win/raw?url=';
+        const INTL    = ['india','australia','england','new zealand',
+                         'south africa','sri lanka','west indies','afghanistan'];
+        const IPL_KW  = ['ipl','indian premier','pbks','mi ','csk','rcb',
+                         'kkr','srh','rr ','dc ','gt ','lsg'];
+
+        function classify(s) {
+            const t = (s||'').toLowerCase();
+            if (IPL_KW.some(k => t.includes(k))) return 'ipl';
+            if (INTL.some(k => t.includes(k)))   return 'intl';
+            return null;
+        }
+        function todayStr() { return new Date().toISOString().slice(0,10); }
+        function isToday(d) { return !d || d.slice(0,10) === todayStr(); }
+        function timeAgo(iso) {
+            if(!iso) return '';
+            const m = Math.floor((Date.now()-new Date(iso))/60000);
+            return m < 1 ? 'just now' : m < 60 ? m+'m ago' : Math.floor(m/60)+'h ago';
+        }
+        function todayReadable() {
+            return new Date().toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'});
+        }
+        function setDot(state) {
+            const dot = document.getElementById('ct-status-dot');
+            const lbl = document.getElementById('ct-label-text');
+            if(!dot) return;
+            const map = { live:'#39FF14', today:'#CCFF00', news:'#FF8C00', loading:'#555', nodata:'#FF3333' };
+            dot.style.background = map[state]||map.nodata;
+            if(lbl) lbl.textContent = state==='live' ? 'LIVE CRICKET' : 'CRICKET';
+        }
+        function buildHTML(entries) {
+            if(!entries.length) return `<span class="ct-entry"><span class="ct-meta">&#x1f3cf; No matches today (${todayReadable()}) &#x2014; Check back later</span></span>`;
+            const segs = entries.map(e => {
+                const live = e.live ? '<span class="ct-livepip">&#x25CF; LIVE</span>' : '';
+                const end  = e.ended ? '<span class="ct-endpip">&#x2713; RESULT</span>' : '';
+                return `<span class="ct-entry">${live}${end}
+                    <span class="ct-tag">${e.tag}</span>
+                    <span class="ct-sep">&rsaquo;</span>
+                    <span class="ct-teams">${e.teams}</span>
+                    <span class="ct-sep">|</span>
+                    <span class="ct-score">${e.score}</span>
+                    <span class="ct-sep">|</span>
+                    <span class="ct-status">${e.status}</span>
+                    <span class="ct-sep">|</span>
+                    <span class="ct-time">&#x23f1; ${e.time}</span>
+                </span>`;
+            }).join('');
+            return segs + segs;
+        }
+        function render(entries) {
+            const belt = document.getElementById('ct-belt');
+            if(!belt) return;
+            belt.innerHTML = buildHTML(entries);
+            belt.style.animation = 'none';
+            void belt.offsetWidth;
+            belt.style.animation = 'ct-scroll 65s linear infinite';
+        }
+        async function fetchCricApi() {
+            const results = [];
+            const urls = [
+                `https://api.cricapi.com/v1/currentMatches?apikey=${CT_KEY}&offset=0`,
+                `https://api.cricapi.com/v1/matches?apikey=${CT_KEY}&offset=0`
+            ];
+            for(const url of urls) {
+                try {
+                    const ctrl = new AbortController();
+                    const tid = setTimeout(()=>ctrl.abort(), 7000);
+                    const res = await fetch(PROXY + encodeURIComponent(url), {signal:ctrl.signal});
+                    clearTimeout(tid);
+                    if(!res.ok) continue;
+                    const json = await res.json();
+                    (json.data||[]).forEach(m => {
+                        if(m.dateTimeGMT && !isToday(m.dateTimeGMT)) return;
+                        const scope = classify(m.name||'') || classify(m.series_id||'');
+                        if(!scope) return;
+                        if(results.find(r=>r._id===m.id)) return;
+                        const scores = (m.score||[]).map(s=>`${s.inning.replace(' Inning 1','').replace(' Inning 2',' 2nd')}: ${s.r}/${s.w}(${s.o}ov)`).join(' | ')||'Upcoming';
+                        const live = m.matchStarted && !m.matchEnded;
+                        results.push({
+                            _id: m.id,
+                            icon: scope==='ipl'?'&#x1f3cf;':'&#x1f30d;',
+                            tag:  scope==='ipl'?'IPL':'INTL',
+                            teams: m.name||'?',
+                            score: scores,
+                            status: m.status||'',
+                            live: live,
+                            ended: !!m.matchEnded,
+                            time: m.dateTimeGMT ? timeAgo(m.dateTimeGMT) : todayReadable()
+                        });
+                    });
+                } catch(e) { console.warn('[CT] CricAPI error:', e.message); }
+            }
+            return results;
+        }
+        async function fetchRss() {
+            const q = encodeURIComponent('IPL 2026 India cricket live score today');
+            const rss = `https://news.google.com/rss/search?q=${q}&hl=en-IN&gl=IN&ceid=IN:en`;
+            const results = [];
+            try {
+                const ctrl = new AbortController();
+                const tid = setTimeout(()=>ctrl.abort(), 7000);
+                const res = await fetch(PROXY + encodeURIComponent(rss), {signal:ctrl.signal});
+                clearTimeout(tid);
+                const text = await res.text();
+                const xml = new DOMParser().parseFromString(text,'application/xml');
+                Array.from(xml.querySelectorAll('item')).slice(0,6).forEach(item => {
+                    const title = item.querySelector('title')?.textContent||'';
+                    const pub   = item.querySelector('pubDate')?.textContent||'';
+                    if(pub && (Date.now()-new Date(pub))>86400000) return;
+                    const scope = classify(title);
+                    if(!scope) return;
+                    results.push({
+                        _id: 'rss_'+title.slice(0,25),
+                        tag: scope==='ipl'?'IPL NEWS':'INTL NEWS',
+                        teams: item.querySelector('source')?.textContent||'News',
+                        score: '&#x2014;',
+                        status: title,
+                        live: false, ended: false,
+                        time: pub ? timeAgo(new Date(pub).toISOString()) : todayReadable()
+                    });
+                });
+            } catch(e) { console.warn('[CT] RSS error:', e.message); }
+            return results;
+        }
+        async function refresh() {
+            let entries = [];
+            try { entries = await fetchCricApi(); } catch(e) {}
+            if(entries.length===0) {
+                try {
+                    const news = await fetchRss();
+                    entries = news;
+                    setDot(entries.length ? 'news' : 'nodata');
+                } catch(e) { setDot('nodata'); }
+            } else {
+                try {
+                    const news = await fetchRss();
+                    const seen = new Set(entries.map(e=>e._id));
+                    entries = [...entries, ...news.filter(n=>!seen.has(n._id))];
+                } catch(e) {}
+                setDot(entries.some(e=>e.live) ? 'live' : 'today');
+            }
+            render(entries);
+        }
+        async function init() {
+            setDot('loading');
+            await refresh();
+            setInterval(refresh, 90000);
+        }
+        if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', init);
+        else init();
+    })();
     </script>
 </body>
 </html>
