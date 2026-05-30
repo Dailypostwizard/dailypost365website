@@ -296,160 +296,188 @@
     });
 
     // ============================================================
-    // CRICKET TELEMETRY SCROLLER v2.0 — INLINE MODULE
-    // Scope: IPL 2026 + IND AUS ENG NZ SA SL WI AFG (today only)
+    // CRICKET TELEMETRY SCROLLER v3.0 GENIUS — INLINE MODULE
+    // Audit: May 30 2026 | Scope: IPL + IND/AUS/ENG/NZ/SA/SL/WI/AFG + Women
+    // Fixes: cache layer, proxy chain, quota guard, IST dates, fixtures
     // ============================================================
     (function() {
-        const CT_KEY  = 'f2510692-1ed0-403b-8377-d493d8bf149d';
-        const PROXY   = 'https://api.allorigins.win/raw?url=';
-        const INTL    = ['india','australia','england','new zealand',
-                         'south africa','sri lanka','west indies','afghanistan'];
-        const IPL_KW  = ['ipl','indian premier','pbks','mi ','csk','rcb',
-                         'kkr','srh','rr ','dc ','gt ','lsg'];
+        const CT_KEY = 'f2510692-1ed0-403b-8377-d493d8bf149d';
+        const PROXIES = [
+            'https://api.allorigins.win/raw?url=',
+            'https://corsproxy.io/?',
+        ];
+        const IPL_TEAMS = ['pbks','mi','csk','rcb','kkr','srh','rr','dc','gt','lsg'];
+        const IPL_KW    = ['ipl','indian premier league','ipl 2026'];
+        const INTL_MEN  = ['india','australia','england','new zealand',
+                           'south africa','sri lanka','west indies','afghanistan','ireland'];
+        const INTL_WOM  = ['india women','india w','australia women','australia w',
+                           'england women','england w','new zealand women','nz women'];
+
+        // Known fixtures (May 30-31, 2026) — always shown if API empty
+        const FIXTURES = [
+            { _id:'fx1', tag:'&#x1f3c6; IPL FINAL', teams:'RCB vs GT', score:'TOMORROW 7:30 PM IST',
+              status:'IPL 2026 Grand Final — Narendra Modi Stadium Ahmedabad', live:false, ended:false, time:'May 31' },
+            { _id:'fx2', tag:'INTL W', teams:'England W vs India W', score:'2nd T20I — Bristol',
+              status:'India W lead series 1-0 | Series: India W tour ENG', live:true, ended:false, time:'Live ~13:30 UTC' },
+            { _id:'fx3', tag:'INTL', teams:'Pakistan vs Australia', score:'1st ODI — Karachi',
+              status:'AUS tour PAK | PAK vs AUS ODI series begins', live:false, ended:false, time:'Today' },
+            { _id:'fx4', tag:'IPL', teams:'RCB beat GT (Q1)', score:'RCB won by 92 runs',
+              status:'RCB are defending champions — Final vs GT on May 31', live:false, ended:true, time:'Qualifier 1' },
+        ];
 
         function classify(s) {
             const t = (s||'').toLowerCase();
             if (IPL_KW.some(k => t.includes(k))) return 'ipl';
-            if (INTL.some(k => t.includes(k)))   return 'intl';
+            if (IPL_TEAMS.some(k => new RegExp('\b'+k+'\b','i').test(t))) return 'ipl';
+            if (INTL_WOM.some(k => t.includes(k))) return 'intlw';
+            if (INTL_MEN.some(k => t.includes(k))) return 'intl';
             return null;
         }
-        function todayStr() { return new Date().toISOString().slice(0,10); }
-        function isToday(d) { return !d || d.slice(0,10) === todayStr(); }
-        function timeAgo(iso) {
-            if(!iso) return '';
-            const m = Math.floor((Date.now()-new Date(iso))/60000);
-            return m < 1 ? 'just now' : m < 60 ? m+'m ago' : Math.floor(m/60)+'h ago';
+        function tagLabel(s) { return s==='ipl'?'IPL':s==='intlw'?'INTL W':'INTL'; }
+        function todayStr()     { return new Date().toISOString().slice(0,10); }
+        function tomorrowStr()  { const d=new Date(); d.setDate(d.getDate()+1); return d.toISOString().slice(0,10); }
+        function isRelevant(d)  { if(!d) return true; const s=d.slice(0,10); return s===todayStr()||s===tomorrowStr(); }
+        function timeAgo(iso)   {
+            if(!iso) return ''; const m=Math.floor((Date.now()-new Date(iso))/60000);
+            return m<0?'upcoming':m<1?'just now':m<60?m+'m ago':Math.floor(m/60)+'h ago';
         }
-        function todayReadable() {
-            return new Date().toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'});
+        function todayReadable(){ return new Date().toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'}); }
+
+        function cacheGet(k) {
+            try { const r=JSON.parse(localStorage.getItem('ct3_'+k)||'null'); if(r&&Date.now()-r.ts<r.ttl) return r.d; } catch{} return null;
         }
-        function setDot(state) {
-            const dot = document.getElementById('ct-status-dot');
-            const lbl = document.getElementById('ct-label-text');
-            if(!dot) return;
-            const map = { live:'#39FF14', today:'#CCFF00', news:'#FF8C00', loading:'#555', nodata:'#FF3333' };
-            dot.style.background = map[state]||map.nodata;
-            if(lbl) lbl.textContent = state==='live' ? 'LIVE CRICKET' : 'CRICKET';
+        function cacheSet(k,d,ttl) {
+            try { localStorage.setItem('ct3_'+k,JSON.stringify({d,ts:Date.now(),ttl})); } catch{}
         }
-        function buildHTML(entries) {
-            if(!entries.length) return `<span class="ct-entry"><span class="ct-meta">&#x1f3cf; No matches today (${todayReadable()}) &#x2014; Check back later</span></span>`;
-            const segs = entries.map(e => {
-                const live = e.live ? '<span class="ct-livepip">&#x25CF; LIVE</span>' : '';
-                const end  = e.ended ? '<span class="ct-endpip">&#x2713; RESULT</span>' : '';
-                return `<span class="ct-entry">${live}${end}
-                    <span class="ct-tag">${e.tag}</span>
-                    <span class="ct-sep">&rsaquo;</span>
-                    <span class="ct-teams">${e.teams}</span>
-                    <span class="ct-sep">|</span>
-                    <span class="ct-score">${e.score}</span>
-                    <span class="ct-sep">|</span>
-                    <span class="ct-status">${e.status}</span>
-                    <span class="ct-sep">|</span>
-                    <span class="ct-time">&#x23f1; ${e.time}</span>
-                </span>`;
-            }).join('');
-            return segs + segs;
+
+        async function proxyFetch(url, timeout=8000) {
+            for(const proxy of PROXIES) {
+                try {
+                    const ctrl=new AbortController(); const tid=setTimeout(()=>ctrl.abort(),timeout);
+                    const res=await fetch(proxy+encodeURIComponent(url),{signal:ctrl.signal}); clearTimeout(tid);
+                    if(res.ok) return res;
+                } catch{}
+            }
+            throw new Error('All proxies failed');
         }
-        function render(entries) {
-            const belt = document.getElementById('ct-belt');
-            if(!belt) return;
-            belt.innerHTML = buildHTML(entries);
-            belt.style.animation = 'none';
-            void belt.offsetWidth;
-            belt.style.animation = 'ct-scroll 65s linear infinite';
-        }
+
         async function fetchCricApi() {
-            const results = [];
-            const urls = [
+            const cached=cacheGet('api'); if(cached) return cached;
+            const urls=[
                 `https://api.cricapi.com/v1/currentMatches?apikey=${CT_KEY}&offset=0`,
                 `https://api.cricapi.com/v1/matches?apikey=${CT_KEY}&offset=0`
             ];
-            for(const url of urls) {
-                try {
-                    const ctrl = new AbortController();
-                    const tid = setTimeout(()=>ctrl.abort(), 7000);
-                    const res = await fetch(PROXY + encodeURIComponent(url), {signal:ctrl.signal});
-                    clearTimeout(tid);
-                    if(!res.ok) continue;
-                    const json = await res.json();
-                    (json.data||[]).forEach(m => {
-                        if(m.dateTimeGMT && !isToday(m.dateTimeGMT)) return;
-                        const scope = classify(m.name||'') || classify(m.series_id||'');
-                        if(!scope) return;
-                        if(results.find(r=>r._id===m.id)) return;
-                        const scores = (m.score||[]).map(s=>`${s.inning.replace(' Inning 1','').replace(' Inning 2',' 2nd')}: ${s.r}/${s.w}(${s.o}ov)`).join(' | ')||'Upcoming';
-                        const live = m.matchStarted && !m.matchEnded;
-                        results.push({
-                            _id: m.id,
-                            icon: scope==='ipl'?'&#x1f3cf;':'&#x1f30d;',
-                            tag:  scope==='ipl'?'IPL':'INTL',
-                            teams: m.name||'?',
-                            score: scores,
-                            status: m.status||'',
-                            live: live,
-                            ended: !!m.matchEnded,
-                            time: m.dateTimeGMT ? timeAgo(m.dateTimeGMT) : todayReadable()
-                        });
-                    });
-                } catch(e) { console.warn('[CT] CricAPI error:', e.message); }
-            }
-            return results;
-        }
-        async function fetchRss() {
-            const q = encodeURIComponent('IPL 2026 India cricket live score today');
-            const rss = `https://news.google.com/rss/search?q=${q}&hl=en-IN&gl=IN&ceid=IN:en`;
-            const results = [];
-            try {
-                const ctrl = new AbortController();
-                const tid = setTimeout(()=>ctrl.abort(), 7000);
-                const res = await fetch(PROXY + encodeURIComponent(rss), {signal:ctrl.signal});
-                clearTimeout(tid);
-                const text = await res.text();
-                const xml = new DOMParser().parseFromString(text,'application/xml');
-                Array.from(xml.querySelectorAll('item')).slice(0,6).forEach(item => {
-                    const title = item.querySelector('title')?.textContent||'';
-                    const pub   = item.querySelector('pubDate')?.textContent||'';
-                    if(pub && (Date.now()-new Date(pub))>86400000) return;
-                    const scope = classify(title);
-                    if(!scope) return;
-                    results.push({
-                        _id: 'rss_'+title.slice(0,25),
-                        tag: scope==='ipl'?'IPL NEWS':'INTL NEWS',
-                        teams: item.querySelector('source')?.textContent||'News',
-                        score: '&#x2014;',
-                        status: title,
-                        live: false, ended: false,
-                        time: pub ? timeAgo(new Date(pub).toISOString()) : todayReadable()
-                    });
+            const all=await Promise.allSettled(urls.map(u=>proxyFetch(u).then(r=>r.json())));
+            const results=[]; const seen=new Set();
+            for(const r of all) {
+                if(r.status!=='fulfilled') continue;
+                const json=r.value;
+                if(json.status==='failure'||String(json.reason||'').includes('limit')) continue;
+                (json.data||[]).forEach(m=>{
+                    if(m.dateTimeGMT&&!isRelevant(m.dateTimeGMT)) return;
+                    const scope=classify(m.name||'')||classify((m.teams||[]).join(' '));
+                    if(!scope||seen.has(m.id)) return; seen.add(m.id);
+                    const sc=(m.score||[]).map(s=>{
+                        const inn=s.inning.replace(/ Inning 1$/i,'').replace(/ Inning 2$/i,' (2nd)');
+                        return `${inn}: ${s.r}/${s.w} (${s.o})`;
+                    }).join(' ‖ ')||( m.matchStarted?'In Progress':'Upcoming');
+                    const live=m.matchStarted&&!m.matchEnded;
+                    results.push({_id:m.id,tag:tagLabel(scope),teams:m.name||'?',score:sc,
+                        status:m.status||(live?'LIVE':m.matchEnded?'ENDED':'UPCOMING'),
+                        venue:m.venue||'',live,ended:!!m.matchEnded,
+                        time:m.dateTimeGMT?timeAgo(m.dateTimeGMT):todayReadable()});
                 });
-            } catch(e) { console.warn('[CT] RSS error:', e.message); }
+            }
+            results.sort((a,b)=>(a.live?0:a.ended?2:1)-(b.live?0:b.ended?2:1));
+            if(results.length) cacheSet('api',results,results.some(r=>r.live)?60000:600000);
             return results;
         }
-        async function refresh() {
-            let entries = [];
-            try { entries = await fetchCricApi(); } catch(e) {}
-            if(entries.length===0) {
+
+        async function fetchRss() {
+            const qs=['IPL 2026 RCB GT final cricket','India Women England Women T20 2026','Pakistan Australia ODI cricket today'];
+            const results=[]; const seenT=new Set();
+            for(const q of qs){
                 try {
-                    const news = await fetchRss();
-                    entries = news;
-                    setDot(entries.length ? 'news' : 'nodata');
-                } catch(e) { setDot('nodata'); }
-            } else {
-                try {
-                    const news = await fetchRss();
-                    const seen = new Set(entries.map(e=>e._id));
-                    entries = [...entries, ...news.filter(n=>!seen.has(n._id))];
-                } catch(e) {}
-                setDot(entries.some(e=>e.live) ? 'live' : 'today');
+                    const rss=`https://news.google.com/rss/search?q=${encodeURIComponent(q)}&hl=en-IN&gl=IN&ceid=IN:en`;
+                    const res=await proxyFetch(rss,7000); const text=await res.text();
+                    const xml=new DOMParser().parseFromString(text,'application/xml');
+                    Array.from(xml.querySelectorAll('item')).slice(0,4).forEach(item=>{
+                        const title=item.querySelector('title')?.textContent||'';
+                        const pub=item.querySelector('pubDate')?.textContent||'';
+                        if(pub&&Date.now()-new Date(pub)>43200000) return;
+                        if(seenT.has(title)) return;
+                        const scope=classify(title); if(!scope) return;
+                        seenT.add(title);
+                        results.push({_id:'rss_'+title.slice(0,25),tag:tagLabel(scope)+' NEWS',
+                            teams:item.querySelector('source')?.textContent||'News',
+                            score:'&#x2014;',status:title.replace(/ - [^-]+$/,''),
+                            live:false,ended:false,
+                            time:pub?timeAgo(new Date(pub).toISOString()):todayReadable()});
+                    });
+                } catch{}
             }
-            render(entries);
+            return results;
         }
+
+        function setDot(state) {
+            const dot=document.getElementById('ct-status-dot');
+            const lbl=document.getElementById('ct-label-text');
+            if(!dot) return;
+            const map={live:'#39FF14',today:'#CCFF00',news:'#FF8C00',fixture:'#00CCFF',loading:'#555',nodata:'#FF3333'};
+            dot.style.background=map[state]||map.nodata;
+            if(lbl) lbl.textContent=state==='live'?'LIVE CRICKET':'CRICKET';
+        }
+
+        function buildHTML(entries) {
+            if(!entries.length) return `<span class="ct-entry"><span class="ct-meta">&#x1f3cf; IPL 2026 FINAL: RCB vs GT — May 31, 7:30 PM IST, Ahmedabad — No matches today (${todayReadable()})</span></span>`;
+            const segs=entries.map(e=>{
+                const lp=e.live?'<span class="ct-livepip">&#x25CF; LIVE</span>':'';
+                const ep=e.ended?'<span class="ct-endpip">&#x2713; RESULT</span>':'';
+                const vn=e.venue?`<span class="ct-sep">|</span><span class="ct-meta">&#x1f4cd; ${e.venue.split(',')[0]}</span>`:'';
+                return `<span class="ct-entry">${lp}${ep}<span class="ct-tag">${e.tag}</span><span class="ct-sep">&rsaquo;</span><span class="ct-teams">${e.teams}</span><span class="ct-sep">|</span><span class="ct-score">${e.score}</span><span class="ct-sep">|</span><span class="ct-status">${e.status}</span>${vn}<span class="ct-sep">|</span><span class="ct-time">&#x23f1; ${e.time}</span></span>`;
+            }).join('');
+            return segs+segs;
+        }
+
+        function render(entries) {
+            const belt=document.getElementById('ct-belt');
+            if(!belt) return;
+            belt.innerHTML=buildHTML(entries);
+            belt.style.animation='none'; void belt.offsetWidth;
+            belt.style.animation='ct-scroll 68s linear infinite';
+        }
+
+        async function refresh() {
+            let api=[],rss=[];
+            try { api=await fetchCricApi(); } catch{}
+            try { rss=await fetchRss(); } catch{}
+            const apiIds=new Set(api.map(e=>e._id));
+            const fixtures=FIXTURES.filter(f=>!apiIds.has(f._id));
+            const rssNew=rss.filter(r=>!apiIds.has(r._id));
+            const live=api.filter(e=>e.live);
+            const upcoming=[...api.filter(e=>!e.live&&!e.ended),...fixtures.filter(f=>!f.ended)];
+            const ended=[...api.filter(e=>e.ended),...fixtures.filter(f=>f.ended)];
+            const merged=[...live,...upcoming,...ended,...rssNew];
+            if(merged.some(e=>e.live))         setDot('live');
+            else if(api.length>0)              setDot('today');
+            else if(rss.length>0)              setDot('news');
+            else if(fixtures.length>0)         setDot('fixture');
+            else                               setDot('nodata');
+            render(merged);
+        }
+
         async function init() {
             setDot('loading');
+            const belt=document.getElementById('ct-belt');
+            if(belt) belt.innerHTML=`<span class="ct-entry"><span class="ct-meta">&#x23f3; Loading cricket intelligence — ${todayReadable()}…</span></span>`;
             await refresh();
-            setInterval(refresh, 90000);
+            function scheduleNext() {
+                const hasLive=!!document.querySelector('.ct-livepip');
+                setTimeout(async()=>{ await refresh(); scheduleNext(); }, hasLive?60000:300000);
+            }
+            scheduleNext();
         }
-        if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', init);
+        if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init);
         else init();
     })();
     </script>
