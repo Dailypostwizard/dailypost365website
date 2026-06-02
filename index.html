@@ -255,6 +255,46 @@
         let visibleHeight = 2 * Math.tan((camera.fov * Math.PI) / 360) * camera.position.z;
         let visibleWidth = visibleHeight * aspect;
 
+        // 1.5. Vortex Core and Sidebar Flowing Nodes
+        const vortexCoreGeo = new THREE.TorusKnotGeometry(25, 6, 120, 16);
+        const vortexCoreMat = new THREE.MeshBasicMaterial({ color: 0x00F2FE, wireframe: true, transparent: true, opacity: 0.12 });
+        const vortexCore = new THREE.Mesh(vortexCoreGeo, vortexCoreMat);
+        vortexCore.position.set(visibleWidth / 4, visibleHeight / 6, -100);
+        scene.add(vortexCore);
+
+        const sidebarNodes = [];
+        const sidebarGroup = new THREE.Group();
+        scene.add(sidebarGroup);
+
+        const sidebarGeos = [
+            new THREE.DodecahedronGeometry(5, 0),
+            new THREE.TetrahedronGeometry(4.5, 0)
+        ];
+        const sidebarColors = [0x00F2FE, 0xfeb316];
+
+        for (let i = 0; i < 8; i++) {
+            const geo = sidebarGeos[Math.floor(Math.random() * sidebarGeos.length)];
+            const color = sidebarColors[Math.floor(Math.random() * sidebarColors.length)];
+            const mat = new THREE.MeshBasicMaterial({ color: color, wireframe: true, transparent: true, opacity: 0.2 });
+            const mesh = new THREE.Mesh(geo, mat);
+            
+            mesh.position.x = -visibleWidth / 2 + (Math.random() * 50 + 40);
+            mesh.position.y = (Math.random() - 0.5) * visibleHeight;
+            mesh.position.z = (Math.random() - 0.5) * 40;
+            
+            mesh.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
+            sidebarGroup.add(mesh);
+            
+            sidebarNodes.push({
+                mesh: mesh,
+                speedY: Math.random() * 0.15 + 0.15,
+                speedX: (Math.random() - 0.5) * 0.05,
+                rotX: Math.random() * 0.01 + 0.005,
+                rotY: Math.random() * 0.01 + 0.005,
+                rotZ: Math.random() * 0.01 + 0.005
+            });
+        }
+
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
@@ -262,6 +302,8 @@
             aspect = window.innerWidth / window.innerHeight;
             visibleHeight = 2 * Math.tan((camera.fov * Math.PI) / 360) * camera.position.z;
             visibleWidth = visibleHeight * aspect;
+            
+            vortexCore.position.set(visibleWidth / 4, visibleHeight / 6, -100);
         });
 
         // 1. Stream of Floating 3D Crypto Coins
@@ -402,6 +444,30 @@
         function animate() {
             requestAnimationFrame(animate); 
             vortexGroup.rotation.y += 0.001;
+
+            // Update Vortex Core
+            vortexCore.rotation.x += 0.001;
+            vortexCore.rotation.y += 0.0015;
+
+            // Update Sidebar Nodes
+            sidebarNodes.forEach(n => {
+                n.mesh.position.y += n.speedY;
+                n.mesh.position.x += n.speedX;
+                n.mesh.rotation.x += n.rotX;
+                n.mesh.rotation.y += n.rotY;
+                n.mesh.rotation.z += n.rotZ;
+
+                const sidebarLeft = -visibleWidth / 2 + 30;
+                const sidebarRight = -visibleWidth / 2 + 100;
+                if (n.mesh.position.x < sidebarLeft || n.mesh.position.x > sidebarRight) {
+                    n.speedX = -n.speedX;
+                }
+
+                if (n.mesh.position.y > visibleHeight / 2 + 20) {
+                    n.mesh.position.y = -visibleHeight / 2 - 20;
+                    n.mesh.position.x = -visibleWidth / 2 + (Math.random() * 50 + 40);
+                }
+            });
 
             cryptoCoins3D.forEach(c => {
                 c.mesh.position.x += c.speedX;
