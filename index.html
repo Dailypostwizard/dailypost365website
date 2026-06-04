@@ -119,37 +119,62 @@
         body { padding-top: 34px; }
 
         /* ========================================================
-           NEXUS CLUSTER — Dynamic Manifest Infrastructure Layer
+           NEXUS CLUSTER v3 — Enterprise Infrastructure Hub
            ======================================================== */
-        .engineering-node-section {
-            max-width: 1200px;
+        .enterprise-infrastructure-hub {
+            max-width: 1300px;
             margin: 60px auto;
-            padding: 40px;
-            background: rgba(22, 25, 32, 0.7);
-            border: 1px solid #30363d;
+            padding: 45px;
+            background: rgba(13, 15, 18, 0.88);
+            border: 2px solid #21262d;
             border-radius: 16px;
-            backdrop-filter: blur(12px);
+            backdrop-filter: blur(20px);
             font-family: 'Space Grotesk', system-ui, sans-serif;
             color: #ffffff;
         }
-        .node-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            margin-top: 30px;
-        }
-        .node-card {
-            background: #0d0e12;
-            border: 1px solid #21262d;
-            border-radius: 12px;
-            padding: 24px;
+        .hub-header {
+            border-left: 4px solid #00e5ff;
+            padding-left: 15px;
+            margin-bottom: 35px;
             text-align: left;
-            transition: border-color 0.3s, box-shadow 0.3s;
         }
-        .node-card:hover {
-            box-shadow: 0 0 18px rgba(0, 229, 255, 0.12);
+        .hub-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
         }
-        .prompt-toggle-btn {
+        .hub-card {
+            background: #0d0e12;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: box-shadow 0.3s;
+        }
+        .hub-card:hover { box-shadow: 0 0 22px rgba(0, 229, 255, 0.1); }
+        .hub-card.media-node { border-color: rgba(57, 255, 20, 0.25); }
+        .hub-card.media-node:hover { box-shadow: 0 0 22px rgba(57, 255, 20, 0.12); }
+        .premium-badge {
+            background: rgba(0, 229, 255, 0.08);
+            color: #00e5ff;
+            border: 1px solid #00e5ff;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            display: inline-block;
+            margin-bottom: 15px;
+            letter-spacing: 0.08em;
+        }
+        .hub-card.media-node .premium-badge {
+            background: rgba(57, 255, 20, 0.08);
+            color: #39ff14;
+            border-color: #39ff14;
+        }
+        .action-btn {
             background: transparent;
             color: #00e5ff;
             border: 1px solid #00e5ff;
@@ -157,27 +182,34 @@
             border-radius: 6px;
             cursor: pointer;
             font-weight: 600;
-            margin-top: 18px;
+            font-size: 0.85rem;
+            margin-top: 10px;
             width: 100%;
             transition: background 0.2s;
         }
-        .prompt-toggle-btn:hover { background: rgba(0, 229, 255, 0.08); }
-        .prompt-toggle-btn.media-btn {
-            color: #39ff14;
-            border-color: #39ff14;
+        .action-btn:hover { background: rgba(0, 229, 255, 0.08); }
+        .hub-card.media-node .action-btn { color: #39ff14; border-color: #39ff14; }
+        .hub-card.media-node .action-btn:hover { background: rgba(57, 255, 20, 0.08); }
+        .pdf-viewer-frame {
+            width: 100%;
+            height: 400px;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            margin-top: 12px;
+            display: none;
+            background: #161920;
         }
-        .prompt-toggle-btn.media-btn:hover { background: rgba(57, 255, 20, 0.08); }
-        .prompt-payload-box {
+        .prompt-tray {
             display: none;
             background: #161920;
             border: 1px solid #30363d;
             border-radius: 6px;
-            padding: 15px;
-            margin-top: 15px;
+            padding: 12px;
+            margin-top: 12px;
             font-family: 'Courier New', monospace;
             font-size: 0.8rem;
             color: #c9d1d9;
-            max-height: 220px;
+            max-height: 200px;
             overflow-y: auto;
             white-space: pre-wrap;
             line-height: 1.6;
@@ -881,105 +913,115 @@
     </script>
 
     <!-- ======================================================
-         PROJECT NEXUS & MEDIA INFRASTRUCTURE CLUSTER
-         Manifest-driven dynamic node renderer
+         PROJECT NEXUS v3 — Enterprise Infrastructure Hub
+         Premium node cards with PDF viewer + prompt tray
          ====================================================== -->
-    <section class="engineering-node-section">
-        <div style="border-left: 4px solid #00e5ff; padding-left: 15px; text-align: left;">
-            <h2 style="margin:0; font-size: 1.8rem; font-family: 'Space Grotesk', sans-serif;">Project Nexus &amp; Media Infrastructure Cluster</h2>
-            <p style="color: #8b949e; margin: 5px 0 0 0; font-size: 0.95rem;">Asynchronously Synced Prompt Engines</p>
+    <section class="enterprise-infrastructure-hub">
+        <div class="hub-header">
+            <h2 style="margin:0; font-size: 2rem; font-family: 'Space Grotesk', sans-serif;">Project Nexus &amp; Media Infrastructure Cluster</h2>
+            <p style="color: #8b949e; margin: 5px 0 0 0; font-size: 1rem;">Automated Execution Pools &amp; Engineering Blueprints</p>
         </div>
-        <div class="node-grid" id="nexus-cluster-container"></div>
+        <div class="hub-grid" id="premium-nexus-grid"></div>
     </section>
 
     <script>
     // ================================================================
-    // NEXUS CLUSTER v2 — Static Baked Memory Matrix
-    // Eliminates server routing mismatches entirely.
-    // Data is compiled directly into the page at deploy time.
+    // NEXUS CLUSTER v3 — Enterprise Hub with PDF Viewer + Prompt Tray
+    // Static baked data — zero server dependency.
     // ================================================================
     (function() {
-        var NEXUS_DATA = {
-            "apps": {
-                "vpro": {
-                    "title": "VIRALFLOW PRO",
-                    "is_media": true,
-                    "description": "Elite growth engine powered by Google AI Studio. Evaluates media assets for 15M+ view potential, crafts complex algorithmic SEO configurations for YouTube/TikTok, and drives automated data funnels.",
-                    "artifact_ref": "N/A",
-                    "system_instruction": "ROLE: Lead Content Strategist / SEO Mastery Node.
+        var HUB_DATA = {
+            vpro: {
+                title: 'VIRALFLOW PRO',
+                is_media: true,
+                description: 'Elite growth engine powered by Google AI Studio. Evaluates media assets for 15M+ view potential, crafts complex algorithmic SEO configurations for YouTube/TikTok, and drives automated data funnels.',
+                pdf_url: '',
+                system_instruction: 'ROLE: Lead Content Strategist / SEO Mastery Node.
 TARGET WINDOW: 6:00 PM UAE (7:30 PM IST / 7:00 PM PKT).
 CORE LAWS:
 1. VIRAL SEO: Prioritize 2026 milestones. Optimize title metadata for South Asian search intent.
 2. GO PROTOCOL (HITL): All automations push assets as Unlisted. Send Telegram verification link for review.
-3. AESTHETIC: Enforce High-Contrast Broadcast Neon layouts (Neon Yellow/Green) in a 9:16 vertical mobile environment."
-                },
-                "kkit": {
-                    "title": "Karthika's Kitchen",
-                    "is_media": true,
-                    "description": "Intelligent consumer-facing culinary assistant managing interactive data matching across vast global databases. Features real-time dynamic material analysis to compute custom recipe output arrays.",
-                    "artifact_ref": "N/A",
-                    "system_instruction": "CORE FUNCTION:
+3. AESTHETIC: Enforce High-Contrast Broadcast Neon layouts (Neon Yellow/Green) in a 9:16 vertical mobile environment.'
+            },
+            kkit: {
+                title: "Karthika's Kitchen AI",
+                is_media: true,
+                description: 'Intelligent consumer-facing culinary assistant managing interactive data matching across vast global databases. Features real-time dynamic material analysis to compute custom recipe output arrays.',
+                pdf_url: 'data/Autonomous_skid_mounting_Manufacturing.pdf',
+                system_instruction: 'CORE FUNCTION:
 1. Parse disparate incoming user ingredient inventory strings.
 2. Apply high-speed multi-layered synthesis algorithms to cross-reference global recipes.
-3. Compute exact ingredient ratios, safe culinary preparations, and format clean UI outputs."
-                },
-                "adoc": {
-                    "title": "Autonomous Document Control",
-                    "is_media": false,
-                    "description": "Enterprise-grade multi-agent AI framework designed for zero-human-intervention engineering lifecycle validation. Processes drawing lists and technical compliance scans while interfacing natively with SAP/ERP layers.",
-                    "artifact_ref": "Autonomous_Document_Control (2).pdf",
-                    "system_instruction": "OBJECTIVE: Zero manual touch documentation pipelines for EPC and Module Fabrication.
+3. Compute exact ingredient ratios, safe culinary preparations, and format clean UI outputs.'
+            },
+            adoc: {
+                title: 'Autonomous Document Control',
+                is_media: false,
+                description: 'Enterprise-grade multi-agent AI framework designed for zero-human-intervention engineering lifecycle validation. Processes drawing lists and technical compliance scans while interfacing natively with SAP/ERP layers.',
+                pdf_url: 'data/Autonomous_Document_Control.pdf',
+                system_instruction: 'OBJECTIVE: Zero manual touch documentation pipelines for EPC and Module Fabrication.
 OPERATIONAL ENGINE LAWS:
 1. Auto-trigger compliance scans the millisecond drawing schema metadata is received.
 2. Execute structural revision comparisons; automatically enforce strict SAP Lockouts.
-3. Broadcast automated Red-Alert signals instantly across team channels when a document configuration is superseded."
-                },
-                "qaqc": {
-                    "title": "Agentic QA/QC Engine",
-                    "is_media": false,
-                    "description": "Autonomous compliance and governance engine mapped to heavy fabrication processes, including Chemical Injection Skid packages. Automatically runs schema checking matrices and traces material certifications.",
-                    "artifact_ref": "QA QC _Autonomous_Engineering.pdf REV15.pdf, Autonomous of skid mounting package _Manufacturing (3).pdf",
-                    "system_instruction": "OBJECTIVE: Algorithmic quality assurance tracking for high-risk industrial packages.
+3. Broadcast automated Red-Alert signals instantly across team channels when a document configuration is superseded.'
+            },
+            qaqc: {
+                title: 'Agentic QA/QC Engine',
+                is_media: false,
+                description: 'Autonomous compliance and governance engine mapped to heavy fabrication processes, including Chemical Injection Skid packages. Automatically runs schema checking matrices and traces material certifications.',
+                pdf_url: 'data/QA_QC_Autonomous_Engineering.pdf',
+                system_instruction: 'OBJECTIVE: Algorithmic quality assurance tracking for high-risk industrial packages.
 COMPLIANCE MATRICES:
 1. Audit drawing files and technical specifications against strict ASTM and ASME engineering standards.
 2. Drive high-speed OCR validation loops tracking raw steel plate heat numbers.
-3. Enforce programmatic validation criteria over welding logs and NDE configurations."
-                }
+3. Enforce programmatic validation criteria over welding logs and NDE configurations.'
             }
         };
 
-        function togglePromptDisplay(id) {
-            var box = document.getElementById('prompt-' + id);
-            if (box) box.style.display = box.style.display === 'block' ? 'none' : 'block';
+        function togglePromptTray(id) {
+            var el = document.getElementById('tray-' + id);
+            if (el) el.style.display = el.style.display === 'block' ? 'none' : 'block';
         }
-        window.togglePromptDisplay = togglePromptDisplay;
+        function togglePdfTray(id) {
+            var el = document.getElementById('frame-' + id);
+            if (el) el.style.display = el.style.display === 'block' ? 'none' : 'block';
+        }
+        window.togglePromptTray = togglePromptTray;
+        window.togglePdfTray = togglePdfTray;
 
-        function renderNexusCluster(data) {
-            var container = document.getElementById('nexus-cluster-container');
-            if (!container || !data || !data.apps) return;
-            Object.keys(data.apps).forEach(function(key) {
-                var app = data.apps[key];
+        function renderHubCards() {
+            var grid = document.getElementById('premium-nexus-grid');
+            if (!grid) return;
+            Object.keys(HUB_DATA).forEach(function(key) {
+                var app = HUB_DATA[key];
                 var card = document.createElement('div');
-                card.className = 'node-card';
-                if (app.is_media) card.style.borderColor = '#39ff14';
+                card.className = 'hub-card' + (app.is_media ? ' media-node' : '');
                 var accentColor = app.is_media ? '#39ff14' : '#00e5ff';
-                var refHtml = app.artifact_ref !== 'N/A'
-                    ? '<div style="font-size:0.75rem; color:#00e5ff; margin-top:6px; font-family:monospace;">Ref: ' + app.artifact_ref + '</div>'
+                var badgeLabel = app.is_media ? 'MEDIA NODE' : 'ENGINEERING NODE';
+                var safeInstruction = (app.system_instruction || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'
+');
+                var pdfBtn = app.pdf_url
+                    ? '<button class="action-btn" onclick="togglePdfTray('' + key + '');">[ View Blueprint Specification PDF ]</button>' +
+                      '<iframe id="frame-' + key + '" class="pdf-viewer-frame" src="' + app.pdf_url + '" title="' + app.title + ' Blueprint"></iframe>'
                     : '';
-                var safeInstruction = (app.system_instruction || '').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
-                card.innerHTML = '<h3 style="margin:0 0 10px 0; color:' + accentColor + '; font-family:'Space Grotesk',sans-serif;">' + app.title + '</h3>'
-                    + '<p style="font-size:0.9rem; color:#8b949e; margin:0; line-height:1.5;">' + app.description + '</p>'
-                    + refHtml
-                    + '<button class="prompt-toggle-btn ' + (app.is_media ? 'media-btn' : '') + '" onclick="togglePromptDisplay('' + key + '');">[ View System Architecture Prompt ]</button>'
-                    + '<div id="prompt-' + key + '" class="prompt-payload-box">' + safeInstruction + '</div>';
-                container.appendChild(card);
+                card.innerHTML =
+                    '<div>' +
+                        '<span class="premium-badge">' + badgeLabel + '</span>' +
+                        '<h3 style="margin:0 0 10px 0; font-size:1.3rem; color:' + accentColor + '; font-family:'Space Grotesk',sans-serif;">' + app.title + '</h3>' +
+                        '<p style="font-size:0.9rem; color:#8b949e; margin:0; line-height:1.6;">' + app.description + '</p>' +
+                    '</div>' +
+                    '<div>' +
+                        pdfBtn +
+                        '<button class="action-btn" onclick="togglePromptTray('' + key + '');">[ View System Architecture Prompt ]</button>' +
+                        '<pre id="tray-' + key + '" class="prompt-tray">' + safeInstruction + '</pre>' +
+                    '</div>';
+                grid.appendChild(card);
             });
         }
 
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', function() { renderNexusCluster(NEXUS_DATA); });
+            document.addEventListener('DOMContentLoaded', renderHubCards);
         } else {
-            renderNexusCluster(NEXUS_DATA);
+            renderHubCards();
         }
     })();
     </script>
