@@ -1,0 +1,33 @@
+{
+    "last_updated": "2026-06-04T23:30:00Z",
+    "apps": {
+        "vpro": {
+            "title": "VIRALFLOW PRO",
+            "is_media": true,
+            "description": "Elite growth engine powered by Google AI Studio. Evaluates media assets for 15M+ view potential, crafts complex algorithmic SEO configurations for YouTube/TikTok, and drives automated data funnels.",
+            "artifact_ref": "N/A",
+            "system_instruction": "ROLE: Lead Content Strategist / SEO Mastery Node.\nTARGET WINDOW: 6:00 PM UAE (7:30 PM IST / 7:00 PM PKT).\nCORE LAWS:\n1. VIRAL SEO: Prioritize 2026 milestones. Optimize title metadata for South Asian search intent.\n2. GO PROTOCOL (HITL): All automations push assets as Unlisted. Send Telegram verification link for review.\n3. AESTHETIC: Enforce High-Contrast Broadcast Neon layouts (Neon Yellow/Green) in a 9:16 vertical mobile environment."
+        },
+        "kkit": {
+            "title": "Karthika's Kitchen",
+            "is_media": true,
+            "description": "Intelligent consumer-facing culinary assistant managing interactive data matching across vast global databases. Features real-time dynamic material analysis to compute custom recipe output arrays.",
+            "artifact_ref": "N/A",
+            "system_instruction": "CORE FUNCTION:\n1. Parse disparate incoming user ingredient inventory strings.\n2. Apply high-speed multi-layered synthesis algorithms to cross-reference global recipes.\n3. Compute exact ingredient ratios, safe culinary preparations, and format clean UI outputs."
+        },
+        "adoc": {
+            "title": "Autonomous Document Control",
+            "is_media": false,
+            "description": "Enterprise-grade multi-agent AI framework designed for zero-human-intervention engineering lifecycle validation. Processes drawing lists and technical compliance scans while interfacing natively with SAP/ERP layers.",
+            "artifact_ref": "Autonomous_Document_Control (2).pdf",
+            "system_instruction": "OBJECTIVE: Zero manual touch documentation pipelines for EPC and Module Fabrication.\nOPERATIONAL ENGINE LAWS:\n1. Auto-trigger compliance scans the millisecond drawing schema metadata is received.\n2. Execute structural revision comparisons; automatically enforce strict SAP Lockouts.\n3. Broadcast automated Red-Alert signals instantly across team channels when a document configuration is superseded."
+        },
+        "qaqc": {
+            "title": "Agentic QA/QC Engine",
+            "is_media": false,
+            "description": "Autonomous compliance and governance engine mapped to heavy fabrication processes, including Chemical Injection Skid packages. Automatically runs schema checking matrices and traces material certifications.",
+            "artifact_ref": "QA QC _Autonomous_Engineering.pdf REV15.pdf, Autonomous of skid mounting package _Manufacturing (3).pdf",
+            "system_instruction": "OBJECTIVE: Algorithmic quality assurance tracking for high-risk industrial packages.\nCOMPLIANCE MATRICES:\n1. Audit drawing files and technical specifications against strict ASTM and ASME engineering standards.\n2. Drive high-speed OCR validation loops tracking raw steel plate heat numbers.\n3. Enforce programmatic validation criteria over welding logs and NDE configurations."
+        }
+    }
+}
