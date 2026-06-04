@@ -119,99 +119,142 @@
         body { padding-top: 34px; }
 
         /* ========================================================
-           NEXUS CLUSTER v4 — Hardcoded Sovereign Production Hub
+           NEXUS CLUSTER v4 — Sovereign Production Hub
+           LAYOUT: Lives inside .master-layout — sidebar-aware
            ======================================================== */
         .enterprise-infrastructure-hub {
-            max-width: 1200px;
-            margin: 60px auto;
+            margin-top: 112px;
             padding: 40px;
-            background: rgba(22, 25, 32, 0.85);
-            border: 1px solid #30363d;
-            border-radius: 16px;
-            backdrop-filter: blur(12px);
+            background: rgba(7, 54, 66, 0.45);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 4px;
+            backdrop-filter: blur(18px);
             font-family: 'Space Grotesk', system-ui, sans-serif;
             color: #ffffff;
-            box-sizing: border-box;
             position: relative;
             z-index: 1;
         }
         .hub-header {
-            border-left: 4px solid #00e5ff;
-            padding-left: 15px;
+            border-left: 4px solid #2aa198;
+            padding-left: 18px;
             margin-bottom: 35px;
-            text-align: left;
+        }
+        .nexus-stats-bar {
+            display: flex;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+            padding: 20px 24px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(42,161,152,0.15);
+            border-radius: 4px;
+        }
+        .nexus-stat {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .nexus-stat-value {
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: #2aa198;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        .nexus-stat-label {
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: #586e75;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
         }
         .hub-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
+            gap: 20px;
         }
         .hub-card {
-            background: #0d0e12;
-            border: 1px solid #21262d;
-            border-radius: 12px;
-            padding: 25px;
-            text-align: left;
+            background: rgba(0,43,54,0.6);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 4px;
+            padding: 24px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: border-color 0.3s, box-shadow 0.3s;
+            transition: border-color 0.3s, box-shadow 0.3s, transform 0.25s;
+            transform: translateY(0);
         }
-        .hub-card:hover { border-color: #00e5ff; box-shadow: 0 0 18px rgba(0,229,255,0.1); }
-        .hub-card.media-node { border-color: rgba(57,255,20,0.2); }
-        .hub-card.media-node:hover { border-color: #39ff14; box-shadow: 0 0 18px rgba(57,255,20,0.1); }
+        .hub-card:hover {
+            border-color: #2aa198;
+            box-shadow: 0 8px 32px rgba(42,161,152,0.15);
+            transform: translateY(-3px);
+        }
+        .hub-card.media-node { border-color: rgba(181,137,0,0.2); }
+        .hub-card.media-node:hover {
+            border-color: #b58900;
+            box-shadow: 0 8px 32px rgba(181,137,0,0.15);
+        }
         .premium-badge {
-            background: rgba(0, 229, 255, 0.08);
-            color: #00e5ff;
-            border: 1px solid #00e5ff;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 0.72rem;
-            font-weight: 700;
+            background: rgba(42,161,152,0.1);
+            color: #2aa198;
+            border: 1px solid rgba(42,161,152,0.4);
+            padding: 3px 10px;
+            border-radius: 2px;
+            font-size: 0.65rem;
+            font-weight: 900;
             display: inline-block;
-            margin-bottom: 15px;
-            letter-spacing: 0.07em;
+            margin-bottom: 14px;
+            letter-spacing: 0.15em;
+            animation: badge-pulse 3s ease-in-out infinite;
         }
         .hub-card.media-node .premium-badge {
-            background: rgba(57, 255, 20, 0.08);
-            color: #39ff14;
-            border-color: #39ff14;
+            background: rgba(181,137,0,0.1);
+            color: #b58900;
+            border-color: rgba(181,137,0,0.4);
+        }
+        @keyframes badge-pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.65; }
         }
         .action-btn {
             background: transparent;
-            color: #00e5ff;
-            border: 1px solid #00e5ff;
-            padding: 10px 16px;
-            border-radius: 6px;
+            color: #2aa198;
+            border: 1px solid rgba(42,161,152,0.5);
+            padding: 9px 14px;
+            border-radius: 2px;
             cursor: pointer;
-            font-weight: 600;
-            font-size: 0.85rem;
-            margin-top: 12px;
+            font-weight: 700;
+            font-size: 0.78rem;
+            margin-top: 10px;
             width: 100%;
-            transition: background 0.2s;
+            transition: background 0.2s, border-color 0.2s;
             display: block;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
         }
-        .hub-card.media-node .action-btn { color: #39ff14; border-color: #39ff14; }
-        .action-btn:hover { background: rgba(0, 229, 255, 0.08); }
-        .hub-card.media-node .action-btn:hover { background: rgba(57, 255, 20, 0.08); }
+        .hub-card.media-node .action-btn { color: #b58900; border-color: rgba(181,137,0,0.5); }
+        .action-btn:hover { background: rgba(42,161,152,0.1); border-color: #2aa198; }
+        .hub-card.media-node .action-btn:hover { background: rgba(181,137,0,0.1); border-color: #b58900; }
         .prompt-tray, .pdf-tray {
             display: none;
-            background: #161920;
-            border: 1px solid #30363d;
-            border-radius: 6px;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 2px;
             padding: 14px;
-            margin-top: 12px;
+            margin-top: 10px;
             font-family: 'Courier New', monospace;
-            font-size: 0.8rem;
-            color: #c9d1d9;
-            max-height: 220px;
+            font-size: 0.75rem;
+            color: #93a1a1;
+            max-height: 200px;
             overflow-y: auto;
             white-space: pre-wrap;
-            line-height: 1.6;
+            line-height: 1.7;
             text-align: left;
         }
         .pdf-tray { padding: 0; max-height: 320px; }
-        .pdf-tray iframe { width: 100%; height: 320px; border: none; border-radius: 6px; }
+        .pdf-tray iframe { width: 100%; height: 320px; border: none; border-radius: 2px; }
+        /* === SCROLL REVEAL === */
+        .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
     </style>
 </head>
 <body>
@@ -297,6 +340,99 @@
                 <span class="text-[10px] text-gray-500 font-black tracking-[0.5em] uppercase">V109_STABLE_RECOVERY</span>
             </div>
             <div class="grid-gallery" id="ig-container"></div>
+        </section>
+
+        <!-- ======================================================
+             PROJECT NEXUS v4 — Sovereign Production Hub
+             ====================================================== -->
+        <section class="enterprise-infrastructure-hub reveal" id="nexus-hub">
+            <div class="hub-header">
+                <h2 style="margin:0 0 4px 0; font-size:1.8rem; font-family:'Space Grotesk',sans-serif; font-weight:900; letter-spacing:-0.02em;">Project Nexus &amp; Media Infrastructure</h2>
+                <p style="color:#586e75; margin:0; font-size:0.85rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase;">Verified Sovereign Production Frameworks &amp; Engineering Blueprints</p>
+            </div>
+
+            <div class="nexus-stats-bar">
+                <div class="nexus-stat"><div class="nexus-stat-value" id="stat-views">0</div><div class="nexus-stat-label">Target Views</div></div>
+                <div class="nexus-stat"><div class="nexus-stat-value" id="stat-engines">0</div><div class="nexus-stat-label">Active Engines</div></div>
+                <div class="nexus-stat"><div class="nexus-stat-value" id="stat-markets">0</div><div class="nexus-stat-label">Live Markets</div></div>
+                <div class="nexus-stat"><div class="nexus-stat-value" id="stat-uptime">0%</div><div class="nexus-stat-label">Uptime SLA</div></div>
+            </div>
+
+            <div class="hub-grid">
+                <div class="hub-card media-node reveal">
+                    <div>
+                        <div class="premium-badge">&#x1F4F9; MEDIA INFRASTRUCTURE</div>
+                        <h3 style="margin:0 0 10px 0; font-size:1.2rem; color:#b58900; font-family:'Space Grotesk',sans-serif; font-weight:900;">VIRALFLOW PRO</h3>
+                        <p style="font-size:0.88rem; color:#839496; margin:0; line-height:1.6;">Elite growth engine powered by Google AI Studio. Evaluates media assets for 15M+ view potential, crafts complex algorithmic SEO configurations for YouTube/TikTok, and drives automated data funnels.</p>
+                    </div>
+                    <div>
+                        <button class="action-btn" onclick="toggleHubElement('prompt-vpro')">[ View System Architecture Prompt ]</button>
+                        <pre id="prompt-vpro" class="prompt-tray">=== SYSTEM INSTRUCTION: VIRALFLOW PRO ===
+ROLE: Lead Content Strategist / SEO Mastery Node.
+TARGET WINDOW: 6:00 PM UAE (7:30 PM IST / 7:00 PM PKT).
+CORE LAWS:
+1. VIRAL SEO: Prioritize 2026 milestones. Optimize title metadata for South Asian search intent.
+2. GO PROTOCOL (HITL): All automations push assets as Unlisted. Send Telegram verification link for review.
+3. AESTHETIC: Enforce High-Contrast Broadcast Neon layouts (Neon Yellow/Green) in a 9:16 vertical mobile environment.</pre>
+                    </div>
+                </div>
+
+                <div class="hub-card media-node reveal">
+                    <div>
+                        <div class="premium-badge">&#x1F373; MEDIA INFRASTRUCTURE</div>
+                        <h3 style="margin:0 0 10px 0; font-size:1.2rem; color:#b58900; font-family:'Space Grotesk',sans-serif; font-weight:900;">Karthika&#39;s Kitchen AI</h3>
+                        <p style="font-size:0.88rem; color:#839496; margin:0; line-height:1.6;">Intelligent consumer culinary platform managing high-speed dynamic database mapping. Features real-time material analysis to compute recipe arrays directly from active on-hand raw inventories.</p>
+                    </div>
+                    <div>
+                        <button class="action-btn" onclick="toggleHubElement('pdf-kkit')">[ View Blueprint PDF ]</button>
+                        <div id="pdf-kkit" class="pdf-tray"><iframe src="data/skid_manufacturing.pdf" title="Karthika Kitchen Blueprint"></iframe></div>
+                        <button class="action-btn" onclick="toggleHubElement('prompt-kkit')">[ View System Architecture Prompt ]</button>
+                        <pre id="prompt-kkit" class="prompt-tray">=== SYSTEM INSTRUCTION: KARTHIKA'S KITCHEN AI ===
+CORE FUNCTION:
+1. Parse disparate incoming user ingredient inventory strings.
+2. Apply high-speed synthesis algorithms to cross-reference global recipe data pools.
+3. Compute exact ingredient ratios, safe culinary preparations, and format clean UI outputs.</pre>
+                    </div>
+                </div>
+
+                <div class="hub-card reveal">
+                    <div>
+                        <div class="premium-badge">&#x2699;&#xFE0F; ENGINEERING PIPELINE</div>
+                        <h3 style="margin:0 0 10px 0; font-size:1.2rem; color:#2aa198; font-family:'Space Grotesk',sans-serif; font-weight:900;">Autonomous Document Control</h3>
+                        <p style="font-size:0.88rem; color:#839496; margin:0; line-height:1.6;">Enterprise-grade multi-agent AI framework managing the complete document lifecycle with zero human touch. Validates schema formats and handles multi-layered approvals directly via SAP/ERP automation layers.</p>
+                    </div>
+                    <div>
+                        <button class="action-btn" onclick="toggleHubElement('pdf-adoc')">[ View Blueprint PDF ]</button>
+                        <div id="pdf-adoc" class="pdf-tray"><iframe src="data/doc_control.pdf" title="Document Control Blueprint"></iframe></div>
+                        <button class="action-btn" onclick="toggleHubElement('prompt-adoc')">[ View System Architecture Prompt ]</button>
+                        <pre id="prompt-adoc" class="prompt-tray">=== SYSTEM INSTRUCTION: AUTONOMOUS DOCUMENT CONTROL ===
+OBJECTIVE: Zero manual touch documentation pipelines for EPC and Module Fabrication.
+OPERATIONAL ENGINE LAWS:
+1. Auto-trigger compliance scans the millisecond drawing schema metadata is received.
+2. Execute structural revision comparisons; automatically enforce strict SAP Lockouts.
+3. Broadcast automated Red-Alert signals instantly when a document configuration is superseded.</pre>
+                    </div>
+                </div>
+
+                <div class="hub-card reveal">
+                    <div>
+                        <div class="premium-badge">&#x1F9EA; ENGINEERING PIPELINE</div>
+                        <h3 style="margin:0 0 10px 0; font-size:1.2rem; color:#2aa198; font-family:'Space Grotesk',sans-serif; font-weight:900;">Agentic QA/QC Engine</h3>
+                        <p style="font-size:0.88rem; color:#839496; margin:0; line-height:1.6;">Autonomous safety and quality compliance engine built for heavy module fabrication. Runs systematic OCR validation loops against steel plate heat marks to verify metallurgical integrity before assembly.</p>
+                    </div>
+                    <div>
+                        <button class="action-btn" onclick="toggleHubElement('pdf-qaqc')">[ View Blueprint PDF ]</button>
+                        <div id="pdf-qaqc" class="pdf-tray"><iframe src="data/qa_qc_rev15.pdf" title="QA QC Blueprint"></iframe></div>
+                        <button class="action-btn" onclick="toggleHubElement('prompt-qaqc')">[ View System Architecture Prompt ]</button>
+                        <pre id="prompt-qaqc" class="prompt-tray">=== SYSTEM INSTRUCTION: AGENTIC QA/QC ENGINE ===
+OBJECTIVE: Algorithmic quality assurance for high-risk industrial packages.
+COMPLIANCE MATRICES:
+1. Audit drawing files against strict ASTM and ASME engineering standards.
+2. Drive high-speed OCR validation loops tracking raw steel plate heat numbers.
+3. Enforce programmatic validation over welding logs and NDE configurations.</pre>
+                    </div>
+                </div>
+            </div>
         </section>
     </main>
 
@@ -910,104 +1046,62 @@
     })();
     </script>
 
-    <!-- ======================================================
-         PROJECT NEXUS v4 — Hardcoded Sovereign Production Hub
-         Pure HTML — zero JS dependency — instant render
-         ====================================================== -->
-    <section class="enterprise-infrastructure-hub">
-        <div class="hub-header">
-            <h2 style="margin:0; font-size: 1.8rem; font-family: 'Space Grotesk', sans-serif;">Project Nexus &amp; Media Infrastructure Cluster</h2>
-            <p style="color: #8b949e; margin: 5px 0 0 0; font-size: 0.95rem;">Verified Sovereign Production Frameworks &amp; Engineering Blueprints</p>
-        </div>
 
-        <div class="hub-grid">
 
-            <!-- CARD 1: VIRALFLOW PRO -->
-            <div class="hub-card media-node">
-                <div>
-                    <div class="premium-badge">MEDIA INFRASTRUCTURE</div>
-                    <h3 style="margin:0 0 10px 0; font-size:1.25rem; color:#39ff14; font-family:'Space Grotesk',sans-serif;">VIRALFLOW PRO</h3>
-                    <p style="font-size:0.9rem; color:#8b949e; margin:0; line-height:1.5;">Elite growth engine powered by Google AI Studio. Evaluates media assets for 15M+ view potential, crafts complex algorithmic SEO configurations for YouTube/TikTok, and drives automated data funnels.</p>
-                </div>
-                <div>
-                    <button class="action-btn" onclick="toggleHubElement('prompt-vpro')">[ View System Architecture Prompt ]</button>
-                    <pre id="prompt-vpro" class="prompt-tray">=== SYSTEM INSTRUCTION: VIRALFLOW PRO ===
-ROLE: Lead Content Strategist / SEO Mastery Node.
-TARGET WINDOW: 6:00 PM UAE (7:30 PM IST / 7:00 PM PKT).
-CORE LAWS:
-1. VIRAL SEO: Prioritize 2026 milestones. Optimize title metadata for South Asian search intent.
-2. GO PROTOCOL (HITL): All automations push assets as Unlisted. Send Telegram verification link for review.
-3. AESTHETIC: Enforce High-Contrast Broadcast Neon layouts (Neon Yellow/Green) in a 9:16 vertical mobile environment.</pre>
-                </div>
-            </div>
-
-            <!-- CARD 2: KARTHIKA'S KITCHEN AI -->
-            <div class="hub-card media-node">
-                <div>
-                    <div class="premium-badge">MEDIA INFRASTRUCTURE</div>
-                    <h3 style="margin:0 0 10px 0; font-size:1.25rem; color:#39ff14; font-family:'Space Grotesk',sans-serif;">Karthika&#39;s Kitchen AI</h3>
-                    <p style="font-size:0.9rem; color:#8b949e; margin:0; line-height:1.5;">Intelligent consumer culinary platform managing high-speed dynamic database mapping. Features real-time material analysis to compute recipe arrays directly from active on-hand raw inventories.</p>
-                </div>
-                <div>
-                    <button class="action-btn" onclick="toggleHubElement('pdf-kkit')">[ View Blueprint Specification PDF ]</button>
-                    <div id="pdf-kkit" class="pdf-tray"><iframe src="data/skid_manufacturing.pdf" title="Karthika Kitchen Blueprint"></iframe></div>
-                    <button class="action-btn" onclick="toggleHubElement('prompt-kkit')">[ View System Architecture Prompt ]</button>
-                    <pre id="prompt-kkit" class="prompt-tray">=== SYSTEM INSTRUCTION: KARTHIKA'S KITCHEN AI ===
-CORE FUNCTION:
-1. Parse disparate incoming user ingredient inventory strings.
-2. Apply high-speed multi-layered synthesis algorithms to cross-reference global recipe data pools.
-3. Compute exact ingredient ratios, safe culinary preparations, and format clean UI outputs.</pre>
-                </div>
-            </div>
-
-            <!-- CARD 3: AUTONOMOUS DOCUMENT CONTROL -->
-            <div class="hub-card">
-                <div>
-                    <div class="premium-badge">ENGINEERING PIPELINE</div>
-                    <h3 style="margin:0 0 10px 0; font-size:1.25rem; color:#00e5ff; font-family:'Space Grotesk',sans-serif;">Autonomous Document Control</h3>
-                    <p style="font-size:0.9rem; color:#8b949e; margin:0; line-height:1.5;">Enterprise-grade multi-agent AI framework managing the complete document lifecycle with zero human touch. Validates schema formats and handles multi-layered approvals directly via SAP/ERP automation layers.</p>
-                </div>
-                <div>
-                    <button class="action-btn" onclick="toggleHubElement('pdf-adoc')">[ View Blueprint Specification PDF ]</button>
-                    <div id="pdf-adoc" class="pdf-tray"><iframe src="data/doc_control.pdf" title="Document Control Blueprint"></iframe></div>
-                    <button class="action-btn" onclick="toggleHubElement('prompt-adoc')">[ View System Architecture Prompt ]</button>
-                    <pre id="prompt-adoc" class="prompt-tray">=== SYSTEM INSTRUCTION: AUTONOMOUS DOCUMENT CONTROL ===
-OBJECTIVE: Zero manual touch documentation pipelines for EPC and Module Fabrication.
-OPERATIONAL ENGINE LAWS:
-1. Auto-trigger compliance scans the millisecond drawing schema metadata is received via ERP pipelines.
-2. Execute structural revision comparisons; automatically enforce strict SAP Lockouts.
-3. Broadcast automated Red-Alert signals instantly across team channels when a document configuration is superseded.</pre>
-                </div>
-            </div>
-
-            <!-- CARD 4: AGENTIC QA/QC ENGINE -->
-            <div class="hub-card">
-                <div>
-                    <div class="premium-badge">ENGINEERING PIPELINE</div>
-                    <h3 style="margin:0 0 10px 0; font-size:1.25rem; color:#00e5ff; font-family:'Space Grotesk',sans-serif;">Agentic QA/QC Engine</h3>
-                    <p style="font-size:0.9rem; color:#8b949e; margin:0; line-height:1.5;">Autonomous safety and quality compliance engine built for heavy module fabrication. Runs systematic OCR validation loops against steel plate heat marks to verify metallurgical integrity before assembly.</p>
-                </div>
-                <div>
-                    <button class="action-btn" onclick="toggleHubElement('pdf-qaqc')">[ View Blueprint Specification PDF ]</button>
-                    <div id="pdf-qaqc" class="pdf-tray"><iframe src="data/qa_qc_rev15.pdf" title="QA QC Blueprint"></iframe></div>
-                    <button class="action-btn" onclick="toggleHubElement('prompt-qaqc')">[ View System Architecture Prompt ]</button>
-                    <pre id="prompt-qaqc" class="prompt-tray">=== SYSTEM INSTRUCTION: AGENTIC QA/QC ENGINE ===
-OBJECTIVE: Algorithmic quality assurance tracking for high-risk industrial packages.
-COMPLIANCE MATRICES:
-1. Audit drawing files and technical specifications against strict ASTM and ASME engineering standards.
-2. Drive high-speed OCR validation loops tracking raw steel plate heat numbers.
-3. Enforce programmatic validation criteria over welding logs and NDE configurations.</pre>
-                </div>
-            </div>
-
-        </div>
-    </section>
 
     <script>
+    // ==========================================================
+    // NEXUS TOGGLE + SCROLL REVEAL + STAT COUNTERS
+    // ==========================================================
     function toggleHubElement(id) {
         var el = document.getElementById(id);
         if (el) el.style.display = (el.style.display === 'block') ? 'none' : 'block';
     }
+
+    // Scroll Reveal via IntersectionObserver
+    (function() {
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(e) {
+                if (e.isIntersecting) {
+                    e.target.classList.add('visible');
+                    observer.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.12 });
+        document.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
+    })();
+
+    // Animated Stat Counters
+    (function() {
+        var stats = [
+            { id: 'stat-views',   target: '365M+',  numeric: 365,   suffix: 'M+' },
+            { id: 'stat-engines', target: '4',       numeric: 4,     suffix: '' },
+            { id: 'stat-markets', target: '5',       numeric: 5,     suffix: '' },
+            { id: 'stat-uptime',  target: '99.9%',   numeric: 99,    suffix: '%' }
+        ];
+        function animateCounter(el, numeric, suffix) {
+            var start = 0; var duration = 1800;
+            var step = Math.ceil(numeric / 60);
+            var interval = setInterval(function() {
+                start += step;
+                if (start >= numeric) { start = numeric; clearInterval(interval); }
+                el.textContent = start + suffix;
+            }, duration / 60);
+        }
+        var nexus = document.getElementById('nexus-hub');
+        if (nexus) {
+            var counterObserver = new IntersectionObserver(function(entries) {
+                if (entries[0].isIntersecting) {
+                    stats.forEach(function(s) {
+                        var el = document.getElementById(s.id);
+                        if (el) animateCounter(el, s.numeric, s.suffix);
+                    });
+                    counterObserver.unobserve(nexus);
+                }
+            }, { threshold: 0.2 });
+            counterObserver.observe(nexus);
+        }
+    })();
     </script>
 
 </body>
