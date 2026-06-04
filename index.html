@@ -117,6 +117,71 @@
         .ct-meta { color: #8B949E; font-size: 0.7rem; }
         /* Push body content below cricket bar */
         body { padding-top: 34px; }
+
+        /* ========================================================
+           NEXUS CLUSTER — Dynamic Manifest Infrastructure Layer
+           ======================================================== */
+        .engineering-node-section {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 40px;
+            background: rgba(22, 25, 32, 0.7);
+            border: 1px solid #30363d;
+            border-radius: 16px;
+            backdrop-filter: blur(12px);
+            font-family: 'Space Grotesk', system-ui, sans-serif;
+            color: #ffffff;
+        }
+        .node-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        .node-card {
+            background: #0d0e12;
+            border: 1px solid #21262d;
+            border-radius: 12px;
+            padding: 24px;
+            text-align: left;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .node-card:hover {
+            box-shadow: 0 0 18px rgba(0, 229, 255, 0.12);
+        }
+        .prompt-toggle-btn {
+            background: transparent;
+            color: #00e5ff;
+            border: 1px solid #00e5ff;
+            padding: 10px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 18px;
+            width: 100%;
+            transition: background 0.2s;
+        }
+        .prompt-toggle-btn:hover { background: rgba(0, 229, 255, 0.08); }
+        .prompt-toggle-btn.media-btn {
+            color: #39ff14;
+            border-color: #39ff14;
+        }
+        .prompt-toggle-btn.media-btn:hover { background: rgba(57, 255, 20, 0.08); }
+        .prompt-payload-box {
+            display: none;
+            background: #161920;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            padding: 15px;
+            margin-top: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            color: #c9d1d9;
+            max-height: 220px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            line-height: 1.6;
+        }
     </style>
 </head>
 <body>
@@ -814,5 +879,63 @@
         else init();
     })();
     </script>
+
+    <!-- ======================================================
+         PROJECT NEXUS & MEDIA INFRASTRUCTURE CLUSTER
+         Manifest-driven dynamic node renderer
+         ====================================================== -->
+    <section class="engineering-node-section">
+        <div style="border-left: 4px solid #00e5ff; padding-left: 15px; text-align: left;">
+            <h2 style="margin:0; font-size: 1.8rem; font-family: 'Space Grotesk', sans-serif;">Project Nexus &amp; Media Infrastructure Cluster</h2>
+            <p style="color: #8b949e; margin: 5px 0 0 0; font-size: 0.95rem;">Asynchronously Synced Prompt Engines</p>
+        </div>
+        <div class="node-grid" id="nexus-cluster-container"></div>
+    </section>
+
+    <script>
+    (function() {
+        function togglePromptDisplay(id) {
+            var box = document.getElementById('prompt-' + id);
+            if (box) box.style.display = box.style.display === 'block' ? 'none' : 'block';
+        }
+        window.togglePromptDisplay = togglePromptDisplay;
+
+        function renderNexusCluster(data) {
+            var container = document.getElementById('nexus-cluster-container');
+            if (!container || !data || !data.apps) return;
+            Object.keys(data.apps).forEach(function(key) {
+                var app = data.apps[key];
+                var card = document.createElement('div');
+                card.className = 'node-card';
+                if (app.is_media) card.style.borderColor = '#39ff14';
+                var accentColor = app.is_media ? '#39ff14' : '#00e5ff';
+                var refHtml = app.artifact_ref !== 'N/A'
+                    ? '<div style="font-size:0.75rem; color:#00e5ff; margin-top:6px; font-family:monospace;">Ref: ' + app.artifact_ref + '</div>'
+                    : '';
+                var safeInstruction = (app.system_instruction || '').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+                card.innerHTML = '<h3 style="margin:0 0 10px 0; color:' + accentColor + '; font-family:'Space Grotesk',sans-serif;">' + app.title + '</h3>'
+                    + '<p style="font-size:0.9rem; color:#8b949e; margin:0; line-height:1.5;">' + app.description + '</p>'
+                    + refHtml
+                    + '<button class="prompt-toggle-btn ' + (app.is_media ? 'media-btn' : '') + '" onclick="togglePromptDisplay('' + key + '');">[ View System Architecture Prompt ]</button>'
+                    + '<div id="prompt-' + key + '" class="prompt-payload-box">' + safeInstruction + '</div>';
+                container.appendChild(card);
+            });
+        }
+
+        function initNexus() {
+            fetch('data/prompts_manifest.json')
+                .then(function(res) { return res.json(); })
+                .then(function(data) { renderNexusCluster(data); })
+                .catch(function(err) { console.warn('[NEXUS] Manifest load failed:', err); });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initNexus);
+        } else {
+            initNexus();
+        }
+    })();
+    </script>
+
 </body>
 </html>
