@@ -893,7 +893,61 @@
     </section>
 
     <script>
+    // ================================================================
+    // NEXUS CLUSTER v2 — Static Baked Memory Matrix
+    // Eliminates server routing mismatches entirely.
+    // Data is compiled directly into the page at deploy time.
+    // ================================================================
     (function() {
+        var NEXUS_DATA = {
+            "apps": {
+                "vpro": {
+                    "title": "VIRALFLOW PRO",
+                    "is_media": true,
+                    "description": "Elite growth engine powered by Google AI Studio. Evaluates media assets for 15M+ view potential, crafts complex algorithmic SEO configurations for YouTube/TikTok, and drives automated data funnels.",
+                    "artifact_ref": "N/A",
+                    "system_instruction": "ROLE: Lead Content Strategist / SEO Mastery Node.
+TARGET WINDOW: 6:00 PM UAE (7:30 PM IST / 7:00 PM PKT).
+CORE LAWS:
+1. VIRAL SEO: Prioritize 2026 milestones. Optimize title metadata for South Asian search intent.
+2. GO PROTOCOL (HITL): All automations push assets as Unlisted. Send Telegram verification link for review.
+3. AESTHETIC: Enforce High-Contrast Broadcast Neon layouts (Neon Yellow/Green) in a 9:16 vertical mobile environment."
+                },
+                "kkit": {
+                    "title": "Karthika's Kitchen",
+                    "is_media": true,
+                    "description": "Intelligent consumer-facing culinary assistant managing interactive data matching across vast global databases. Features real-time dynamic material analysis to compute custom recipe output arrays.",
+                    "artifact_ref": "N/A",
+                    "system_instruction": "CORE FUNCTION:
+1. Parse disparate incoming user ingredient inventory strings.
+2. Apply high-speed multi-layered synthesis algorithms to cross-reference global recipes.
+3. Compute exact ingredient ratios, safe culinary preparations, and format clean UI outputs."
+                },
+                "adoc": {
+                    "title": "Autonomous Document Control",
+                    "is_media": false,
+                    "description": "Enterprise-grade multi-agent AI framework designed for zero-human-intervention engineering lifecycle validation. Processes drawing lists and technical compliance scans while interfacing natively with SAP/ERP layers.",
+                    "artifact_ref": "Autonomous_Document_Control (2).pdf",
+                    "system_instruction": "OBJECTIVE: Zero manual touch documentation pipelines for EPC and Module Fabrication.
+OPERATIONAL ENGINE LAWS:
+1. Auto-trigger compliance scans the millisecond drawing schema metadata is received.
+2. Execute structural revision comparisons; automatically enforce strict SAP Lockouts.
+3. Broadcast automated Red-Alert signals instantly across team channels when a document configuration is superseded."
+                },
+                "qaqc": {
+                    "title": "Agentic QA/QC Engine",
+                    "is_media": false,
+                    "description": "Autonomous compliance and governance engine mapped to heavy fabrication processes, including Chemical Injection Skid packages. Automatically runs schema checking matrices and traces material certifications.",
+                    "artifact_ref": "QA QC _Autonomous_Engineering.pdf REV15.pdf, Autonomous of skid mounting package _Manufacturing (3).pdf",
+                    "system_instruction": "OBJECTIVE: Algorithmic quality assurance tracking for high-risk industrial packages.
+COMPLIANCE MATRICES:
+1. Audit drawing files and technical specifications against strict ASTM and ASME engineering standards.
+2. Drive high-speed OCR validation loops tracking raw steel plate heat numbers.
+3. Enforce programmatic validation criteria over welding logs and NDE configurations."
+                }
+            }
+        };
+
         function togglePromptDisplay(id) {
             var box = document.getElementById('prompt-' + id);
             if (box) box.style.display = box.style.display === 'block' ? 'none' : 'block';
@@ -912,7 +966,7 @@
                 var refHtml = app.artifact_ref !== 'N/A'
                     ? '<div style="font-size:0.75rem; color:#00e5ff; margin-top:6px; font-family:monospace;">Ref: ' + app.artifact_ref + '</div>'
                     : '';
-                var safeInstruction = (app.system_instruction || '').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+                var safeInstruction = (app.system_instruction || '').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
                 card.innerHTML = '<h3 style="margin:0 0 10px 0; color:' + accentColor + '; font-family:'Space Grotesk',sans-serif;">' + app.title + '</h3>'
                     + '<p style="font-size:0.9rem; color:#8b949e; margin:0; line-height:1.5;">' + app.description + '</p>'
                     + refHtml
@@ -922,17 +976,10 @@
             });
         }
 
-        function initNexus() {
-            fetch('data/prompts_manifest.json')
-                .then(function(res) { return res.json(); })
-                .then(function(data) { renderNexusCluster(data); })
-                .catch(function(err) { console.warn('[NEXUS] Manifest load failed:', err); });
-        }
-
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initNexus);
+            document.addEventListener('DOMContentLoaded', function() { renderNexusCluster(NEXUS_DATA); });
         } else {
-            initNexus();
+            renderNexusCluster(NEXUS_DATA);
         }
     })();
     </script>
