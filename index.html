@@ -10,8 +10,8 @@
     <style>
         /* [SUPERSEED_CSS_V109.0] - BROADCAST PURITY ENGINE */
         :root {
-            --bg-deep: #010204; --sidebar-bg: #030508; --card-bg: rgba(10, 14, 20, 0.7);
-            --neon-cyan: #00F2FE; --neon-gold: #feb316; --text-main: #f0f6fc;
+            --bg-deep: #002b36; --sidebar-bg: #073642; --card-bg: rgba(7, 54, 66, 0.65);
+            --neon-cyan: #2aa198; --neon-gold: #b58900; --text-main: #eee8d5;
             --glass-blur: blur(60px);
         }
 
@@ -246,7 +246,7 @@
         const starPos = new Float32Array(600 * 3);
         for(let i=0; i<600*3; i++){ starPos[i] = (Math.random()-0.5)*1200; }
         starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
-        const stars = new THREE.Points(starGeo, new THREE.PointsMaterial({ color: 0x00F2FE, size: 1.2, transparent:true, opacity:0.4 }));
+        const stars = new THREE.Points(starGeo, new THREE.PointsMaterial({ color: 0x2aa198, size: 1.2, transparent:true, opacity:0.4 }));
         vortexGroup.add(stars);
         scene.add(vortexGroup); camera.position.z = 250;
 
@@ -257,7 +257,7 @@
 
         // 1.5. Vortex Core and Sidebar Flowing Nodes
         const vortexCoreGeo = new THREE.TorusKnotGeometry(25, 6, 120, 16);
-        const vortexCoreMat = new THREE.MeshBasicMaterial({ color: 0x00F2FE, wireframe: true, transparent: true, opacity: 0.12 });
+        const vortexCoreMat = new THREE.MeshBasicMaterial({ color: 0x268bd2, wireframe: true, transparent: true, opacity: 0.12 });
         const vortexCore = new THREE.Mesh(vortexCoreGeo, vortexCoreMat);
         vortexCore.position.set(visibleWidth / 4, visibleHeight / 6, -100);
         scene.add(vortexCore);
@@ -270,7 +270,7 @@
             new THREE.DodecahedronGeometry(5, 0),
             new THREE.TetrahedronGeometry(4.5, 0)
         ];
-        const sidebarColors = [0x00F2FE, 0xfeb316];
+        const sidebarColors = [0x2aa198, 0xcb4b16];
 
         for (let i = 0; i < 8; i++) {
             const geo = sidebarGeos[Math.floor(Math.random() * sidebarGeos.length)];
@@ -295,6 +295,32 @@
             });
         }
 
+        // 1.7. Concentric 3D Orbit Rings (Data Orbits)
+        const orbitsGroup = new THREE.Group();
+        orbitsGroup.position.set(-visibleWidth / 8, 0, -50);
+        scene.add(orbitsGroup);
+
+        const ringGeos = [
+            new THREE.TorusGeometry(35, 0.4, 8, 48),
+            new THREE.TorusGeometry(50, 0.4, 8, 48),
+            new THREE.TorusGeometry(65, 0.4, 8, 48)
+        ];
+        const ringColors = [0x2aa198, 0x6c71c4, 0x268bd2];
+        const rings = [];
+
+        for (let i = 0; i < 3; i++) {
+            const rMat = new THREE.MeshBasicMaterial({ color: ringColors[i], transparent: true, opacity: 0.14 });
+            const rMesh = new THREE.Mesh(ringGeos[i], rMat);
+            rMesh.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, 0);
+            orbitsGroup.add(rMesh);
+            
+            rings.push({
+                mesh: rMesh,
+                rotX: (i + 1) * 0.003 * (Math.random() > 0.5 ? 1 : -1),
+                rotY: (i + 1) * 0.002 * (Math.random() > 0.5 ? 1 : -1)
+            });
+        }
+
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
@@ -304,13 +330,14 @@
             visibleWidth = visibleHeight * aspect;
             
             vortexCore.position.set(visibleWidth / 4, visibleHeight / 6, -100);
+            orbitsGroup.position.set(-visibleWidth / 8, 0, -50);
         });
 
-        // 1. Stream of Floating 3D Crypto Coins
+        // 1. Stream of Floating 3D Crypto Coins (Solarized Palette)
         const coinTypes = [
-            { type: 'BTC', geo: new THREE.CylinderGeometry(8, 8, 2, 24), mat: new THREE.MeshStandardMaterial({ color: 0xfeb316, roughness: 0.15, metalness: 0.85, transparent: true, opacity: 0.8 }) },
-            { type: 'ETH', geo: new THREE.OctahedronGeometry(8, 0), mat: new THREE.MeshStandardMaterial({ color: 0x8b5cf6, roughness: 0.1, metalness: 0.8, transparent: true, opacity: 0.8 }) },
-            { type: 'SOL', geo: new THREE.TorusGeometry(6, 1.8, 8, 24), mat: new THREE.MeshStandardMaterial({ color: 0x06b6d4, roughness: 0.2, metalness: 0.8, transparent: true, opacity: 0.8 }) }
+            { type: 'BTC', geo: new THREE.CylinderGeometry(8, 8, 2, 24), mat: new THREE.MeshStandardMaterial({ color: 0xb58900, roughness: 0.15, metalness: 0.85, transparent: true, opacity: 0.8 }) },
+            { type: 'ETH', geo: new THREE.OctahedronGeometry(8, 0), mat: new THREE.MeshStandardMaterial({ color: 0x6c71c4, roughness: 0.1, metalness: 0.8, transparent: true, opacity: 0.8 }) },
+            { type: 'SOL', geo: new THREE.TorusGeometry(6, 1.8, 8, 24), mat: new THREE.MeshStandardMaterial({ color: 0x2aa198, roughness: 0.2, metalness: 0.8, transparent: true, opacity: 0.8 }) }
         ];
 
         const cryptoCoins3D = [];
@@ -386,7 +413,7 @@
         scene.add(figureGroup);
 
         const silhouetteMat = new THREE.MeshBasicMaterial({
-            color: 0x05080c,
+            color: 0x001e26, // Solarized Dark deep shade
             transparent: true,
             opacity: 0.5
         });
@@ -467,6 +494,12 @@
                     n.mesh.position.y = -visibleHeight / 2 - 20;
                     n.mesh.position.x = -visibleWidth / 2 + (Math.random() * 50 + 40);
                 }
+            });
+
+            // Update Orbit Rings
+            rings.forEach(r => {
+                r.mesh.rotation.x += r.rotX;
+                r.mesh.rotation.y += r.rotY;
             });
 
             cryptoCoins3D.forEach(c => {
