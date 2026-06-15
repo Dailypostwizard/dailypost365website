@@ -22,7 +22,7 @@
 
         h1, h2, h3, .font-vortex { font-family: 'Space Grotesk', sans-serif; letter-spacing: -0.01em; }
 
-        #vortex-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; pointer-events: none; opacity: 0.8; }
+        #vortex-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; pointer-events: none; opacity: 0.1; }
 
         /* IMPERIAL SIDEBAR */
         .imperial-sidebar {
@@ -612,356 +612,189 @@ COMPLIANCE MATRICES:
     document.addEventListener('DOMContentLoaded', () => {
 
         // ========================================
-        // 1. STAR VORTEX WORLD (CLEAN IMPERIAL)
+        // 1. CINEMATIC AI BACKGROUND (NEURAL RESTORATION)
         // ========================================
         const bgCanvas = document.getElementById('vortex-canvas');
+        if (!bgCanvas) return;
+
         const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ canvas: bgCanvas, alpha: true, antialias: true });
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 40;
+        camera.position.y = 0;
+
+        const renderer = new THREE.WebGLRenderer({ canvas: bgCanvas, alpha: true, antialias: true, powerPreference: "high-performance" });
         renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-        // Lights for 3D elements
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-        scene.add(ambientLight);
-        const dirLight = new THREE.DirectionalLight(0xffffff, 1.0);
-        dirLight.position.set(50, 100, 150);
-        scene.add(dirLight);
+        const mouse = new THREE.Vector2(0, 0);
+        const targetMouse = new THREE.Vector2(0, 0);
+        let scrollY = window.scrollY;
 
-        const vortexGroup = new THREE.Group();
-        const starGeo = new THREE.BufferGeometry();
-        const starPos = new Float32Array(600 * 3);
-        for(let i=0; i<600*3; i++){ starPos[i] = (Math.random()-0.5)*1200; }
-        starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
-        const stars = new THREE.Points(starGeo, new THREE.PointsMaterial({ color: 0x2aa198, size: 1.2, transparent:true, opacity:0.4 }));
-        vortexGroup.add(stars);
-        scene.add(vortexGroup); camera.position.z = 250;
+        window.addEventListener('mousemove', (e) => {
+            targetMouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+            targetMouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+        }, { passive: true });
 
-        // View boundaries calculation
-        let aspect = window.innerWidth / window.innerHeight;
-        let visibleHeight = 2 * Math.tan((camera.fov * Math.PI) / 360) * camera.position.z;
-        let visibleWidth = visibleHeight * aspect;
-
-        // 1.5. Vortex Core and Sidebar Flowing Nodes
-        const vortexCoreGeo = new THREE.TorusKnotGeometry(25, 6, 120, 16);
-        const vortexCoreMat = new THREE.MeshBasicMaterial({ color: 0x268bd2, wireframe: true, transparent: true, opacity: 0.12 });
-        const vortexCore = new THREE.Mesh(vortexCoreGeo, vortexCoreMat);
-        vortexCore.position.set(visibleWidth / 4, visibleHeight / 6, -100);
-        scene.add(vortexCore);
-
-        const sidebarNodes = [];
-        const sidebarGroup = new THREE.Group();
-        scene.add(sidebarGroup);
-
-        const sidebarGeos = [
-            new THREE.DodecahedronGeometry(5, 0),
-            new THREE.TetrahedronGeometry(4.5, 0)
-        ];
-        const sidebarColors = [0x2aa198, 0xcb4b16];
-
-        for (let i = 0; i < 8; i++) {
-            const geo = sidebarGeos[Math.floor(Math.random() * sidebarGeos.length)];
-            const color = sidebarColors[Math.floor(Math.random() * sidebarColors.length)];
-            const mat = new THREE.MeshBasicMaterial({ color: color, wireframe: true, transparent: true, opacity: 0.2 });
-            const mesh = new THREE.Mesh(geo, mat);
-            
-            mesh.position.x = -visibleWidth / 2 + (Math.random() * 50 + 40);
-            mesh.position.y = (Math.random() - 0.5) * visibleHeight;
-            mesh.position.z = (Math.random() - 0.5) * 40;
-            
-            mesh.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
-            sidebarGroup.add(mesh);
-            
-            sidebarNodes.push({
-                mesh: mesh,
-                speedY: Math.random() * 0.15 + 0.15,
-                speedX: (Math.random() - 0.5) * 0.05,
-                rotX: Math.random() * 0.01 + 0.005,
-                rotY: Math.random() * 0.01 + 0.005,
-                rotZ: Math.random() * 0.01 + 0.005
-            });
-        }
-
-        // 1.7. Concentric 3D Orbit Rings (Data Orbits)
-        const orbitsGroup = new THREE.Group();
-        orbitsGroup.position.set(-visibleWidth / 8, 0, -50);
-        scene.add(orbitsGroup);
-
-        const ringGeos = [
-            new THREE.TorusGeometry(35, 0.4, 8, 48),
-            new THREE.TorusGeometry(50, 0.4, 8, 48),
-            new THREE.TorusGeometry(65, 0.4, 8, 48)
-        ];
-        const ringColors = [0x2aa198, 0x6c71c4, 0x268bd2];
-        const rings = [];
-
-        for (let i = 0; i < 3; i++) {
-            const rMat = new THREE.MeshBasicMaterial({ color: ringColors[i], transparent: true, opacity: 0.14 });
-            const rMesh = new THREE.Mesh(ringGeos[i], rMat);
-            rMesh.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, 0);
-            orbitsGroup.add(rMesh);
-            
-            rings.push({
-                mesh: rMesh,
-                rotX: (i + 1) * 0.003 * (Math.random() > 0.5 ? 1 : -1),
-                rotY: (i + 1) * 0.002 * (Math.random() > 0.5 ? 1 : -1)
-            });
-        }
+        window.addEventListener('scroll', () => {
+            scrollY = window.scrollY;
+        }, { passive: true });
 
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
-            aspect = window.innerWidth / window.innerHeight;
-            visibleHeight = 2 * Math.tan((camera.fov * Math.PI) / 360) * camera.position.z;
-            visibleWidth = visibleHeight * aspect;
-            
-            vortexCore.position.set(visibleWidth / 4, visibleHeight / 6, -100);
-            orbitsGroup.position.set(-visibleWidth / 8, 0, -50);
         });
 
-        // 1. Stream of Floating 3D Crypto Coins (Solarized Palette)
-        const coinTypes = [
-            { type: 'BTC', geo: new THREE.CylinderGeometry(8, 8, 2, 24), mat: new THREE.MeshStandardMaterial({ color: 0xb58900, roughness: 0.15, metalness: 0.85, transparent: true, opacity: 0.8 }) },
-            { type: 'ETH', geo: new THREE.OctahedronGeometry(8, 0), mat: new THREE.MeshStandardMaterial({ color: 0x6c71c4, roughness: 0.1, metalness: 0.8, transparent: true, opacity: 0.8 }) },
-            { type: 'SOL', geo: new THREE.TorusGeometry(6, 1.8, 8, 24), mat: new THREE.MeshStandardMaterial({ color: 0x2aa198, roughness: 0.2, metalness: 0.8, transparent: true, opacity: 0.8 }) }
-        ];
+        // LAYER 2: Neural Network
+        const particleCount = window.innerWidth < 768 ? 800 : 2500;
+        const geometry = new THREE.BufferGeometry();
+        const positions = new Float32Array(particleCount * 3);
+        const phases = new Float32Array(particleCount);
 
-        const cryptoCoins3D = [];
-        const coinCount = 12;
-        const coinGroup = new THREE.Group();
-        scene.add(coinGroup);
-
-        for (let i = 0; i < coinCount; i++) {
-            const def = coinTypes[Math.floor(Math.random() * coinTypes.length)];
-            const mesh = new THREE.Mesh(def.geo, def.mat);
-            
-            mesh.position.x = (Math.random() - 0.5) * visibleWidth * 1.5;
-            mesh.position.y = (Math.random() - 0.2) * visibleHeight * 0.8;
-            mesh.position.z = (Math.random() - 0.5) * 60;
-            
-            mesh.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
-            coinGroup.add(mesh);
-            
-            cryptoCoins3D.push({
-                mesh: mesh,
-                type: def.type,
-                speedX: -(Math.random() * 0.5 + 0.3),
-                speedY: (Math.random() - 0.5) * 0.05,
-                rotX: Math.random() * 0.02 - 0.01,
-                rotY: Math.random() * 0.02 - 0.01,
-                rotZ: Math.random() * 0.02 + 0.01,
-                trailColor: def.mat.color.getHex()
-            });
+        for (let i = 0; i < particleCount; i++) {
+            positions[i * 3] = (Math.random() - 0.5) * 120;
+            positions[i * 3 + 1] = (Math.random() - 0.5) * 120;
+            positions[i * 3 + 2] = (Math.random() - 0.5) * 60 - 10;
+            phases[i] = Math.random() * Math.PI * 2;
         }
 
-        // 2. Subtle Glowing Particle Trails
-        const particles = [];
-        const maxParticles = 150;
-        const particleGeo = new THREE.SphereGeometry(0.8, 4, 4);
-        const particleGroup = new THREE.Group();
-        scene.add(particleGroup);
+        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        geometry.setAttribute('phase', new THREE.BufferAttribute(phases, 1));
 
-        for (let i = 0; i < maxParticles; i++) {
-            const pMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0 });
-            const pMesh = new THREE.Mesh(particleGeo, pMat);
-            pMesh.visible = false;
-            particleGroup.add(pMesh);
-            particles.push({
-                mesh: pMesh,
-                active: false,
-                age: 0,
-                maxAge: 0,
-                speedX: 0,
-                speedY: 0,
-                speedZ: 0
-            });
-        }
-
-        function spawnParticle(x, y, z, color) {
-            const p = particles.find(p => !p.active);
-            if (!p) return;
-            p.active = true;
-            p.age = 0;
-            p.maxAge = Math.random() * 25 + 15;
-            p.mesh.position.set(x, y, z);
-            p.mesh.material.color.setHex(color);
-            p.mesh.material.opacity = 0.5;
-            p.mesh.visible = true;
-            p.mesh.scale.set(1, 1, 1);
-            p.speedX = (Math.random() - 0.5) * 0.05 - 0.05;
-            p.speedY = (Math.random() - 0.5) * 0.05;
-            p.speedZ = (Math.random() - 0.5) * 0.05;
-        }
-
-        // 3. Transparent Silhouette Figures Reaching Up
-        const figures = [];
-        const figureGroup = new THREE.Group();
-        scene.add(figureGroup);
-
-        const silhouetteMat = new THREE.MeshBasicMaterial({
-            color: 0x001e26, // Solarized Dark deep shade
+        const neuralMaterial = new THREE.ShaderMaterial({
+            uniforms: {
+                time: { value: 0 },
+                mousePos: { value: new THREE.Vector2(0, 0) }
+            },
+            vertexShader: `
+                uniform float time;
+                uniform vec2 mousePos;
+                attribute float phase;
+                varying float vAlpha;
+                void main() {
+                    vec3 pos = position;
+                    pos.x += sin(time * 0.2 + phase) * 2.0;
+                    pos.y += cos(time * 0.25 + phase) * 2.0;
+                    vec4 worldPos = modelMatrix * vec4(pos, 1.0);
+                    vec4 viewPos = viewMatrix * worldPos;
+                    vAlpha = (sin(time * 0.5 + phase) * 0.5 + 0.5) * 0.5 + 0.1;
+                    gl_Position = projectionMatrix * viewPos;
+                    gl_PointSize = (15.0 / -viewPos.z) * (sin(time * 0.8 + phase) * 1.5 + 2.0);
+                }
+            `,
+            fragmentShader: `
+                varying float vAlpha;
+                void main() {
+                    vec2 center = gl_PointCoord - vec2(0.5);
+                    float dist = length(center);
+                    if(dist > 0.5) discard;
+                    vec3 color = vec3(0.1, 0.6, 0.8);
+                    float glow = smoothstep(0.5, 0.0, dist);
+                    gl_FragColor = vec4(color * glow, vAlpha * glow);
+                }
+            `,
             transparent: true,
-            opacity: 0.5
+            blending: THREE.AdditiveBlending,
+            depthWrite: false
         });
 
-        function createFigure(xPos) {
-            const fig = new THREE.Group();
-            
-            const torsoGeo = new THREE.ConeGeometry(7, 24, 8);
-            const torso = new THREE.Mesh(torsoGeo, silhouetteMat);
-            torso.position.y = 12;
-            fig.add(torso);
-            
-            const headGeo = new THREE.SphereGeometry(4.5, 8, 8);
-            const head = new THREE.Mesh(headGeo, silhouetteMat);
-            head.position.y = 26;
-            fig.add(head);
-            
-            const armLength = 16;
-            const armGeo = new THREE.CylinderGeometry(1, 1, armLength, 8);
-            
-            const leftArmPivot = new THREE.Group();
-            leftArmPivot.position.set(-5, 21, 0);
-            const leftArm = new THREE.Mesh(armGeo, silhouetteMat);
-            leftArm.position.y = -armLength/2;
-            leftArmPivot.add(leftArm);
-            fig.add(leftArmPivot);
-            
-            const rightArmPivot = new THREE.Group();
-            rightArmPivot.position.set(5, 21, 0);
-            const rightArm = new THREE.Mesh(armGeo, silhouetteMat);
-            rightArm.position.y = -armLength/2;
-            rightArmPivot.add(rightArm);
-            fig.add(rightArmPivot);
-            
-            fig.position.set(xPos, -visibleHeight/2 - 10, 10);
-            figureGroup.add(fig);
-            
-            figures.push({
-                group: fig,
-                leftArm: leftArmPivot,
-                rightArm: rightArmPivot,
-                waveOffset: Math.random() * Math.PI * 2,
-                xPos: xPos
-            });
-        }
+        const neuralNetwork = new THREE.Points(geometry, neuralMaterial);
+        scene.add(neuralNetwork);
 
-        const numFigures = 4;
-        for (let i = 0; i < numFigures; i++) {
-            const x = (i / (numFigures - 1) - 0.5) * visibleWidth * 0.75;
-            createFigure(x);
-        }
-
-        let trailTimer = 0;
-
-        function animate() {
-            requestAnimationFrame(animate); 
-            vortexGroup.rotation.y += 0.001;
-
-            // Update Vortex Core
-            vortexCore.rotation.x += 0.001;
-            vortexCore.rotation.y += 0.0015;
-
-            // Update Sidebar Nodes
-            sidebarNodes.forEach(n => {
-                n.mesh.position.y += n.speedY;
-                n.mesh.position.x += n.speedX;
-                n.mesh.rotation.x += n.rotX;
-                n.mesh.rotation.y += n.rotY;
-                n.mesh.rotation.z += n.rotZ;
-
-                const sidebarLeft = -visibleWidth / 2 + 30;
-                const sidebarRight = -visibleWidth / 2 + 100;
-                if (n.mesh.position.x < sidebarLeft || n.mesh.position.x > sidebarRight) {
-                    n.speedX = -n.speedX;
-                }
-
-                if (n.mesh.position.y > visibleHeight / 2 + 20) {
-                    n.mesh.position.y = -visibleHeight / 2 - 20;
-                    n.mesh.position.x = -visibleWidth / 2 + (Math.random() * 50 + 40);
-                }
-            });
-
-            // Update Orbit Rings
-            rings.forEach(r => {
-                r.mesh.rotation.x += r.rotX;
-                r.mesh.rotation.y += r.rotY;
-            });
-
-            cryptoCoins3D.forEach(c => {
-                c.mesh.position.x += c.speedX;
-                c.mesh.position.y += c.speedY;
-                c.mesh.rotation.x += c.rotX;
-                c.mesh.rotation.y += c.rotY;
-                c.mesh.rotation.z += c.rotZ;
-
-                if (c.mesh.position.x < -visibleWidth/2 - 20) {
-                    c.mesh.position.x = visibleWidth/2 + 20;
-                    c.mesh.position.y = (Math.random() - 0.2) * visibleHeight * 0.8;
-                }
-            });
-
-            trailTimer++;
-            if (trailTimer % 3 === 0) {
-                cryptoCoins3D.forEach(c => {
-                    spawnParticle(c.mesh.position.x, c.mesh.position.y, c.mesh.position.z, c.trailColor);
-                });
+        // LAYER 3: Streams
+        const cryptoStream = new THREE.Group();
+        const cryptoMaterial = new THREE.LineBasicMaterial({ color: 0x00FFFF, transparent: true, opacity: 0.15, blending: THREE.AdditiveBlending });
+        for(let i=0; i<15; i++) {
+            const points = [];
+            let x = (Math.random() - 0.5) * 80;
+            let y = (Math.random() - 0.5) * 80;
+            let z = (Math.random() - 0.5) * 40 - 20;
+            points.push(new THREE.Vector3(x, y, z));
+            for(let j=0; j<3; j++) {
+                if(Math.random() > 0.5) x += (Math.random() > 0.5 ? 1 : -1) * 15;
+                else y += (Math.random() > 0.5 ? 1 : -1) * 15;
+                points.push(new THREE.Vector3(x, y, z));
             }
+            const geom = new THREE.BufferGeometry().setFromPoints(points);
+            const line = new THREE.Line(geom, cryptoMaterial);
+            cryptoStream.add(line);
+        }
+        scene.add(cryptoStream);
 
-            particles.forEach(p => {
-                if (!p.active) return;
-                p.age++;
-                p.mesh.position.x += p.speedX;
-                p.mesh.position.y += p.speedY;
-                p.mesh.position.z += p.speedZ;
-                
-                const pct = p.age / p.maxAge;
-                p.mesh.material.opacity = 0.5 * (1 - pct);
-                const sc = 1 - pct;
-                p.mesh.scale.set(sc, sc, sc);
-                
-                if (p.age >= p.maxAge) {
-                    p.active = false;
-                    p.mesh.visible = false;
-                }
-            });
+        const energyStream = new THREE.Group();
+        const energyMaterial = new THREE.LineBasicMaterial({ color: 0xCCFF00, transparent: true, opacity: 0.1, blending: THREE.AdditiveBlending });
+        for(let i=0; i<10; i++) {
+            const points = [];
+            let cx = (Math.random() - 0.5) * 100;
+            let cy = (Math.random() - 0.5) * 100;
+            let cz = (Math.random() - 0.5) * 30 - 30;
+            for(let j=0; j<5; j++) {
+                points.push(new THREE.Vector3(cx, cy, cz));
+                cx += (Math.random() - 0.5) * 20;
+                cy += (Math.random() - 0.5) * 20;
+                cz += (Math.random() - 0.5) * 5;
+            }
+            const curve = new THREE.CatmullRomCurve3(points);
+            const smoothPoints = curve.getPoints(50);
+            const geom = new THREE.BufferGeometry().setFromPoints(smoothPoints);
+            const line = new THREE.Line(geom, energyMaterial);
+            energyStream.add(line);
+        }
+        scene.add(energyStream);
 
-            figures.forEach(f => {
-                f.group.position.y = -visibleHeight/2 - 10;
-                
-                let nearestCoin = null;
-                let minDist = 180;
-                cryptoCoins3D.forEach(c => {
-                    const dx = c.mesh.position.x - f.xPos;
-                    const dy = c.mesh.position.y - (f.group.position.y + 21);
-                    const dist = Math.sqrt(dx*dx + dy*dy);
-                    if (dist < minDist) {
-                        minDist = dist;
-                        nearestCoin = c;
-                    }
-                });
+        const cricketStream = new THREE.Group();
+        const cricketMaterial = new THREE.LineBasicMaterial({ color: 0xFF3333, transparent: true, opacity: 0.15, blending: THREE.AdditiveBlending });
+        for(let i=0; i<8; i++) {
+            const start = new THREE.Vector3((Math.random() - 0.5)*80, -30, (Math.random()-0.5)*40 - 10);
+            const end = new THREE.Vector3((Math.random() - 0.5)*80, -30, (Math.random()-0.5)*40 - 10);
+            const mid = new THREE.Vector3((start.x + end.x)/2, Math.random() * 30 + 10, (start.z + end.z)/2);
+            const curve = new THREE.QuadraticBezierCurve3(start, mid, end);
+            const geom = new THREE.BufferGeometry().setFromPoints(curve.getPoints(30));
+            const line = new THREE.Line(geom, cricketMaterial);
+            cricketStream.add(line);
+        }
+        scene.add(cricketStream);
 
-                let targetAngleL = 1.8 + Math.sin(Date.now() * 0.0015 + f.waveOffset) * 0.4;
-                let targetAngleR = -1.8 + Math.cos(Date.now() * 0.0015 + f.waveOffset) * 0.4;
+        // LAYER 4: Holographic Patterns
+        const holoGroup = new THREE.Group();
+        const barGeo = new THREE.BoxGeometry(1, 10, 1);
+        const edges = new THREE.EdgesGeometry(barGeo);
+        const holoMaterial = new THREE.LineBasicMaterial({ color: 0x9D00FF, transparent: true, opacity: 0.05, blending: THREE.AdditiveBlending });
+        for(let i=0; i<20; i++) {
+            const bar = new THREE.LineSegments(edges, holoMaterial);
+            bar.position.set((Math.random() - 0.5)*100, (Math.random() - 0.5)*100, (Math.random() - 0.5)*60 - 20);
+            bar.rotation.set(Math.random()*Math.PI, Math.random()*Math.PI, 0);
+            bar.scale.setScalar(Math.random() * 1.5 + 0.5);
+            holoGroup.add(bar);
+        }
+        scene.add(holoGroup);
 
-                if (nearestCoin) {
-                    const coinPos = nearestCoin.mesh.position;
-                    const shoulderY = f.group.position.y + 21;
-                    const dxL = coinPos.x - (f.xPos - 5);
-                    const dyL = coinPos.y - shoulderY;
-                    const dxR = coinPos.x - (f.xPos + 5);
-                    const dyR = coinPos.y - shoulderY;
+        const clock = new THREE.Clock();
+        function animate() {
+            requestAnimationFrame(animate);
+            const time = clock.getElapsedTime();
+            
+            mouse.x += (targetMouse.x - mouse.x) * 0.05;
+            mouse.y += (targetMouse.y - mouse.y) * 0.05;
 
-                    if (coinPos.x < f.xPos) {
-                        targetAngleL = Math.atan2(dxL, -dyL);
-                    } else {
-                        targetAngleR = Math.atan2(dxR, -dyR);
-                    }
-                }
+            neuralMaterial.uniforms.time.value = time;
+            neuralMaterial.uniforms.mousePos.value = mouse;
 
-                f.leftArm.rotation.z += (targetAngleL - f.leftArm.rotation.z) * 0.15;
-                f.rightArm.rotation.z += (targetAngleR - f.rightArm.rotation.z) * 0.15;
-            });
+            neuralNetwork.rotation.y = time * 0.02;
+            neuralNetwork.rotation.x = time * 0.01;
+
+            cryptoStream.position.y = Math.sin(time * 0.5) * 2;
+            energyStream.rotation.z = time * 0.03;
+            
+            holoGroup.rotation.x = time * 0.01;
+            holoGroup.rotation.y = time * 0.015;
+
+            const targetCamX = mouse.x * 5;
+            const targetCamY = mouse.y * 5 - (scrollY * 0.02);
+            
+            camera.position.x += (targetCamX - camera.position.x) * 0.05;
+            camera.position.y += (targetCamY - camera.position.y) * 0.05;
+            camera.lookAt(0, 0, 0);
 
             renderer.render(scene, camera);
         }
