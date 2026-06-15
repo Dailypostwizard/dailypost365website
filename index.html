@@ -22,7 +22,7 @@
 
         h1, h2, h3, .font-vortex { font-family: 'Space Grotesk', sans-serif; letter-spacing: -0.01em; }
 
-        #vortex-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; pointer-events: none; opacity: 0.1; }
+        #vortex-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; pointer-events: none; opacity: 1.0; }
 
         /* IMPERIAL SIDEBAR */
         .imperial-sidebar {
@@ -679,7 +679,7 @@ COMPLIANCE MATRICES:
                     vec4 viewPos = viewMatrix * worldPos;
                     vAlpha = (sin(time * 0.5 + phase) * 0.5 + 0.5) * 0.5 + 0.1;
                     gl_Position = projectionMatrix * viewPos;
-                    gl_PointSize = (15.0 / -viewPos.z) * (sin(time * 0.8 + phase) * 1.5 + 2.0);
+                    gl_PointSize = (30.0 / -viewPos.z) * (sin(time * 0.8 + phase) * 1.5 + 2.0);
                 }
             `,
             fragmentShader: `
@@ -688,7 +688,7 @@ COMPLIANCE MATRICES:
                     vec2 center = gl_PointCoord - vec2(0.5);
                     float dist = length(center);
                     if(dist > 0.5) discard;
-                    vec3 color = vec3(0.1, 0.6, 0.8);
+                    vec3 color = vec3(0.1, 0.7, 0.9);
                     float glow = smoothstep(0.5, 0.0, dist);
                     gl_FragColor = vec4(color * glow, vAlpha * glow);
                 }
