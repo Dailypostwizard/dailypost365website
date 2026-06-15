@@ -15,8 +15,7 @@
             --glass-blur: blur(60px);
         }
 
-        body { 
-            background: var(--bg-deep); color: var(--text-main); font-family: 'Inter', sans-serif; 
+        body { background: radial-gradient(circle at 50% 0%, #06111e 0%, #010409 100%); color: var(--text-main); font-family: 'Inter', sans-serif; 
             margin: 0; overflow-x: hidden; scroll-behavior: smooth;
         }
 
@@ -612,85 +611,105 @@ COMPLIANCE MATRICES:
     document.addEventListener('DOMContentLoaded', () => {
 
         // ========================================
-        // 1. CINEMATIC AI BACKGROUND (NEURAL RESTORATION)
+        // V2: PALANTIR-GRADE CINEMATIC AI BACKGROUND
         // ========================================
         const bgCanvas = document.getElementById('vortex-canvas');
         if (!bgCanvas) return;
 
         const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x010409, 0.008);
+
         const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.z = 40;
+        camera.position.z = 60;
         camera.position.y = 0;
 
         const renderer = new THREE.WebGLRenderer({ canvas: bgCanvas, alpha: true, antialias: true, powerPreference: "high-performance" });
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-        const mouse = new THREE.Vector2(0, 0);
-        const targetMouse = new THREE.Vector2(0, 0);
+        const mouse = new THREE.Vector3(0, 0, 0);
+        const targetMouse = new THREE.Vector3(0, 0, 0);
         let scrollY = window.scrollY;
 
+        // Map mouse screen coords to approximate world coords at z=0 plane
         window.addEventListener('mousemove', (e) => {
-            targetMouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-            targetMouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+            let vec = new THREE.Vector3();
+            let pos = new THREE.Vector3();
+            vec.set((e.clientX / window.innerWidth) * 2 - 1, -(e.clientY / window.innerHeight) * 2 + 1, 0.5);
+            vec.unproject(camera);
+            vec.sub(camera.position).normalize();
+            let distance = -camera.position.z / vec.z;
+            pos.copy(camera.position).add(vec.multiplyScalar(distance));
+            targetMouse.copy(pos);
         }, { passive: true });
 
-        window.addEventListener('scroll', () => {
-            scrollY = window.scrollY;
-        }, { passive: true });
-
+        window.addEventListener('scroll', () => { scrollY = window.scrollY; }, { passive: true });
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
 
-        // LAYER 2: Neural Network
-        const particleCount = window.innerWidth < 768 ? 800 : 2500;
-        const geometry = new THREE.BufferGeometry();
-        const positions = new Float32Array(particleCount * 3);
-        const phases = new Float32Array(particleCount);
+        // ========================================
+        // LAYER 2: AI NEURAL NETWORK
+        // ========================================
+        const isMobile = window.innerWidth < 768;
+        const nodeCount = isMobile ? 600 : 1800;
+        const nodePositions = [];
+        const posArray = new Float32Array(nodeCount * 3);
+        const randArray = new Float32Array(nodeCount);
 
-        for (let i = 0; i < particleCount; i++) {
-            positions[i * 3] = (Math.random() - 0.5) * 120;
-            positions[i * 3 + 1] = (Math.random() - 0.5) * 120;
-            positions[i * 3 + 2] = (Math.random() - 0.5) * 60 - 10;
-            phases[i] = Math.random() * Math.PI * 2;
+        for(let i=0; i<nodeCount; i++) {
+            const x = (Math.random() - 0.5) * 240;
+            const y = (Math.random() - 0.5) * 240;
+            const z = (Math.random() - 0.5) * 100 - 10;
+            posArray[i*3] = x; posArray[i*3+1] = y; posArray[i*3+2] = z;
+            randArray[i] = Math.random();
+            nodePositions.push(new THREE.Vector3(x, y, z));
         }
 
-        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-        geometry.setAttribute('phase', new THREE.BufferAttribute(phases, 1));
+        // Generate connections
+        const edgePositions = [];
+        for(let i=0; i<nodeCount; i++) {
+            for(let j=i+1; j<nodeCount; j++) {
+                if(nodePositions[i].distanceTo(nodePositions[j]) < 18) {
+                    edgePositions.push(nodePositions[i].x, nodePositions[i].y, nodePositions[i].z);
+                    edgePositions.push(nodePositions[j].x, nodePositions[j].y, nodePositions[j].z);
+                }
+            }
+        }
+        
+        const edgeGeo = new THREE.BufferGeometry();
+        edgeGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(edgePositions), 3));
+        
+        const nodeGeo = new THREE.BufferGeometry();
+        nodeGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        nodeGeo.setAttribute('aRandom', new THREE.BufferAttribute(randArray, 1));
 
-        const neuralMaterial = new THREE.ShaderMaterial({
-            uniforms: {
-                time: { value: 0 },
-                mousePos: { value: new THREE.Vector2(0, 0) }
-            },
+        const commonUniforms = {
+            time: { value: 0 },
+            mousePos: { value: new THREE.Vector3(0,0,0) }
+        };
+
+        const edgeMaterial = new THREE.ShaderMaterial({
+            uniforms: commonUniforms,
             vertexShader: `
                 uniform float time;
-                uniform vec2 mousePos;
-                attribute float phase;
-                varying float vAlpha;
+                uniform vec3 mousePos;
+                varying float vOpacity;
                 void main() {
-                    vec3 pos = position;
-                    pos.x += sin(time * 0.2 + phase) * 2.0;
-                    pos.y += cos(time * 0.25 + phase) * 2.0;
-                    vec4 worldPos = modelMatrix * vec4(pos, 1.0);
-                    vec4 viewPos = viewMatrix * worldPos;
-                    vAlpha = (sin(time * 0.5 + phase) * 0.5 + 0.5) * 0.5 + 0.1;
-                    gl_Position = projectionMatrix * viewPos;
-                    gl_PointSize = (30.0 / -viewPos.z) * (sin(time * 0.8 + phase) * 1.5 + 2.0);
+                    vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+                    gl_Position = projectionMatrix * mvPosition;
+                    float distToMouse = distance(position.xy, mousePos.xy);
+                    float baseOpacity = 0.015; // Extremely subtle background
+                    float mouseGlow = smoothstep(50.0, 0.0, distToMouse) * 0.12; // Max 12% opacity when mouse is near
+                    vOpacity = baseOpacity + mouseGlow;
                 }
             `,
             fragmentShader: `
-                varying float vAlpha;
+                varying float vOpacity;
                 void main() {
-                    vec2 center = gl_PointCoord - vec2(0.5);
-                    float dist = length(center);
-                    if(dist > 0.5) discard;
-                    vec3 color = vec3(0.1, 0.7, 0.9);
-                    float glow = smoothstep(0.5, 0.0, dist);
-                    gl_FragColor = vec4(color * glow, vAlpha * glow);
+                    gl_FragColor = vec4(0.2, 0.5, 0.9, vOpacity);
                 }
             `,
             transparent: true,
@@ -698,102 +717,140 @@ COMPLIANCE MATRICES:
             depthWrite: false
         });
 
-        const neuralNetwork = new THREE.Points(geometry, neuralMaterial);
-        scene.add(neuralNetwork);
+        const nodeMaterial = new THREE.ShaderMaterial({
+            uniforms: commonUniforms,
+            vertexShader: `
+                uniform float time;
+                uniform vec3 mousePos;
+                attribute float aRandom;
+                varying float vOpacity;
+                void main() {
+                    vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+                    gl_Position = projectionMatrix * mvPosition;
+                    float distToMouse = distance(position.xy, mousePos.xy);
+                    float baseOpacity = (sin(time * 0.5 + aRandom * 10.0) * 0.5 + 0.5) * 0.05 + 0.02;
+                    float mouseGlow = smoothstep(40.0, 0.0, distToMouse) * 0.15;
+                    vOpacity = baseOpacity + mouseGlow;
+                    gl_PointSize = (30.0 / -mvPosition.z) * (mouseGlow * 10.0 + 1.0);
+                }
+            `,
+            fragmentShader: `
+                varying float vOpacity;
+                void main() {
+                    vec2 center = gl_PointCoord - vec2(0.5);
+                    float dist = length(center);
+                    if(dist > 0.5) discard;
+                    float glow = smoothstep(0.5, 0.0, dist);
+                    gl_FragColor = vec4(0.4, 0.8, 1.0, vOpacity * glow);
+                }
+            `,
+            transparent: true,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false
+        });
 
-        // LAYER 3: Streams
-        const cryptoStream = new THREE.Group();
-        const cryptoMaterial = new THREE.LineBasicMaterial({ color: 0x00FFFF, transparent: true, opacity: 0.15, blending: THREE.AdditiveBlending });
-        for(let i=0; i<15; i++) {
-            const points = [];
-            let x = (Math.random() - 0.5) * 80;
-            let y = (Math.random() - 0.5) * 80;
-            let z = (Math.random() - 0.5) * 40 - 20;
-            points.push(new THREE.Vector3(x, y, z));
-            for(let j=0; j<3; j++) {
-                if(Math.random() > 0.5) x += (Math.random() > 0.5 ? 1 : -1) * 15;
-                else y += (Math.random() > 0.5 ? 1 : -1) * 15;
-                points.push(new THREE.Vector3(x, y, z));
+        const networkLines = new THREE.LineSegments(edgeGeo, edgeMaterial);
+        const networkNodes = new THREE.Points(nodeGeo, nodeMaterial);
+        
+        const networkGroup = new THREE.Group();
+        networkGroup.add(networkLines);
+        networkGroup.add(networkNodes);
+        scene.add(networkGroup);
+
+        // ========================================
+        // LAYERS 3, 4, 5: INTELLIGENCE STREAMS
+        // ========================================
+        function createStream(colorHex, count, segmentCount, xSpread, ySpread, zSpread) {
+            const group = new THREE.Group();
+            for(let i=0; i<count; i++) {
+                const points = [];
+                let cx = (Math.random() - 0.5) * xSpread;
+                let cy = (Math.random() - 0.5) * ySpread;
+                let cz = (Math.random() - 0.5) * zSpread;
+                for(let j=0; j<segmentCount; j++) {
+                    points.push(new THREE.Vector3(cx, cy, cz));
+                    cx += (Math.random() - 0.5) * 30;
+                    cy += (Math.random() - 0.5) * 30;
+                    cz += (Math.random() - 0.5) * 10;
+                }
+                const curve = new THREE.CatmullRomCurve3(points);
+                const geom = new THREE.BufferGeometry().setFromPoints(curve.getPoints(50));
+                
+                // Shader for flowing energy pulses along the line
+                const mat = new THREE.ShaderMaterial({
+                    uniforms: {
+                        time: commonUniforms.time,
+                        color: { value: new THREE.Color(colorHex) },
+                        offset: { value: Math.random() * 10.0 }
+                    },
+                    vertexShader: `
+                        varying vec2 vUv;
+                        void main() {
+                            vUv = uv; // Actually Line basic geometry lacks UVs natively from points without effort
+                            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                        }
+                    `,
+                    fragmentShader: `
+                        uniform vec3 color;
+                        uniform float time;
+                        uniform float offset;
+                        void main() {
+                            // Subtle static glow
+                            gl_FragColor = vec4(color, 0.08); 
+                        }
+                    `,
+                    transparent: true,
+                    blending: THREE.AdditiveBlending,
+                    depthWrite: false
+                });
+                
+                const line = new THREE.Line(geom, mat);
+                group.add(line);
             }
-            const geom = new THREE.BufferGeometry().setFromPoints(points);
-            const line = new THREE.Line(geom, cryptoMaterial);
-            cryptoStream.add(line);
+            return group;
         }
+
+        // Crypto (Cyan/Emerald)
+        const cryptoStream = createStream(0x00FFCC, 8, 4, 150, 150, 60);
         scene.add(cryptoStream);
 
-        const energyStream = new THREE.Group();
-        const energyMaterial = new THREE.LineBasicMaterial({ color: 0xCCFF00, transparent: true, opacity: 0.1, blending: THREE.AdditiveBlending });
-        for(let i=0; i<10; i++) {
-            const points = [];
-            let cx = (Math.random() - 0.5) * 100;
-            let cy = (Math.random() - 0.5) * 100;
-            let cz = (Math.random() - 0.5) * 30 - 30;
-            for(let j=0; j<5; j++) {
-                points.push(new THREE.Vector3(cx, cy, cz));
-                cx += (Math.random() - 0.5) * 20;
-                cy += (Math.random() - 0.5) * 20;
-                cz += (Math.random() - 0.5) * 5;
-            }
-            const curve = new THREE.CatmullRomCurve3(points);
-            const smoothPoints = curve.getPoints(50);
-            const geom = new THREE.BufferGeometry().setFromPoints(smoothPoints);
-            const line = new THREE.Line(geom, energyMaterial);
-            energyStream.add(line);
-        }
+        // Energy (Deep Blue/Amber)
+        const energyStream = createStream(0xFFB300, 6, 6, 200, 200, 80);
         scene.add(energyStream);
 
-        const cricketStream = new THREE.Group();
-        const cricketMaterial = new THREE.LineBasicMaterial({ color: 0xFF3333, transparent: true, opacity: 0.15, blending: THREE.AdditiveBlending });
-        for(let i=0; i<8; i++) {
-            const start = new THREE.Vector3((Math.random() - 0.5)*80, -30, (Math.random()-0.5)*40 - 10);
-            const end = new THREE.Vector3((Math.random() - 0.5)*80, -30, (Math.random()-0.5)*40 - 10);
-            const mid = new THREE.Vector3((start.x + end.x)/2, Math.random() * 30 + 10, (start.z + end.z)/2);
-            const curve = new THREE.QuadraticBezierCurve3(start, mid, end);
-            const geom = new THREE.BufferGeometry().setFromPoints(curve.getPoints(30));
-            const line = new THREE.Line(geom, cricketMaterial);
-            cricketStream.add(line);
-        }
+        // Cricket (Violet/Electric Blue)
+        const cricketStream = createStream(0x8A2BE2, 6, 3, 100, 100, 40);
         scene.add(cricketStream);
 
-        // LAYER 4: Holographic Patterns
-        const holoGroup = new THREE.Group();
-        const barGeo = new THREE.BoxGeometry(1, 10, 1);
-        const edges = new THREE.EdgesGeometry(barGeo);
-        const holoMaterial = new THREE.LineBasicMaterial({ color: 0x9D00FF, transparent: true, opacity: 0.05, blending: THREE.AdditiveBlending });
-        for(let i=0; i<20; i++) {
-            const bar = new THREE.LineSegments(edges, holoMaterial);
-            bar.position.set((Math.random() - 0.5)*100, (Math.random() - 0.5)*100, (Math.random() - 0.5)*60 - 20);
-            bar.rotation.set(Math.random()*Math.PI, Math.random()*Math.PI, 0);
-            bar.scale.setScalar(Math.random() * 1.5 + 0.5);
-            holoGroup.add(bar);
-        }
-        scene.add(holoGroup);
-
         const clock = new THREE.Clock();
+
         function animate() {
             requestAnimationFrame(animate);
             const time = clock.getElapsedTime();
             
-            mouse.x += (targetMouse.x - mouse.x) * 0.05;
-            mouse.y += (targetMouse.y - mouse.y) * 0.05;
+            // Smooth mouse follow
+            mouse.lerp(targetMouse, 0.05);
 
-            neuralMaterial.uniforms.time.value = time;
-            neuralMaterial.uniforms.mousePos.value = mouse;
+            commonUniforms.time.value = time;
+            commonUniforms.mousePos.value.copy(mouse);
 
-            neuralNetwork.rotation.y = time * 0.02;
-            neuralNetwork.rotation.x = time * 0.01;
-
-            cryptoStream.position.y = Math.sin(time * 0.5) * 2;
-            energyStream.rotation.z = time * 0.03;
+            // Layer 6 Convergence / Slow rotation
+            networkGroup.rotation.y = Math.sin(time * 0.05) * 0.1;
+            networkGroup.rotation.x = Math.cos(time * 0.05) * 0.1;
+            networkGroup.position.y = (scrollY * 0.03); // Subtle parallax
             
-            holoGroup.rotation.x = time * 0.01;
-            holoGroup.rotation.y = time * 0.015;
-
-            const targetCamX = mouse.x * 5;
-            const targetCamY = mouse.y * 5 - (scrollY * 0.02);
+            cryptoStream.position.x = Math.sin(time * 0.1) * 5;
+            cryptoStream.position.y = (scrollY * 0.02);
             
-            camera.position.x += (targetCamX - camera.position.x) * 0.05;
-            camera.position.y += (targetCamY - camera.position.y) * 0.05;
+            energyStream.rotation.z = time * 0.01;
+            energyStream.position.y = (scrollY * 0.015);
+            
+            cricketStream.position.z = Math.sin(time * 0.2) * 5;
+            cricketStream.position.y = (scrollY * 0.025);
+
+            // Camera subtle breath
+            camera.position.x += (mouse.x * 0.05 - camera.position.x) * 0.05;
+            camera.position.y += ((mouse.y * 0.05 + 5) - camera.position.y) * 0.05;
             camera.lookAt(0, 0, 0);
 
             renderer.render(scene, camera);
