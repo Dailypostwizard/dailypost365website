@@ -559,6 +559,15 @@ COMPLIANCE MATRICES:
                     </div>
                 </div>
 
+                <!-- DEDICATED 3D CITY NETWORK WINDOW -->
+                <div class="reveal" style="grid-column: 1 / -1; position: relative; width: 100%; height: 350px; overflow: hidden; border-radius: 8px; border: 1px solid rgba(57,255,20,0.3); background: #010409; box-shadow: 0 0 30px rgba(57,255,20,0.1); margin-top: 20px;">
+                    <canvas id="city-network-canvas" style="position: absolute; top:0; left:0; width:100%; height:100%;"></canvas>
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; text-align: center; width: 100%; z-index: 10;">
+                        <h4 style="color:#39ff14; font-family:'Space Grotesk',sans-serif; font-size:2rem; font-weight:900; letter-spacing: 4px; margin:0; text-transform:uppercase;">GLOBAL CITY NETWORK</h4>
+                        <p style="color:#8b949e; font-size:1rem; font-weight:bold; letter-spacing: 2px; margin-top:10px;">SMART INFRASTRUCTURE ACTIVE</p>
+                    </div>
+                </div>
+
                 <!-- CARD 6: Oil and Gas Intelligence -->
                 <div class="hub-card media-node reveal" style="grid-column: 1 / -1; background: linear-gradient(145deg, rgba(13,15,18,0.95), rgba(20,24,30,0.9)); border: 2px solid #0077b5; padding: 40px 30px; text-align: center; box-shadow: 0 0 30px rgba(0, 119, 181, 0.1);">
                     <div style="margin-bottom: 25px;">
@@ -960,6 +969,86 @@ COMPLIANCE MATRICES:
             igContainer.appendChild(card);
         });
         if(window.instgrm) window.instgrm.Embeds.process();
+
+        // ========================================
+        // DEDICATED CITY NETWORK 3D ENGINE
+        // ========================================
+        const cnCanvas = document.getElementById('city-network-canvas');
+        if (cnCanvas) {
+            const cnScene = new THREE.Scene();
+            const cnCamera = new THREE.PerspectiveCamera(60, cnCanvas.clientWidth / cnCanvas.clientHeight, 0.1, 1000);
+            cnCamera.position.z = 50;
+
+            const cnRenderer = new THREE.WebGLRenderer({ canvas: cnCanvas, alpha: true, antialias: true, powerPreference: "high-performance" });
+            cnRenderer.setSize(cnCanvas.clientWidth, cnCanvas.clientHeight);
+            cnRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            const cnMouse = new THREE.Vector3(0, 0, 0);
+            
+            cnCanvas.parentElement.addEventListener('mousemove', (e) => {
+                const rect = cnCanvas.getBoundingClientRect();
+                cnMouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+                cnMouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+            }, {passive:true});
+
+            const loader2 = new THREE.TextureLoader();
+            loader2.load('images/bg_image_2.png', (tex) => {
+                const aspect = tex.image.width / tex.image.height;
+                const geom = new THREE.PlaneGeometry(120 * aspect, 120);
+                const mat = new THREE.MeshBasicMaterial({
+                    map: tex, transparent: true, opacity: 0.7, blending: THREE.AdditiveBlending, depthWrite: false
+                });
+                const plane = new THREE.Mesh(geom, mat);
+                plane.position.z = -30;
+                cnScene.add(plane);
+
+                // Add glowing data lines for city
+                const lGeo = new THREE.BufferGeometry();
+                const lCount = 150;
+                const lPos = new Float32Array(lCount * 6);
+                for(let i=0; i<lCount; i++) {
+                    const x = (Math.random() - 0.5) * 150;
+                    const y = (Math.random() - 0.5) * 80;
+                    const z = (Math.random() - 0.5) * 80 - 10;
+                    lPos[i*6] = x; lPos[i*6+1] = y; lPos[i*6+2] = z;
+                    lPos[i*6+3] = x; lPos[i*6+4] = y + Math.random()*10 + 5; lPos[i*6+5] = z;
+                }
+                lGeo.setAttribute('position', new THREE.BufferAttribute(lPos, 3));
+                const lMat = new THREE.LineBasicMaterial({ color: 0x39ff14, transparent: true, opacity: 0.3, blending: THREE.AdditiveBlending });
+                const lines = new THREE.LineSegments(lGeo, lMat);
+                cnScene.add(lines);
+
+                function cnAnimate() {
+                    requestAnimationFrame(cnAnimate);
+                    
+                    // Intense local parallax
+                    cnCamera.position.x += (cnMouse.x * 20 - cnCamera.position.x) * 0.05;
+                    cnCamera.position.y += (cnMouse.y * 20 - cnCamera.position.y) * 0.05;
+                    cnCamera.lookAt(0, 0, 0);
+
+                    // Flow lines upwards
+                    const posAttr = lGeo.attributes.position;
+                    for(let i=0; i<lCount; i++) {
+                        posAttr.array[i*6+1] += 0.2;
+                        posAttr.array[i*6+4] += 0.2;
+                        if(posAttr.array[i*6+1] > 40) {
+                            posAttr.array[i*6+1] = -40;
+                            posAttr.array[i*6+4] = -40 + Math.random()*10 + 5;
+                        }
+                    }
+                    posAttr.needsUpdate = true;
+
+                    cnRenderer.render(cnScene, cnCamera);
+                }
+                cnAnimate();
+            });
+
+            window.addEventListener('resize', () => {
+                cnCamera.aspect = cnCanvas.clientWidth / cnCanvas.clientHeight;
+                cnCamera.updateProjectionMatrix();
+                cnRenderer.setSize(cnCanvas.clientWidth, cnCanvas.clientHeight);
+            });
+        }
 
         // ========================================
         // DEDICATED OIL & GAS 3D ENGINE
