@@ -822,6 +822,45 @@ COMPLIANCE MATRICES:
         const cricketStream = createStream(0x8A2BE2, 6, 3, 100, 100, 40);
         scene.add(cricketStream);
 
+        // ========================================
+        // LAYER 7: HOLOGRAPHIC 3D IMAGES
+        // ========================================
+        const textureLoader = new THREE.TextureLoader();
+        const holoImages = new THREE.Group();
+        scene.add(holoImages);
+
+        const imgUrls = [
+            'images/bg_image_1.png', // AI Face
+            'images/bg_image_2.png', // City Network
+            'images/bg_image_3.png', // Corridor
+            'images/bg_image_4.png'  // Sports
+        ];
+
+        const imgPlanes = [];
+        imgUrls.forEach((url, i) => {
+            textureLoader.load(url, (texture) => {
+                const aspect = texture.image.width / texture.image.height;
+                const geom = new THREE.PlaneGeometry(100 * aspect, 100);
+                const mat = new THREE.MeshBasicMaterial({
+                    map: texture,
+                    transparent: true,
+                    opacity: 0.08, // Very subtle, holographic
+                    blending: THREE.AdditiveBlending,
+                    depthWrite: false
+                });
+                const plane = new THREE.Mesh(geom, mat);
+                
+                // Position them in empty quadrants, far back
+                if(i===0) plane.position.set(-140, 60, -60);
+                if(i===1) plane.position.set(140, -60, -80);
+                if(i===2) plane.position.set(-160, -100, -70);
+                if(i===3) plane.position.set(160, 100, -50);
+
+                holoImages.add(plane);
+                imgPlanes.push({ mesh: plane, baseX: plane.position.x, baseY: plane.position.y });
+            });
+        });
+
         const clock = new THREE.Clock();
 
         function animate() {
@@ -847,6 +886,16 @@ COMPLIANCE MATRICES:
             
             cricketStream.position.z = Math.sin(time * 0.2) * 5;
             cricketStream.position.y = (scrollY * 0.025);
+
+            // Image parallax
+            imgPlanes.forEach((p, i) => {
+                // Move subtly opposite to mouse for deep parallax
+                p.mesh.position.x = p.baseX - mouse.x * (15 + i * 5);
+                p.mesh.position.y = p.baseY - mouse.y * (15 + i * 5) + (scrollY * 0.06);
+                // Subtle 3D tilt
+                p.mesh.rotation.y = mouse.x * 0.1;
+                p.mesh.rotation.x = -mouse.y * 0.1;
+            });
 
             // Camera subtle breath
             camera.position.x += (mouse.x * 0.05 - camera.position.x) * 0.05;
