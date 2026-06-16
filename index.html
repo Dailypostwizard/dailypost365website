@@ -576,6 +576,15 @@ COMPLIANCE MATRICES:
             </div>
         </section>
 
+        <!-- DEDICATED 3D OIL & GAS PARALLAX WINDOW -->
+        <section class="reveal" style="position: relative; width: 100%; height: 350px; margin: 40px 0; overflow: hidden; border-radius: 8px; border: 1px solid rgba(0,119,181,0.3); background: #010409; box-shadow: 0 0 30px rgba(0,119,181,0.1);">
+            <canvas id="oil-gas-canvas" style="position: absolute; top:0; left:0; width:100%; height:100%;"></canvas>
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; text-align: center; width: 100%; z-index: 10;">
+                <h4 style="color:#0077b5; font-family:'Space Grotesk',sans-serif; font-size:2rem; font-weight:900; letter-spacing: 4px; margin:0; text-transform:uppercase;">GLOBAL PIPELINE TELEMETRY</h4>
+                <p style="color:#8b949e; font-size:1rem; font-weight:bold; letter-spacing: 2px; margin-top:10px;">AUTONOMOUS AI SURVEILLANCE ACTIVE</p>
+            </div>
+        </section>
+
         <!-- INTELLIGENCE REPOSITORY (10 SPOTS) -->
         <section class="mt-28 pt-28 border-t border-white border-opacity-5" id="intel-grid">
             <div class="flex justify-between items-center mb-16">
@@ -951,6 +960,80 @@ COMPLIANCE MATRICES:
             igContainer.appendChild(card);
         });
         if(window.instgrm) window.instgrm.Embeds.process();
+
+        // ========================================
+        // DEDICATED OIL & GAS 3D ENGINE
+        // ========================================
+        const ogCanvas = document.getElementById('oil-gas-canvas');
+        if (ogCanvas) {
+            const ogScene = new THREE.Scene();
+            const ogCamera = new THREE.PerspectiveCamera(60, ogCanvas.clientWidth / ogCanvas.clientHeight, 0.1, 1000);
+            ogCamera.position.z = 50;
+
+            const ogRenderer = new THREE.WebGLRenderer({ canvas: ogCanvas, alpha: true, antialias: true, powerPreference: "high-performance" });
+            ogRenderer.setSize(ogCanvas.clientWidth, ogCanvas.clientHeight);
+            ogRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            const ogMouse = new THREE.Vector3(0, 0, 0);
+            
+            ogCanvas.parentElement.addEventListener('mousemove', (e) => {
+                const rect = ogCanvas.getBoundingClientRect();
+                ogMouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+                ogMouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+            }, {passive:true});
+
+            const loader = new THREE.TextureLoader();
+            loader.load('images/bg_image_3.png', (tex) => {
+                const aspect = tex.image.width / tex.image.height;
+                const geom = new THREE.PlaneGeometry(120 * aspect, 120);
+                const mat = new THREE.MeshBasicMaterial({
+                    map: tex, transparent: true, opacity: 0.6, blending: THREE.AdditiveBlending, depthWrite: false
+                });
+                const plane = new THREE.Mesh(geom, mat);
+                plane.position.z = -30;
+                ogScene.add(plane);
+
+                // Add glowing data particles
+                const pGeo = new THREE.BufferGeometry();
+                const pCount = 300;
+                const pPos = new Float32Array(pCount * 3);
+                for(let i=0; i<pCount; i++) {
+                    pPos[i*3] = (Math.random() - 0.5) * 200;
+                    pPos[i*3+1] = (Math.random() - 0.5) * 100;
+                    pPos[i*3+2] = (Math.random() - 0.5) * 100;
+                }
+                pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+                const pMat = new THREE.PointsMaterial({ color: 0x00FFCC, size: 1.5, transparent: true, opacity: 0.8, blending: THREE.AdditiveBlending });
+                const points = new THREE.Points(pGeo, pMat);
+                ogScene.add(points);
+
+                function ogAnimate() {
+                    requestAnimationFrame(ogAnimate);
+                    
+                    // Intense local parallax
+                    ogCamera.position.x += (ogMouse.x * 20 - ogCamera.position.x) * 0.05;
+                    ogCamera.position.y += (ogMouse.y * 20 - ogCamera.position.y) * 0.05;
+                    ogCamera.lookAt(0, 0, 0);
+
+                    // Flow particles towards camera
+                    const posAttr = pGeo.attributes.position;
+                    for(let i=0; i<pCount; i++) {
+                        posAttr.array[i*3+2] += 0.5;
+                        if(posAttr.array[i*3+2] > 50) posAttr.array[i*3+2] = -100;
+                    }
+                    posAttr.needsUpdate = true;
+
+                    ogRenderer.render(ogScene, ogCamera);
+                }
+                ogAnimate();
+            });
+
+            window.addEventListener('resize', () => {
+                ogCamera.aspect = ogCanvas.clientWidth / ogCanvas.clientHeight;
+                ogCamera.updateProjectionMatrix();
+                ogRenderer.setSize(ogCanvas.clientWidth, ogCanvas.clientHeight);
+            });
+        }
     });
 
     // ============================================================
