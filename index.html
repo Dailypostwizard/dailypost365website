@@ -43,7 +43,7 @@
         .ticker-item { padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.02); display: flex; justify-content: space-between; align-items: center; }
         .coin-orb { width: 22px; height: 22px; border-radius: 100px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 900; }
 
-        .grid-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 32px; }
+        .grid-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 32px; }
 
         /* IPL CAPSULE */
         .ipl-bridge { background: rgba(0, 242, 254, 0.03); border: 1px solid rgba(0, 242, 254, 0.1); border-radius: 4px; }
@@ -968,7 +968,7 @@ COMPLIANCE MATRICES:
         const spots = ["DZ3IDDKz-s2", "DVWejUvEyfh", "DVoW5t0k4Ad", "DVt2BaCE1q8", "DVglqvlE6NM", "DVohsBmE0Gm", "DXfOyFsDQme", "DW7CwvAk9nU", "DWjygltk4v4", "DWhNIkzE1rL", "DWeIODLEypV"];
         spots.forEach(id => {
             const card = document.createElement('div'); card.className = 'glass-terminal overflow-hidden';
-            card.innerHTML = `<blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/${id}/" data-instgrm-version="14" style="width: 100%; border:0; background:transparent;"></blockquote>`;
+            card.innerHTML = `<blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/${id}/" data-instgrm-version="14" style="width: 100%; border:0; background:transparent;"></blockquote>`;
             igContainer.appendChild(card);
         });
         if(window.instgrm) window.instgrm.Embeds.process();
