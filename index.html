@@ -606,7 +606,14 @@ COMPLIANCE MATRICES:
             <div class="grid-gallery" id="ig-container"></div>
         </section>
 
-
+        <!-- FOOTBALL MATCH SUMMARY -->
+        <section class="mt-28 pt-28 border-t border-white border-opacity-5" id="football-grid">
+            <div class="flex justify-between items-center mb-16">
+                <h2 class="text-4xl font-black italic tracking-tighter uppercase text-[#39ff14]">Football Match Summary</h2>
+                <span class="text-[10px] text-gray-500 font-black tracking-[0.5em] uppercase">PITCH TELEMETRY</span>
+            </div>
+            <div class="grid-gallery" id="football-ig-container"></div>
+        </section>
 
     </main>
 
@@ -971,6 +978,17 @@ COMPLIANCE MATRICES:
             card.innerHTML = `<blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/${id}/" data-instgrm-version="14" style="width: 100%; border:0; background:transparent;"></blockquote>`;
             igContainer.appendChild(card);
         });
+
+        const fbContainer = document.getElementById('football-ig-container');
+        if (fbContainer) {
+            const fbSpots = ["DZ5rChyzGwi", "DZ5gE1szY7Y", "DZ3PcJ1TLQS"];
+            fbSpots.forEach(id => {
+                const card = document.createElement('div'); card.className = 'glass-terminal overflow-hidden';
+                card.innerHTML = `<blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/${id}/" data-instgrm-version="14" style="width: 100%; border:0; background:transparent;"></blockquote>`;
+                fbContainer.appendChild(card);
+            });
+        }
+
         if(window.instgrm) window.instgrm.Embeds.process();
 
         // ========================================
