@@ -699,7 +699,8 @@ COMPLIANCE MATRICES:
                 <button class="v-btn" id="v-dismiss" title="Dismiss Guide"><i class="fas fa-times"></i></button>
             </div>
         </div>
-        <video id="ux-video" src="file:///C:/Users/User/OneDrive/screenshot/cricket%20updates/DailyPost365_Neural_Restoration_Terminal_Tour_2026.mp4" autoplay muted controls controlsList="nodownload"></video>
+        <!-- YouTube iframe will replace this div -->
+        <div id="ux-video"></div>
     </div>
 
     <script async src="//www.instagram.com/embed.js"></script>
@@ -1469,49 +1470,86 @@ COMPLIANCE MATRICES:
     })();
 
     // ========================================
-    // INTERACTIVE UX VIDEO MAPPING LOGIC
+    // INTERACTIVE UX VIDEO MAPPING LOGIC (YOUTUBE)
     // ========================================
-    (function() {
-        var video = document.getElementById('ux-video');
-        var wrapper = document.getElementById('interactive-video-wrapper');
-        if (!video || !wrapper) return;
+    var autoScrollEnabled = true;
+    var wrapper = document.getElementById('interactive-video-wrapper');
+    var ytPlayer;
+    var timeUpdateInterval;
+    var triggers = [
+        { time: 5, id: 'crypto-market-section', fired: false },
+        { time: 16, id: 'ai-trading-scorecards', fired: false },
+        { time: 23, id: 'fpso-refinery-pipeline', fired: false },
+        { time: 28, id: 'sports-analysis-hub', fired: false }
+    ];
 
-        var autoScrollEnabled = true;
-        var triggers = [
-            { time: 5, id: 'crypto-market-section', fired: false },
-            { time: 16, id: 'ai-trading-scorecards', fired: false },
-            { time: 23, id: 'fpso-refinery-pipeline', fired: false },
-            { time: 28, id: 'sports-analysis-hub', fired: false }
-        ];
+    // Load the IFrame Player API code asynchronously
+    var tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-        video.addEventListener('timeupdate', function() {
-            if (!autoScrollEnabled) return;
-            var currentTime = video.currentTime;
-            
-            for (var i = 0; i < triggers.length; i++) {
-                var t = triggers[i];
-                if (!t.fired && currentTime >= t.time && currentTime < t.time + 2) {
-                    t.fired = true;
-                    var target = document.getElementById(t.id);
-                    if (target) {
-                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    window.onYouTubeIframeAPIReady = function() {
+        ytPlayer = new YT.Player('ux-video', {
+            height: '180',
+            width: '100%',
+            videoId: 'YKLkSuIpiIw',
+            playerVars: {
+                'autoplay': 1,
+                'mute': 1,
+                'controls': 1,
+                'rel': 0
+            },
+            events: {
+                'onStateChange': function(event) {
+                    if (event.data == YT.PlayerState.PLAYING) {
+                        timeUpdateInterval = setInterval(checkTime, 500);
+                    } else {
+                        clearInterval(timeUpdateInterval);
                     }
                 }
             }
         });
+    };
 
-        document.getElementById('v-toggle-auto').addEventListener('click', function() {
-            autoScrollEnabled = !autoScrollEnabled;
-            this.style.color = autoScrollEnabled ? '#39FF14' : '#ff3333';
-        });
-        document.getElementById('v-minimize').addEventListener('click', function() {
-            wrapper.classList.toggle('minimized');
-        });
-        document.getElementById('v-dismiss').addEventListener('click', function() {
-            wrapper.style.display = 'none';
-            video.pause();
-        });
-    })();
+    function checkTime() {
+        if (!autoScrollEnabled || !ytPlayer || !ytPlayer.getCurrentTime) return;
+        var currentTime = ytPlayer.getCurrentTime();
+        for (var i = 0; i < triggers.length; i++) {
+            var t = triggers[i];
+            if (!t.fired && currentTime >= t.time && currentTime < t.time + 2) {
+                t.fired = true;
+                var target = document.getElementById(t.id);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+        }
+    }
+
+    if (wrapper) {
+        var btnToggle = document.getElementById('v-toggle-auto');
+        var btnMinimize = document.getElementById('v-minimize');
+        var btnDismiss = document.getElementById('v-dismiss');
+        
+        if (btnToggle) {
+            btnToggle.addEventListener('click', function() {
+                autoScrollEnabled = !autoScrollEnabled;
+                this.style.color = autoScrollEnabled ? '#39FF14' : '#ff3333';
+            });
+        }
+        if (btnMinimize) {
+            btnMinimize.addEventListener('click', function() {
+                wrapper.classList.toggle('minimized');
+            });
+        }
+        if (btnDismiss) {
+            btnDismiss.addEventListener('click', function() {
+                wrapper.style.display = 'none';
+                if (ytPlayer && ytPlayer.pauseVideo) ytPlayer.pauseVideo();
+            });
+        }
+    }
     </script>
 
 </body>
