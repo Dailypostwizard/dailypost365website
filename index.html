@@ -555,6 +555,76 @@ CORE FUNCTION:
                     </div>
                 </div>
 
+                <!-- THE NEURAL PILLARS (2.5D ISOMETRIC CORE) -->
+                <style>
+                    .pillar-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; margin: 40px 0; }
+                    .pillar-card { 
+                        background: rgba(0,0,0,0.85); 
+                        border: 1px solid rgba(255,255,255,0.05); 
+                        border-radius: 8px; 
+                        overflow: hidden; 
+                        transition: all 0.4s ease; 
+                        position: relative;
+                    }
+                    .pillar-card img { width: 100%; height: auto; display: block; border-bottom: 2px solid transparent; transition: transform 0.5s ease; }
+                    .pillar-card:hover img { transform: scale(1.03); }
+                    .pillar-content { padding: 20px; }
+                    .pillar-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 900; margin: 0 0 10px 0; letter-spacing: -0.5px; }
+                    .pillar-desc { font-size: 0.75rem; color: #839496; line-height: 1.5; margin: 0; }
+                    
+                    /* Hover States mapped to aesthetic */
+                    .pillar-oil:hover { border-color: #b58900; box-shadow: 0 0 30px rgba(181, 137, 0, 0.2); }
+                    .pillar-oil:hover img { border-bottom-color: #b58900; }
+                    .pillar-oil .pillar-title { color: #b58900; }
+                    
+                    .pillar-cricket:hover { border-color: #ffffff; box-shadow: 0 0 30px rgba(255, 255, 255, 0.2); }
+                    .pillar-cricket:hover img { border-bottom-color: #ffffff; }
+                    .pillar-cricket .pillar-title { color: #ffffff; }
+                    
+                    .pillar-football:hover { border-color: #94a3b8; box-shadow: 0 0 30px rgba(148, 163, 184, 0.2); }
+                    .pillar-football:hover img { border-bottom-color: #94a3b8; }
+                    .pillar-football .pillar-title { color: #94a3b8; }
+                    
+                    .pillar-crypto:hover { border-color: #39ff14; box-shadow: 0 0 30px rgba(57, 255, 20, 0.2); }
+                    .pillar-crypto:hover img { border-bottom-color: #39ff14; }
+                    .pillar-crypto .pillar-title { color: #39ff14; }
+                </style>
+
+                <div class="pillar-grid reveal">
+                    <!-- OIL & GAS -->
+                    <div class="pillar-card pillar-oil">
+                        <div style="overflow:hidden;"><img src="assets/isometric/oil_gas.png" alt="Oil & Gas Isometric"></div>
+                        <div class="pillar-content">
+                            <h3 class="pillar-title">Oil &amp; Gas: The Molecular Precision Suite</h3>
+                            <p class="pillar-desc">Cinematic 2.5D subsea tree assembly rendering. Fluid dynamics visualized via 'Cybernetic Gold' pulsing through polished carbon fiber channels.</p>
+                        </div>
+                    </div>
+                    <!-- CRICKET -->
+                    <div class="pillar-card pillar-cricket">
+                        <div style="overflow:hidden;"><img src="assets/isometric/cricket.png" alt="Cricket Isometric"></div>
+                        <div class="pillar-content">
+                            <h3 class="pillar-title">Cricket: The Velocity Focus</h3>
+                            <p class="pillar-desc">Hyper-realistic static noir sequence mapping extreme kinetic energy impact events on a gridless minimalist pitch architecture.</p>
+                        </div>
+                    </div>
+                    <!-- FOOTBALL -->
+                    <div class="pillar-card pillar-football">
+                        <div style="overflow:hidden;"><img src="assets/isometric/football.png" alt="Football Isometric"></div>
+                        <div class="pillar-content">
+                            <h3 class="pillar-title">Football: The Geometric Tactical Flow</h3>
+                            <p class="pillar-desc">Abstract 2.5D matte slate avatars interacting across architectural floors, mapping perfect arcs with precision white data-ribbons.</p>
+                        </div>
+                    </div>
+                    <!-- CRYPTO -->
+                    <div class="pillar-card pillar-crypto">
+                        <div style="overflow:hidden;"><img src="assets/isometric/btc.png" alt="Crypto Isometric"></div>
+                        <div class="pillar-content">
+                            <h3 class="pillar-title">BTC (Crypto): The Market Pulse</h3>
+                            <p class="pillar-desc">Liquid-glass monolithic bitcoin asset reflecting high-end materials. Emits ambient green and red pulses visualizing live volatile market trends.</p>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- CARD 5: DailyPost365 AI Engine (OVERSIZED HERO BANNER) -->
                 <style>
                     @keyframes neon-pulse-green {
