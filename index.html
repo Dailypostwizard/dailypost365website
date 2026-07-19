@@ -10,9 +10,9 @@
     <style>
         /* [SUPERSEED_CSS_V109.0] - BROADCAST PURITY ENGINE */
         :root {
-            --bg-deep: #002b36; --sidebar-bg: #073642; --card-bg: rgba(7, 54, 66, 0.65);
+            --bg-deep: #000000; --sidebar-bg: rgba(5, 5, 5, 0.4); --card-bg: rgba(255, 255, 255, 0.03);
             --neon-cyan: #2aa198; --neon-gold: #b58900; --text-main: #eee8d5;
-            --glass-blur: blur(60px);
+            --glass-blur: blur(24px);
         }
 
         body { background: radial-gradient(circle at 50% 0%, #06111e 0%, #010409 100%); color: var(--text-main); font-family: 'Inter', sans-serif; 
@@ -388,65 +388,35 @@
     </div>
 
     <style>
-        /* 3D Isometric Float Physics */
-        @keyframes isometric-float {
-            0% { transform: perspective(1000px) rotateX(2deg) rotateY(-2deg) translateY(0) scale(1); }
-            50% { transform: perspective(1000px) rotateX(6deg) rotateY(2deg) translateY(-12px) scale(1.02); }
-            100% { transform: perspective(1000px) rotateX(2deg) rotateY(-2deg) translateY(0) scale(1); }
+        /* Premium Cinematic Video Banners */
+        .video-banner-container {
+            width: 100%; height: 380px; border-radius: 24px; margin: 40px 0 20px 0;
+            border: 1px solid rgba(255,255,255,0.08); background: rgba(0,0,0,0.85);
+            overflow: hidden; position: relative; box-shadow: 0 20px 40px rgba(0,0,0,0.6);
         }
-        .hero-iso-banner {
-            width: 100%;
-            border-radius: 12px;
-            margin: 40px 0 20px 0;
-            border: 1px solid rgba(255,255,255,0.05);
-            background: rgba(0,0,0,0.85);
-            overflow: hidden;
-            position: relative;
-            animation: isometric-float 7s infinite ease-in-out;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-            transform-style: preserve-3d;
+        .video-banner-iframe {
+            position: absolute; top: 50%; left: 50%; width: 120vw; height: 120vh;
+            transform: translate(-50%, -50%); pointer-events: none; opacity: 0.6; mix-blend-mode: screen;
         }
-        .hero-iso-banner img {
-            width: 100%;
-            height: auto;
-            display: block;
-            border-bottom: 2px solid transparent;
+        .video-banner-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to top, #010409 5%, transparent 70%); z-index: 5; pointer-events: none;
         }
-        .hero-iso-oil img { border-bottom-color: #b58900; }
-        .hero-iso-cricket img { border-bottom-color: #ffffff; }
-        .hero-iso-football img { border-bottom-color: #94a3b8; }
-        .hero-iso-crypto img { border-bottom-color: #39ff14; }
-
         .hero-iso-text {
-            position: absolute;
-            bottom: 25px;
-            left: 25px;
-            z-index: 10;
+            position: absolute; bottom: 30px; left: 30px; z-index: 10;
             text-shadow: 0 4px 12px rgba(0,0,0,1);
-            transform: translateZ(30px);
         }
-        .hero-iso-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.8rem; font-weight: 900; margin: 0; letter-spacing: -0.5px; }
-        .hero-iso-desc { font-size: 0.95rem; color: #fff; opacity: 0.9; line-height: 1.5; margin: 8px 0 0 0; max-width: 90%; }
-        .hero-iso-oil .hero-iso-title { color: #b58900; }
-        .hero-iso-cricket .hero-iso-title { color: #ffffff; }
-        .hero-iso-football .hero-iso-title { color: #94a3b8; }
-        .hero-iso-crypto .hero-iso-title { color: #39ff14; }
-        
+        .hero-iso-title { font-family: 'Space Grotesk', sans-serif; font-size: 2.2rem; font-weight: 900; margin: 0; letter-spacing: -0.5px; }
+        .hero-iso-desc { font-size: 1rem; color: #fff; opacity: 0.9; line-height: 1.5; margin: 12px 0 0 0; max-width: 80%; font-weight: 300; }
         @media (max-width: 768px) {
-            .hero-iso-title { font-size: 1.4rem; }
-            .hero-iso-desc { font-size: 0.8rem; }
+            .hero-iso-title { font-size: 1.6rem; }
+            .hero-iso-desc { font-size: 0.85rem; max-width: 95%; }
+            .video-banner-container { height: 280px; }
         }
     </style>
 
     <div class="container mx-auto px-4" style="max-width: 1200px;">
-        <!-- CRICKET HERO BANNER -->
-        <div class="hero-iso-banner hero-iso-cricket reveal">
-            <img src="assets/isometric/cricket.png" alt="Cricket Isometric">
-            <div class="hero-iso-text">
-                <h3 class="hero-iso-title">Cricket: The Velocity Focus</h3>
-                <p class="hero-iso-desc">Hyper-realistic static noir sequence mapping extreme kinetic energy impact events on a gridless minimalist pitch architecture.</p>
-            </div>
-        </div>
+
     </div>
 
     <!-- CRICKET TELEMETRY SCROLLER v2.0 — IPL + IND AUS ENG NZ SA SL WI AFG -->
@@ -518,14 +488,14 @@
         </header>
 
         <!-- CRYPTO HERO BANNER -->
-        <div class="hero-iso-banner hero-iso-crypto reveal">
-            <img src="assets/isometric/btc.png" alt="Crypto Isometric">
+        <div class="video-banner-container reveal">
+            <iframe class="video-banner-iframe" style="filter: hue-rotate(90deg) brightness(0.8);" src="https://www.youtube.com/embed/YJg02ivYzSs?autoplay=1&mute=1&loop=1&controls=0&playlist=YJg02ivYzSs&modestbranding=1" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+            <div class="video-banner-overlay"></div>
             <div class="hero-iso-text">
-                <h3 class="hero-iso-title">BTC (Crypto): The Market Pulse</h3>
+                <h3 class="hero-iso-title" style="color: #39ff14;">BTC (Crypto): The Market Pulse</h3>
                 <p class="hero-iso-desc">Liquid-glass monolithic bitcoin asset reflecting high-end materials. Emits ambient green and red pulses visualizing live volatile market trends.</p>
             </div>
         </div>
-
         <!-- MASTER TERMINAL (FULL WIDTH) -->
         <section class="grid grid-cols-12 gap-10" id="crypto-market-section">
             <div class="col-span-12">
@@ -669,7 +639,7 @@ CORE FUNCTION:
                 </div>
 
                 <!-- DEDICATED 3D CITY NETWORK WINDOW -->
-                <div class="reveal" style="grid-column: 1 / -1; position: relative; width: 100%; height: 350px; overflow: hidden; border-radius: 8px; border: 1px solid rgba(57,255,20,0.3); background: #010409; box-shadow: 0 0 30px rgba(57,255,20,0.1); margin-top: 20px;">
+                <div class="reveal" style="grid-column: 1 / -1; position: relative; width: 100%; height: 400px; overflow: hidden; border-radius: 24px; border: 1px solid rgba(255,255,255,0.08); background: rgba(0,0,0,0.85); box-shadow: 0 20px 40px rgba(0,0,0,0.6); margin-top: 40px;">
                     <canvas id="city-network-canvas" style="position: absolute; top:0; left:0; width:100%; height:100%;"></canvas>
                     <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; text-align: center; width: 100%; z-index: 10;">
                         <h4 style="color:#39ff14; font-family:'Space Grotesk',sans-serif; font-size:2rem; font-weight:900; letter-spacing: 4px; margin:0; text-transform:uppercase;">GLOBAL CITY NETWORK</h4>
@@ -678,10 +648,11 @@ CORE FUNCTION:
                 </div>
 
                 <!-- OIL & GAS HERO BANNER -->
-                <div class="hero-iso-banner hero-iso-oil reveal">
-                    <img src="assets/isometric/oil_gas.png" alt="Oil & Gas Isometric">
+                <div class="video-banner-container reveal">
+                    <iframe class="video-banner-iframe" style="filter: hue-rotate(30deg) brightness(0.8);" src="https://www.youtube.com/embed/YJg02ivYzSs?autoplay=1&mute=1&loop=1&controls=0&playlist=YJg02ivYzSs&modestbranding=1" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+                    <div class="video-banner-overlay"></div>
                     <div class="hero-iso-text">
-                        <h3 class="hero-iso-title">Oil &amp; Gas: The Molecular Precision Suite</h3>
+                        <h3 class="hero-iso-title" style="color: #b58900;">Oil &amp; Gas: The Molecular Precision Suite</h3>
                         <p class="hero-iso-desc">Cinematic 2.5D subsea tree assembly rendering. Fluid dynamics visualized via 'Cybernetic Gold' pulsing through polished carbon fiber channels.</p>
                     </div>
                 </div>
@@ -693,33 +664,33 @@ CORE FUNCTION:
                         <h3 style="margin:20px 0 15px 0; font-size:2.8rem; color:#0077b5; font-family:'Space Grotesk',sans-serif; font-weight:900; letter-spacing:-1px; text-transform:uppercase;">ENERGY MARKET UPDATES</h3>
                     </div>
 
-                    <div style="display:flex; justify-content:center; flex-wrap:wrap; gap:20px; margin-top:25px;">
-                        <div style="background:#000; border-radius:8px; overflow:hidden; border:1px solid rgba(0,119,181,0.3); width: 100%; max-width: 504px;">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
+                        <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(0,119,181,0.3); width: 100%; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
                             <div style="position:relative; width:100%; padding-bottom:56.25%;">
                                 <iframe style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;" src="https://www.youtube.com/embed/fOlhnhsoZeM" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                             </div>
                         </div>
-                        <div style="background:#000; border-radius:8px; overflow:hidden; border:1px solid rgba(0,119,181,0.3); width: 100%; max-width: 504px;">
+                        <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(0,119,181,0.3); width: 100%; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
                             <div style="position:relative; width:100%; padding-bottom:56.25%;">
                                 <iframe style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;" src="https://www.youtube.com/embed/oyaPNGc2sLA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                             </div>
                         </div>
-                        <div style="background:#000; border-radius:8px; overflow:hidden; border:1px solid rgba(0,119,181,0.3); width: 100%; max-width: 504px;">
+                        <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(0,119,181,0.3); width: 100%; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
                             <div style="position:relative; width:100%; padding-bottom:56.25%;">
                                 <iframe style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;" src="https://www.youtube.com/embed/9cw3E4zW6iQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                             </div>
                         </div>
-                        <div style="background:#000; border-radius:8px; overflow:hidden; border:1px solid rgba(0,119,181,0.3); width: 100%; max-width: 504px;">
+                        <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(0,119,181,0.3); width: 100%; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
                             <div style="position:relative; width:100%; padding-bottom:56.25%;">
                                 <iframe style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;" src="https://www.youtube.com/embed/ZrVcc7S1C0U" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                             </div>
                         </div>
-                        <div style="background:#000; border-radius:8px; overflow:hidden; border:1px solid rgba(0,119,181,0.3); width: 100%; max-width: 504px;">
+                        <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(0,119,181,0.3); width: 100%; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
                             <div style="position:relative; width:100%; padding-bottom:56.25%;">
                                 <iframe style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;" src="https://www.youtube.com/embed/2IiHQvLlXz4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                             </div>
                         </div>
-                        <div style="background:#000; border-radius:8px; overflow:hidden; border:1px solid rgba(0,119,181,0.3); width: 100%; max-width: 504px;">
+                        <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(0,119,181,0.3); width: 100%; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
                             <div style="position:relative; width:100%; padding-bottom:56.25%;">
                                 <iframe style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;" src="https://www.youtube.com/embed/RkinvA19gAs" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                             </div>
@@ -731,13 +702,23 @@ CORE FUNCTION:
         </section>
 
         <!-- DEDICATED 3D OIL & GAS PARALLAX WINDOW -->
-        <section class="reveal" style="position: relative; width: 100%; height: 350px; margin: 40px 0; overflow: hidden; border-radius: 8px; border: 1px solid rgba(0,119,181,0.3); background: #010409; box-shadow: 0 0 30px rgba(0,119,181,0.1);">
+        <section class="reveal" style="position: relative; width: 100%; height: 400px; margin: 40px 0; overflow: hidden; border-radius: 24px; border: 1px solid rgba(255,255,255,0.08); background: rgba(0,0,0,0.85); box-shadow: 0 20px 40px rgba(0,0,0,0.6);">
             <canvas id="oil-gas-canvas" style="position: absolute; top:0; left:0; width:100%; height:100%;"></canvas>
             <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; text-align: center; width: 100%; z-index: 10;">
                 <h4 style="color:#0077b5; font-family:'Space Grotesk',sans-serif; font-size:2rem; font-weight:900; letter-spacing: 4px; margin:0; text-transform:uppercase;">GLOBAL PIPELINE TELEMETRY</h4>
                 <p style="color:#8b949e; font-size:1rem; font-weight:bold; letter-spacing: 2px; margin-top:10px;">AUTONOMOUS AI SURVEILLANCE ACTIVE</p>
             </div>
         </section>
+
+        <!-- CRICKET HERO BANNER -->
+        <div class="video-banner-container reveal">
+            <iframe class="video-banner-iframe" style="filter: hue-rotate(200deg) brightness(0.8);" src="https://www.youtube.com/embed/YJg02ivYzSs?autoplay=1&mute=1&loop=1&controls=0&playlist=YJg02ivYzSs&modestbranding=1" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+            <div class="video-banner-overlay"></div>
+            <div class="hero-iso-text">
+                <h3 class="hero-iso-title" style="color: #ffffff;">Cricket: The Velocity Focus</h3>
+                <p class="hero-iso-desc">Hyper-realistic cinematic sequence mapping extreme kinetic energy impact events on a gridless minimalist pitch architecture.</p>
+            </div>
+        </div>
 
         <!-- INTELLIGENCE REPOSITORY (10 SPOTS) -->
         <section class="mt-28 pt-28 border-t border-white border-opacity-5" id="intel-grid">
@@ -749,10 +730,11 @@ CORE FUNCTION:
         </section>
 
         <!-- FOOTBALL HERO BANNER -->
-        <div class="hero-iso-banner hero-iso-football reveal">
-            <img src="assets/isometric/football.png" alt="Football Isometric">
+        <div class="video-banner-container reveal">
+            <iframe class="video-banner-iframe" style="filter: hue-rotate(280deg) brightness(0.8);" src="https://www.youtube.com/embed/YJg02ivYzSs?autoplay=1&mute=1&loop=1&controls=0&playlist=YJg02ivYzSs&modestbranding=1" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+            <div class="video-banner-overlay"></div>
             <div class="hero-iso-text">
-                <h3 class="hero-iso-title">Football: The Geometric Tactical Flow</h3>
+                <h3 class="hero-iso-title" style="color: #94a3b8;">Football: The Geometric Tactical Flow</h3>
                 <p class="hero-iso-desc">Abstract 2.5D matte slate avatars interacting across architectural floors, mapping perfect arcs with precision white data-ribbons.</p>
             </div>
         </div>
@@ -767,38 +749,38 @@ CORE FUNCTION:
                 <div style="border-radius:8px; overflow:hidden; border:1px solid rgba(57,255,20,0.3); background:#000;">
                     <iframe width="100%" height="550" src="https://www.youtube.com/embed/OVgxjlWq5Qs" title="Football Short 1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
-                <div style="border-radius:8px; overflow:hidden; border:1px solid rgba(57,255,20,0.3); background:#000;">
+                <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(57,255,20,0.3); backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
                     <iframe width="100%" height="550" src="https://www.youtube.com/embed/ATwLIkZm8U8" title="Football Short 2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
-                <div style="border-radius:8px; overflow:hidden; border:1px solid rgba(57,255,20,0.3); background:#000;">
+                <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(57,255,20,0.3); backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
                     <iframe width="100%" height="550" src="https://www.youtube.com/embed/7ovLef3xlzU" title="Football Short 3" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
-                <div style="border-radius:8px; overflow:hidden; border:1px solid rgba(57,255,20,0.3); background:#000;">
+                <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(57,255,20,0.3); backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
                     <iframe width="100%" height="550" src="https://www.youtube.com/embed/WT2Ihd8AHMA" title="Football Short 4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
                 <!-- New football videos added -->
-                <div style="border-radius:8px; overflow:hidden; border:1px solid rgba(57,255,20,0.3); background:#000;">
+                <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(57,255,20,0.3); backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
                     <iframe width="100%" height="550" src="https://www.youtube.com/embed/gfGyVBe5RDc" title="Football Short 5" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
-                <div style="border-radius:8px; overflow:hidden; border:1px solid rgba(57,255,20,0.3); background:#000;">
+                <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(57,255,20,0.3); backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
                     <iframe width="100%" height="550" src="https://www.youtube.com/embed/S9rVJl1OBCE" title="Football Short 6" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
-                <div style="border-radius:8px; overflow:hidden; border:1px solid rgba(57,255,20,0.3); background:#000;">
+                <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(57,255,20,0.3); backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
                     <iframe width="100%" height="550" src="https://www.youtube.com/embed/Tzu57HjbIPA" title="Football Short 7" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
-                <div style="border-radius:8px; overflow:hidden; border:1px solid rgba(57,255,20,0.3); background:#000;">
+                <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(57,255,20,0.3); backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
                     <iframe width="100%" height="550" src="https://www.youtube.com/embed/FFlMHw60-s8" title="Football Short 8" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
-                <div style="border-radius:8px; overflow:hidden; border:1px solid rgba(57,255,20,0.3); background:#000;">
+                <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(57,255,20,0.3); backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
                     <iframe width="100%" height="550" src="https://www.youtube.com/embed/4uESc1cZpa0" title="Football Short 9" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
-                <div style="border-radius:8px; overflow:hidden; border:1px solid rgba(57,255,20,0.3); background:#000;">
+                <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(57,255,20,0.3); backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
                     <iframe width="100%" height="550" src="https://www.youtube.com/embed/O4MUPweriw0" title="Football Short 10" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
-                <div style="border-radius:8px; overflow:hidden; border:1px solid rgba(57,255,20,0.3); background:#000;">
+                <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(57,255,20,0.3); backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
                     <iframe width="100%" height="550" src="https://www.youtube.com/embed/GM8WzxiYrCM" title="Football Short 11" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
-                <div style="border-radius:8px; overflow:hidden; border:1px solid rgba(57,255,20,0.3); background:#000;">
+                <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(57,255,20,0.3); backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
                     <iframe width="100%" height="550" src="https://www.youtube.com/embed/W3M-CBQx--M" title="Football Short 12" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
             </div>
