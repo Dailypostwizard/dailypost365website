@@ -731,6 +731,46 @@ CORE FUNCTION:
             </div>
         </div>
 
+        <!-- CRICKET MATCH SUMMARY -->
+        <section class="mt-28 pt-28 border-t border-white border-opacity-5" id="cricket-hub-container">
+            <div class="flex justify-between items-center mb-16">
+                <h2 class="text-4xl font-black italic tracking-tighter uppercase text-[#39ff14]">Cricket Match Summary</h2>
+            </div>
+            
+            <div id="cr-hub" class="mb-16">
+                <div class="fb-nav-tabs">
+                    <button class="cr-tab-btn active" onclick="switchCrTab('live', this)" style="padding: 8px 18px; background: rgba(255,255,255,0.05); border: 1px solid #333; border-radius: 20px; color: #fff; font-size: 10px; text-transform: uppercase; font-weight: 700; cursor: pointer; transition: 0.3s; font-family: 'Space Grotesk', sans-serif; letter-spacing: 0.1em;">Live Scores</button>
+                    <button class="cr-tab-btn" onclick="switchCrTab('fixtures', this)" style="padding: 8px 18px; background: transparent; border: 1px solid #333; border-radius: 20px; color: #8B949E; font-size: 10px; text-transform: uppercase; font-weight: 700; cursor: pointer; transition: 0.3s; font-family: 'Space Grotesk', sans-serif; letter-spacing: 0.1em;">Fixtures</button>
+                    <button class="cr-tab-btn" onclick="switchCrTab('tables', this)" style="padding: 8px 18px; background: transparent; border: 1px solid #333; border-radius: 20px; color: #8B949E; font-size: 10px; text-transform: uppercase; font-weight: 700; cursor: pointer; transition: 0.3s; font-family: 'Space Grotesk', sans-serif; letter-spacing: 0.1em;">Tables</button>
+                    <button class="cr-tab-btn" onclick="switchCrTab('news', this)" style="padding: 8px 18px; background: transparent; border: 1px solid #333; border-radius: 20px; color: #8B949E; font-size: 10px; text-transform: uppercase; font-weight: 700; cursor: pointer; transition: 0.3s; font-family: 'Space Grotesk', sans-serif; letter-spacing: 0.1em;">Latest News</button>
+                </div>
+                
+                <div id="cr-content" class="fb-content" style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; padding: 20px; min-height: 120px; margin-top:20px;">
+                    <div id="cr-live-tab" style="display:block;">
+                        <div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:8px; margin-bottom:10px; border-left: 3px solid #39ff14;"><div style="color:#fff; font-weight:700; font-size:0.95rem;">West Indies 311/10 &  64/4  v Pakistan 282/10</div><div style="color:#39ff14; font-size:0.75rem; margin-top:5px; font-weight:900;">LIVE NOW</div></div><div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:8px; margin-bottom:10px; border-left: 3px solid #39ff14;"><div style="color:#fff; font-weight:700; font-size:0.95rem;">Namibia 211/7  v Nepal 208/6</div><div style="color:#39ff14; font-size:0.75rem; margin-top:5px; font-weight:900;">LIVE NOW</div></div><div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:8px; margin-bottom:10px; border-left: 3px solid #39ff14;"><div style="color:#fff; font-weight:700; font-size:0.95rem;">Southern Brave (Women) 126/7  v MI London (Women) 125/3</div><div style="color:#39ff14; font-size:0.75rem; margin-top:5px; font-weight:900;">LIVE NOW</div></div><div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:8px; margin-bottom:10px; border-left: 3px solid #39ff14;"><div style="color:#fff; font-weight:700; font-size:0.95rem;">Southern Brave (Men) 129/9  v MI London (Men) 71/2</div><div style="color:#39ff14; font-size:0.75rem; margin-top:5px; font-weight:900;">LIVE NOW</div></div>
+                    </div>
+                    <div id="cr-fixtures-tab" style="display:none;">
+                        <div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:8px; margin-bottom:10px; border-left: 3px solid #39ff14;"><div style="color:#fff; font-weight:700; font-size:0.95rem;">Desert Vipers v San Francisco Unicorns</div><div style="color:#39ff14; font-size:0.75rem; margin-top:5px; font-weight:900;">UPCOMING</div></div><div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:8px; margin-bottom:10px; border-left: 3px solid #39ff14;"><div style="color:#fff; font-weight:700; font-size:0.95rem;">Sri Lanka Women v Pakistan Women</div><div style="color:#39ff14; font-size:0.75rem; margin-top:5px; font-weight:900;">UPCOMING</div></div><div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:8px; margin-bottom:10px; border-left: 3px solid #39ff14;"><div style="color:#fff; font-weight:700; font-size:0.95rem;">Colombo Kaps v Jaffna Kings</div><div style="color:#39ff14; font-size:0.75rem; margin-top:5px; font-weight:900;">UPCOMING</div></div>
+                    </div>
+                    <div id="cr-tables-tab" style="display:none;">
+                        
+    <table class="fb-table">
+        <tr><th>Rank</th><th>Team</th><th>Rating</th></tr>
+        <tr><td style="color:#39ff14;">1</td><td style="color:#39ff14; font-weight:700;">Australia</td><td style="color:#CCFF00; font-weight:700;">124</td></tr>
+        <tr><td style="color:#39ff14;">2</td><td style="color:#39ff14; font-weight:700;">India</td><td style="color:#CCFF00; font-weight:700;">120</td></tr>
+        <tr><td style="color:#39ff14;">3</td><td style="color:#39ff14; font-weight:700;">England</td><td style="color:#CCFF00; font-weight:700;">105</td></tr>
+        <tr><td style="color:#39ff14;">4</td><td style="color:#39ff14; font-weight:700;">South Africa</td><td style="color:#CCFF00; font-weight:700;">103</td></tr>
+        <tr><td>5</td><td>New Zealand</td><td>96</td></tr>
+    </table>
+    
+                    </div>
+                    <div id="cr-news-tab" style="display:none;">
+                        <div style="background:rgba(57,255,20,0.1); padding:15px; border-left:3px solid #39ff14; margin-bottom:10px; border-radius: 4px;"><div style="color:#39ff14; font-weight:900; margin-bottom:5px; font-family:'Space Grotesk', sans-serif;">LATEST SUMMARY REPORT</div><div style="color:#fff; font-size:1rem; font-weight:700; margin-bottom:8px;">Bell stays cool as Brave win last-ball thriller</div><div style="color:#8B949E; font-size:0.8rem; line-height: 1.4;">Lauren Bell holds her nerve as Southern Brave win a last-ball thriller against MI London to maintain their 100% start to this year's edition of The Hundred.</div><a href="https://www.bbc.co.uk/sport/cricket/articles/c1j1xjzd6z6o?at_medium=RSS&at_campaign=rss" target="_blank" style="color:#39ff14; font-size:0.75rem; text-decoration:none; margin-top:12px; display:inline-block; font-weight:700;">Read Full Intelligence Report →</a></div><div style="padding:10px; border-bottom:1px solid #222;"><div style="color:#e0e0e0; font-weight:600; font-size:0.85rem;">Robertson receives first Scotland call-up as Ihsan & Jones return</div></div><div style="padding:10px; border-bottom:1px solid #222;"><div style="color:#e0e0e0; font-weight:600; font-size:0.85rem;">Who am I? Guess The Hundred cricket star No 7</div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- INTELLIGENCE REPOSITORY (10 SPOTS) -->
         <section class="mt-28 pt-28 border-t border-white border-opacity-5" id="intel-grid">
             <div class="flex justify-between items-center mb-16">
@@ -1765,6 +1805,24 @@ CORE FUNCTION:
             const el = document.getElementById('fb-' + t + '-tab');
             if(el) el.style.display = (t === tab) ? 'block' : 'none';
         });
+    }
+
+    function switchCrTab(tab, btnElement) {
+        let buttons = document.querySelectorAll('.cr-tab-btn');
+        buttons.forEach(btn => {
+            btn.classList.remove('active');
+            btn.style.background = 'transparent';
+            btn.style.color = '#8B949E';
+        });
+        btnElement.classList.add('active');
+        btnElement.style.background = 'rgba(255,255,255,0.05)';
+        btnElement.style.color = '#fff';
+
+        let tabs = ['live', 'fixtures', 'tables', 'news'];
+        tabs.forEach(t => {
+            document.getElementById('cr-' + t + '-tab').style.display = 'none';
+        });
+        document.getElementById('cr-' + tab + '-tab').style.display = 'block';
     }
     </script>
 
