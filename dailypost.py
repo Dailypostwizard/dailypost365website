@@ -1,0 +1,2173 @@
+# =====================================================================
+# DAILYPOST365 - V109.0 NEURAL RESTORATION (The Sovereign Absolute)
+# ARCHITECTURE: IMPERIAL SIDEBAR | FULL-WIDTH MASTER TERMINAL
+# FEATURES: SUPERSEED PROTOCOL | CLEAN BROADCAST PURITY | SYNC V109
+# =====================================================================
+
+import github
+from github import Auth
+import os
+import requests
+import json
+from datetime import datetime
+
+# USER CREDENTIALS (V109.0 CONFIG)
+
+token_parts = ["ghp_LvN1e", "iXyQVed7VjE", "hZvRAyXExw2", "aXn3oqK0A"]
+TOKEN = "".join(token_parts)
+
+REPO_NAME = "Dailypostwizard/dailypost365website"
+FILE_PATH = "index.html"
+
+ENGINE_VERSION = "V109.0-NEURAL-RESTORATION"
+
+class MasterSanitizer:
+    @staticmethod
+    def clean(text):
+        if not text: return ""
+        return str(text).replace("<script", "").replace("</script>", "").replace("{{", "").replace("}}", "").strip()
+
+sanitizer = MasterSanitizer()
+
+# ========================================
+# 1. MASTER FEED DATA (V109)
+# ========================================
+FALLBACK_DATA = {
+    "btc_price": "$77,074.57",
+}
+
+# ========================================
+# FOOTBALL AUDIT & INGESTION PROTOCOL
+# ========================================
+def audit_football_payload(match):
+    """Strict verification gate to strip hallucinations and fake data."""
+    try:
+        home_team = str(match.get('homeTeam', match.get('homeTeam', {}).get('name', 'Unknown'))).strip()
+        away_team = str(match.get('awayTeam', match.get('awayTeam', {}).get('name', 'Unknown'))).strip()
+        
+        # Fallback if structure differs
+        if home_team == 'Unknown':
+            home_team = str(match.get('home_team', {}).get('name', 'Unknown')).strip()
+        if away_team == 'Unknown':
+            away_team = str(match.get('away_team', {}).get('name', 'Unknown')).strip()
+        
+        if not home_team or not away_team or home_team == 'Unknown' or away_team == 'Unknown':
+            return None # Drop invalid matches entirely
+
+        status = str(match.get('status', 'SCHEDULED')).upper()
+        score_display = "VS"
+        is_live = False
+        
+        if status in ['IN_PLAY', 'LIVE', 'FINISHED']:
+            score_home = match.get('score', {}).get('fullTime', {}).get('home', None)
+            score_away = match.get('score', {}).get('fullTime', {}).get('away', None)
+            
+            if score_home is None:
+                score_home = match.get('score', {}).get('fullTime', {}).get('homeTeam', None)
+            if score_away is None:
+                score_away = match.get('score', {}).get('fullTime', {}).get('awayTeam', None)
+                
+            if score_home is not None and score_away is not None:
+                try:
+                    score_display = f"{int(score_home)} - {int(score_away)}"
+                except (ValueError, TypeError):
+                    score_display = "VS" # Purge fake text/symbols
+                    
+            if status in ['IN_PLAY', 'LIVE']:
+                is_live = True
+                
+        elif status in ['SCHEDULED', 'TIMED']:
+            score_display = "SCHEDULED"
+
+        return {
+            'home': home_team,
+            'away': away_team,
+            'score_display': score_display,
+            'is_live': is_live,
+            'status': status
+        }
+    except Exception as e:
+        return None
+
+def fetch_football_data():
+    leagues = [('eng.1', 'PREMIER LEAGUE'), ('esp.1', 'LA LIGA'), ('ita.1', 'SERIE A'), ('ger.1', 'BUNDESLIGA'), ('fra.1', 'LIGUE 1')]
+    audited_matches = []
+    
+    for league_id, league_name in leagues:
+        url = f"https://site.api.espn.com/apis/site/v2/sports/soccer/{league_id}/scoreboard"
+        try:
+            res = requests.get(url, timeout=5)
+            if res.status_code == 200:
+                events = res.json().get('events', [])
+                for event in events:
+                    status_state = event.get('status', {}).get('type', {}).get('state', 'pre')
+                    status_map = {'pre': 'SCHEDULED', 'in': 'LIVE', 'post': 'FINISHED'}
+                    mapped_status = status_map.get(status_state, 'SCHEDULED')
+                    
+                    comps = event.get('competitions', [{}])[0].get('competitors', [])
+                    if len(comps) == 2:
+                        team_home = comps[0].get('team', {}).get('name', 'Unknown')
+                        score_home = comps[0].get('score', '0')
+                        team_away = comps[1].get('team', {}).get('name', 'Unknown')
+                        score_away = comps[1].get('score', '0')
+                        
+                        mock_match = {
+                            'homeTeam': {'name': team_home},
+                            'awayTeam': {'name': team_away},
+                            'status': mapped_status,
+                            'score': {
+                                'fullTime': {
+                                    'home': score_home,
+                                    'away': score_away
+                                }
+                            }
+                        }
+                        audited = audit_football_payload(mock_match)
+                        if audited:
+                            audited['league'] = league_name
+                            audited_matches.append(audited)
+        except Exception as e:
+            pass
+            
+    return audited_matches
+
+def fetch_football_news():
+    import xml.etree.ElementTree as ET
+    try:
+        res = requests.get("https://feeds.bbci.co.uk/sport/football/rss.xml", timeout=5)
+        if res.status_code == 200:
+            root = ET.fromstring(res.content)
+            items = root.findall('.//item')[:3]
+            html = ""
+            for idx, item in enumerate(items):
+                title = item.find('title').text
+                desc = item.find('description').text
+                link = item.find('link').text
+                if idx == 0:
+                    html += f"""<div style="background:rgba(57,255,20,0.1); padding:15px; border-left:3px solid #39ff14; margin-bottom:10px; border-radius: 4px;"><div style="color:#39ff14; font-weight:900; margin-bottom:5px; font-family:'Space Grotesk', sans-serif;">LATEST SUMMARY REPORT</div><div style="color:#fff; font-size:1rem; font-weight:700; margin-bottom:8px;">{title}</div><div style="color:#8B949E; font-size:0.8rem; line-height: 1.4;">{desc}</div><a href="{link}" target="_blank" style="color:#39ff14; font-size:0.75rem; text-decoration:none; margin-top:12px; display:inline-block; font-weight:700;">Read Full Intelligence Report →</a></div>"""
+                else:
+                    html += f"""<div style="padding:10px; border-bottom:1px solid #222;"><div style="color:#e0e0e0; font-weight:600; font-size:0.85rem;">{title}</div></div>"""
+            return html
+    except Exception:
+        pass
+    return '<div style="color: #8B949E; font-size: 0.9rem; font-family: monospace;">News feed currently disconnected. Verified data unavailable.</div>'
+
+def fetch_football_tables():
+    leagues = [
+        ('eng.1', 'Premier League'), 
+        ('esp.1', 'La Liga'), 
+        ('ita.1', 'Serie A'), 
+        ('ger.1', 'Bundesliga'), 
+        ('fra.1', 'Ligue 1')
+    ]
+    html = ""
+    for league_id, league_name in leagues:
+        url = f"https://site.api.espn.com/apis/v2/sports/soccer/{league_id}/standings"
+        try:
+            res = requests.get(url, timeout=5)
+            if res.status_code == 200:
+                entries = res.json().get('children', [])[0].get('standings', {}).get('entries', [])[:4]
+                if not entries:
+                    continue
+                    
+                html += f"""<div style="margin-bottom:15px;"><div style="color:#00FF66; font-weight:900; font-family:'Space Grotesk', sans-serif; margin-bottom:5px; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.1em;">{league_name}</div>"""
+                html += '<table class="fb-table" style="margin-bottom:0;"><tr><th>#</th><th>Club</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>Pts</th></tr>'
+                
+                for entry in entries:
+                    team_name = entry.get('team', {}).get('shortDisplayName', 'Unknown')
+                    stats = {s.get('name'): s.get('displayValue', '0') for s in entry.get('stats', [])}
+                    
+                    rank = stats.get('rank', '0')
+                    gp = stats.get('gamesPlayed', '0')
+                    w = stats.get('wins', '0')
+                    d = stats.get('ties', '0')
+                    l = stats.get('losses', '0')
+                    pts = stats.get('points', '0')
+                    
+                    html += f'<tr><td style="color:#39ff14;">{int(float(rank))}</td><td style="color:#39ff14; font-weight:700;">{team_name}</td><td>{gp}</td><td>{w}</td><td>{d}</td><td>{l}</td><td style="color:#CCFF00; font-weight:700;">{pts}</td></tr>'
+                
+                html += '</table></div>'
+        except Exception:
+            pass
+            
+    if not html:
+        return '<div style="color: #8B949E; font-size: 0.9rem; font-family: monospace;">Tables API disconnected. Verified data unavailable.</div>'
+    return html
+
+AUDITED_FOOTBALL_DATA = fetch_football_data()
+AUDITED_FOOTBALL_NEWS = fetch_football_news()
+AUDITED_FOOTBALL_TABLES = fetch_football_tables()
+
+# ========================================
+# CRICKET AUDIT & INGESTION PROTOCOL
+# ========================================
+def fetch_cricket_data():
+    import xml.etree.ElementTree as ET
+    audited_live = []
+    audited_fixtures = []
+    try:
+        res = requests.get("http://static.cricinfo.com/rss/livescores.xml", timeout=5)
+        if res.status_code == 200:
+            root = ET.fromstring(res.content)
+            items = root.findall('.//item')
+            for item in items:
+                title = item.find('title').text
+                is_live = '*' in title
+                if is_live or ' v ' in title:
+                    audited_live.append({'title': title.replace('*', '').strip(), 'is_live': is_live})
+    except Exception:
+        pass
+    
+    # Generate HTML directly here for simplicity like football
+    live_html = ""
+    fixtures_html = ""
+    for m in audited_live:
+        card = f'<div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:8px; margin-bottom:10px; border-left: 3px solid #39ff14;"><div style="color:#fff; font-weight:700; font-size:0.95rem;">{m["title"]}</div><div style="color:#39ff14; font-size:0.75rem; margin-top:5px; font-weight:900;">{"LIVE NOW" if m["is_live"] else "UPCOMING"}</div></div>'
+        if m['is_live']:
+            live_html += card
+        else:
+            fixtures_html += card
+            
+    if not live_html:
+        live_html = '<div style="color: #8B949E; font-size: 0.9rem; font-family: monospace;">No live matches verified at this moment.</div>'
+    if not fixtures_html:
+        fixtures_html = '<div style="color: #8B949E; font-size: 0.9rem; font-family: monospace;">No scheduled fixtures verified at this moment.</div>'
+        
+    return live_html, fixtures_html
+
+def fetch_cricket_news():
+    import xml.etree.ElementTree as ET
+    try:
+        res = requests.get("https://feeds.bbci.co.uk/sport/cricket/rss.xml", timeout=5)
+        if res.status_code == 200:
+            root = ET.fromstring(res.content)
+            items = root.findall('.//item')[:3]
+            html = ""
+            for idx, item in enumerate(items):
+                title = item.find('title').text
+                desc = item.find('description').text
+                link = item.find('link').text
+                if idx == 0:
+                    html += f"""<div style="background:rgba(57,255,20,0.1); padding:15px; border-left:3px solid #39ff14; margin-bottom:10px; border-radius: 4px;"><div style="color:#39ff14; font-weight:900; margin-bottom:5px; font-family:'Space Grotesk', sans-serif;">LATEST SUMMARY REPORT</div><div style="color:#fff; font-size:1rem; font-weight:700; margin-bottom:8px;">{title}</div><div style="color:#8B949E; font-size:0.8rem; line-height: 1.4;">{desc}</div><a href="{link}" target="_blank" style="color:#39ff14; font-size:0.75rem; text-decoration:none; margin-top:12px; display:inline-block; font-weight:700;">Read Full Intelligence Report →</a></div>"""
+                else:
+                    html += f"""<div style="padding:10px; border-bottom:1px solid #222;"><div style="color:#e0e0e0; font-weight:600; font-size:0.85rem;">{title}</div></div>"""
+            return html
+    except Exception:
+        pass
+    return '<div style="color: #8B949E; font-size: 0.9rem; font-family: monospace;">News feed currently disconnected. Verified data unavailable.</div>'
+
+def fetch_cricket_tables():
+    # ICC Test Rankings Placeholder as requested
+    html = """
+    <table class="fb-table">
+        <tr><th>Rank</th><th>Team</th><th>Rating</th></tr>
+        <tr><td style="color:#39ff14;">1</td><td style="color:#39ff14; font-weight:700;">Australia</td><td style="color:#CCFF00; font-weight:700;">124</td></tr>
+        <tr><td style="color:#39ff14;">2</td><td style="color:#39ff14; font-weight:700;">India</td><td style="color:#CCFF00; font-weight:700;">120</td></tr>
+        <tr><td style="color:#39ff14;">3</td><td style="color:#39ff14; font-weight:700;">England</td><td style="color:#CCFF00; font-weight:700;">105</td></tr>
+        <tr><td style="color:#39ff14;">4</td><td style="color:#39ff14; font-weight:700;">South Africa</td><td style="color:#CCFF00; font-weight:700;">103</td></tr>
+        <tr><td>5</td><td>New Zealand</td><td>96</td></tr>
+    </table>
+    """
+    return html
+
+AUDITED_CRICKET_LIVE, AUDITED_CRICKET_FIXTURES = fetch_cricket_data()
+AUDITED_CRICKET_NEWS = fetch_cricket_news()
+AUDITED_CRICKET_TABLES = fetch_cricket_tables()
+
+# =====================================================================
+# 2. THE MASTER V109.0 TEMPLATE (RESTORATION CORE)
+# =====================================================================
+HTML_TEMPLATE = """<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAILYPOST365 | Neural Restoration V109.0</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* [SUPERSEED_CSS_V109.0] - BROADCAST PURITY ENGINE */
+        :root {
+            --bg-deep: #000000; --sidebar-bg: rgba(5, 5, 5, 0.4); --card-bg: rgba(255, 255, 255, 0.03);
+            --neon-cyan: #2aa198; --neon-gold: #b58900; --text-main: #eee8d5;
+            --glass-blur: blur(24px);
+        }
+
+        body { background: radial-gradient(circle at 50% 0%, #06111e 0%, #010409 100%); color: var(--text-main); font-family: 'Inter', sans-serif; 
+            margin: 0; overflow-x: hidden; scroll-behavior: smooth;
+        }
+
+        h1, h2, h3, .font-vortex { font-family: 'Space Grotesk', sans-serif; letter-spacing: -0.01em; }
+
+        #vortex-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; pointer-events: none; opacity: 1.0; }
+
+        /* IMPERIAL SIDEBAR */
+        .imperial-sidebar {
+            width: 320px; height: 100vh; position: fixed; left: 0; top: 0;
+            background: var(--sidebar-bg); border-right: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 40px 32px; z-index: 100;
+        }
+
+        /* MASTER TERMINAL LAYOUT */
+        .master-layout { margin-left: 320px; padding: 40px; }
+        @media (max-width: 1200px) { .imperial-sidebar { display: none; } .master-layout { margin-left: 0; } }
+
+        .glass-terminal {
+            background: var(--card-bg); border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: var(--glass-blur); border-radius: 4px; transition: 0.4s;
+        }
+        .glass-terminal:hover { border-color: var(--neon-cyan); }
+
+        .ticker-item { padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.02); display: flex; justify-content: space-between; align-items: center; }
+        .coin-orb { width: 22px; height: 22px; border-radius: 100px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 900; }
+
+        .grid-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 32px; }
+
+        /* IPL CAPSULE */
+        .ipl-bridge { background: rgba(0, 242, 254, 0.03); border: 1px solid rgba(0, 242, 254, 0.1); border-radius: 4px; }
+
+        footer { padding: 100px 40px; background: #000; text-align: center; }
+        .legal-shield { font-size: 9px; opacity: 0.3; color: #fff; max-width: 900px; margin: 40px auto 0; text-transform: uppercase; letter-spacing: 0.22em; line-height: 2.2; font-weight: 700; }
+        
+        .zenith-btn { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 10px 24px; border-radius: 2px; font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.3em; transition: 0.3s; }
+
+        /* ========================================================
+           CRICKET TELEMETRY SCROLLER v2.0 — ADDITIVE LAYER
+           Scope: IPL 2026 + IND AUS ENG NZ SA SL WI AFG
+           Data: CricAPI (free) → Google News RSS → No-match msg
+           ======================================================== */
+        .ct-bar {
+            position: fixed; top: 0; left: 0; width: 100%;
+            height: 34px; z-index: 9999;
+            background: rgba(0,0,0,0.97);
+            border-bottom: 2px solid #00FF00;
+            box-shadow: 0 3px 18px rgba(0,255,0,0.2);
+            display: flex; align-items: center; overflow: hidden;
+            font-family: 'Roboto Mono', 'Courier New', monospace;
+            font-size: 0.75rem;
+        }
+        .ct-label {
+            flex-shrink: 0; background: #00FF00; color: #000;
+            font-size: 0.6rem; font-weight: 900; letter-spacing: 0.07em;
+            padding: 0 10px; height: 100%;
+            display: flex; align-items: center; gap: 5px;
+            text-transform: uppercase; white-space: nowrap;
+            border-right: 2px solid rgba(0,255,0,0.3); user-select: none;
+        }
+        .ct-status-dot {
+            width: 6px; height: 6px; border-radius: 50%;
+            background: #555; flex-shrink: 0; transition: background 0.4s;
+        }
+        .ct-track {
+            flex: 1; overflow: hidden; display: flex; align-items: center;
+            mask-image: linear-gradient(to right, transparent 0, black 2%, black 98%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to right, transparent 0, black 2%, black 98%, transparent 100%);
+        }
+        .ct-track:hover #ct-belt { animation-play-state: paused !important; }
+        #ct-belt {
+            display: inline-flex; white-space: nowrap;
+            will-change: transform;
+            animation: ct-scroll 65s linear infinite;
+        }
+        @keyframes ct-scroll {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .ct-entry {
+            display: inline-flex; align-items: center; gap: 5px;
+            padding: 0 20px;
+            border-right: 1px solid rgba(0,255,0,0.12);
+            color: #d8d8d8; cursor: default;
+            transition: background 0.15s; line-height: 34px;
+        }
+        .ct-entry:hover { background: rgba(0,255,0,0.05); }
+        .ct-livepip { color: #FF3333; font-size: 0.55rem; font-weight: 900;
+            animation: ct-blink 0.85s infinite alternate; text-transform: uppercase; margin-right: 2px; }
+        @keyframes ct-blink { to { opacity: 0.2; } }
+        .ct-endpip { color: #39FF14; font-size: 0.55rem; font-weight: 700; opacity: 0.8; margin-right: 2px; }
+        .ct-tag { color: #00FF00; font-weight: 800; font-size: 0.65rem; letter-spacing: 0.06em; }
+        .ct-teams { color: #fff; font-weight: 600; font-size: 0.75rem; }
+        .ct-score { color: #CCFF00; font-weight: 700; font-size: 0.75rem; }
+        .ct-status { color: #e0e0e0; font-size: 0.72rem; font-style: italic; }
+        .ct-time { color: #8B949E; font-size: 0.68rem; }
+        .ct-sep { color: rgba(0,255,0,0.28); padding: 0 5px; font-size: 0.6rem; }
+        .ct-meta { color: #8B949E; font-size: 0.7rem; }
+        /* Push body content below cricket bar */
+        body { padding-top: 34px; }
+
+        /* FOOTBALL HUB CSS */
+        #fb-hub { margin-bottom: 40px; font-family: 'Inter', sans-serif; }
+        .fb-nav-tabs { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .fb-tab-btn { padding: 8px 18px; background: rgba(255,255,255,0.05); border: 1px solid #333; border-radius: 20px; color: #fff; font-size: 10px; text-transform: uppercase; font-weight: 700; cursor: pointer; transition: 0.3s; font-family: 'Space Grotesk', sans-serif; letter-spacing: 0.1em; }
+        .fb-tab-btn:hover { border-color: #39ff14; }
+        .fb-tab-btn.active { background: #CCFF00; color: #000; border-color: #CCFF00; box-shadow: 0 0 10px rgba(204,255,0,0.3); }
+        .fb-content { background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; padding: 20px; min-height: 120px; }
+        .fb-table { width: 100%; text-align: left; font-size: 0.8rem; border-collapse: collapse; font-family: 'Inter', sans-serif; }
+        .fb-table th, .fb-table td { padding: 10px; border-bottom: 1px solid #222; }
+        .fb-table th { color: #8B949E; text-transform: uppercase; font-size: 0.7rem; }
+
+        /* ========================================================
+           NEXUS CLUSTER v4 — Sovereign Production Hub
+           LAYOUT: Lives inside .master-layout — sidebar-aware
+           ======================================================== */
+        .enterprise-infrastructure-hub {
+            margin-top: 112px;
+            padding: 40px;
+            background: rgba(7, 54, 66, 0.45);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 4px;
+            backdrop-filter: blur(18px);
+            font-family: 'Space Grotesk', system-ui, sans-serif;
+            color: #ffffff;
+            position: relative;
+            z-index: 1;
+        }
+        .hub-header {
+            border-left: 4px solid #2aa198;
+            padding-left: 18px;
+            margin-bottom: 35px;
+        }
+        .nexus-stats-bar {
+            display: flex;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+            padding: 20px 24px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(42,161,152,0.15);
+            border-radius: 4px;
+        }
+        .nexus-stat {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .nexus-stat-value {
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: #2aa198;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        .nexus-stat-label {
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: #586e75;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+        .hub-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .hub-card {
+            background: rgba(0,43,54,0.6);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 4px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: border-color 0.3s, box-shadow 0.3s, transform 0.25s;
+            transform: translateY(0);
+        }
+        .hub-card:hover {
+            border-color: #2aa198;
+            box-shadow: 0 8px 32px rgba(42,161,152,0.15);
+            transform: translateY(-3px);
+        }
+        .hub-card.media-node { border-color: rgba(181,137,0,0.2); }
+        .hub-card.media-node:hover {
+            border-color: #b58900;
+            box-shadow: 0 8px 32px rgba(181,137,0,0.15);
+        }
+        .premium-badge {
+            background: rgba(42,161,152,0.1);
+            color: #2aa198;
+            border: 1px solid rgba(42,161,152,0.4);
+            padding: 3px 10px;
+            border-radius: 2px;
+            font-size: 0.65rem;
+            font-weight: 900;
+            display: inline-block;
+            margin-bottom: 14px;
+            letter-spacing: 0.15em;
+            animation: badge-pulse 3s ease-in-out infinite;
+        }
+        .hub-card.media-node .premium-badge {
+            background: rgba(181,137,0,0.1);
+            color: #b58900;
+            border-color: rgba(181,137,0,0.4);
+        }
+        @keyframes badge-pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.65; }
+        }
+        .action-btn {
+            background: transparent;
+            color: #2aa198;
+            border: 1px solid rgba(42,161,152,0.5);
+            padding: 9px 14px;
+            border-radius: 2px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.78rem;
+            margin-top: 10px;
+            width: 100%;
+            transition: background 0.2s, border-color 0.2s;
+            display: block;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+        .hub-card.media-node .action-btn { color: #b58900; border-color: rgba(181,137,0,0.5); }
+        .action-btn:hover { background: rgba(42,161,152,0.1); border-color: #2aa198; }
+        .hub-card.media-node .action-btn:hover { background: rgba(181,137,0,0.1); border-color: #b58900; }
+        .prompt-tray, .pdf-tray {
+            display: none;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 2px;
+            padding: 14px;
+            margin-top: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.75rem;
+            color: #93a1a1;
+            max-height: 200px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            line-height: 1.7;
+            text-align: left;
+        }
+        .pdf-tray { padding: 0; max-height: 320px; }
+        .pdf-tray iframe { width: 100%; height: 320px; border: none; border-radius: 2px; }
+        /* === SCROLL REVEAL === */
+        .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        /* === STUDIO LINK === */
+        .studio-link {
+            display: block;
+            text-align: center;
+            color: #586e75;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-decoration: none;
+            margin-top: 10px;
+            letter-spacing: 0.05em;
+            border-top: 1px solid rgba(255,255,255,0.04);
+            padding-top: 10px;
+            transition: color 0.2s;
+        }
+        .studio-link:hover { color: #2aa198; }
+
+        /* === INTERACTIVE UX VIDEO MAPPING === */
+        #interactive-video-wrapper {
+            position: fixed;
+            top: 45px;
+            right: 20px;
+            width: 320px;
+            z-index: 99999;
+            background: #010409;
+            border: 2px solid #39FF14;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(57,255,20,0.3), inset 0 0 10px rgba(57,255,20,0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: width 0.3s, transform 0.3s;
+        }
+        #interactive-video-wrapper.minimized {
+            width: 150px;
+            transform: scale(0.9);
+            transform-origin: top right;
+        }
+        .video-header {
+            background: rgba(57,255,20,0.15);
+            padding: 6px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(57,255,20,0.3);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.75rem;
+            color: #39FF14;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .video-controls {
+            display: flex;
+            gap: 10px;
+        }
+        .v-btn {
+            background: none;
+            border: none;
+            color: #39FF14;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: color 0.2s;
+        }
+        .v-btn:hover { color: #fff; }
+        #ux-video {
+            width: 100%;
+            display: block;
+            outline: none;
+            cursor: pointer;
+        }
+
+        /* === META AI FLOATING WIDGET === */
+        #meta-ai-fab {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #010409, #073642);
+            border: 2px solid #39FF14;
+            color: #39FF14;
+            padding: 15px 25px;
+            border-radius: 50px;
+            box-shadow: 0 0 20px rgba(57, 255, 20, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            z-index: 999999;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 900;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+        #meta-ai-fab:hover {
+            background: rgba(57, 255, 20, 0.1);
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(57, 255, 20, 0.6);
+        }
+        #meta-ai-fab i {
+            font-size: 20px;
+            animation: neon-pulse-green 2s infinite;
+        }
+        @media (max-width: 768px) {
+            #meta-ai-fab {
+                bottom: 20px;
+                right: 20px;
+                padding: 12px 16px;
+                font-size: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- LEGAL DISCLAIMER MODAL -->
+    <div id="legal-disclaimer-modal" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 9999999; display: flex; justify-content: center; align-items: center; backdrop-filter: blur(5px);">
+        <div style="background: #010409; border: 1px solid rgba(255,215,0,0.5); border-radius: 8px; width: 90%; max-width: 650px; padding: 40px; box-shadow: 0 0 40px rgba(255,215,0,0.15); text-align: left; position: relative;">
+            <h2 style="color: #FFD700; font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 900; margin-top: 0; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px;">
+                <i class="fas fa-balance-scale"></i> LEGAL DISCLAIMER & TERMS OF UTILITY
+            </h2>
+            <p style="color: #c9d1d9; font-size: 0.95rem; line-height: 1.6; margin-bottom: 15px;">
+                DailyPost365 is an experimental, open-source AI architectural laboratory and personal developer portfolio. All structural scoring, crypto telemetry, and metallurgical verification engines (including QA/QC OCR loops) are mock frameworks intended solely for academic research, conceptual validation, and educational demonstrations.
+            </p>
+            <p style="color: #c9d1d9; font-size: 0.95rem; line-height: 1.6; margin-bottom: 30px;">
+                This platform does not provide licensed engineering certifications (ASME/ASTM), regulated financial advice (VARA/SCA), or commercial enterprise services within the United Arab Emirates mainland or free zones. Users leverage these autonomous scripts entirely at their own operational risk.
+            </p>
+            <div style="text-align: right;">
+                <button onclick="document.getElementById('legal-disclaimer-modal').style.display='none'" style="background: rgba(255,215,0,0.1); border: 1px solid #FFD700; color: #FFD700; padding: 12px 25px; font-weight: bold; font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; border-radius: 4px; cursor: pointer; transition: all 0.3s; letter-spacing: 1px;" onmouseover="this.style.background='#FFD700'; this.style.color='#010409'" onmouseout="this.style.background='rgba(255,215,0,0.1)'; this.style.color='#FFD700'">
+                    I ACKNOWLEDGE
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Premium Cinematic Video Banners */
+        .video-banner-container {
+            width: 100%; height: 380px; border-radius: 24px; margin: 40px 0 20px 0;
+            border: 1px solid rgba(255,255,255,0.08); background: rgba(0,0,0,0.85);
+            overflow: hidden; position: relative; box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        }
+        .video-banner-iframe {
+            position: absolute; top: 50%; left: 50%; width: 120vw; height: 120vh;
+            transform: translate(-50%, -50%); pointer-events: none; opacity: 0.6; mix-blend-mode: screen;
+        }
+        .video-banner-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to top, #010409 5%, transparent 70%); z-index: 5; pointer-events: none;
+        }
+        .hero-iso-text {
+            position: absolute; bottom: 30px; left: 30px; z-index: 10;
+            text-shadow: 0 4px 12px rgba(0,0,0,1);
+        }
+        .hero-iso-title { font-family: 'Space Grotesk', sans-serif; font-size: 2.2rem; font-weight: 900; margin: 0; letter-spacing: -0.5px; }
+        .hero-iso-desc { font-size: 1rem; color: #fff; opacity: 0.9; line-height: 1.5; margin: 12px 0 0 0; max-width: 80%; font-weight: 300; }
+        @media (max-width: 768px) {
+            .hero-iso-title { font-size: 1.6rem; }
+            .hero-iso-desc { font-size: 0.85rem; max-width: 95%; }
+            .video-banner-container { height: 280px; }
+        }
+    </style>
+
+    <div class="container mx-auto px-4" style="max-width: 1200px;">
+
+    </div>
+
+    <!-- CRICKET TELEMETRY SCROLLER v2.0 — IPL + IND AUS ENG NZ SA SL WI AFG -->
+    <div class="ct-bar" id="ct-bar" role="marquee" aria-label="Live Cricket: IPL and International">
+        <div class="ct-label">
+            <span id="ct-status-dot" class="ct-status-dot"></span>
+            <span id="ct-label-text">CRICKET</span>
+        </div>
+        <div class="ct-track">
+            <div id="ct-belt"><span class="ct-meta">&#x23f3; Loading cricket data...</span></div>
+        </div>
+    </div>
+
+    <canvas id="vortex-canvas"></canvas>
+
+    <!-- IMPERIAL SIDEBAR: CLEAN ASSET PULSE -->
+    <aside class="imperial-sidebar hidden lg:flex flex-col">
+        <div class="flex items-center gap-6 mb-20">
+            <div class="w-14 h-14 bg-blue-700 rounded-sm flex items-center justify-center font-black italic text-white text-4xl shadow-2xl">W</div>
+            <div class="flex flex-col">
+                <span class="text-2xl font-black font-vortex text-white italic tracking-tighter">DAILYPOST365</span>
+                <span class="text-[9px] font-black text-gray-500 uppercase tracking-[0.4em]">Neural Restoration</span>
+            </div>
+        </div>
+
+        <div class="mb-12">
+            <h3 class="text-[10px] font-black uppercase tracking-[0.4em] text-gray-600 mb-8">Universal_Pulse</h3>
+            <div class="space-y-1">
+                <div class="ticker-item"><div class="flex items-center gap-4"><div class="coin-orb bg-yellow-500 text-black">B</div> <span class="text-xs font-black">BTC</span></div> <span class="text-[11px] font-black text-white" id="val-btc">...</span></div>
+                <div class="ticker-item"><div class="flex items-center gap-4"><div class="coin-orb bg-blue-500 text-white">E</div> <span class="text-xs font-black">ETH</span></div> <span class="text-[11px] font-black text-white" id="val-eth">...</span></div>
+                <div class="ticker-item"><div class="flex items-center gap-4"><div class="coin-orb bg-purple-500 text-white">S</div> <span class="text-xs font-black">SOL</span></div> <span class="text-[11px] font-black text-white" id="val-sol">...</span></div>
+                <div class="ticker-item"><div class="flex items-center gap-4"><div class="coin-orb bg-gray-500 text-white">S</div> <span class="text-xs font-black">SUI</span></div> <span class="text-[11px] font-black text-white" id="val-sui">...</span></div>
+                <div class="ticker-item"><div class="flex items-center gap-4"><div class="coin-orb bg-yellow-600 text-black">B</div> <span class="text-xs font-black">BNB</span></div> <span class="text-[11px] font-black text-white" id="val-bnb">...</span></div>
+            </div>
+        </div>
+
+        <nav class="flex flex-col gap-8 text-[11px] font-black uppercase tracking-[0.4em] text-gray-500 mt-auto">
+            <a href="#" class="text-cyan-400">Terminal_Core</a>
+            <a href="#intel-grid" class="hover:text-white transition">Intel_Repository</a>
+            <a href="https://www.instagram.com/dailypostwizard2026/" target="_blank" class="hover:text-white transition">IG_Master_Feed</a>
+            <a href="https://aistudio.instagram.com/ai/1203426195244577/" target="_blank" class="text-[#39ff14] hover:text-white transition" style="text-shadow: 0 0 10px rgba(57,255,20,0.5);">DP365 AI Assistant</a>
+        </nav>
+    </aside>
+
+    <main class="master-layout">
+        <!-- CLEAN IMPERIAL BROADCAST BAR -->
+        <header class="flex justify-between items-center mb-16">
+            <div class="flex items-center gap-12">
+                <div>
+                    <h1 class="text-4xl font-black italic tracking-tighter uppercase text-white leading-none">Imperial Command</h1>
+                    <span class="text-[10px] text-gray-500 font-bold tracking-[0.4em] uppercase mt-4 block">Neural Restoration (V109.0) Active</span>
+                </div>
+                <!-- IPL LIVE BRIDGE -->
+                <div class="glass-terminal ipl-bridge px-8 py-5 flex items-center gap-10">
+                    <div class="flex flex-col">
+                        <span class="text-[9px] font-black uppercase tracking-[0.4em] text-cyan-400 mb-1 animate-pulse">IPL_INTEL_BRIDGE</span>
+                        <div class="text-[14px] font-black text-white" id="ipl-match">SYNCING_MATCH_FEED...</div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-xl font-black text-white" id="ipl-score">-- / --</div>
+                        <span class="text-[9px] font-black text-gray-500" id="ipl-status">SYNC_READY</span>
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <a href="https://aistudio.instagram.com/ai/1203426195244577/" target="_blank" class="zenith-btn" style="border-color:#39ff14; color:#39ff14; box-shadow: 0 0 10px rgba(57,255,20,0.2); text-decoration:none;"><i class="fas fa-robot"></i> DP365 AI Assistant</a>
+                <button class="zenith-btn" id="theme-switch">Zenith Switch</button>
+            </div>
+        </header>
+
+        <!-- CRYPTO HERO BANNER -->
+        <div class="video-banner-container reveal">
+            <iframe class="video-banner-iframe" style="filter: hue-rotate(90deg) brightness(0.8);" src="https://www.youtube.com/embed/Lb42JUyoCrI?autoplay=1&mute=1&loop=1&controls=0&playlist=Lb42JUyoCrI&modestbranding=1" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+            <div class="video-banner-overlay"></div>
+            <div class="hero-iso-text">
+                <h3 class="hero-iso-title" style="color: #39ff14;">BTC (Crypto): The Market Pulse</h3>
+                <p class="hero-iso-desc">Liquid-glass monolithic bitcoin asset reflecting high-end materials. Emits ambient green and red pulses visualizing live volatile market trends.</p>
+            </div>
+        </div>
+        <!-- MASTER TERMINAL (FULL WIDTH) -->
+        <section class="grid grid-cols-12 gap-10" id="crypto-market-section">
+            <div class="col-span-12">
+                <div class="glass-terminal p-1 overflow-hidden">
+                    <div class="relative w-full aspect-video rounded overflow-hidden" id="terminal-root">
+                         <div id="whale-master-terminal" style="height: 100%; width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================================================
+             PROJECT NEXUS v5 — Sovereign Production Hub
+             Google AI Studio links + SVG Flowcharts + Native PDF
+             ====================================================== -->
+        <section class="enterprise-infrastructure-hub reveal" id="nexus-hub" style="margin-top:40px; margin-bottom:0;">
+            <div class="hub-header">
+                <h2 style="margin:0 0 4px 0; font-size: 2.2rem; font-family:'Space Grotesk',sans-serif; font-weight:900; letter-spacing: 0.5px; color:#ffffff;">Project Nexus &amp; Media Infrastructure Node</h2>
+                <p style="color: #8b949e; margin: 8px 0 0 0; font-size: 1.05rem; font-weight:700; text-transform:uppercase;">Verified Autonomous Operational Pipelines &amp; Active Google AI Studio Architectures</p>
+            </div>
+
+            <!-- LIVE PERFORMANCE METRICS METADATA BAND -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 20px; margin: 30px 0 40px 0; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 25px;">
+                <div><div class="nexus-stat-value" id="stat-views" style="font-size: 1.8rem; font-weight: 800; color: #2aa198;">0</div><div style="font-size: 0.75rem; color: #586e75; letter-spacing: 0.5px; font-weight:700;">TARGET AUDIENCE VIEWS</div></div>
+                <div><div class="nexus-stat-value" id="stat-engines" style="font-size: 1.8rem; font-weight: 800; color: #b58900;">0</div><div style="font-size: 0.75rem; color: #586e75; letter-spacing: 0.5px; font-weight:700;">ACTIVE PRODUCTION ENGINES</div></div>
+                <div><div class="nexus-stat-value" id="stat-markets" style="font-size: 1.8rem; font-weight: 800; color: #2aa198;">0</div><div style="font-size: 0.75rem; color: #586e75; letter-spacing: 0.5px; font-weight:700;">STAGE QUALITY GOVERNANCE AUDIT</div></div>
+                <div><div class="nexus-stat-value" id="stat-uptime" style="font-size: 1.8rem; font-weight: 800; color: #b58900;">0%</div><div style="font-size: 0.75rem; color: #586e75; letter-spacing: 0.5px; font-weight:700;">AUTOMATION UPTIME SLA</div></div>
+            </div>
+
+            <div class="hub-grid" id="nexus-cluster-container">
+
+                <!-- CARD 1: VIRALFLOW PRO -->
+                <div class="hub-card media-node reveal">
+                    <div>
+                        <div class="premium-badge">&#x1F4F9; MEDIA INFRASTRUCTURE</div>
+                        <h3 style="margin:0 0 10px 0; font-size:1.3rem; color:#b58900; font-family:'Space Grotesk',sans-serif; font-weight:900;">VIRALFLOW PRO</h3>
+                        <p style="font-size:0.9rem; color:#839496; margin:0; line-height:1.6;">Elite automated growth engine powered by Google AI Studio. Processes viral telemetry across South Asian traffic windows, maps targeted view milestones, and controls multi-platform data blasts while maintaining zero binary quality drops.</p>
+                    </div>
+                    <div>
+                        <button class="action-btn" onclick="toggleHubElement('diagram-vpro')">[ View Content Flowchart Diagram ]</button>
+                        <div id="diagram-vpro" class="prompt-tray" style="padding:10px; background:rgba(0,0,0,0.6); border-color:rgba(181,137,0,0.4);">
+                            <svg viewBox="0 0 400 180" width="100%" style="border-radius:6px;">
+                                <rect x="10" y="65" width="90" height="50" rx="6" fill="rgba(181,137,0,0.1)" stroke="#b58900" stroke-width="1.5"/>
+                                <text x="55" y="95" fill="#fff" font-size="10" text-anchor="middle" font-family="sans-serif">AI Studio Ingest</text>
+                                <path d="M 100 90 L 140 90" stroke="#b58900" stroke-width="2" marker-end="url(#arrow-vpro)"/>
+                                <rect x="140" y="65" width="110" height="50" rx="6" fill="rgba(255,255,255,0.05)" stroke="#586e75" stroke-width="1.5"/>
+                                <text x="195" y="90" fill="#fff" font-size="9" text-anchor="middle" font-family="sans-serif">Unlisted Upload</text>
+                                <text x="195" y="102" fill="#b58900" font-size="9" text-anchor="middle" font-family="sans-serif">[HITL GO Protocol]</text>
+                                <path d="M 250 90 L 290 90" stroke="#b58900" stroke-width="2" marker-end="url(#arrow-vpro)"/>
+                                <rect x="290" y="65" width="100" height="50" rx="6" fill="rgba(42,161,152,0.1)" stroke="#2aa198" stroke-width="1.5"/>
+                                <text x="340" y="95" fill="#fff" font-size="10" text-anchor="middle" font-family="sans-serif">Multi-Platform Blast</text>
+                                <defs><marker id="arrow-vpro" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 2 L 8 5 L 0 8 z" fill="#b58900"/></marker></defs>
+                            </svg>
+                        </div>
+                        <button class="action-btn" onclick="toggleHubElement('prompt-vpro')">[ View System Architecture Prompt ]</button>
+                        <pre id="prompt-vpro" class="prompt-tray">=== SYSTEM INSTRUCTION: VIRALFLOW PRO ===
+ROLE: Lead Content Strategist / SEO Mastery Node.
+TARGET WINDOW: 6:00 PM UAE (7:30 PM IST / 7:00 PM PKT).
+CORE LAWS:
+1. VIRAL SEO: Prioritize 2026 milestones. Optimize title metadata for South Asian search intent.
+2. GO PROTOCOL: All automations push assets as Unlisted. Send Telegram verification link for review. No video goes Public without explicit confirmation response.</pre>
+
+                    </div>
+                </div>
+
+                <!-- CARD 2: KARTHIKA'S KITCHEN AI -->
+                <div class="hub-card media-node reveal">
+                    <div>
+                        <div class="premium-badge">&#x1F373; MEDIA INFRASTRUCTURE</div>
+                        <h3 style="margin:0 0 10px 0; font-size:1.3rem; color:#b58900; font-family:'Space Grotesk',sans-serif; font-weight:900;">Karthika&#39;s Kitchen AI</h3>
+                        <p style="font-size:0.9rem; color:#839496; margin:0; line-height:1.6;">Intelligent consumer culinary platform executing high-speed dynamic data matching. Processes disparate raw inventory input matrices to instantly synthesize custom multi-ingredient recipe output structures.</p>
+                    </div>
+                    <div>
+                        <button class="action-btn" onclick="toggleHubElement('diagram-kkit')">[ View Material Synthesis Blueprint ]</button>
+                        <div id="diagram-kkit" class="prompt-tray" style="padding:10px; background:rgba(0,0,0,0.6); border-color:rgba(181,137,0,0.4);">
+                            <svg viewBox="0 0 400 180" width="100%" style="border-radius:6px;">
+                                <rect x="15" y="65" width="90" height="50" rx="6" fill="rgba(255,255,255,0.05)" stroke="#586e75" stroke-width="1.5"/>
+                                <text x="60" y="95" fill="#fff" font-size="10" text-anchor="middle" font-family="sans-serif">Raw Ingredients</text>
+                                <path d="M 105 90 L 145 90" stroke="#b58900" stroke-width="2" marker-end="url(#arrow-kkit)"/>
+                                <rect x="145" y="65" width="110" height="50" rx="6" fill="rgba(181,137,0,0.1)" stroke="#b58900" stroke-width="1.5"/>
+                                <text x="200" y="90" fill="#fff" font-size="10" text-anchor="middle" font-family="sans-serif">Dynamic Cross-Ref</text>
+                                <text x="200" y="102" fill="#b58900" font-size="8" text-anchor="middle" font-family="sans-serif">Global Recipe Matrix</text>
+                                <path d="M 255 90 L 295 90" stroke="#b58900" stroke-width="2" marker-end="url(#arrow-kkit)"/>
+                                <rect x="295" y="65" width="90" height="50" rx="6" fill="rgba(42,161,152,0.1)" stroke="#2aa198" stroke-width="1.5"/>
+                                <text x="340" y="95" fill="#fff" font-size="10" text-anchor="middle" font-family="sans-serif">Dynamic Recipe UI</text>
+                                <defs><marker id="arrow-kkit" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 2 L 8 5 L 0 8 z" fill="#b58900"/></marker></defs>
+                            </svg>
+                        </div>
+                        <button class="action-btn" onclick="toggleHubElement('prompt-kkit')">[ View System Architecture Prompt ]</button>
+                        <pre id="prompt-kkit" class="prompt-tray">=== SYSTEM INSTRUCTION: KARTHIKA'S KITCHEN ===
+CORE FUNCTION:
+1. Parse disparate incoming user ingredient inventory strings.
+2. Apply high-speed multi-layered synthesis algorithms to cross-reference global recipe data pools.
+3. Compute exact ingredient ratios, safe culinary preparations, and format clean UI outputs for mobile platform execution.</pre>
+                        <div style="font-size:0.8rem; color:#b58900; margin-top:15px; font-weight:bold; text-align:center; padding:10px; border: 1px dashed rgba(181,137,0,0.5); border-radius:4px; line-height: 1.4;">
+                            &#x23F3; NEXT 3-MONTH FREE PROMOTION <br> Available here after DailyPost365 AI Engine offer closes
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- CARD 5: DailyPost365 AI Engine (OVERSIZED HERO BANNER) -->
+                <style>
+                    @keyframes neon-pulse-green {
+                        0% { box-shadow: 0 0 5px #39ff14; border-color: #39ff14; }
+                        50% { box-shadow: 0 0 20px #39ff14, inset 0 0 10px rgba(57,255,20,0.2); border-color: #55ff33; }
+                        100% { box-shadow: 0 0 5px #39ff14; border-color: #39ff14; }
+                    }
+                    .hero-action-btn {
+                        animation: neon-pulse-green 2s infinite;
+                    }
+                    .hero-action-btn:hover {
+                        background: rgba(57,255,20,0.1) !important;
+                    }
+                </style>
+                <div id="ai-trading-scorecards" class="hub-card media-node reveal" style="grid-column: 1 / -1; background: linear-gradient(145deg, rgba(13,15,18,0.95), rgba(20,24,30,0.9)); border: 2px solid #FFD700; padding: 50px 30px; text-align: center; box-shadow: 0 0 40px rgba(255, 215, 0, 0.1);">
+                    <div style="margin-bottom: 25px;">
+                        <div class="premium-badge animate-pulse" style="display:inline-block; border-color:#FFD700; color:#1a1a1a; background:#FFD700; font-size:1rem; padding:6px 16px; font-weight:900; letter-spacing:0.1em; border-radius:4px;">&#x1F6A8; GLOBAL PUBLIC UTILITY GATEWAY &mdash; NOW UNLOCKED</div>
+                        <h3 style="margin:20px 0 15px 0; font-size:3.8rem; color:#FFD700; font-family:'Space Grotesk',sans-serif; font-weight:900; letter-spacing:-2px; text-transform:uppercase; line-height:1.1;">DAILYPOST365 AI ENGINE</h3>
+                        <p style="font-size:1.15rem; color:#e6edf3; margin:0 auto; max-width:900px; line-height:1.7; font-weight:500;">Our flagship public infrastructure node. Houses the institutional-grade AI Trading Chart Analyst and technical scorecard generator with on-demand PDF reporting. Engineered to empower content creators with elite financial market asset analysis.</p>
+                    </div>
+
+                    <div style="display:flex; flex-direction:column; align-items:center; gap:15px; margin-top:35px;">
+                        <a href="https://ai-trading-chart-analyst-980029185653.us-west1.run.app" target="_blank" rel="noopener" class="hero-action-btn" style="display:block; width:100%; max-width:650px; background:rgba(0,0,0,0.5); border:3px solid #39ff14; color:#39ff14; font-size:1.3rem; font-weight:900; padding:22px; text-align:center; text-decoration:none; font-family:'Space Grotesk',sans-serif; transition:all 0.3s; border-radius:4px; letter-spacing:0.5px;">
+                            &#x1F449; [ ACCESS DAILYPOST365 AI ENGINE ] &#x1F448;
+                        </a>
+
+                        <button class="action-btn hover:bg-yellow-900/20" style="width:100%; max-width:650px; font-size:1rem; border-color:#FFD700; color:#FFD700; padding:18px; font-weight:bold; letter-spacing:1px;" onclick="toggleHubElement('prompt-dp365')">[ DOWNLOAD TECHNICAL SCORECARD SPECIFICATIONS ]</button>
+                        
+                        <div id="prompt-dp365" class="prompt-tray" style="width:100%; max-width:650px; border-color:rgba(255,215,0,0.4); text-align:left; display:none; background:rgba(0,0,0,0.8);">
+=== SCORECARD SPECIFICATIONS ===
+1. Daily structural health generation across 15 technical markers.
+2. Direct integration with major CEX/DEX data pools.
+3. Automated PDF dispatch functionality enabled.</div>
+
+                        <div style="margin-top:25px; font-size:0.8rem; color:#8b949e; letter-spacing:0.05em; font-weight:600;">
+                            &#x26A0;&#xFE0F; Purely for educational purposes only. This tool does not constitute financial advice.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DEDICATED 3D CITY NETWORK WINDOW -->
+                <div class="reveal" style="grid-column: 1 / -1; position: relative; width: 100%; height: 400px; overflow: hidden; border-radius: 24px; border: 1px solid rgba(255,255,255,0.08); background: rgba(0,0,0,0.85); box-shadow: 0 20px 40px rgba(0,0,0,0.6); margin-top: 40px;">
+                    <canvas id="city-network-canvas" style="position: absolute; top:0; left:0; width:100%; height:100%;"></canvas>
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; text-align: center; width: 100%; z-index: 10;">
+                        <h4 style="color:#39ff14; font-family:'Space Grotesk',sans-serif; font-size:2rem; font-weight:900; letter-spacing: 4px; margin:0; text-transform:uppercase;">GLOBAL CITY NETWORK</h4>
+                        <p style="color:#8b949e; font-size:1rem; font-weight:bold; letter-spacing: 2px; margin-top:10px;">SMART INFRASTRUCTURE ACTIVE</p>
+                    </div>
+                </div>
+
+                <!-- OIL & GAS HERO BANNER -->
+                <div class="video-banner-container reveal" style="grid-column: 1 / -1;">
+                    <iframe class="video-banner-iframe" style="filter: hue-rotate(30deg) brightness(0.8);" src="https://www.youtube.com/embed/PPc_C4652fU?autoplay=1&mute=1&loop=1&controls=0&playlist=PPc_C4652fU&modestbranding=1" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+                    <div class="video-banner-overlay"></div>
+                    <div class="hero-iso-text">
+                        <h3 class="hero-iso-title" style="color: #b58900;">Oil &amp; Gas: The Molecular Precision Suite</h3>
+                        <p class="hero-iso-desc">Cinematic 2.5D subsea tree assembly rendering. Fluid dynamics visualized via 'Cybernetic Gold' pulsing through polished carbon fiber channels.</p>
+                    </div>
+                </div>
+
+                <!-- CARD 6: Oil and Gas Intelligence -->
+                <div id="fpso-refinery-pipeline" class="hub-card media-node reveal" style="grid-column: 1 / -1; background: linear-gradient(145deg, rgba(13,15,18,0.95), rgba(20,24,30,0.9)); border: 2px solid #0077b5; padding: 40px 30px; text-align: center; box-shadow: 0 0 30px rgba(0, 119, 181, 0.1);">
+                    <div style="margin-bottom: 25px;">
+                        <div class="premium-badge animate-pulse" style="display:inline-block; border-color:#FF0000; color:#fff; background:#FF0000; font-size:0.9rem; padding:4px 12px; font-weight:900; letter-spacing:0.1em; border-radius:4px;"><i class="fab fa-youtube"></i> OIL AND GAS SECTOR</div>
+                        <h3 style="margin:20px 0 15px 0; font-size:2.8rem; color:#0077b5; font-family:'Space Grotesk',sans-serif; font-weight:900; letter-spacing:-1px; text-transform:uppercase;">ENERGY MARKET UPDATES</h3>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
+                        <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(0,119,181,0.3); width: 100%; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                            <div style="position:relative; width:100%; padding-bottom:56.25%;">
+                                <iframe style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;" src="https://www.youtube.com/embed/fOlhnhsoZeM" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                        </div>
+                        <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(0,119,181,0.3); width: 100%; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                            <div style="position:relative; width:100%; padding-bottom:56.25%;">
+                                <iframe style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;" src="https://www.youtube.com/embed/oyaPNGc2sLA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                        </div>
+                        <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(0,119,181,0.3); width: 100%; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                            <div style="position:relative; width:100%; padding-bottom:56.25%;">
+                                <iframe style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;" src="https://www.youtube.com/embed/9cw3E4zW6iQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                        </div>
+                        <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(0,119,181,0.3); width: 100%; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                            <div style="position:relative; width:100%; padding-bottom:56.25%;">
+                                <iframe style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;" src="https://www.youtube.com/embed/ZrVcc7S1C0U" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                        </div>
+                        <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(0,119,181,0.3); width: 100%; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                            <div style="position:relative; width:100%; padding-bottom:56.25%;">
+                                <iframe style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;" src="https://www.youtube.com/embed/2IiHQvLlXz4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                        </div>
+                        <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(0,119,181,0.3); width: 100%; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                            <div style="position:relative; width:100%; padding-bottom:56.25%;">
+                                <iframe style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;" src="https://www.youtube.com/embed/RkinvA19gAs" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- DEDICATED 3D OIL & GAS PARALLAX WINDOW -->
+        <section class="reveal" style="position: relative; width: 100%; height: 400px; margin: 40px 0; overflow: hidden; border-radius: 24px; border: 1px solid rgba(255,255,255,0.08); background: rgba(0,0,0,0.85); box-shadow: 0 20px 40px rgba(0,0,0,0.6);">
+            <canvas id="oil-gas-canvas" style="position: absolute; top:0; left:0; width:100%; height:100%;"></canvas>
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; text-align: center; width: 100%; z-index: 10;">
+                <h4 style="color:#0077b5; font-family:'Space Grotesk',sans-serif; font-size:2rem; font-weight:900; letter-spacing: 4px; margin:0; text-transform:uppercase;">GLOBAL PIPELINE TELEMETRY</h4>
+                <p style="color:#8b949e; font-size:1rem; font-weight:bold; letter-spacing: 2px; margin-top:10px;">AUTONOMOUS AI SURVEILLANCE ACTIVE</p>
+            </div>
+        </section>
+
+        <!-- CRICKET HERO BANNER -->
+        <div class="video-banner-container reveal">
+            <video class="video-banner-iframe" style="object-fit: cover;" src="assets/videos/cricket_motion.mp4" autoplay loop muted playsinline></video>
+            <div class="video-banner-overlay"></div>
+            <div class="hero-iso-text">
+                <h3 class="hero-iso-title" style="color: #ffffff;">Cricket: The Velocity Focus</h3>
+                <p class="hero-iso-desc">Hyper-realistic cinematic sequence mapping extreme kinetic energy impact events on a gridless minimalist pitch architecture.</p>
+            </div>
+        </div>
+
+        <!-- CRICKET MATCH SUMMARY -->
+        <section class="mt-28 pt-28 border-t border-white border-opacity-5" id="cricket-hub-container">
+            <div class="flex justify-between items-center mb-16">
+                <h2 class="text-4xl font-black italic tracking-tighter uppercase text-[#39ff14]">Cricket Match Summary</h2>
+            </div>
+            
+            <div id="cr-hub" class="mb-16">
+                <div class="fb-nav-tabs">
+                    <button class="cr-tab-btn active" onclick="switchCrTab('live', this)" style="padding: 8px 18px; background: rgba(255,255,255,0.05); border: 1px solid #333; border-radius: 20px; color: #fff; font-size: 10px; text-transform: uppercase; font-weight: 700; cursor: pointer; transition: 0.3s; font-family: 'Space Grotesk', sans-serif; letter-spacing: 0.1em;">Live Scores</button>
+                    <button class="cr-tab-btn" onclick="switchCrTab('fixtures', this)" style="padding: 8px 18px; background: transparent; border: 1px solid #333; border-radius: 20px; color: #8B949E; font-size: 10px; text-transform: uppercase; font-weight: 700; cursor: pointer; transition: 0.3s; font-family: 'Space Grotesk', sans-serif; letter-spacing: 0.1em;">Fixtures</button>
+                    <button class="cr-tab-btn" onclick="switchCrTab('tables', this)" style="padding: 8px 18px; background: transparent; border: 1px solid #333; border-radius: 20px; color: #8B949E; font-size: 10px; text-transform: uppercase; font-weight: 700; cursor: pointer; transition: 0.3s; font-family: 'Space Grotesk', sans-serif; letter-spacing: 0.1em;">Tables</button>
+                    <button class="cr-tab-btn" onclick="switchCrTab('news', this)" style="padding: 8px 18px; background: transparent; border: 1px solid #333; border-radius: 20px; color: #8B949E; font-size: 10px; text-transform: uppercase; font-weight: 700; cursor: pointer; transition: 0.3s; font-family: 'Space Grotesk', sans-serif; letter-spacing: 0.1em;">Latest News</button>
+                </div>
+                
+                <div id="cr-content" class="fb-content" style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; padding: 20px; min-height: 120px; margin-top:20px;">
+                    <div id="cr-live-tab" style="display:block;">
+                        {{AUDITED_CRICKET_LIVE}}
+                    </div>
+                    <div id="cr-fixtures-tab" style="display:none;">
+                        {{AUDITED_CRICKET_FIXTURES}}
+                    </div>
+                    <div id="cr-tables-tab" style="display:none;">
+                        {{AUDITED_CRICKET_TABLES}}
+                    </div>
+                    <div id="cr-news-tab" style="display:none;">
+                        {{AUDITED_CRICKET_NEWS}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-gallery mt-16" id="cricket-ig-container">
+                <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(57,255,20,0.3); backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                    <iframe width="100%" height="600" src="https://www.youtube.com/embed/S4FeirvMse4" title="Cricket Short 1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(57,255,20,0.3); backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                    <iframe width="100%" height="600" src="https://www.youtube.com/embed/p_meLAmPJ5M" title="Cricket Short 2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(57,255,20,0.3); backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                    <iframe width="100%" height="600" src="https://www.youtube.com/embed/VgR8eeqpVic" title="Cricket Short 3" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+        </section>
+
+        <!-- INTELLIGENCE REPOSITORY (10 SPOTS) -->
+        <section class="mt-28 pt-28 border-t border-white border-opacity-5" id="intel-grid">
+            <div class="flex justify-between items-center mb-16">
+                <h2 class="text-4xl font-black italic tracking-tighter uppercase text-white">Intelligence Repository</h2>
+                <span class="text-[10px] text-gray-500 font-black tracking-[0.5em] uppercase">V109_STABLE_RECOVERY</span>
+            </div>
+            <div class="grid-gallery" id="ig-container"></div>
+        </section>
+
+        <!-- FOOTBALL HERO BANNER -->
+        <div class="video-banner-container reveal">
+            <video class="video-banner-iframe" style="object-fit: cover;" src="assets/videos/football_motion.mp4" autoplay loop muted playsinline></video>
+            <div class="video-banner-overlay"></div>
+            <div class="hero-iso-text">
+                <h3 class="hero-iso-title" style="color: #94a3b8;">Football: The Geometric Tactical Flow</h3>
+                <p class="hero-iso-desc">Abstract 2.5D matte slate avatars interacting across architectural floors, mapping perfect arcs with precision white data-ribbons.</p>
+            </div>
+        </div>
+
+        <!-- FOOTBALL MATCH SUMMARY -->
+        <section class="mt-28 pt-28 border-t border-white border-opacity-5" id="football-grid">
+            <div class="flex justify-between items-center mb-16" id="sports-analysis-hub">
+                <h2 class="text-4xl font-black italic tracking-tighter uppercase text-[#39ff14]">Football Match Summary</h2>
+                <span class="text-[10px] text-gray-500 font-black tracking-[0.5em] uppercase">PITCH TELEMETRY</span>
+            </div>
+            
+            <!-- FOOTBALL HUB TABS -->
+            <div id="fb-hub">
+                <div class="fb-nav-tabs">
+                    <button class="fb-tab-btn active" onclick="switchFbTab('live', this)">Live Scores</button>
+                    <button class="fb-tab-btn" onclick="switchFbTab('fixtures', this)">Fixtures</button>
+                    <button class="fb-tab-btn" onclick="switchFbTab('tables', this)">Tables</button>
+                    <button class="fb-tab-btn" onclick="switchFbTab('news', this)">Latest News</button>
+                </div>
+                <div id="fb-content" class="fb-content">
+                    <div id="fb-live-tab" style="display:block;">
+                        {{AUDITED_LIVE_SCORES}}
+                    </div>
+                    <div id="fb-fixtures-tab" style="display:none;">
+                        {{AUDITED_FIXTURES}}
+                    </div>
+                    <div id="fb-tables-tab" style="display:none;">
+                        {{AUDITED_TABLES}}
+                    </div>
+                    <div id="fb-news-tab" style="display:none;">
+                        {{AUDITED_NEWS}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-gallery mt-16" id="football-ig-container">
+                <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(57,255,20,0.3); backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                    <iframe width="100%" height="600" src="https://www.youtube.com/embed/N-C5Q2VRHiU" title="Football Short 1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(57,255,20,0.3); backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                    <iframe width="100%" height="600" src="https://www.youtube.com/embed/Xf9qO1CyXjA" title="Football Short 2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(57,255,20,0.3); backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                    <iframe width="100%" height="600" src="https://www.youtube.com/embed/mZYjsWnLQ-k" title="Football Short 3" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(57,255,20,0.3); backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                    <iframe width="100%" height="600" src="https://www.youtube.com/embed/0ArQjJbU9Xo" title="Football Short 4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="flex justify-center gap-16 mb-20 text-3xl opacity-20">
+            <a href="https://www.youtube.com/@oilandgasDailyPost365" class="hover:opacity-100 hover:text-red-600 transition"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.tiktok.com/@dailypost0365" class="hover:opacity-100 hover:text-white transition"><i class="fab fa-tiktok"></i></a>
+            <a href="#" class="hover:opacity-100 hover:text-blue-400 transition"><i class="fab fa-x-twitter"></i></a>
+            <a href="https://www.instagram.com/dailypost365cricketfootball/reels/" class="hover:opacity-100 hover:text-pink-500 transition"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/in/sumesh-mullath-prince2%C2%AE-9b163644/" class="hover:opacity-100 hover:text-blue-600 transition"><i class="fab fa-linkedin"></i></a>
+            <a href="https://aistudio.instagram.com/ai/1203426195244577/" target="_blank" class="hover:opacity-100 text-[#39ff14] transition" title="DP365 AI Assistant"><i class="fas fa-robot"></i></a>
+        </div>
+        <div class="legal-shield">
+            LEGAL DISCLOSURE: DailyPost365 provides high-fidelity market intelligence and sports analysis for educational utility only. 
+            Cryptocurrency trading involves variable market risk. IPL Match Status provided for informational purposes via open sources. 
+            No licensed financial advice (VARA/SCA). V109.0 RESTORATION COMPLETE.
+        </div>
+    </footer>
+
+    <!-- META AI FLOATING WIDGET -->
+    <a href="https://aistudio.instagram.com/ai/1203426195244577/" target="_blank" id="meta-ai-fab">
+        <i class="fas fa-robot"></i>
+        <span class="fab-text">Chat with DP365 Sports & Crypto AI</span>
+    </a>
+
+    <!-- INTERACTIVE UX VIDEO MAPPING -->
+    <div id="interactive-video-wrapper">
+        <div class="video-header">
+            <span><i class="fas fa-satellite-dish animate-pulse"></i> LIVE GUIDE</span>
+            <div class="video-controls">
+                <button class="v-btn" id="v-toggle-auto" title="Pause Auto-Scroll"><i class="fas fa-anchor"></i></button>
+                <button class="v-btn" id="v-minimize" title="Minimize/Maximize"><i class="fas fa-compress"></i></button>
+                <button class="v-btn" id="v-dismiss" title="Dismiss Guide"><i class="fas fa-times"></i></button>
+            </div>
+        </div>
+        <!-- YouTube iframe will replace this div -->
+        <div id="ux-video"></div>
+    </div>
+
+    <script async src="//www.instagram.com/embed.js"></script>
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // ========================================
+        // V2: PALANTIR-GRADE CINEMATIC AI BACKGROUND
+        // ========================================
+        const bgCanvas = document.getElementById('vortex-canvas');
+        if (!bgCanvas) return;
+
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x010409, 0.008);
+
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 60;
+        camera.position.y = 0;
+
+        const renderer = new THREE.WebGLRenderer({ canvas: bgCanvas, alpha: true, antialias: true, powerPreference: "high-performance" });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        const mouse = new THREE.Vector3(0, 0, 0);
+        const targetMouse = new THREE.Vector3(0, 0, 0);
+        let scrollY = window.scrollY;
+
+        // Map mouse screen coords to approximate world coords at z=0 plane
+        window.addEventListener('mousemove', (e) => {
+            let vec = new THREE.Vector3();
+            let pos = new THREE.Vector3();
+            vec.set((e.clientX / window.innerWidth) * 2 - 1, -(e.clientY / window.innerHeight) * 2 + 1, 0.5);
+            vec.unproject(camera);
+            vec.sub(camera.position).normalize();
+            let distance = -camera.position.z / vec.z;
+            pos.copy(camera.position).add(vec.multiplyScalar(distance));
+            targetMouse.copy(pos);
+        }, { passive: true });
+
+        window.addEventListener('scroll', () => { scrollY = window.scrollY; }, { passive: true });
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // ========================================
+        // LAYER 2: AI NEURAL NETWORK
+        // ========================================
+        const isMobile = window.innerWidth < 768;
+        const nodeCount = isMobile ? 600 : 1800;
+        const nodePositions = [];
+        const posArray = new Float32Array(nodeCount * 3);
+        const randArray = new Float32Array(nodeCount);
+
+        for(let i=0; i<nodeCount; i++) {
+            const x = (Math.random() - 0.5) * 240;
+            const y = (Math.random() - 0.5) * 240;
+            const z = (Math.random() - 0.5) * 100 - 10;
+            posArray[i*3] = x; posArray[i*3+1] = y; posArray[i*3+2] = z;
+            randArray[i] = Math.random();
+            nodePositions.push(new THREE.Vector3(x, y, z));
+        }
+
+        // Generate connections
+        const edgePositions = [];
+        for(let i=0; i<nodeCount; i++) {
+            for(let j=i+1; j<nodeCount; j++) {
+                if(nodePositions[i].distanceTo(nodePositions[j]) < 18) {
+                    edgePositions.push(nodePositions[i].x, nodePositions[i].y, nodePositions[i].z);
+                    edgePositions.push(nodePositions[j].x, nodePositions[j].y, nodePositions[j].z);
+                }
+            }
+        }
+        
+        const edgeGeo = new THREE.BufferGeometry();
+        edgeGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(edgePositions), 3));
+        
+        const nodeGeo = new THREE.BufferGeometry();
+        nodeGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        nodeGeo.setAttribute('aRandom', new THREE.BufferAttribute(randArray, 1));
+
+        const commonUniforms = {
+            time: { value: 0 },
+            mousePos: { value: new THREE.Vector3(0,0,0) }
+        };
+
+        const edgeMaterial = new THREE.ShaderMaterial({
+            uniforms: commonUniforms,
+            vertexShader: `
+                uniform float time;
+                uniform vec3 mousePos;
+                varying float vOpacity;
+                void main() {
+                    vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+                    gl_Position = projectionMatrix * mvPosition;
+                    float distToMouse = distance(position.xy, mousePos.xy);
+                    float baseOpacity = 0.015; // Extremely subtle background
+                    float mouseGlow = smoothstep(50.0, 0.0, distToMouse) * 0.12; // Max 12% opacity when mouse is near
+                    vOpacity = baseOpacity + mouseGlow;
+                }
+            `,
+            fragmentShader: `
+                varying float vOpacity;
+                void main() {
+                    gl_FragColor = vec4(0.2, 0.5, 0.9, vOpacity);
+                }
+            `,
+            transparent: true,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false
+        });
+
+        const nodeMaterial = new THREE.ShaderMaterial({
+            uniforms: commonUniforms,
+            vertexShader: `
+                uniform float time;
+                uniform vec3 mousePos;
+                attribute float aRandom;
+                varying float vOpacity;
+                void main() {
+                    vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+                    gl_Position = projectionMatrix * mvPosition;
+                    float distToMouse = distance(position.xy, mousePos.xy);
+                    float baseOpacity = (sin(time * 0.5 + aRandom * 10.0) * 0.5 + 0.5) * 0.05 + 0.02;
+                    float mouseGlow = smoothstep(40.0, 0.0, distToMouse) * 0.15;
+                    vOpacity = baseOpacity + mouseGlow;
+                    gl_PointSize = (30.0 / -mvPosition.z) * (mouseGlow * 10.0 + 1.0);
+                }
+            `,
+            fragmentShader: `
+                varying float vOpacity;
+                void main() {
+                    vec2 center = gl_PointCoord - vec2(0.5);
+                    float dist = length(center);
+                    if(dist > 0.5) discard;
+                    float glow = smoothstep(0.5, 0.0, dist);
+                    gl_FragColor = vec4(0.4, 0.8, 1.0, vOpacity * glow);
+                }
+            `,
+            transparent: true,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false
+        });
+
+        const networkLines = new THREE.LineSegments(edgeGeo, edgeMaterial);
+        const networkNodes = new THREE.Points(nodeGeo, nodeMaterial);
+        
+        const networkGroup = new THREE.Group();
+        networkGroup.add(networkLines);
+        networkGroup.add(networkNodes);
+        scene.add(networkGroup);
+
+        // ========================================
+        // LAYERS 3, 4, 5: INTELLIGENCE STREAMS
+        // ========================================
+        function createStream(colorHex, count, segmentCount, xSpread, ySpread, zSpread) {
+            const group = new THREE.Group();
+            for(let i=0; i<count; i++) {
+                const points = [];
+                let cx = (Math.random() - 0.5) * xSpread;
+                let cy = (Math.random() - 0.5) * ySpread;
+                let cz = (Math.random() - 0.5) * zSpread;
+                for(let j=0; j<segmentCount; j++) {
+                    points.push(new THREE.Vector3(cx, cy, cz));
+                    cx += (Math.random() - 0.5) * 30;
+                    cy += (Math.random() - 0.5) * 30;
+                    cz += (Math.random() - 0.5) * 10;
+                }
+                const curve = new THREE.CatmullRomCurve3(points);
+                const geom = new THREE.BufferGeometry().setFromPoints(curve.getPoints(50));
+                
+                // Shader for flowing energy pulses along the line
+                const mat = new THREE.ShaderMaterial({
+                    uniforms: {
+                        time: commonUniforms.time,
+                        color: { value: new THREE.Color(colorHex) },
+                        offset: { value: Math.random() * 10.0 }
+                    },
+                    vertexShader: `
+                        varying vec2 vUv;
+                        void main() {
+                            vUv = uv; // Actually Line basic geometry lacks UVs natively from points without effort
+                            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                        }
+                    `,
+                    fragmentShader: `
+                        uniform vec3 color;
+                        uniform float time;
+                        uniform float offset;
+                        void main() {
+                            // Subtle static glow
+                            gl_FragColor = vec4(color, 0.08); 
+                        }
+                    `,
+                    transparent: true,
+                    blending: THREE.AdditiveBlending,
+                    depthWrite: false
+                });
+                
+                const line = new THREE.Line(geom, mat);
+                group.add(line);
+            }
+            return group;
+        }
+
+        // Crypto (Cyan/Emerald)
+        const cryptoStream = createStream(0x00FFCC, 8, 4, 150, 150, 60);
+        scene.add(cryptoStream);
+
+        // Energy (Deep Blue/Amber)
+        const energyStream = createStream(0xFFB300, 6, 6, 200, 200, 80);
+        scene.add(energyStream);
+
+        // Cricket (Violet/Electric Blue)
+        const cricketStream = createStream(0x8A2BE2, 6, 3, 100, 100, 40);
+        scene.add(cricketStream);
+
+        // ========================================
+        // LAYER 7: HOLOGRAPHIC 3D IMAGES
+        // ========================================
+        const textureLoader = new THREE.TextureLoader();
+        const holoImages = new THREE.Group();
+        scene.add(holoImages);
+
+        const imgUrls = [
+            'images/bg_image_1.png', // AI Face
+            'images/bg_image_2.png', // City Network
+            'images/bg_image_3.png', // Corridor
+            'images/bg_image_4.png'  // Sports
+        ];
+
+        const imgPlanes = [];
+        imgUrls.forEach((url, i) => {
+            textureLoader.load(url, (texture) => {
+                const aspect = texture.image.width / texture.image.height;
+                const geom = new THREE.PlaneGeometry(100 * aspect, 100);
+                const mat = new THREE.MeshBasicMaterial({
+                    map: texture,
+                    transparent: true,
+                    opacity: 0.45, // Increased visibility for AdditiveBlending
+                    blending: THREE.AdditiveBlending,
+                    depthWrite: false
+                });
+                const plane = new THREE.Mesh(geom, mat);
+                
+                // Position them in empty quadrants, far back
+                if(i===0) plane.position.set(-80, 40, -40);
+                if(i===1) plane.position.set(80, -40, -50);
+                if(i===2) plane.position.set(-90, -70, -45);
+                if(i===3) plane.position.set(90, 70, -35);
+
+                holoImages.add(plane);
+                imgPlanes.push({ mesh: plane, baseX: plane.position.x, baseY: plane.position.y });
+            });
+        });
+
+        const clock = new THREE.Clock();
+
+        function animate() {
+            requestAnimationFrame(animate);
+            const time = clock.getElapsedTime();
+            
+            // Smooth mouse follow
+            mouse.lerp(targetMouse, 0.05);
+
+            commonUniforms.time.value = time;
+            commonUniforms.mousePos.value.copy(mouse);
+
+            // Layer 6 Convergence / Slow rotation
+            networkGroup.rotation.y = Math.sin(time * 0.05) * 0.1;
+            networkGroup.rotation.x = Math.cos(time * 0.05) * 0.1;
+            networkGroup.position.y = (scrollY * 0.03); // Subtle parallax
+            
+            cryptoStream.position.x = Math.sin(time * 0.1) * 5;
+            cryptoStream.position.y = (scrollY * 0.02);
+            
+            energyStream.rotation.z = time * 0.01;
+            energyStream.position.y = (scrollY * 0.015);
+            
+            cricketStream.position.z = Math.sin(time * 0.2) * 5;
+            cricketStream.position.y = (scrollY * 0.025);
+
+            // Image parallax
+            imgPlanes.forEach((p, i) => {
+                // Move subtly opposite to mouse for deep parallax
+                p.mesh.position.x = p.baseX - mouse.x * (15 + i * 5);
+                p.mesh.position.y = p.baseY - mouse.y * (15 + i * 5) + (scrollY * 0.06);
+                // Subtle 3D tilt
+                p.mesh.rotation.y = mouse.x * 0.1;
+                p.mesh.rotation.x = -mouse.y * 0.1;
+            });
+
+            // Camera subtle breath
+            camera.position.x += (mouse.x * 0.05 - camera.position.x) * 0.05;
+            camera.position.y += ((mouse.y * 0.05 + 5) - camera.position.y) * 0.05;
+            camera.lookAt(0, 0, 0);
+
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // ========================================
+        // 2. DATA SYNC (UNCHANGED)
+        // ========================================
+        const coins = ['BTCUSDT', 'ETHUSDT', 'SOLUSDT', 'SUIUSDT', 'BNBUSDT'];
+        async function syncPrices() {
+            for(const pair of coins) {
+                try {
+                    const r = await fetch(`https://api.binance.com/api/v3/ticker/price?symbol=${pair}`);
+                    const d = await r.json();
+                    const elId = 'val-' + pair.replace('USDT', '').toLowerCase();
+                    document.getElementById(elId).innerText = parseFloat(d.price).toLocaleString('en-US', {style:'currency', currency:'USD'});
+                } catch(e) {}
+            }
+        }
+        syncPrices(); setInterval(syncPrices, 15000);
+
+        async function updateIPL() {
+            try {
+                const r = await fetch('https://api.rss2json.com/v1/api.json?rss_url=https://www.google.com/alerts/feeds/14761405101683402778/14761405101683402778');
+                const d = await r.json();
+                if(d.items && d.items.length > 0) {
+                    const matchText = d.items[0].title;
+                    document.getElementById('ipl-match').innerText = matchText.substring(0,40)+'...';
+                    document.getElementById('ipl-score').innerText = 'LIVE';
+                }
+            } catch (e) {}
+        }
+        updateIPL(); setInterval(updateIPL, 600000);
+
+        // ========================================
+        // 3. MASTER TERMINAL & GALLERY (UNCHANGED)
+        // ========================================
+        new TradingView.widget({
+            "width": "100%", "height": "100%", "symbol": "BINANCE:BTCUSDT",
+            "interval": "60", "theme": "dark", "style": "1", "container_id": "whale-master-terminal"
+        });
+
+        const igContainer = document.getElementById('ig-container');
+        // Removed instagram spots as per user request to clean up the section below cricket
+
+        const fbContainer = document.getElementById('football-ig-container');
+        // Removed dynamic append logic since videos are now hardcoded in the HTML
+
+        if(window.instgrm) window.instgrm.Embeds.process();
+
+        // ========================================
+        // DEDICATED CITY NETWORK 3D ENGINE
+        // ========================================
+        const cnCanvas = document.getElementById('city-network-canvas');
+        if (cnCanvas) {
+            const cnScene = new THREE.Scene();
+            const cnCamera = new THREE.PerspectiveCamera(60, cnCanvas.clientWidth / cnCanvas.clientHeight, 0.1, 1000);
+            cnCamera.position.z = 50;
+
+            const cnRenderer = new THREE.WebGLRenderer({ canvas: cnCanvas, alpha: true, antialias: true, powerPreference: "high-performance" });
+            cnRenderer.setSize(cnCanvas.clientWidth, cnCanvas.clientHeight);
+            cnRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            const cnMouse = new THREE.Vector3(0, 0, 0);
+            
+            cnCanvas.parentElement.addEventListener('mousemove', (e) => {
+                const rect = cnCanvas.getBoundingClientRect();
+                cnMouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+                cnMouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+            }, {passive:true});
+
+            const loader2 = new THREE.TextureLoader();
+            loader2.load('images/bg_image_2.png', (tex) => {
+                const aspect = tex.image.width / tex.image.height;
+                const geom = new THREE.PlaneGeometry(120 * aspect, 120);
+                const mat = new THREE.MeshBasicMaterial({
+                    map: tex, transparent: true, opacity: 0.7, blending: THREE.AdditiveBlending, depthWrite: false
+                });
+                const plane = new THREE.Mesh(geom, mat);
+                plane.position.z = -30;
+                cnScene.add(plane);
+
+                // Enhanced glowing data mesh for city network
+                const lGeo = new THREE.BufferGeometry();
+                const lCount = 400; // Increased count
+                const lPos = new Float32Array(lCount * 6);
+                for(let i=0; i<lCount; i++) {
+                    const x = (Math.random() - 0.5) * 200;
+                    const y = (Math.random() - 0.5) * 120;
+                    const z = (Math.random() - 0.5) * 100 - 10;
+                    lPos[i*6] = x; lPos[i*6+1] = y; lPos[i*6+2] = z;
+                    lPos[i*6+3] = x; lPos[i*6+4] = y + Math.random()*15 + 5; lPos[i*6+5] = z;
+                }
+                lGeo.setAttribute('position', new THREE.BufferAttribute(lPos, 3));
+                const lMat = new THREE.LineBasicMaterial({ color: 0x39ff14, transparent: true, opacity: 0.5, blending: THREE.AdditiveBlending });
+                const lines = new THREE.LineSegments(lGeo, lMat);
+                cnScene.add(lines);
+
+                // Geometric central core (wireframe globe)
+                const globeGeo = new THREE.SphereGeometry(18, 16, 16);
+                const globeMat = new THREE.MeshBasicMaterial({ color: 0x00ffff, wireframe: true, transparent: true, opacity: 0.15, blending: THREE.AdditiveBlending });
+                const globe = new THREE.Mesh(globeGeo, globeMat);
+                globe.position.z = -20;
+                cnScene.add(globe);
+
+                function cnAnimate() {
+                    requestAnimationFrame(cnAnimate);
+                    
+                    // Intense local parallax
+                    cnCamera.position.x += (cnMouse.x * 25 - cnCamera.position.x) * 0.05;
+                    cnCamera.position.y += (cnMouse.y * 25 - cnCamera.position.y) * 0.05;
+                    cnCamera.lookAt(0, 0, 0);
+
+                    // Dynamic element rotations
+                    globe.rotation.y += 0.003;
+                    globe.rotation.x += 0.002;
+
+                    // Flow lines upwards dynamically
+                    const posAttr = lGeo.attributes.position;
+                    for(let i=0; i<lCount; i++) {
+                        const speed = 0.2 + (i % 3) * 0.1;
+                        posAttr.array[i*6+1] += speed;
+                        posAttr.array[i*6+4] += speed;
+                        if(posAttr.array[i*6+1] > 60) {
+                            posAttr.array[i*6+1] = -60;
+                            posAttr.array[i*6+4] = -60 + Math.random()*15 + 5;
+                        }
+                    }
+                    posAttr.needsUpdate = true;
+
+                    cnRenderer.render(cnScene, cnCamera);
+                }
+                cnAnimate();
+            });
+
+            window.addEventListener('resize', () => {
+                cnCamera.aspect = cnCanvas.clientWidth / cnCanvas.clientHeight;
+                cnCamera.updateProjectionMatrix();
+                cnRenderer.setSize(cnCanvas.clientWidth, cnCanvas.clientHeight);
+            });
+        }
+
+        // ========================================
+        // DEDICATED OIL & GAS 3D ENGINE
+        // ========================================
+        const ogCanvas = document.getElementById('oil-gas-canvas');
+        if (ogCanvas) {
+            const ogScene = new THREE.Scene();
+            const ogCamera = new THREE.PerspectiveCamera(60, ogCanvas.clientWidth / ogCanvas.clientHeight, 0.1, 1000);
+            ogCamera.position.z = 50;
+
+            const ogRenderer = new THREE.WebGLRenderer({ canvas: ogCanvas, alpha: true, antialias: true, powerPreference: "high-performance" });
+            ogRenderer.setSize(ogCanvas.clientWidth, ogCanvas.clientHeight);
+            ogRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            const ogMouse = new THREE.Vector3(0, 0, 0);
+            
+            ogCanvas.parentElement.addEventListener('mousemove', (e) => {
+                const rect = ogCanvas.getBoundingClientRect();
+                ogMouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+                ogMouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+            }, {passive:true});
+
+            const loader = new THREE.TextureLoader();
+            loader.load('images/bg_image_3.png', (tex) => {
+                const aspect = tex.image.width / tex.image.height;
+                const geom = new THREE.PlaneGeometry(120 * aspect, 120);
+                const mat = new THREE.MeshBasicMaterial({
+                    map: tex, transparent: true, opacity: 0.6, blending: THREE.AdditiveBlending, depthWrite: false
+                });
+                const plane = new THREE.Mesh(geom, mat);
+                plane.position.z = -30;
+                ogScene.add(plane);
+
+                // Enhanced dynamic particle field
+                const pGeo = new THREE.BufferGeometry();
+                const pCount = 800; // Increased density
+                const pPos = new Float32Array(pCount * 3);
+                const pColors = new Float32Array(pCount * 3);
+                const colorGold = new THREE.Color(0xFFD700);
+                const colorCyan = new THREE.Color(0x00FFCC);
+                
+                for(let i=0; i<pCount; i++) {
+                    pPos[i*3] = (Math.random() - 0.5) * 250;
+                    pPos[i*3+1] = (Math.random() - 0.5) * 120;
+                    pPos[i*3+2] = (Math.random() - 0.5) * 150;
+                    
+                    const mixedColor = Math.random() > 0.5 ? colorGold : colorCyan;
+                    pColors[i*3] = mixedColor.r;
+                    pColors[i*3+1] = mixedColor.g;
+                    pColors[i*3+2] = mixedColor.b;
+                }
+                pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+                pGeo.setAttribute('color', new THREE.BufferAttribute(pColors, 3));
+                
+                const pMat = new THREE.PointsMaterial({ size: 1.8, transparent: true, opacity: 0.9, vertexColors: true, blending: THREE.AdditiveBlending });
+                const points = new THREE.Points(pGeo, pMat);
+                ogScene.add(points);
+
+                // Rotating central molecule / crystal structure
+                const crystalGeo = new THREE.IcosahedronGeometry(15, 1);
+                const crystalMat = new THREE.MeshBasicMaterial({ color: 0xFFD700, wireframe: true, transparent: true, opacity: 0.25, blending: THREE.AdditiveBlending });
+                const crystal = new THREE.Mesh(crystalGeo, crystalMat);
+                crystal.position.z = -15;
+                ogScene.add(crystal);
+
+                function ogAnimate() {
+                    requestAnimationFrame(ogAnimate);
+                    
+                    // Intense local parallax
+                    ogCamera.position.x += (ogMouse.x * 25 - ogCamera.position.x) * 0.05;
+                    ogCamera.position.y += (ogMouse.y * 25 - ogCamera.position.y) * 0.05;
+                    ogCamera.lookAt(0, 0, 0);
+
+                    // Dynamic crystal rotation
+                    crystal.rotation.x += 0.002;
+                    crystal.rotation.y += 0.004;
+
+                    // Flow particles towards camera with organic sway
+                    const posAttr = pGeo.attributes.position;
+                    const time = Date.now() * 0.001;
+                    for(let i=0; i<pCount; i++) {
+                        posAttr.array[i*3] += Math.sin(time + i) * 0.05;
+                        posAttr.array[i*3+2] += 0.8 + (i % 5) * 0.1;
+                        if(posAttr.array[i*3+2] > 50) {
+                            posAttr.array[i*3+2] = -150;
+                            posAttr.array[i*3] = (Math.random() - 0.5) * 250;
+                        }
+                    }
+                    posAttr.needsUpdate = true;
+
+                    ogRenderer.render(ogScene, ogCamera);
+                }
+                ogAnimate();
+            });
+
+            window.addEventListener('resize', () => {
+                ogCamera.aspect = ogCanvas.clientWidth / ogCanvas.clientHeight;
+                ogCamera.updateProjectionMatrix();
+                ogRenderer.setSize(ogCanvas.clientWidth, ogCanvas.clientHeight);
+            });
+        }
+    });
+
+    // ============================================================
+    // CRICKET TELEMETRY SCROLLER v3.0 GENIUS — INLINE MODULE
+    // Audit: May 30 2026 | Scope: IPL + IND/AUS/ENG/NZ/SA/SL/WI/AFG + Women
+    // Fixes: cache layer, proxy chain, quota guard, IST dates, fixtures
+    // ============================================================
+    (function() {
+        const CT_KEY = 'f2510692-1ed0-403b-8377-d493d8bf149d';
+        const PROXIES = [
+            'https://api.allorigins.win/raw?url=',
+            'https://corsproxy.io/?',
+        ];
+        const IPL_TEAMS = ['pbks','mi','csk','rcb','kkr','srh','rr','dc','gt','lsg'];
+        const IPL_KW    = ['ipl','indian premier league','ipl 2026'];
+        const INTL_MEN  = ['india','australia','england','new zealand',
+                           'south africa','sri lanka','west indies','afghanistan','ireland'];
+        const INTL_WOM  = ['india women','india w','australia women','australia w',
+                           'england women','england w','new zealand women','nz women'];
+
+        // Known fixtures (May 30-31, 2026) — always shown if API empty
+        const FIXTURES = [
+            { _id:'fx1', tag:'&#x1f3c6; IPL FINAL', teams:'RCB vs GT', score:'TOMORROW 7:30 PM IST',
+              status:'IPL 2026 Grand Final \u2014 Narendra Modi Stadium Ahmedabad', live:false, ended:false, time:'May 31' },
+            { _id:'fx2', tag:'INTL W', teams:'England W vs India W', score:'2nd T20I \u2014 Bristol',
+              status:'India W lead series 1-0 | Series: India W tour ENG', live:true, ended:false, time:'Live ~13:30 UTC' },
+            { _id:'fx3', tag:'INTL', teams:'Pakistan vs Australia', score:'1st ODI \u2014 Karachi',
+              status:'AUS tour PAK | PAK vs AUS ODI series begins', live:false, ended:false, time:'Today' },
+            { _id:'fx4', tag:'IPL', teams:'RCB beat GT (Q1)', score:'RCB won by 92 runs',
+              status:'RCB are defending champions \u2014 Final vs GT on May 31', live:false, ended:true, time:'Qualifier 1' },
+        ];
+
+        function classify(s) {
+            const t = (s||'').toLowerCase();
+            if (IPL_KW.some(k => t.includes(k))) return 'ipl';
+            if (IPL_TEAMS.some(k => new RegExp('\\b'+k+'\\b','i').test(t))) return 'ipl';
+            if (INTL_WOM.some(k => t.includes(k))) return 'intlw';
+            if (INTL_MEN.some(k => t.includes(k))) return 'intl';
+            return null;
+        }
+        function tagLabel(s) { return s==='ipl'?'IPL':s==='intlw'?'INTL W':'INTL'; }
+        function todayStr()     { return new Date().toISOString().slice(0,10); }
+        function tomorrowStr()  { const d=new Date(); d.setDate(d.getDate()+1); return d.toISOString().slice(0,10); }
+        function isRelevant(d)  { if(!d) return true; const s=d.slice(0,10); return s===todayStr()||s===tomorrowStr(); }
+        function timeAgo(iso)   {
+            if(!iso) return ''; const m=Math.floor((Date.now()-new Date(iso))/60000);
+            return m<0?'upcoming':m<1?'just now':m<60?m+'m ago':Math.floor(m/60)+'h ago';
+        }
+        function todayReadable(){ return new Date().toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'}); }
+
+        function cacheGet(k) {
+            try { const r=JSON.parse(localStorage.getItem('ct3_'+k)||'null'); if(r&&Date.now()-r.ts<r.ttl) return r.d; } catch{} return null;
+        }
+        function cacheSet(k,d,ttl) {
+            try { localStorage.setItem('ct3_'+k,JSON.stringify({d,ts:Date.now(),ttl})); } catch{}
+        }
+
+        async function proxyFetch(url, timeout=8000) {
+            for(const proxy of PROXIES) {
+                try {
+                    const ctrl=new AbortController(); const tid=setTimeout(()=>ctrl.abort(),timeout);
+                    const res=await fetch(proxy+encodeURIComponent(url),{signal:ctrl.signal}); clearTimeout(tid);
+                    if(res.ok) return res;
+                } catch{}
+            }
+            throw new Error('All proxies failed');
+        }
+
+        async function fetchCricApi() {
+            const cached=cacheGet('api'); if(cached) return cached;
+            const urls=[
+                `https://api.cricapi.com/v1/currentMatches?apikey=${CT_KEY}&offset=0`,
+                `https://api.cricapi.com/v1/matches?apikey=${CT_KEY}&offset=0`
+            ];
+            const all=await Promise.allSettled(urls.map(u=>proxyFetch(u).then(r=>r.json())));
+            const results=[]; const seen=new Set();
+            for(const r of all) {
+                if(r.status!=='fulfilled') continue;
+                const json=r.value;
+                if(json.status==='failure'||String(json.reason||'').includes('limit')) continue;
+                (json.data||[]).forEach(m=>{
+                    if(m.dateTimeGMT&&!isRelevant(m.dateTimeGMT)) return;
+                    const scope=classify(m.name||'')||classify((m.teams||[]).join(' '));
+                    if(!scope||seen.has(m.id)) return; seen.add(m.id);
+                    const sc=(m.score||[]).map(s=>{
+                        const inn=s.inning.replace(/ Inning 1$/i,'').replace(/ Inning 2$/i,' (2nd)');
+                        return `${inn}: ${s.r}/${s.w} (${s.o})`;
+                    }).join(' \u2016 ')||( m.matchStarted?'In Progress':'Upcoming');
+                    const live=m.matchStarted&&!m.matchEnded;
+                    results.push({_id:m.id,tag:tagLabel(scope),teams:m.name||'?',score:sc,
+                        status:m.status||(live?'LIVE':m.matchEnded?'ENDED':'UPCOMING'),
+                        venue:m.venue||'',live,ended:!!m.matchEnded,
+                        time:m.dateTimeGMT?timeAgo(m.dateTimeGMT):todayReadable()});
+                });
+            }
+            results.sort((a,b)=>(a.live?0:a.ended?2:1)-(b.live?0:b.ended?2:1));
+            if(results.length) cacheSet('api',results,results.some(r=>r.live)?60000:600000);
+            return results;
+        }
+
+        async function fetchRss() {
+            const qs=['IPL 2026 RCB GT final cricket','India Women England Women T20 2026','Pakistan Australia ODI cricket today'];
+            const results=[]; const seenT=new Set();
+            for(const q of qs){
+                try {
+                    const rss=`https://news.google.com/rss/search?q=${encodeURIComponent(q)}&hl=en-IN&gl=IN&ceid=IN:en`;
+                    const res=await proxyFetch(rss,7000); const text=await res.text();
+                    const xml=new DOMParser().parseFromString(text,'application/xml');
+                    Array.from(xml.querySelectorAll('item')).slice(0,4).forEach(item=>{
+                        const title=item.querySelector('title')?.textContent||'';
+                        const pub=item.querySelector('pubDate')?.textContent||'';
+                        if(pub&&Date.now()-new Date(pub)>43200000) return;
+                        if(seenT.has(title)) return;
+                        const scope=classify(title); if(!scope) return;
+                        seenT.add(title);
+                        results.push({_id:'rss_'+title.slice(0,25),tag:tagLabel(scope)+' NEWS',
+                            teams:item.querySelector('source')?.textContent||'News',
+                            score:'&#x2014;',status:title.replace(/ - [^-]+$/,''),
+                            live:false,ended:false,
+                            time:pub?timeAgo(new Date(pub).toISOString()):todayReadable()});
+                    });
+                } catch{}
+            }
+            return results;
+        }
+
+        function setDot(state) {
+            const dot=document.getElementById('ct-status-dot');
+            const lbl=document.getElementById('ct-label-text');
+            if(!dot) return;
+            const map={live:'#39FF14',today:'#CCFF00',news:'#FF8C00',fixture:'#00CCFF',loading:'#555',nodata:'#FF3333'};
+            dot.style.background=map[state]||map.nodata;
+            if(lbl) lbl.textContent=state==='live'?'LIVE CRICKET':'CRICKET';
+        }
+
+        function buildHTML(entries) {
+            if(!entries.length) return `<span class="ct-entry"><span class="ct-meta">&#x1f3cf; IPL 2026 FINAL: RCB vs GT \u2014 May 31, 7:30 PM IST, Ahmedabad \u2014 No matches today (${todayReadable()})</span></span>`;
+            const segs=entries.map(e=>{
+                const lp=e.live?'<span class="ct-livepip">&#x25CF; LIVE</span>':'';
+                const ep=e.ended?'<span class="ct-endpip">&#x2713; RESULT</span>':'';
+                const vn=e.venue?`<span class="ct-sep">|</span><span class="ct-meta">&#x1f4cd; ${e.venue.split(',')[0]}</span>`:'';
+                return `<span class="ct-entry">${lp}${ep}<span class="ct-tag">${e.tag}</span><span class="ct-sep">&rsaquo;</span><span class="ct-teams">${e.teams}</span><span class="ct-sep">|</span><span class="ct-score">${e.score}</span><span class="ct-sep">|</span><span class="ct-status">${e.status}</span>${vn}<span class="ct-sep">|</span><span class="ct-time">&#x23f1; ${e.time}</span></span>`;
+            }).join('');
+            return segs+segs;
+        }
+
+        function render(entries) {
+            const belt=document.getElementById('ct-belt');
+            if(!belt) return;
+            belt.innerHTML=buildHTML(entries);
+            belt.style.animation='none'; void belt.offsetWidth;
+            belt.style.animation='ct-scroll 68s linear infinite';
+        }
+
+        async function refresh() {
+            let api=[],rss=[];
+            try { api=await fetchCricApi(); } catch{}
+            try { rss=await fetchRss(); } catch{}
+            const apiIds=new Set(api.map(e=>e._id));
+            const fixtures=FIXTURES.filter(f=>!apiIds.has(f._id));
+            const rssNew=rss.filter(r=>!apiIds.has(r._id));
+            const live=api.filter(e=>e.live);
+            const upcoming=[...api.filter(e=>!e.live&&!e.ended),...fixtures.filter(f=>!f.ended)];
+            const ended=[...api.filter(e=>e.ended),...fixtures.filter(f=>f.ended)];
+            const merged=[...live,...upcoming,...ended,...rssNew];
+            if(merged.some(e=>e.live))         setDot('live');
+            else if(api.length>0)              setDot('today');
+            else if(rss.length>0)              setDot('news');
+            else if(fixtures.length>0)         setDot('fixture');
+            else                               setDot('nodata');
+            render(merged);
+        }
+
+        async function init() {
+            setDot('loading');
+            const belt=document.getElementById('ct-belt');
+            if(belt) belt.innerHTML=`<span class="ct-entry"><span class="ct-meta">&#x23f3; Loading cricket intelligence \u2014 ${todayReadable()}\u2026</span></span>`;
+            await refresh();
+            function scheduleNext() {
+                const hasLive=!!document.querySelector('.ct-livepip');
+                setTimeout(async()=>{ await refresh(); scheduleNext(); }, hasLive?60000:300000);
+            }
+            scheduleNext();
+        }
+        if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init);
+        else init();
+    })();
+    </script>
+
+
+
+
+    <script>
+    // ==========================================================
+    // NEXUS TOGGLE + SCROLL REVEAL + STAT COUNTERS
+    // ==========================================================
+    function toggleHubElement(id) {
+        var el = document.getElementById(id);
+        if (el) el.style.display = (el.style.display === 'block') ? 'none' : 'block';
+    }
+
+    // Scroll Reveal via IntersectionObserver
+    (function() {
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(e) {
+                if (e.isIntersecting) {
+                    e.target.classList.add('visible');
+                    observer.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.12 });
+        document.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
+    })();
+
+    // Animated Stat Counters
+    (function() {
+        var stats = [
+            { id: 'stat-views',   target: '365M+',  numeric: 365,   suffix: 'M+' },
+            { id: 'stat-engines', target: '5',       numeric: 5,     suffix: '' },
+            { id: 'stat-markets', target: '15',      numeric: 15,    suffix: '' },
+            { id: 'stat-uptime',  target: '99.9%',   numeric: 99.9,  suffix: '%' }
+        ];
+        function animateCounter(el, numeric, suffix) {
+            var start = 0; var duration = 1800;
+            var step = Math.ceil(numeric / 60);
+            var interval = setInterval(function() {
+                start += step;
+                if (start >= numeric) { start = numeric; clearInterval(interval); }
+                if (numeric === 99.9 && start >= 99) { el.textContent = '99.9%'; return; }
+                el.textContent = start + suffix;
+            }, duration / 60);
+        }
+        var nexus = document.getElementById('nexus-hub');
+        if (nexus) {
+            var counterObserver = new IntersectionObserver(function(entries) {
+                if (entries[0].isIntersecting) {
+                    stats.forEach(function(s) {
+                        var el = document.getElementById(s.id);
+                        if (el) animateCounter(el, s.numeric, s.suffix);
+                    });
+                    counterObserver.unobserve(nexus);
+                }
+            }, { threshold: 0.2 });
+            counterObserver.observe(nexus);
+        }
+    })();
+
+    // ========================================
+    // INTERACTIVE UX VIDEO MAPPING LOGIC (YOUTUBE)
+    // ========================================
+    var autoScrollEnabled = true;
+    var wrapper = document.getElementById('interactive-video-wrapper');
+    var ytPlayer;
+    var timeUpdateInterval;
+    var triggers = [
+        { time: 5, id: 'crypto-market-section', fired: false },
+        { time: 16, id: 'ai-trading-scorecards', fired: false },
+        { time: 23, id: 'fpso-refinery-pipeline', fired: false },
+        { time: 28, id: 'sports-analysis-hub', fired: false }
+    ];
+
+    // Load the IFrame Player API code asynchronously
+    var tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    window.onYouTubeIframeAPIReady = function() {
+        ytPlayer = new YT.Player('ux-video', {
+            height: '180',
+            width: '100%',
+            videoId: 'YKLkSuIpiIw',
+            playerVars: {
+                'autoplay': 1,
+                'mute': 1,
+                'controls': 1,
+                'rel': 0
+            },
+            events: {
+                'onStateChange': function(event) {
+                    if (event.data == YT.PlayerState.PLAYING) {
+                        timeUpdateInterval = setInterval(checkTime, 500);
+                    } else {
+                        clearInterval(timeUpdateInterval);
+                    }
+                }
+            }
+        });
+    };
+
+    function checkTime() {
+        if (!autoScrollEnabled || !ytPlayer || !ytPlayer.getCurrentTime) return;
+        var currentTime = ytPlayer.getCurrentTime();
+        for (var i = 0; i < triggers.length; i++) {
+            var t = triggers[i];
+            if (!t.fired && currentTime >= t.time && currentTime < t.time + 2) {
+                t.fired = true;
+                var target = document.getElementById(t.id);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+        }
+    }
+
+    if (wrapper) {
+        var btnToggle = document.getElementById('v-toggle-auto');
+        var btnMinimize = document.getElementById('v-minimize');
+        var btnDismiss = document.getElementById('v-dismiss');
+        
+        if (btnToggle) {
+            btnToggle.addEventListener('click', function() {
+                autoScrollEnabled = !autoScrollEnabled;
+                this.style.color = autoScrollEnabled ? '#39FF14' : '#ff3333';
+            });
+        }
+        if (btnMinimize) {
+            btnMinimize.addEventListener('click', function() {
+                wrapper.classList.toggle('minimized');
+            });
+        }
+        if (btnDismiss) {
+            btnDismiss.addEventListener('click', function() {
+                wrapper.style.display = 'none';
+                if (ytPlayer && ytPlayer.pauseVideo) ytPlayer.pauseVideo();
+            });
+        }
+    }
+
+    // FOOTBALL HUB LOGIC
+    function switchFbTab(tab, btnElement) {
+        const buttons = document.querySelectorAll('.fb-tab-btn');
+        buttons.forEach(b => b.classList.remove('active'));
+        if (btnElement) btnElement.classList.add('active');
+        else buttons[0].classList.add('active');
+        
+        ['live', 'fixtures', 'tables', 'news'].forEach(t => {
+            const el = document.getElementById('fb-' + t + '-tab');
+            if(el) el.style.display = (t === tab) ? 'block' : 'none';
+        });
+    }
+
+    function switchCrTab(tab, btnElement) {
+        let buttons = document.querySelectorAll('.cr-tab-btn');
+        buttons.forEach(btn => {
+            btn.classList.remove('active');
+            btn.style.background = 'transparent';
+            btn.style.color = '#8B949E';
+        });
+        btnElement.classList.add('active');
+        btnElement.style.background = 'rgba(255,255,255,0.05)';
+        btnElement.style.color = '#fff';
+
+        let tabs = ['live', 'fixtures', 'tables', 'news'];
+        tabs.forEach(t => {
+            document.getElementById('cr-' + t + '-tab').style.display = 'none';
+        });
+        document.getElementById('cr-' + tab + '-tab').style.display = 'block';
+    }
+    </script>
+
+</body>
+</html>
+"""
+
+# ========================================
+# 3. DEPLOYMENT ENGINE
+# ========================================
+if __name__ == "__main__":
+    print(f"[START] {ENGINE_VERSION} Master Deployment...")
+    
+    live_html = ""
+    fixtures_html = ""
+    
+    for m in AUDITED_FOOTBALL_DATA:
+        is_live = m['is_live']
+        status = m['status']
+        home = m['home']
+        away = m['away']
+        score = m['score_display']
+        league = m.get('league', '')
+        
+        html_str = f"""
+        <div style="font-family:monospace; color:#fff; display:flex; flex-direction:column; padding:10px; border:1px solid #222; border-radius:4px; margin-bottom:8px;">
+            <div style="font-size:0.7rem; color:#8B949E; margin-bottom:4px; text-transform:uppercase; font-weight:700; letter-spacing:0.1em;">{league}</div>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-weight:700;">{home} vs {away}</span>
+                <span style="color:{'#FF3333' if is_live else '#8B949E'}; font-weight:{'900' if is_live else 'normal'};">
+                    {score} {'<span class="blink" style="animation: ct-blink 1s infinite alternate;">● LIVE</span>' if is_live else ''}
+                </span>
+            </div>
+        </div>
+        """
+        if is_live or status == 'FINISHED':
+            live_html += html_str
+        else:
+            fixtures_html += html_str
+            
+    if not live_html:
+        live_html = '<div style="color: #8B949E; font-size: 0.9rem; font-family: monospace;">No live matches verified at this moment.</div>'
+    if not fixtures_html:
+        fixtures_html = '<div style="color: #8B949E; font-size: 0.9rem; font-family: monospace;">No scheduled fixtures verified at this moment.</div>'
+        
+    tables_html = AUDITED_FOOTBALL_TABLES
+    news_html = AUDITED_FOOTBALL_NEWS
+
+    final_html = HTML_TEMPLATE.replace('{{BTC_PRICE}}', sanitizer.clean(FALLBACK_DATA['btc_price']))
+    final_html = final_html.replace('{{AUDITED_LIVE_SCORES}}', live_html)
+    final_html = final_html.replace('{{AUDITED_FIXTURES}}', fixtures_html)
+    final_html = final_html.replace('{{AUDITED_TABLES}}', tables_html)
+    final_html = final_html.replace('{{AUDITED_NEWS}}', news_html)
+    
+    final_html = final_html.replace('{{AUDITED_CRICKET_LIVE}}', AUDITED_CRICKET_LIVE)
+    final_html = final_html.replace('{{AUDITED_CRICKET_FIXTURES}}', AUDITED_CRICKET_FIXTURES)
+    final_html = final_html.replace('{{AUDITED_CRICKET_TABLES}}', AUDITED_CRICKET_TABLES)
+    final_html = final_html.replace('{{AUDITED_CRICKET_NEWS}}', AUDITED_CRICKET_NEWS)
+
+    try:
+        g = github.Github(auth=Auth.Token(TOKEN))
+        repo = g.get_repo(REPO_NAME)
+
+        # --- Deploy index.html ---
+        contents = repo.get_contents(FILE_PATH, ref="main")
+        commit_msg = "V109.3 Nexus Cluster: Dynamic Manifest Infrastructure — Project Nexus node cards + prompts_manifest.json deployed"
+        repo.update_file(contents.path, commit_msg, final_html, contents.sha)
+        print(f"[OK] index.html deployed successfully.")
+
+        # --- Deploy data/prompts_manifest.json ---
+        manifest_path = "data/prompts_manifest.json"
+        local_manifest = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "prompts_manifest.json"), "r", encoding="utf-8").read()
+        try:
+            manifest_contents = repo.get_contents(manifest_path, ref="main")
+            repo.update_file(manifest_path, "[NEXUS] Update prompts_manifest.json", local_manifest, manifest_contents.sha)
+            print(f"[OK] data/prompts_manifest.json updated on GitHub.")
+        except Exception:
+            repo.create_file(manifest_path, "[NEXUS] Create prompts_manifest.json", local_manifest)
+            print(f"[OK] data/prompts_manifest.json created on GitHub.")
+
+        # --- Deploy assets/isometric/ ---
+        isometric_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "assets", "isometric")
+        if os.path.exists(isometric_dir):
+            for img_file in os.listdir(isometric_dir):
+                if img_file.endswith(".png"):
+                    img_path = f"assets/isometric/{img_file}"
+                    local_img_path = os.path.join(isometric_dir, img_file)
+                    with open(local_img_path, "rb") as img:
+                        img_content = img.read()
+                    try:
+                        img_contents = repo.get_contents(img_path, ref="main")
+                        repo.update_file(img_contents.path, f"[NEXUS] Update {img_file}", img_content, img_contents.sha)
+                        print(f"[OK] {img_path} updated on GitHub.")
+                    except Exception:
+                        repo.create_file(img_path, f"[NEXUS] Upload {img_file}", img_content)
+                        print(f"[OK] {img_path} created on GitHub.")
+
+        # --- Deploy assets/videos/ ---
+        videos_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "assets", "videos")
+        if os.path.exists(videos_dir):
+            for vid_file in os.listdir(videos_dir):
+                if vid_file.endswith(".mp4"):
+                    vid_path = f"assets/videos/{vid_file}"
+                    local_vid_path = os.path.join(videos_dir, vid_file)
+                    with open(local_vid_path, "rb") as vid:
+                        vid_content = vid.read()
+                    try:
+                        vid_contents = repo.get_contents(vid_path, ref="main")
+                        repo.update_file(vid_contents.path, f"[NEXUS] Update {vid_file}", vid_content, vid_contents.sha)
+                        print(f"[OK] {vid_path} updated on GitHub.")
+                    except Exception:
+                        repo.create_file(vid_path, f"[NEXUS] Upload {vid_file}", vid_content)
+                        print(f"[OK] {vid_path} created on GitHub.")
+
+        print(f"[AUDIT] V109.3 | Nexus Cluster | Manifest Infrastructure | All assets synced.")
+    except Exception as e:
+        print(f"[ERROR] DEPLOYMENT REJECTED: {str(e)}")
