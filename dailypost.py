@@ -902,32 +902,6 @@ CORE FUNCTION:
                         background: rgba(57,255,20,0.1) !important;
                     }
                 </style>
-                <div id="ai-trading-scorecards" class="hub-card media-node reveal" style="grid-column: 1 / -1; background: linear-gradient(145deg, rgba(13,15,18,0.95), rgba(20,24,30,0.9)); border: 2px solid #FFD700; padding: 50px 30px; text-align: center; box-shadow: 0 0 40px rgba(255, 215, 0, 0.1);">
-                    <div style="margin-bottom: 25px;">
-                        <div class="premium-badge animate-pulse" style="display:inline-block; border-color:#FFD700; color:#1a1a1a; background:#FFD700; font-size:1rem; padding:6px 16px; font-weight:900; letter-spacing:0.1em; border-radius:4px;">&#x1F6A8; GLOBAL PUBLIC UTILITY GATEWAY &mdash; NOW UNLOCKED</div>
-                        <h3 style="margin:20px 0 15px 0; font-size:3.8rem; color:#FFD700; font-family:'Space Grotesk',sans-serif; font-weight:900; letter-spacing:-2px; text-transform:uppercase; line-height:1.1;">DAILYPOST365 AI ENGINE</h3>
-                        <p style="font-size:1.15rem; color:#e6edf3; margin:0 auto; max-width:900px; line-height:1.7; font-weight:500;">Our flagship public infrastructure node. Houses the institutional-grade AI Trading Chart Analyst and technical scorecard generator with on-demand PDF reporting. Engineered to empower content creators with elite financial market asset analysis.</p>
-                    </div>
-
-                    <div style="display:flex; flex-direction:column; align-items:center; gap:15px; margin-top:35px;">
-                        <a href="https://ai-trading-chart-analyst-980029185653.us-west1.run.app" target="_blank" rel="noopener" class="hero-action-btn" style="display:block; width:100%; max-width:650px; background:rgba(0,0,0,0.5); border:3px solid #39ff14; color:#39ff14; font-size:1.3rem; font-weight:900; padding:22px; text-align:center; text-decoration:none; font-family:'Space Grotesk',sans-serif; transition:all 0.3s; border-radius:4px; letter-spacing:0.5px;">
-                            &#x1F449; [ ACCESS DAILYPOST365 AI ENGINE ] &#x1F448;
-                        </a>
-
-                        <button class="action-btn hover:bg-yellow-900/20" style="width:100%; max-width:650px; font-size:1rem; border-color:#FFD700; color:#FFD700; padding:18px; font-weight:bold; letter-spacing:1px;" onclick="toggleHubElement('prompt-dp365')">[ DOWNLOAD TECHNICAL SCORECARD SPECIFICATIONS ]</button>
-                        
-                        <div id="prompt-dp365" class="prompt-tray" style="width:100%; max-width:650px; border-color:rgba(255,215,0,0.4); text-align:left; display:none; background:rgba(0,0,0,0.8);">
-=== SCORECARD SPECIFICATIONS ===
-1. Daily structural health generation across 15 technical markers.
-2. Direct integration with major CEX/DEX data pools.
-3. Automated PDF dispatch functionality enabled.</div>
-
-                        <div style="margin-top:25px; font-size:0.8rem; color:#8b949e; letter-spacing:0.05em; font-weight:600;">
-                            &#x26A0;&#xFE0F; Purely for educational purposes only. This tool does not constitute financial advice.
-                        </div>
-                    </div>
-                </div>
-
                 <!-- DEDICATED 3D CITY NETWORK WINDOW -->
                 <div class="reveal" style="grid-column: 1 / -1; position: relative; width: 100%; height: 400px; overflow: hidden; border-radius: 24px; border: 1px solid rgba(255,255,255,0.08); background: rgba(0,0,0,0.85); box-shadow: 0 20px 40px rgba(0,0,0,0.6); margin-top: 40px;">
                     <canvas id="city-network-canvas" style="position: absolute; top:0; left:0; width:100%; height:100%;"></canvas>
