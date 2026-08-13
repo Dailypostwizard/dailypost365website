@@ -1016,13 +1016,16 @@ CORE FUNCTION:
 
             <div class="grid-gallery mt-16" id="cricket-ig-container">
                 <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(57,255,20,0.3); backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-                    <iframe width="100%" height="600" src="https://www.youtube.com/embed/S4FeirvMse4" title="Cricket Short 1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <iframe width="100%" height="600" src="https://www.youtube.com/embed/wMfrR5AXiBw" title="Cricket Short 1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
                 <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(57,255,20,0.3); backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-                    <iframe width="100%" height="600" src="https://www.youtube.com/embed/p_meLAmPJ5M" title="Cricket Short 2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <iframe width="100%" height="600" src="https://www.youtube.com/embed/m1wh61YMfM0" title="Cricket Short 2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
                 <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(57,255,20,0.3); backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-                    <iframe width="100%" height="600" src="https://www.youtube.com/embed/VgR8eeqpVic" title="Cricket Short 3" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <iframe width="100%" height="600" src="https://www.youtube.com/embed/BzsPkMd-LBg" title="Cricket Short 3" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(57,255,20,0.3); backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                    <iframe width="100%" height="600" src="https://www.youtube.com/embed/VgR8eeqpVic" title="Cricket Short 4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
             </div>
         </section>
@@ -1079,16 +1082,19 @@ CORE FUNCTION:
 
             <div class="grid-gallery mt-16" id="football-ig-container">
                 <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(57,255,20,0.3); backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-                    <iframe width="100%" height="600" src="https://www.youtube.com/embed/N-C5Q2VRHiU" title="Football Short 1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <iframe width="100%" height="600" src="https://www.youtube.com/embed/7uiqDC103Oo" title="Football Short 1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
                 <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(57,255,20,0.3); backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-                    <iframe width="100%" height="600" src="https://www.youtube.com/embed/Xf9qO1CyXjA" title="Football Short 2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <iframe width="100%" height="600" src="https://www.youtube.com/embed/mQOP-7rJTmY" title="Football Short 2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
                 <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(57,255,20,0.3); backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-                    <iframe width="100%" height="600" src="https://www.youtube.com/embed/mZYjsWnLQ-k" title="Football Short 3" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <iframe width="100%" height="600" src="https://www.youtube.com/embed/GM8WzxiYrCM" title="Football Short 3" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
                 <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(57,255,20,0.3); backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-                    <iframe width="100%" height="600" src="https://www.youtube.com/embed/0ArQjJbU9Xo" title="Football Short 4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <iframe width="100%" height="600" src="https://www.youtube.com/embed/OVgxjlWq5Qs" title="Football Short 4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(57,255,20,0.3); backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                    <iframe width="100%" height="600" src="https://www.youtube.com/embed/W3M-CBQx--M" title="Football Short 5" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
             </div>
         </section>
