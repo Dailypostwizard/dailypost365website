@@ -9,6 +9,7 @@ from github import Auth
 import os
 import requests
 import json
+import hashlib
 from datetime import datetime
 
 # USER CREDENTIALS (V109.0 CONFIG)
@@ -2125,26 +2126,51 @@ if __name__ == "__main__":
     final_html = final_html.replace('{{AUDITED_CRICKET_TABLES}}', AUDITED_CRICKET_TABLES)
     final_html = final_html.replace('{{AUDITED_CRICKET_NEWS}}', AUDITED_CRICKET_NEWS)
 
+    # Save local index.html build artifact
     try:
-        g = github.Github(auth=Auth.Token(TOKEN))
+        local_index_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "index.html")
+        with open(local_index_path, "w", encoding="utf-8") as f:
+            f.write(final_html)
+        print(f"[OK] Local index.html written successfully.")
+    except Exception as e:
+        print(f"[WARN] Could not write local index.html: {e}")
+
+    def compute_git_sha(data: bytes) -> str:
+        header = f"blob {len(data)}\0".encode("utf-8")
+        return hashlib.sha1(header + data).hexdigest()
+
+    try:
+        g = github.Github(auth=Auth.Token(TOKEN), timeout=60)
         repo = g.get_repo(REPO_NAME)
 
         # --- Deploy index.html ---
-        contents = repo.get_contents(FILE_PATH, ref="main")
-        commit_msg = "V109.3 Nexus Cluster: Dynamic Manifest Infrastructure — Project Nexus node cards + prompts_manifest.json deployed"
-        repo.update_file(contents.path, commit_msg, final_html, contents.sha)
-        print(f"[OK] index.html deployed successfully.")
+        try:
+            contents = repo.get_contents(FILE_PATH, ref="main")
+            commit_msg = "V109.3 Nexus Cluster: Dynamic Manifest Infrastructure — Project Nexus node cards + prompts_manifest.json deployed"
+            repo.update_file(contents.path, commit_msg, final_html, contents.sha)
+            print(f"[OK] index.html deployed successfully.")
+        except Exception as e:
+            print(f"[ERROR] Could not deploy index.html: {e}")
 
         # --- Deploy data/prompts_manifest.json ---
         manifest_path = "data/prompts_manifest.json"
-        local_manifest = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "prompts_manifest.json"), "r", encoding="utf-8").read()
-        try:
-            manifest_contents = repo.get_contents(manifest_path, ref="main")
-            repo.update_file(manifest_path, "[NEXUS] Update prompts_manifest.json", local_manifest, manifest_contents.sha)
-            print(f"[OK] data/prompts_manifest.json updated on GitHub.")
-        except Exception:
-            repo.create_file(manifest_path, "[NEXUS] Create prompts_manifest.json", local_manifest)
-            print(f"[OK] data/prompts_manifest.json created on GitHub.")
+        local_manifest_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "prompts_manifest.json")
+        if os.path.exists(local_manifest_file):
+            with open(local_manifest_file, "r", encoding="utf-8") as f:
+                local_manifest = f.read()
+            try:
+                manifest_contents = repo.get_contents(manifest_path, ref="main")
+                if manifest_contents.sha != compute_git_sha(local_manifest.encode("utf-8")):
+                    repo.update_file(manifest_path, "[NEXUS] Update prompts_manifest.json", local_manifest, manifest_contents.sha)
+                    print(f"[OK] data/prompts_manifest.json updated on GitHub.")
+                else:
+                    print(f"[OK] data/prompts_manifest.json already up to date on GitHub.")
+            except Exception:
+                try:
+                    repo.create_file(manifest_path, "[NEXUS] Create prompts_manifest.json", local_manifest)
+                    print(f"[OK] data/prompts_manifest.json created on GitHub.")
+                except Exception as e:
+                    print(f"[WARN] Failed to create {manifest_path}: {e}")
 
         # --- Deploy assets/isometric/ ---
         isometric_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "assets", "isometric")
@@ -2153,15 +2179,22 @@ if __name__ == "__main__":
                 if img_file.endswith(".png"):
                     img_path = f"assets/isometric/{img_file}"
                     local_img_path = os.path.join(isometric_dir, img_file)
-                    with open(local_img_path, "rb") as img:
-                        img_content = img.read()
                     try:
-                        img_contents = repo.get_contents(img_path, ref="main")
-                        repo.update_file(img_contents.path, f"[NEXUS] Update {img_file}", img_content, img_contents.sha)
-                        print(f"[OK] {img_path} updated on GitHub.")
-                    except Exception:
-                        repo.create_file(img_path, f"[NEXUS] Upload {img_file}", img_content)
-                        print(f"[OK] {img_path} created on GitHub.")
+                        with open(local_img_path, "rb") as img:
+                            img_content = img.read()
+                        local_sha = compute_git_sha(img_content)
+                        try:
+                            img_contents = repo.get_contents(img_path, ref="main")
+                            if img_contents.sha != local_sha:
+                                repo.update_file(img_contents.path, f"[NEXUS] Update {img_file}", img_content, img_contents.sha)
+                                print(f"[OK] {img_path} updated on GitHub.")
+                            else:
+                                print(f"[OK] {img_path} up to date on GitHub.")
+                        except Exception:
+                            repo.create_file(img_path, f"[NEXUS] Upload {img_file}", img_content)
+                            print(f"[OK] {img_path} created on GitHub.")
+                    except Exception as e:
+                        print(f"[WARN] Could not sync {img_file}: {e}")
 
         # --- Deploy assets/videos/ ---
         videos_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "assets", "videos")
@@ -2170,15 +2203,22 @@ if __name__ == "__main__":
                 if vid_file.endswith(".mp4"):
                     vid_path = f"assets/videos/{vid_file}"
                     local_vid_path = os.path.join(videos_dir, vid_file)
-                    with open(local_vid_path, "rb") as vid:
-                        vid_content = vid.read()
                     try:
-                        vid_contents = repo.get_contents(vid_path, ref="main")
-                        repo.update_file(vid_contents.path, f"[NEXUS] Update {vid_file}", vid_content, vid_contents.sha)
-                        print(f"[OK] {vid_path} updated on GitHub.")
-                    except Exception:
-                        repo.create_file(vid_path, f"[NEXUS] Upload {vid_file}", vid_content)
-                        print(f"[OK] {vid_path} created on GitHub.")
+                        with open(local_vid_path, "rb") as vid:
+                            vid_content = vid.read()
+                        local_sha = compute_git_sha(vid_content)
+                        try:
+                            vid_contents = repo.get_contents(vid_path, ref="main")
+                            if vid_contents.sha != local_sha:
+                                repo.update_file(vid_contents.path, f"[NEXUS] Update {vid_file}", vid_content, vid_contents.sha)
+                                print(f"[OK] {vid_path} updated on GitHub.")
+                            else:
+                                print(f"[OK] {vid_path} up to date on GitHub.")
+                        except Exception:
+                            repo.create_file(vid_path, f"[NEXUS] Upload {vid_file}", vid_content)
+                            print(f"[OK] {vid_path} created on GitHub.")
+                    except Exception as e:
+                        print(f"[WARN] Could not sync video {vid_file}: {e}")
 
         print(f"[AUDIT] V109.3 | Nexus Cluster | Manifest Infrastructure | All assets synced.")
     except Exception as e:
