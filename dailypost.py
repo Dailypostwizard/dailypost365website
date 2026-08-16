@@ -962,6 +962,38 @@ CORE FUNCTION:
                     </div>
                 </div>
 
+                <!-- CARD 7: FLNG Systems - Anatomy of a Floating Cryogenic Refinery -->
+                <div id="flng-systems-refinery" class="hub-card media-node reveal" style="grid-column: 1 / -1; background: linear-gradient(145deg, rgba(13,15,18,0.95), rgba(20,24,30,0.9)); border: 2px solid #00d2ff; padding: 40px 30px; text-align: center; box-shadow: 0 0 30px rgba(0, 210, 255, 0.15); margin-top: 40px;">
+                    <div style="margin-bottom: 25px;">
+                        <div class="premium-badge animate-pulse" style="display:inline-block; border-color:#00d2ff; color:#fff; background:rgba(0,210,255,0.2); font-size:0.9rem; padding:4px 12px; font-weight:900; letter-spacing:0.1em; border-radius:4px; border:1px solid #00d2ff;"><i class="fas fa-snowflake"></i> FLNG CRYOGENIC SYSTEMS</div>
+                        <h3 style="margin:20px 0 15px 0; font-size:2.4rem; color:#00d2ff; font-family:'Space Grotesk',sans-serif; font-weight:900; letter-spacing:-1px; text-transform:uppercase;">FLNG Systems — Anatomy of a Floating Cryogenic Refinery</h3>
+                        <p style="color:#8b949e; font-size:1rem; max-width:800px; margin: 0 auto;">Deep-water LNG liquefaction telemetry, extreme thermal engineering, and offshore cryogenic processing intelligence.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-8 mt-10">
+                        <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(0,210,255,0.3); width: 100%; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                            <div style="position:relative; width:100%; padding-bottom:56.25%;">
+                                <iframe style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;" src="https://www.youtube.com/embed/Ri5S91KLTxQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                        </div>
+                        <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(0,210,255,0.3); width: 100%; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                            <div style="position:relative; width:100%; padding-bottom:56.25%;">
+                                <iframe style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;" src="https://www.youtube.com/embed/_6Q3hB7hob0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                        </div>
+                        <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(0,210,255,0.3); width: 100%; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                            <div style="position:relative; width:100%; padding-bottom:56.25%;">
+                                <iframe style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;" src="https://www.youtube.com/embed/7ceo29b12FA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                        </div>
+                        <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(0,210,255,0.3); width: 100%; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                            <div style="position:relative; width:100%; padding-bottom:56.25%;">
+                                <iframe style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;" src="https://www.youtube.com/embed/t69P7iSNl0Q" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
 
