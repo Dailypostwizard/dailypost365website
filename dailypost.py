@@ -798,6 +798,54 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             </div>
         </section>
 
+        <!-- CRYPTO NEWS SLOT (YouTube Shorts) -->
+        <section class="reveal" style="margin-top: 40px; margin-bottom: 0;" id="crypto-news-section">
+            <div class="hub-card media-node" style="background: linear-gradient(145deg, rgba(13,15,18,0.95), rgba(20,24,30,0.9)); border: 2px solid #39ff14; padding: 40px 30px; text-align: center; box-shadow: 0 0 30px rgba(57, 255, 20, 0.1); border-radius: 24px;">
+                <div style="margin-bottom: 25px;">
+                    <div class="premium-badge animate-pulse" style="display:inline-block; border-color:#FF0000; color:#fff; background:#FF0000; font-size:0.9rem; padding:4px 12px; font-weight:900; letter-spacing:0.1em; border-radius:4px;"><i class="fab fa-youtube"></i> CRYPTO NEWS SECTOR</div>
+                    <h3 style="margin:20px 0 15px 0; font-size:2.8rem; color:#39ff14; font-family:'Space Grotesk',sans-serif; font-weight:900; letter-spacing:-1px; text-transform:uppercase;">CRYPTO MARKET UPDATES</h3>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mt-10">
+                    <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(57,255,20,0.3); width: 100%; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                        <div style="position:relative; width:100%; padding-bottom:177.77%;">
+                            <iframe style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;" src="https://www.youtube.com/embed/NNLnSn-07f0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(57,255,20,0.3); width: 100%; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                        <div style="position:relative; width:100%; padding-bottom:177.77%;">
+                            <iframe style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;" src="https://www.youtube.com/embed/b5FKCRmfy_k" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(57,255,20,0.3); width: 100%; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                        <div style="position:relative; width:100%; padding-bottom:177.77%;">
+                            <iframe style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;" src="https://www.youtube.com/embed/WbbVzdZthp8" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(57,255,20,0.3); width: 100%; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                        <div style="position:relative; width:100%; padding-bottom:177.77%;">
+                            <iframe style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;" src="https://www.youtube.com/embed/nn4BajFLQgg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(57,255,20,0.3); width: 100%; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                        <div style="position:relative; width:100%; padding-bottom:177.77%;">
+                            <iframe style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;" src="https://www.youtube.com/embed/P_ZAKdw738w" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(57,255,20,0.3); width: 100%; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                        <div style="position:relative; width:100%; padding-bottom:177.77%;">
+                            <iframe style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;" src="https://www.youtube.com/embed/kJ99R-D2JS8" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; border:1px solid rgba(57,255,20,0.3); width: 100%; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                        <div style="position:relative; width:100%; padding-bottom:177.77%;">
+                            <iframe style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;" src="https://www.youtube.com/embed/c_E1oCEPziI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- ======================================================
              PROJECT NEXUS v5 — Sovereign Production Hub
              Google AI Studio links + SVG Flowcharts + Native PDF
