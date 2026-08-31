@@ -43,14 +43,32 @@ FALLBACK_DATA = {
 def audit_football_payload(match):
     """Strict verification gate to strip hallucinations and fake data."""
     try:
-        home_team = str(match.get('homeTeam', match.get('homeTeam', {}).get('name', 'Unknown'))).strip()
-        away_team = str(match.get('awayTeam', match.get('awayTeam', {}).get('name', 'Unknown'))).strip()
+        home_team_data = match.get('homeTeam', {})
+        if isinstance(home_team_data, dict):
+            home_team = str(home_team_data.get('name', 'Unknown')).strip()
+        else:
+            home_team = str(home_team_data).strip()
+            
+        away_team_data = match.get('awayTeam', {})
+        if isinstance(away_team_data, dict):
+            away_team = str(away_team_data.get('name', 'Unknown')).strip()
+        else:
+            away_team = str(away_team_data).strip()
         
         # Fallback if structure differs
         if home_team == 'Unknown':
-            home_team = str(match.get('home_team', {}).get('name', 'Unknown')).strip()
+            home_team_fallback = match.get('home_team', {})
+            if isinstance(home_team_fallback, dict):
+                home_team = str(home_team_fallback.get('name', 'Unknown')).strip()
+            else:
+                home_team = str(home_team_fallback).strip()
+                
         if away_team == 'Unknown':
-            away_team = str(match.get('away_team', {}).get('name', 'Unknown')).strip()
+            away_team_fallback = match.get('away_team', {})
+            if isinstance(away_team_fallback, dict):
+                away_team = str(away_team_fallback.get('name', 'Unknown')).strip()
+            else:
+                away_team = str(away_team_fallback).strip()
         
         if not home_team or not away_team or home_team == 'Unknown' or away_team == 'Unknown':
             return None # Drop invalid matches entirely
