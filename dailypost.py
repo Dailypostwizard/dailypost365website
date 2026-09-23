@@ -801,7 +801,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             <iframe class="video-banner-iframe" style="filter: hue-rotate(90deg) brightness(0.8);" src="https://www.youtube.com/embed/Lb42JUyoCrI?autoplay=1&mute=1&loop=1&controls=0&playlist=Lb42JUyoCrI&modestbranding=1" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
             <div class="video-banner-overlay"></div>
             <div class="hero-iso-text">
-                <h3 class="hero-iso-title" style="color: #39ff14;">BTC (Crypto): The Market Pulse</h3>
+                <h3 class="hero-iso-title" style="color: #39ff14;">BTC (Dailyposteducationalnews): The Market Pulse</h3>
                 <p class="hero-iso-desc">Liquid-glass monolithic bitcoin asset reflecting high-end materials. Emits ambient green and red pulses visualizing live volatile market trends.</p>
             </div>
         </div>
@@ -820,8 +820,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         <section class="reveal" style="margin-top: 40px; margin-bottom: 0;" id="crypto-news-section">
             <div class="hub-card media-node" style="background: linear-gradient(145deg, rgba(13,15,18,0.95), rgba(20,24,30,0.9)); border: 2px solid #39ff14; padding: 40px 30px; text-align: center; box-shadow: 0 0 30px rgba(57, 255, 20, 0.1); border-radius: 24px;">
                 <div style="margin-bottom: 25px;">
-                    <div class="premium-badge animate-pulse" style="display:inline-block; border-color:#FF0000; color:#fff; background:#FF0000; font-size:0.9rem; padding:4px 12px; font-weight:900; letter-spacing:0.1em; border-radius:4px;"><i class="fab fa-youtube"></i> CRYPTO NEWS SECTOR</div>
-                    <h3 style="margin:20px 0 15px 0; font-size:2.8rem; color:#39ff14; font-family:'Space Grotesk',sans-serif; font-weight:900; letter-spacing:-1px; text-transform:uppercase;">CRYPTO MARKET UPDATES</h3>
+                    <div class="premium-badge animate-pulse" style="display:inline-block; border-color:#FF0000; color:#fff; background:#FF0000; font-size:0.9rem; padding:4px 12px; font-weight:900; letter-spacing:0.1em; border-radius:4px;"><i class="fab fa-youtube"></i> Dailyposteducationalnews NEWS SECTOR</div>
+                    <h3 style="margin:20px 0 15px 0; font-size:2.8rem; color:#39ff14; font-family:'Space Grotesk',sans-serif; font-weight:900; letter-spacing:-1px; text-transform:uppercase;">Dailyposteducationalnews MARKET UPDATES</h3>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mt-10">
