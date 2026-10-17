@@ -372,6 +372,98 @@
             .hero-iso-desc { font-size: 0.85rem; max-width: 95%; }
             .video-banner-container { height: 280px; }
         }
+
+        /* DAILYPOST365 STUDIOS — ENTERTAINMENT & MUSIC STYLING */
+        .studios-hub-section {
+            margin-top: 60px;
+            margin-bottom: 40px;
+        }
+        .studios-card {
+            background: linear-gradient(145deg, rgba(20, 10, 35, 0.96), rgba(12, 16, 30, 0.94));
+            border: 2px solid rgba(168, 85, 247, 0.35);
+            box-shadow: 0 0 40px rgba(168, 85, 247, 0.15), inset 0 0 20px rgba(168, 85, 247, 0.05);
+            border-radius: 24px;
+            padding: 40px 30px;
+            backdrop-filter: blur(20px);
+            transition: all 0.4s ease;
+        }
+        .studios-card:hover {
+            border-color: rgba(236, 72, 153, 0.5);
+            box-shadow: 0 0 50px rgba(236, 72, 153, 0.22), inset 0 0 25px rgba(236, 72, 153, 0.08);
+        }
+        .studios-badge-main {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(90deg, #ff0055, #a855f7);
+            color: #ffffff;
+            font-size: 0.82rem;
+            padding: 5px 16px;
+            font-weight: 900;
+            letter-spacing: 0.12em;
+            border-radius: 4px;
+            text-transform: uppercase;
+            box-shadow: 0 0 15px rgba(255, 0, 85, 0.4);
+        }
+        .studios-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 22px;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        .studios-btn-yt {
+            background: linear-gradient(135deg, #FF0000 0%, #b91c1c 100%);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 4px 18px rgba(255, 0, 0, 0.35);
+        }
+        .studios-btn-yt:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 28px rgba(255, 0, 0, 0.6);
+            color: #fff;
+        }
+        .studios-btn-ghost {
+            background: rgba(168, 85, 247, 0.12);
+            color: #e9d5ff;
+            border: 1px solid rgba(168, 85, 247, 0.4);
+        }
+        .studios-btn-ghost:hover {
+            background: rgba(168, 85, 247, 0.28);
+            border-color: #c084fc;
+            color: #fff;
+            transform: translateY(-2px);
+        }
+        .studios-reel-box {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid rgba(168, 85, 247, 0.25);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: all 0.35s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .studios-reel-box:hover {
+            transform: translateY(-6px);
+            border-color: rgba(236, 72, 153, 0.6);
+            box-shadow: 0 16px 40px rgba(236, 72, 153, 0.25);
+        }
+        .studios-cinema-box {
+            background: linear-gradient(180deg, rgba(12, 10, 20, 0.95), rgba(6, 6, 12, 0.98));
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.7);
+        }
     </style>
 
     <div class="container mx-auto px-4" style="max-width: 1200px;">
@@ -412,10 +504,13 @@
             </div>
         </div>
 
-        <nav class="flex flex-col gap-8 text-[11px] font-black uppercase tracking-[0.4em] text-gray-500 mt-auto">
+        <nav class="flex flex-col gap-6 text-[11px] font-black uppercase tracking-[0.4em] text-gray-500 mt-auto">
             <a href="#" class="text-cyan-400">Terminal_Core</a>
-            <a href="#intel-grid" class="hover:text-white transition">Intel_Repository</a>
-            <a href="https://www.instagram.com/dailypostwizard2026/" target="_blank" class="hover:text-white transition">IG_Master_Feed</a>
+            <a href="#nexus-hub" class="hover:text-white transition">Project_Nexus</a>
+            <a href="#studios-hub" class="text-purple-400 hover:text-white transition flex items-center gap-2"><i class="fas fa-film text-purple-400"></i> Studios_Cinema</a>
+            <a href="#cricket-hub-container" class="hover:text-white transition">Cricket_Hub</a>
+            <a href="#football-grid" class="hover:text-white transition">Football_Hub</a>
+            <a href="https://www.youtube.com/@DailyPost365Studios" target="_blank" class="text-red-500 hover:text-white transition flex items-center gap-2" title="DailyPost365 Studios YouTube"><i class="fab fa-youtube"></i> DP365 Studios</a>
             <a href="https://aistudio.instagram.com/ai/1203426195244577/" target="_blank" class="text-[#39ff14] hover:text-white transition" style="text-shadow: 0 0 10px rgba(57,255,20,0.5);">DP365 AI Assistant</a>
         </nav>
     </aside>
@@ -441,6 +536,7 @@
                 </div>
             </div>
             <div class="flex items-center gap-4">
+                <a href="#studios-hub" class="zenith-btn" style="border-color:#a855f7; color:#c084fc; box-shadow: 0 0 10px rgba(168,85,247,0.2); text-decoration:none;"><i class="fas fa-film"></i> Studios</a>
                 <a href="https://aistudio.instagram.com/ai/1203426195244577/" target="_blank" class="zenith-btn" style="border-color:#39ff14; color:#39ff14; box-shadow: 0 0 10px rgba(57,255,20,0.2); text-decoration:none;"><i class="fas fa-robot"></i> DP365 AI Assistant</a>
                 <button class="zenith-btn" id="theme-switch">Zenith Switch</button>
             </div>
@@ -618,7 +714,44 @@ CORE FUNCTION:
                     </div>
                 </div>
 
-
+                <!-- CARD 3: DAILYPOST365 STUDIOS PIPELINE -->
+                <div class="hub-card media-node reveal">
+                    <div>
+                        <div class="premium-badge" style="background:linear-gradient(90deg, #ff0055, #a855f7); border-color:#ff0055; color:#fff;">🎬 ENTERTAINMENT INFRASTRUCTURE</div>
+                        <h3 style="margin:0 0 10px 0; font-size:1.3rem; color:#c084fc; font-family:'Space Grotesk',sans-serif; font-weight:900;">DAILYPOST365 STUDIOS</h3>
+                        <p style="font-size:0.9rem; color:#839496; margin:0; line-height:1.6;">Autonomous cinematic filmmaking &amp; video song album production suite. Orchestrates 8K multi-camera neural rendering, alpine survival physics, and high-fidelity music album releases directly under the <a href="https://www.youtube.com/@DailyPost365Studios" target="_blank" style="color:#ff4d4d; text-decoration:none; font-weight:700;">@DailyPost365Studios</a> brand.</p>
+                    </div>
+                    <div>
+                        <button class="action-btn" onclick="toggleHubElement('diagram-studios')">[ View Production Flowchart Diagram ]</button>
+                        <div id="diagram-studios" class="prompt-tray" style="padding:10px; background:rgba(0,0,0,0.6); border-color:rgba(168,85,247,0.4);">
+                            <svg viewBox="0 0 400 180" width="100%" style="border-radius:6px;">
+                                <rect x="10" y="65" width="90" height="50" rx="6" fill="rgba(168,85,247,0.15)" stroke="#a855f7" stroke-width="1.5"/>
+                                <text x="55" y="90" fill="#fff" font-size="9" text-anchor="middle" font-family="sans-serif">Audio &amp; Script Ingest</text>
+                                <text x="55" y="102" fill="#c084fc" font-size="8" text-anchor="middle" font-family="sans-serif">Music / Cinematic</text>
+                                <path d="M 100 90 L 135 90" stroke="#a855f7" stroke-width="2" marker-end="url(#arrow-studios)"/>
+                                <rect x="135" y="65" width="120" height="50" rx="6" fill="rgba(255,0,85,0.12)" stroke="#ff0055" stroke-width="1.5"/>
+                                <text x="195" y="90" fill="#fff" font-size="9" text-anchor="middle" font-family="sans-serif">8K Neural Cinema</text>
+                                <text x="195" y="102" fill="#ff77a9" font-size="8" text-anchor="middle" font-family="sans-serif">Multi-Angle Keyframes</text>
+                                <path d="M 255 90 L 290 90" stroke="#a855f7" stroke-width="2" marker-end="url(#arrow-studios)"/>
+                                <rect x="290" y="65" width="100" height="50" rx="6" fill="rgba(42,161,152,0.15)" stroke="#2aa198" stroke-width="1.5"/>
+                                <text x="340" y="90" fill="#fff" font-size="9" text-anchor="middle" font-family="sans-serif">YouTube Blast</text>
+                                <text x="340" y="102" fill="#2aa198" font-size="8" text-anchor="middle" font-family="sans-serif">16:9 Epics &amp; 9:16 Reels</text>
+                                <defs><marker id="arrow-studios" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 2 L 8 5 L 0 8 z" fill="#a855f7"/></marker></defs>
+                            </svg>
+                        </div>
+                        <button class="action-btn" onclick="toggleHubElement('prompt-studios')">[ View System Architecture Prompt ]</button>
+                        <pre id="prompt-studios" class="prompt-tray">=== SYSTEM INSTRUCTION: DAILYPOST365 STUDIOS ===
+ROLE: Executive Creative Director &amp; Neural Audio-Visual Engine.
+PIPELINE GOAL: Produce 8K AI Cinematic Mountain Survival Epics and original Video Songs Albums.
+RULES:
+1. Widescreen 16:9: Full narrative continuity, atmospheric lighting, spatial audio dynamics.
+2. Vertical 9:16 Shorts: High-impact visualizer loops, synchronized lyrics, viral reel retention.
+3. OUTPUT DESTINATION: https://www.youtube.com/@DailyPost365Studios</pre>
+                        <a href="https://www.youtube.com/@DailyPost365Studios" target="_blank" class="studios-btn studios-btn-yt" style="width:100%; justify-content:center; margin-top:12px; font-size:0.75rem;">
+                            <i class="fab fa-youtube"></i> Visit Channel @DailyPost365Studios
+                        </a>
+                    </div>
+                </div>
 
                 <!-- CARD 5: DailyPost365 AI Engine (OVERSIZED HERO BANNER) -->
                 <style>
@@ -764,10 +897,10 @@ CORE FUNCTION:
                 
                 <div id="cr-content" class="fb-content" style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; padding: 20px; min-height: 120px; margin-top:20px;">
                     <div id="cr-live-tab" style="display:block;">
-                        <div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:8px; margin-bottom:10px; border-left: 3px solid #39ff14;"><div style="color:#fff; font-weight:700; font-size:0.95rem;">Canada 256/10  v Nepal 232/10</div><div style="color:#39ff14; font-size:0.75rem; margin-top:5px; font-weight:900;">LIVE NOW</div></div><div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:8px; margin-bottom:10px; border-left: 3px solid #39ff14;"><div style="color:#fff; font-weight:700; font-size:0.95rem;">Afghanistan Under-19s 217/10  v Bangladesh Under-19s 250/8</div><div style="color:#39ff14; font-size:0.75rem; margin-top:5px; font-weight:900;">LIVE NOW</div></div><div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:8px; margin-bottom:10px; border-left: 3px solid #39ff14;"><div style="color:#fff; font-weight:700; font-size:0.95rem;">Bangladesh 129/6  v Zimbabwe 271/8</div><div style="color:#39ff14; font-size:0.75rem; margin-top:5px; font-weight:900;">LIVE NOW</div></div><div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:8px; margin-bottom:10px; border-left: 3px solid #39ff14;"><div style="color:#fff; font-weight:700; font-size:0.95rem;">India 118/5  v West Indies</div><div style="color:#39ff14; font-size:0.75rem; margin-top:5px; font-weight:900;">LIVE NOW</div></div><div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:8px; margin-bottom:10px; border-left: 3px solid #39ff14;"><div style="color:#fff; font-weight:700; font-size:0.95rem;">Boland 141/6  v Mpumalanga 9</div><div style="color:#39ff14; font-size:0.75rem; margin-top:5px; font-weight:900;">LIVE NOW</div></div>
+                        <div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:8px; margin-bottom:10px; border-left: 3px solid #39ff14;"><div style="color:#fff; font-weight:700; font-size:0.95rem;">Canada 256/10  v Nepal 232/10</div><div style="color:#39ff14; font-size:0.75rem; margin-top:5px; font-weight:900;">LIVE NOW</div></div><div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:8px; margin-bottom:10px; border-left: 3px solid #39ff14;"><div style="color:#fff; font-weight:700; font-size:0.95rem;">Afghanistan Under-19s 217/10  v Bangladesh Under-19s 250/8</div><div style="color:#39ff14; font-size:0.75rem; margin-top:5px; font-weight:900;">LIVE NOW</div></div><div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:8px; margin-bottom:10px; border-left: 3px solid #39ff14;"><div style="color:#fff; font-weight:700; font-size:0.95rem;">Bangladesh 172/10  v Zimbabwe 271/8</div><div style="color:#39ff14; font-size:0.75rem; margin-top:5px; font-weight:900;">LIVE NOW</div></div><div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:8px; margin-bottom:10px; border-left: 3px solid #39ff14;"><div style="color:#fff; font-weight:700; font-size:0.95rem;">India 118/5  v West Indies</div><div style="color:#39ff14; font-size:0.75rem; margin-top:5px; font-weight:900;">LIVE NOW</div></div><div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:8px; margin-bottom:10px; border-left: 3px solid #39ff14;"><div style="color:#fff; font-weight:700; font-size:0.95rem;">Boland 141/6  v Mpumalanga 102/10</div><div style="color:#39ff14; font-size:0.75rem; margin-top:5px; font-weight:900;">LIVE NOW</div></div>
                     </div>
                     <div id="cr-fixtures-tab" style="display:none;">
-                        <div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:8px; margin-bottom:10px; border-left: 3px solid #39ff14;"><div style="color:#fff; font-weight:700; font-size:0.95rem;">Diasqua Little Sai Wan Cricket Club v United Services Recreation Club</div><div style="color:#39ff14; font-size:0.75rem; margin-top:5px; font-weight:900;">UPCOMING</div></div><div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:8px; margin-bottom:10px; border-left: 3px solid #39ff14;"><div style="color:#fff; font-weight:700; font-size:0.95rem;">Kowloon Cricket Club v Pakistan Association of Hong Kong</div><div style="color:#39ff14; font-size:0.75rem; margin-top:5px; font-weight:900;">UPCOMING</div></div><div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:8px; margin-bottom:10px; border-left: 3px solid #39ff14;"><div style="color:#fff; font-weight:700; font-size:0.95rem;">Australia Women v New Zealand Women</div><div style="color:#39ff14; font-size:0.75rem; margin-top:5px; font-weight:900;">UPCOMING</div></div>
+                        <div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:8px; margin-bottom:10px; border-left: 3px solid #39ff14;"><div style="color:#fff; font-weight:700; font-size:0.95rem;">Diasqua Little Sai Wan Cricket Club v United Services Recreation Club</div><div style="color:#39ff14; font-size:0.75rem; margin-top:5px; font-weight:900;">UPCOMING</div></div><div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:8px; margin-bottom:10px; border-left: 3px solid #39ff14;"><div style="color:#fff; font-weight:700; font-size:0.95rem;">Kowloon Cricket Club v Pakistan Association of Hong Kong</div><div style="color:#39ff14; font-size:0.75rem; margin-top:5px; font-weight:900;">UPCOMING</div></div><div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:8px; margin-bottom:10px; border-left: 3px solid #39ff14;"><div style="color:#fff; font-weight:700; font-size:0.95rem;">Meghalaya v Manipur</div><div style="color:#39ff14; font-size:0.75rem; margin-top:5px; font-weight:900;">UPCOMING</div></div><div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:8px; margin-bottom:10px; border-left: 3px solid #39ff14;"><div style="color:#fff; font-weight:700; font-size:0.95rem;">Nagaland v Mizoram</div><div style="color:#39ff14; font-size:0.75rem; margin-top:5px; font-weight:900;">UPCOMING</div></div><div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:8px; margin-bottom:10px; border-left: 3px solid #39ff14;"><div style="color:#fff; font-weight:700; font-size:0.95rem;">Assam v Tripura</div><div style="color:#39ff14; font-size:0.75rem; margin-top:5px; font-weight:900;">UPCOMING</div></div><div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:8px; margin-bottom:10px; border-left: 3px solid #39ff14;"><div style="color:#fff; font-weight:700; font-size:0.95rem;">Baroda v Bihar</div><div style="color:#39ff14; font-size:0.75rem; margin-top:5px; font-weight:900;">UPCOMING</div></div><div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:8px; margin-bottom:10px; border-left: 3px solid #39ff14;"><div style="color:#fff; font-weight:700; font-size:0.95rem;">Jammu & Kashmir v Vidarbha</div><div style="color:#39ff14; font-size:0.75rem; margin-top:5px; font-weight:900;">UPCOMING</div></div><div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:8px; margin-bottom:10px; border-left: 3px solid #39ff14;"><div style="color:#fff; font-weight:700; font-size:0.95rem;">Puducherry v Madhya Pradesh</div><div style="color:#39ff14; font-size:0.75rem; margin-top:5px; font-weight:900;">UPCOMING</div></div><div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:8px; margin-bottom:10px; border-left: 3px solid #39ff14;"><div style="color:#fff; font-weight:700; font-size:0.95rem;">Uttar Pradesh v Goa</div><div style="color:#39ff14; font-size:0.75rem; margin-top:5px; font-weight:900;">UPCOMING</div></div><div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:8px; margin-bottom:10px; border-left: 3px solid #39ff14;"><div style="color:#fff; font-weight:700; font-size:0.95rem;">Andhra v Hyderabad (India)</div><div style="color:#39ff14; font-size:0.75rem; margin-top:5px; font-weight:900;">UPCOMING</div></div><div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:8px; margin-bottom:10px; border-left: 3px solid #39ff14;"><div style="color:#fff; font-weight:700; font-size:0.95rem;">Karnataka v Saurashtra</div><div style="color:#39ff14; font-size:0.75rem; margin-top:5px; font-weight:900;">UPCOMING</div></div><div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:8px; margin-bottom:10px; border-left: 3px solid #39ff14;"><div style="color:#fff; font-weight:700; font-size:0.95rem;">Punjab v Chhattisgarh</div><div style="color:#39ff14; font-size:0.75rem; margin-top:5px; font-weight:900;">UPCOMING</div></div><div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:8px; margin-bottom:10px; border-left: 3px solid #39ff14;"><div style="color:#fff; font-weight:700; font-size:0.95rem;">Delhi v Gujarat</div><div style="color:#39ff14; font-size:0.75rem; margin-top:5px; font-weight:900;">UPCOMING</div></div><div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:8px; margin-bottom:10px; border-left: 3px solid #39ff14;"><div style="color:#fff; font-weight:700; font-size:0.95rem;">Kerala v Odisha</div><div style="color:#39ff14; font-size:0.75rem; margin-top:5px; font-weight:900;">UPCOMING</div></div><div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:8px; margin-bottom:10px; border-left: 3px solid #39ff14;"><div style="color:#fff; font-weight:700; font-size:0.95rem;">Maharashtra v Jharkhand</div><div style="color:#39ff14; font-size:0.75rem; margin-top:5px; font-weight:900;">UPCOMING</div></div><div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:8px; margin-bottom:10px; border-left: 3px solid #39ff14;"><div style="color:#fff; font-weight:700; font-size:0.95rem;">Services v Bengal</div><div style="color:#39ff14; font-size:0.75rem; margin-top:5px; font-weight:900;">UPCOMING</div></div><div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:8px; margin-bottom:10px; border-left: 3px solid #39ff14;"><div style="color:#fff; font-weight:700; font-size:0.95rem;">Haryana v Chandigarh</div><div style="color:#39ff14; font-size:0.75rem; margin-top:5px; font-weight:900;">UPCOMING</div></div><div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:8px; margin-bottom:10px; border-left: 3px solid #39ff14;"><div style="color:#fff; font-weight:700; font-size:0.95rem;">Himachal Pradesh v Mumbai</div><div style="color:#39ff14; font-size:0.75rem; margin-top:5px; font-weight:900;">UPCOMING</div></div><div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:8px; margin-bottom:10px; border-left: 3px solid #39ff14;"><div style="color:#fff; font-weight:700; font-size:0.95rem;">Rajasthan v Railways</div><div style="color:#39ff14; font-size:0.75rem; margin-top:5px; font-weight:900;">UPCOMING</div></div><div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:8px; margin-bottom:10px; border-left: 3px solid #39ff14;"><div style="color:#fff; font-weight:700; font-size:0.95rem;">Tamil Nadu v Uttarakhand</div><div style="color:#39ff14; font-size:0.75rem; margin-top:5px; font-weight:900;">UPCOMING</div></div><div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:8px; margin-bottom:10px; border-left: 3px solid #39ff14;"><div style="color:#fff; font-weight:700; font-size:0.95rem;">Arunachal Pradesh v Sikkim</div><div style="color:#39ff14; font-size:0.75rem; margin-top:5px; font-weight:900;">UPCOMING</div></div><div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:8px; margin-bottom:10px; border-left: 3px solid #39ff14;"><div style="color:#fff; font-weight:700; font-size:0.95rem;">Pakistan v Sri Lanka</div><div style="color:#39ff14; font-size:0.75rem; margin-top:5px; font-weight:900;">UPCOMING</div></div><div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:8px; margin-bottom:10px; border-left: 3px solid #39ff14;"><div style="color:#fff; font-weight:700; font-size:0.95rem;">Australia Women v New Zealand Women</div><div style="color:#39ff14; font-size:0.75rem; margin-top:5px; font-weight:900;">UPCOMING</div></div><div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:8px; margin-bottom:10px; border-left: 3px solid #39ff14;"><div style="color:#fff; font-weight:700; font-size:0.95rem;">India Women v Zimbabwe Women</div><div style="color:#39ff14; font-size:0.75rem; margin-top:5px; font-weight:900;">UPCOMING</div></div>
                     </div>
                     <div id="cr-tables-tab" style="display:none;">
                         
@@ -884,8 +1017,8 @@ CORE FUNCTION:
             <div style="font-size:0.7rem; color:#8B949E; margin-bottom:4px; text-transform:uppercase; font-weight:700; letter-spacing:0.1em;">PREMIER LEAGUE</div>
             <div style="display:flex; justify-content:space-between; align-items:center;">
                 <span style="font-weight:700;">Newcastle United vs Aston Villa</span>
-                <span style="color:#FF3333; font-weight:900;">
-                    0 - 1 <span class="blink" style="animation: ct-blink 1s infinite alternate;">● LIVE</span>
+                <span style="color:#8B949E; font-weight:normal;">
+                    0 - 1 
                 </span>
             </div>
         </div>
@@ -914,8 +1047,18 @@ CORE FUNCTION:
             <div style="font-size:0.7rem; color:#8B949E; margin-bottom:4px; text-transform:uppercase; font-weight:700; letter-spacing:0.1em;">LA LIGA</div>
             <div style="display:flex; justify-content:space-between; align-items:center;">
                 <span style="font-weight:700;">Real Betis vs Barcelona</span>
+                <span style="color:#8B949E; font-weight:normal;">
+                    2 - 5 
+                </span>
+            </div>
+        </div>
+        
+        <div style="font-family:monospace; color:#fff; display:flex; flex-direction:column; padding:10px; border:1px solid #222; border-radius:4px; margin-bottom:8px;">
+            <div style="font-size:0.7rem; color:#8B949E; margin-bottom:4px; text-transform:uppercase; font-weight:700; letter-spacing:0.1em;">LA LIGA</div>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-weight:700;">Valencia vs Athletic Club</span>
                 <span style="color:#FF3333; font-weight:900;">
-                    2 - 3 <span class="blink" style="animation: ct-blink 1s infinite alternate;">● LIVE</span>
+                    0 - 0 <span class="blink" style="animation: ct-blink 1s infinite alternate;">● LIVE</span>
                 </span>
             </div>
         </div>
@@ -936,6 +1079,16 @@ CORE FUNCTION:
                 <span style="font-weight:700;">Bologna vs Internazionale</span>
                 <span style="color:#8B949E; font-weight:normal;">
                     1 - 3 
+                </span>
+            </div>
+        </div>
+        
+        <div style="font-family:monospace; color:#fff; display:flex; flex-direction:column; padding:10px; border:1px solid #222; border-radius:4px; margin-bottom:8px;">
+            <div style="font-size:0.7rem; color:#8B949E; margin-bottom:4px; text-transform:uppercase; font-weight:700; letter-spacing:0.1em;">SERIE A</div>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-weight:700;">AS Roma vs Genoa</span>
+                <span style="color:#FF3333; font-weight:900;">
+                    1 - 0 <span class="blink" style="animation: ct-blink 1s infinite alternate;">● LIVE</span>
                 </span>
             </div>
         </div>
@@ -994,8 +1147,8 @@ CORE FUNCTION:
             <div style="font-size:0.7rem; color:#8B949E; margin-bottom:4px; text-transform:uppercase; font-weight:700; letter-spacing:0.1em;">BUNDESLIGA</div>
             <div style="display:flex; justify-content:space-between; align-items:center;">
                 <span style="font-weight:700;">Bayern Munich vs RB Leipzig</span>
-                <span style="color:#FF3333; font-weight:900;">
-                    5 - 0 <span class="blink" style="animation: ct-blink 1s infinite alternate;">● LIVE</span>
+                <span style="color:#8B949E; font-weight:normal;">
+                    6 - 1 
                 </span>
             </div>
         </div>
@@ -1010,35 +1163,12 @@ CORE FUNCTION:
             </div>
         </div>
         
-                    </div>
-                    <div id="fb-fixtures-tab" style="display:none;">
-                        
-        <div style="font-family:monospace; color:#fff; display:flex; flex-direction:column; padding:10px; border:1px solid #222; border-radius:4px; margin-bottom:8px;">
-            <div style="font-size:0.7rem; color:#8B949E; margin-bottom:4px; text-transform:uppercase; font-weight:700; letter-spacing:0.1em;">LA LIGA</div>
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-                <span style="font-weight:700;">Valencia vs Athletic Club</span>
-                <span style="color:#8B949E; font-weight:normal;">
-                    SCHEDULED 
-                </span>
-            </div>
-        </div>
-        
-        <div style="font-family:monospace; color:#fff; display:flex; flex-direction:column; padding:10px; border:1px solid #222; border-radius:4px; margin-bottom:8px;">
-            <div style="font-size:0.7rem; color:#8B949E; margin-bottom:4px; text-transform:uppercase; font-weight:700; letter-spacing:0.1em;">SERIE A</div>
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-                <span style="font-weight:700;">AS Roma vs Genoa</span>
-                <span style="color:#8B949E; font-weight:normal;">
-                    SCHEDULED 
-                </span>
-            </div>
-        </div>
-        
         <div style="font-family:monospace; color:#fff; display:flex; flex-direction:column; padding:10px; border:1px solid #222; border-radius:4px; margin-bottom:8px;">
             <div style="font-size:0.7rem; color:#8B949E; margin-bottom:4px; text-transform:uppercase; font-weight:700; letter-spacing:0.1em;">LIGUE 1</div>
             <div style="display:flex; justify-content:space-between; align-items:center;">
                 <span style="font-weight:700;">Lille vs Brest</span>
-                <span style="color:#8B949E; font-weight:normal;">
-                    SCHEDULED 
+                <span style="color:#FF3333; font-weight:900;">
+                    0 - 1 <span class="blink" style="animation: ct-blink 1s infinite alternate;">● LIVE</span>
                 </span>
             </div>
         </div>
@@ -1047,18 +1177,21 @@ CORE FUNCTION:
             <div style="font-size:0.7rem; color:#8B949E; margin-bottom:4px; text-transform:uppercase; font-weight:700; letter-spacing:0.1em;">LIGUE 1</div>
             <div style="display:flex; justify-content:space-between; align-items:center;">
                 <span style="font-weight:700;">Troyes vs Lens</span>
-                <span style="color:#8B949E; font-weight:normal;">
-                    SCHEDULED 
+                <span style="color:#FF3333; font-weight:900;">
+                    1 - 3 <span class="blink" style="animation: ct-blink 1s infinite alternate;">● LIVE</span>
                 </span>
             </div>
         </div>
         
                     </div>
+                    <div id="fb-fixtures-tab" style="display:none;">
+                        <div style="color: #8B949E; font-size: 0.9rem; font-family: monospace;">No scheduled fixtures verified at this moment.</div>
+                    </div>
                     <div id="fb-tables-tab" style="display:none;">
-                        <div style="margin-bottom:15px;"><div style="color:#00FF66; font-weight:900; font-family:'Space Grotesk', sans-serif; margin-bottom:5px; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.1em;">Premier League</div><table class="fb-table" style="margin-bottom:0;"><tr><th>#</th><th>Club</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>Pts</th></tr><tr><td style="color:#39ff14;">1</td><td style="color:#39ff14; font-weight:700;">Man City</td><td>7</td><td>7</td><td>0</td><td>0</td><td style="color:#CCFF00; font-weight:700;">21</td></tr><tr><td style="color:#39ff14;">2</td><td style="color:#39ff14; font-weight:700;">Arsenal</td><td>6</td><td>5</td><td>0</td><td>1</td><td style="color:#CCFF00; font-weight:700;">15</td></tr><tr><td style="color:#39ff14;">3</td><td style="color:#39ff14; font-weight:700;">Brighton</td><td>6</td><td>4</td><td>1</td><td>1</td><td style="color:#CCFF00; font-weight:700;">13</td></tr><tr><td style="color:#39ff14;">4</td><td style="color:#39ff14; font-weight:700;">Chelsea</td><td>7</td><td>4</td><td>1</td><td>2</td><td style="color:#CCFF00; font-weight:700;">13</td></tr></table></div><div style="margin-bottom:15px;"><div style="color:#00FF66; font-weight:900; font-family:'Space Grotesk', sans-serif; margin-bottom:5px; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.1em;">La Liga</div><table class="fb-table" style="margin-bottom:0;"><tr><th>#</th><th>Club</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>Pts</th></tr><tr><td style="color:#39ff14;">1</td><td style="color:#39ff14; font-weight:700;">Barcelona</td><td>8</td><td>8</td><td>0</td><td>0</td><td style="color:#CCFF00; font-weight:700;">24</td></tr><tr><td style="color:#39ff14;">2</td><td style="color:#39ff14; font-weight:700;">Atlético</td><td>9</td><td>7</td><td>1</td><td>1</td><td style="color:#CCFF00; font-weight:700;">22</td></tr><tr><td style="color:#39ff14;">3</td><td style="color:#39ff14; font-weight:700;">Betis</td><td>8</td><td>6</td><td>1</td><td>1</td><td style="color:#CCFF00; font-weight:700;">19</td></tr><tr><td style="color:#39ff14;">4</td><td style="color:#39ff14; font-weight:700;">Real Madrid</td><td>8</td><td>6</td><td>0</td><td>2</td><td style="color:#CCFF00; font-weight:700;">18</td></tr></table></div><div style="margin-bottom:15px;"><div style="color:#00FF66; font-weight:900; font-family:'Space Grotesk', sans-serif; margin-bottom:5px; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.1em;">Serie A</div><table class="fb-table" style="margin-bottom:0;"><tr><th>#</th><th>Club</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>Pts</th></tr><tr><td style="color:#39ff14;">1</td><td style="color:#39ff14; font-weight:700;">Inter Milan</td><td>7</td><td>6</td><td>1</td><td>0</td><td style="color:#CCFF00; font-weight:700;">19</td></tr><tr><td style="color:#39ff14;">2</td><td style="color:#39ff14; font-weight:700;">Lazio</td><td>6</td><td>5</td><td>1</td><td>0</td><td style="color:#CCFF00; font-weight:700;">16</td></tr><tr><td style="color:#39ff14;">3</td><td style="color:#39ff14; font-weight:700;">AS Roma</td><td>6</td><td>4</td><td>2</td><td>0</td><td style="color:#CCFF00; font-weight:700;">14</td></tr><tr><td style="color:#39ff14;">4</td><td style="color:#39ff14; font-weight:700;">Cagliari</td><td>6</td><td>4</td><td>1</td><td>1</td><td style="color:#CCFF00; font-weight:700;">13</td></tr></table></div><div style="margin-bottom:15px;"><div style="color:#00FF66; font-weight:900; font-family:'Space Grotesk', sans-serif; margin-bottom:5px; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.1em;">Bundesliga</div><table class="fb-table" style="margin-bottom:0;"><tr><th>#</th><th>Club</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>Pts</th></tr><tr><td style="color:#39ff14;">1</td><td style="color:#39ff14; font-weight:700;">Dortmund</td><td>6</td><td>4</td><td>2</td><td>0</td><td style="color:#CCFF00; font-weight:700;">14</td></tr><tr><td style="color:#39ff14;">2</td><td style="color:#39ff14; font-weight:700;">Freiburg</td><td>5</td><td>4</td><td>1</td><td>0</td><td style="color:#CCFF00; font-weight:700;">13</td></tr><tr><td style="color:#39ff14;">3</td><td style="color:#39ff14; font-weight:700;">Bayern</td><td>5</td><td>3</td><td>2</td><td>0</td><td style="color:#CCFF00; font-weight:700;">11</td></tr><tr><td style="color:#39ff14;">4</td><td style="color:#39ff14; font-weight:700;">Leverkusen</td><td>5</td><td>3</td><td>1</td><td>1</td><td style="color:#CCFF00; font-weight:700;">10</td></tr></table></div><div style="margin-bottom:15px;"><div style="color:#00FF66; font-weight:900; font-family:'Space Grotesk', sans-serif; margin-bottom:5px; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.1em;">Ligue 1</div><table class="fb-table" style="margin-bottom:0;"><tr><th>#</th><th>Club</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>Pts</th></tr><tr><td style="color:#39ff14;">1</td><td style="color:#39ff14; font-weight:700;">PSG</td><td>7</td><td>4</td><td>2</td><td>1</td><td style="color:#CCFF00; font-weight:700;">14</td></tr><tr><td style="color:#39ff14;">2</td><td style="color:#39ff14; font-weight:700;">Monaco</td><td>6</td><td>4</td><td>2</td><td>0</td><td style="color:#CCFF00; font-weight:700;">14</td></tr><tr><td style="color:#39ff14;">3</td><td style="color:#39ff14; font-weight:700;">Lille</td><td>6</td><td>4</td><td>1</td><td>1</td><td style="color:#CCFF00; font-weight:700;">13</td></tr><tr><td style="color:#39ff14;">4</td><td style="color:#39ff14; font-weight:700;">Rennes</td><td>6</td><td>4</td><td>1</td><td>1</td><td style="color:#CCFF00; font-weight:700;">13</td></tr></table></div>
+                        <div style="margin-bottom:15px;"><div style="color:#00FF66; font-weight:900; font-family:'Space Grotesk', sans-serif; margin-bottom:5px; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.1em;">Premier League</div><table class="fb-table" style="margin-bottom:0;"><tr><th>#</th><th>Club</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>Pts</th></tr><tr><td style="color:#39ff14;">1</td><td style="color:#39ff14; font-weight:700;">Man City</td><td>7</td><td>7</td><td>0</td><td>0</td><td style="color:#CCFF00; font-weight:700;">21</td></tr><tr><td style="color:#39ff14;">2</td><td style="color:#39ff14; font-weight:700;">Arsenal</td><td>6</td><td>5</td><td>0</td><td>1</td><td style="color:#CCFF00; font-weight:700;">15</td></tr><tr><td style="color:#39ff14;">3</td><td style="color:#39ff14; font-weight:700;">Brighton</td><td>6</td><td>4</td><td>1</td><td>1</td><td style="color:#CCFF00; font-weight:700;">13</td></tr><tr><td style="color:#39ff14;">4</td><td style="color:#39ff14; font-weight:700;">Chelsea</td><td>7</td><td>4</td><td>1</td><td>2</td><td style="color:#CCFF00; font-weight:700;">13</td></tr></table></div><div style="margin-bottom:15px;"><div style="color:#00FF66; font-weight:900; font-family:'Space Grotesk', sans-serif; margin-bottom:5px; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.1em;">La Liga</div><table class="fb-table" style="margin-bottom:0;"><tr><th>#</th><th>Club</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>Pts</th></tr><tr><td style="color:#39ff14;">1</td><td style="color:#39ff14; font-weight:700;">Barcelona</td><td>9</td><td>9</td><td>0</td><td>0</td><td style="color:#CCFF00; font-weight:700;">27</td></tr><tr><td style="color:#39ff14;">2</td><td style="color:#39ff14; font-weight:700;">Atlético</td><td>9</td><td>7</td><td>1</td><td>1</td><td style="color:#CCFF00; font-weight:700;">22</td></tr><tr><td style="color:#39ff14;">3</td><td style="color:#39ff14; font-weight:700;">Betis</td><td>9</td><td>6</td><td>1</td><td>2</td><td style="color:#CCFF00; font-weight:700;">19</td></tr><tr><td style="color:#39ff14;">4</td><td style="color:#39ff14; font-weight:700;">Real Madrid</td><td>8</td><td>6</td><td>0</td><td>2</td><td style="color:#CCFF00; font-weight:700;">18</td></tr></table></div><div style="margin-bottom:15px;"><div style="color:#00FF66; font-weight:900; font-family:'Space Grotesk', sans-serif; margin-bottom:5px; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.1em;">Serie A</div><table class="fb-table" style="margin-bottom:0;"><tr><th>#</th><th>Club</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>Pts</th></tr><tr><td style="color:#39ff14;">1</td><td style="color:#39ff14; font-weight:700;">Inter Milan</td><td>7</td><td>6</td><td>1</td><td>0</td><td style="color:#CCFF00; font-weight:700;">19</td></tr><tr><td style="color:#39ff14;">2</td><td style="color:#39ff14; font-weight:700;">Lazio</td><td>6</td><td>5</td><td>1</td><td>0</td><td style="color:#CCFF00; font-weight:700;">16</td></tr><tr><td style="color:#39ff14;">3</td><td style="color:#39ff14; font-weight:700;">AS Roma</td><td>6</td><td>4</td><td>2</td><td>0</td><td style="color:#CCFF00; font-weight:700;">14</td></tr><tr><td style="color:#39ff14;">4</td><td style="color:#39ff14; font-weight:700;">Cagliari</td><td>6</td><td>4</td><td>1</td><td>1</td><td style="color:#CCFF00; font-weight:700;">13</td></tr></table></div><div style="margin-bottom:15px;"><div style="color:#00FF66; font-weight:900; font-family:'Space Grotesk', sans-serif; margin-bottom:5px; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.1em;">Bundesliga</div><table class="fb-table" style="margin-bottom:0;"><tr><th>#</th><th>Club</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>Pts</th></tr><tr><td style="color:#39ff14;">1</td><td style="color:#39ff14; font-weight:700;">Bayern</td><td>6</td><td>4</td><td>2</td><td>0</td><td style="color:#CCFF00; font-weight:700;">14</td></tr><tr><td style="color:#39ff14;">2</td><td style="color:#39ff14; font-weight:700;">Dortmund</td><td>6</td><td>4</td><td>2</td><td>0</td><td style="color:#CCFF00; font-weight:700;">14</td></tr><tr><td style="color:#39ff14;">3</td><td style="color:#39ff14; font-weight:700;">Freiburg</td><td>5</td><td>4</td><td>1</td><td>0</td><td style="color:#CCFF00; font-weight:700;">13</td></tr><tr><td style="color:#39ff14;">4</td><td style="color:#39ff14; font-weight:700;">Leverkusen</td><td>5</td><td>3</td><td>1</td><td>1</td><td style="color:#CCFF00; font-weight:700;">10</td></tr></table></div><div style="margin-bottom:15px;"><div style="color:#00FF66; font-weight:900; font-family:'Space Grotesk', sans-serif; margin-bottom:5px; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.1em;">Ligue 1</div><table class="fb-table" style="margin-bottom:0;"><tr><th>#</th><th>Club</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>Pts</th></tr><tr><td style="color:#39ff14;">1</td><td style="color:#39ff14; font-weight:700;">PSG</td><td>7</td><td>4</td><td>2</td><td>1</td><td style="color:#CCFF00; font-weight:700;">14</td></tr><tr><td style="color:#39ff14;">2</td><td style="color:#39ff14; font-weight:700;">Monaco</td><td>6</td><td>4</td><td>2</td><td>0</td><td style="color:#CCFF00; font-weight:700;">14</td></tr><tr><td style="color:#39ff14;">3</td><td style="color:#39ff14; font-weight:700;">Lille</td><td>6</td><td>4</td><td>1</td><td>1</td><td style="color:#CCFF00; font-weight:700;">13</td></tr><tr><td style="color:#39ff14;">4</td><td style="color:#39ff14; font-weight:700;">Rennes</td><td>6</td><td>4</td><td>1</td><td>1</td><td style="color:#CCFF00; font-weight:700;">13</td></tr></table></div>
                     </div>
                     <div id="fb-news-tab" style="display:none;">
-                        <div style="background:rgba(57,255,20,0.1); padding:15px; border-left:3px solid #39ff14; margin-bottom:10px; border-radius: 4px;"><div style="color:#39ff14; font-weight:900; margin-bottom:5px; font-family:'Space Grotesk', sans-serif;">LATEST SUMMARY REPORT</div><div style="color:#fff; font-size:1rem; font-weight:700; margin-bottom:8px;">Chelsea's Martinez taken to hospital for 'precautionary tests'</div><div style="color:#8B949E; font-size:0.8rem; line-height: 1.4;">Goalkeeper Emiliano Martinez was taken to hospital as Chelsea's 2-0 win at Everton on Saturday meant they secured their first clean sheet in nine months. </div><a href="https://www.bbc.co.uk/sport/football/articles/c6rryqq00yp4o?at_medium=RSS&at_campaign=rss" target="_blank" style="color:#39ff14; font-size:0.75rem; text-decoration:none; margin-top:12px; display:inline-block; font-weight:700;">Read Full Intelligence Report →</a></div><div style="padding:10px; border-bottom:1px solid #222;"><div style="color:#e0e0e0; font-weight:600; font-size:0.85rem;">Neto stars but who was subdued? - player ratings for Everton v Chelsea</div></div><div style="padding:10px; border-bottom:1px solid #222;"><div style="color:#e0e0e0; font-weight:600; font-size:0.85rem;">Swansea must use West Ham defeat as fuel - Matos </div></div>
+                        <div style="background:rgba(57,255,20,0.1); padding:15px; border-left:3px solid #39ff14; margin-bottom:10px; border-radius: 4px;"><div style="color:#39ff14; font-weight:900; margin-bottom:5px; font-family:'Space Grotesk', sans-serif;">LATEST SUMMARY REPORT</div><div style="color:#fff; font-size:1rem; font-weight:700; margin-bottom:8px;">Liverpool come from behind to beat nine-man Brentford</div><div style="color:#8B949E; font-size:0.8rem; line-height: 1.4;">Liverpool come from behind to beat Brentford 2-1 at the Gtech Community Stadium as the hosts finish with nine men after red cards for Yehor Yarmoliuk and  Vitaly Janelt. </div><a href="https://www.bbc.co.uk/sport/football/videos/c65yn28p859wo?at_medium=RSS&at_campaign=rss" target="_blank" style="color:#39ff14; font-size:0.75rem; text-decoration:none; margin-top:12px; display:inline-block; font-weight:700;">Read Full Intelligence Report →</a></div><div style="padding:10px; border-bottom:1px solid #222;"><div style="color:#e0e0e0; font-weight:600; font-size:0.85rem;">Haaland nets double as Man City go six points clear at the top</div></div><div style="padding:10px; border-bottom:1px solid #222;"><div style="color:#e0e0e0; font-weight:600; font-size:0.85rem;">Manzambi heads Villa to victory at Newcastle</div></div>
                     </div>
                 </div>
             </div>
@@ -1082,21 +1215,272 @@ CORE FUNCTION:
             </div>
         </section>
 
+        <!-- ======================================================
+             DAILYPOST365 STUDIOS — CINEMA & VIDEO SONGS ALBUM HUB
+             Channel: https://www.youtube.com/@DailyPost365Studios
+             Representative: Movie & Video Songs Albums
+             ====================================================== -->
+        <!-- STUDIOS HERO BANNER -->
+        <div class="video-banner-container reveal" style="margin-top: 80px;">
+            <iframe class="video-banner-iframe" style="filter: hue-rotate(270deg) saturate(1.4) brightness(0.85);" src="https://www.youtube.com/embed/fAbSDHuLRRU?autoplay=1&mute=1&loop=1&controls=0&playlist=fAbSDHuLRRU&modestbranding=1" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+            <div class="video-banner-overlay"></div>
+            <div class="hero-iso-text">
+                <div class="studios-badge-main mb-3"><i class="fas fa-film"></i> DAILYPOST365 STUDIOS</div>
+                <h3 class="hero-iso-title" style="color: #c084fc; text-shadow: 0 0 20px rgba(192,132,252,0.6);">Cinema &amp; Video Songs Album Division</h3>
+                <p class="hero-iso-desc">Official creative entertainment studio — producing 8K AI cinematic survival sagas, original video songs albums, and dynamic story visualizers under the <strong>@DailyPost365Studios</strong> flagship.</p>
+            </div>
+        </div>
+
+        <!-- STUDIOS MASTER SECTION -->
+        <section class="studios-hub-section reveal" id="studios-hub">
+            <div class="studios-card">
+                <!-- CHANNEL HEADER & CONTROL STRIP -->
+                <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 pb-8 border-b border-purple-500/20">
+                    <div class="flex items-center gap-5">
+                        <div style="width: 64px; height: 64px; border-radius: 16px; background: linear-gradient(135deg, #FF0000 0%, #7f1d1d 100%); display:flex; align-items:center; justify-content:center; box-shadow: 0 0 25px rgba(255,0,0,0.4); flex-shrink:0;">
+                            <i class="fab fa-youtube text-white text-3xl"></i>
+                        </div>
+                        <div>
+                            <div class="flex flex-wrap items-center gap-3">
+                                <span class="studios-badge-main"><i class="fas fa-check-circle"></i> VERIFIED PRODUCTION CHANNEL</span>
+                                <span style="font-size: 0.75rem; color: #a855f7; font-weight: 800; font-family: monospace; letter-spacing: 0.1em;">YOUTUBE STUDIOS NODE</span>
+                            </div>
+                            <h2 style="margin: 6px 0 4px 0; font-size: 2.4rem; font-family: 'Space Grotesk', sans-serif; font-weight: 900; color: #ffffff; letter-spacing: -0.5px;">
+                                DailyPost365 Studios <span style="color: #c084fc; font-weight: 400; font-size: 1.5rem;">(@DailyPost365Studios)</span>
+                            </h2>
+                            <p style="margin: 0; color: #94a3b8; font-size: 0.95rem; line-height: 1.5;">
+                                This channel represents movie and video songs albums — autonomous 8K AI cinematic mountain survival epics, original music releases, and dramatic visualizers.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-4">
+                        <a href="https://www.youtube.com/@DailyPost365Studios" target="_blank" class="studios-btn studios-btn-yt">
+                            <i class="fab fa-youtube text-lg"></i>
+                            <span>Visit @DailyPost365Studios Channel</span>
+                            <i class="fas fa-external-link-alt text-xs opacity-75"></i>
+                        </a>
+                        <a href="https://www.youtube.com/watch?v=fAbSDHuLRRU&t=1s" target="_blank" class="studios-btn studios-btn-ghost">
+                            <i class="fas fa-play text-xs text-purple-400"></i>
+                            <span>Watch 8K Cinema Epic</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- FEATURED CINEMATIC MASTERPIECE (16:9 WIDESCREEN) -->
+                <div style="margin-top: 40px; margin-bottom: 50px;">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">
+                        <div>
+                            <div style="display:inline-flex; align-items:center; gap:6px; color:#ff0055; font-size:0.75rem; font-weight:900; letter-spacing:0.15em; text-transform:uppercase; margin-bottom:6px;">
+                                <i class="fas fa-clapperboard"></i> FLAGSHIP CINEMATIC FEATURE
+                            </div>
+                            <h3 style="font-size: 2rem; color: #fff; font-family: 'Space Grotesk', sans-serif; font-weight: 900; margin: 0;">
+                                The Last Unspoken Word — 8K AI Cinematic Mountain Survival Epic
+                            </h3>
+                            <p style="color: #8b949e; margin: 6px 0 0 0; font-size: 0.9rem;">
+                                Trapped in catastrophic alpine blizzard isolation, the human spirit confronts nature's absolute fury. Generated in pristine 8K resolution with spatial acoustic mastering.
+                            </p>
+                        </div>
+                        <div class="flex gap-2">
+                            <span style="background: rgba(168,85,247,0.15); border: 1px solid rgba(168,85,247,0.4); color: #c084fc; padding: 4px 12px; border-radius: 4px; font-size: 0.7rem; font-weight: 800; font-family: monospace;">8K RESOLUTION</span>
+                            <span style="background: rgba(255,0,85,0.15); border: 1px solid rgba(255,0,85,0.4); color: #ff77a9; padding: 4px 12px; border-radius: 4px; font-size: 0.7rem; font-weight: 800; font-family: monospace;">SURVIVAL EPIC</span>
+                            <span style="background: rgba(42,161,152,0.15); border: 1px solid rgba(42,161,152,0.4); color: #2aa198; padding: 4px 12px; border-radius: 4px; font-size: 0.7rem; font-weight: 800; font-family: monospace;">AI DIRECTED</span>
+                        </div>
+                    </div>
+
+                    <!-- 16:9 Widescreen Theatre -->
+                    <div class="studios-cinema-box">
+                        <div style="position: relative; width: 100%; padding-bottom: 56.25%;">
+                            <iframe style="position: absolute; top:0; left:0; width:100%; height:100%; border:none;" 
+                                    src="https://www.youtube.com/embed/fAbSDHuLRRU" 
+                                    title="The Last Unspoken Word - 8K AI Cinematic Mountain Survival Epic" 
+                                    frameborder="0" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                    allowfullscreen>
+                            </iframe>
+                        </div>
+                        <div style="padding: 16px 24px; background: rgba(0,0,0,0.5); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; border-top: 1px solid rgba(255,255,255,0.05);">
+                            <div class="flex items-center gap-3 text-xs text-gray-400">
+                                <span class="text-purple-400 font-bold"><i class="fas fa-play-circle mr-1"></i> Official Studio Master</span>
+                                <span>•</span>
+                                <span>Format: 16:9 Ultra-Widescreen</span>
+                                <span>•</span>
+                                <span>Sound: Atmospheric Multi-Stem Score</span>
+                            </div>
+                            <a href="https://www.youtube.com/watch?v=fAbSDHuLRRU&t=1s" target="_blank" style="color: #ff4d4d; font-size: 0.8rem; font-weight: 800; text-decoration: none; display: flex; align-items: center; gap: 6px;">
+                                Watch on YouTube with 8K Settings <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIDEO SONGS ALBUMS & CINEMATIC SHORTS (9:16 VERTICAL GRID) -->
+                <div>
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
+                        <div>
+                            <div style="display:inline-flex; align-items:center; gap:6px; color:#c084fc; font-size:0.75rem; font-weight:900; letter-spacing:0.15em; text-transform:uppercase; margin-bottom:6px;">
+                                <i class="fas fa-compact-disc"></i> MUSIC ALBUMS &amp; CINEMATIC SHORTS
+                            </div>
+                            <h3 style="font-size: 1.8rem; color: #fff; font-family: 'Space Grotesk', sans-serif; font-weight: 900; margin: 0;">
+                                Official Video Songs &amp; Dramatic Reel Releases
+                            </h3>
+                            <p style="color: #8b949e; margin: 6px 0 0 0; font-size: 0.9rem;">
+                                Vertical 9:16 releases from @DailyPost365Studios — featuring high-energy music album visualizers, mythic anthems, and cinematic story shorts.
+                            </p>
+                        </div>
+                        <a href="https://www.youtube.com/@DailyPost365Studios/shorts" target="_blank" class="studios-btn studios-btn-ghost" style="font-size:0.75rem;">
+                            <i class="fab fa-youtube text-red-500"></i>
+                            <span>View All Shorts on YouTube</span>
+                        </a>
+                    </div>
+
+                    <!-- 3-Column Responsive Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Short 1: Sasha Vane - VENOM -->
+                        <div class="studios-reel-box">
+                            <div style="position:relative; width:100%; padding-bottom:177.77%;">
+                                <iframe style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;" 
+                                        src="https://www.youtube.com/embed/gJTnOTVKGQM" 
+                                        title="Sasha Vane - VENOM Official Visualizer" 
+                                        frameborder="0" 
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                        allowfullscreen>
+                                </iframe>
+                            </div>
+                            <div style="padding: 18px; display: flex; flex-direction: column; justify-content: space-between; flex-grow: 1; background: rgba(10,12,22,0.85); border-top: 1px solid rgba(168,85,247,0.2);">
+                                <div>
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span style="background: rgba(168,85,247,0.2); border: 1px solid #a855f7; color: #d8b4fe; font-size: 0.68rem; font-weight: 800; padding: 2px 8px; border-radius: 4px; text-transform: uppercase;">
+                                            <i class="fas fa-music mr-1"></i> Music Visualizer
+                                        </span>
+                                        <span style="color: #ff0055; font-size: 0.7rem; font-weight: 800; font-family: monospace;">#Shorts</span>
+                                    </div>
+                                    <h4 style="color: #ffffff; font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; font-weight: 800; margin: 4px 0 8px 0; line-height: 1.35;">
+                                        Sasha Vane — VENOM Official Visualizer
+                                    </h4>
+                                    <p style="color: #94a3b8; font-size: 0.8rem; margin: 0; line-height: 1.4;">
+                                        Electrifying dark synth single from the Sasha Vane audio-visual project, featuring hypnotic cybernetic beats and intense neon aesthetics.
+                                    </p>
+                                </div>
+                                <div style="margin-top: 15px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.06);">
+                                    <a href="https://www.youtube.com/shorts/gJTnOTVKGQM" target="_blank" style="color: #c084fc; font-size: 0.78rem; font-weight: 800; text-decoration: none; display: flex; align-items: center; justify-content: space-between;">
+                                        <span>Watch Short on YouTube</span>
+                                        <i class="fas fa-arrow-right text-xs"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Short 2: Story Short Part 2 -->
+                        <div class="studios-reel-box">
+                            <div style="position:relative; width:100%; padding-bottom:177.77%;">
+                                <iframe style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;" 
+                                        src="https://www.youtube.com/embed/-wzMJXVE4HM" 
+                                        title="They told her to give up Then this happened… Part 2" 
+                                        frameborder="0" 
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                        allowfullscreen>
+                                </iframe>
+                            </div>
+                            <div style="padding: 18px; display: flex; flex-direction: column; justify-content: space-between; flex-grow: 1; background: rgba(10,12,22,0.85); border-top: 1px solid rgba(168,85,247,0.2);">
+                                <div>
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span style="background: rgba(255,0,85,0.2); border: 1px solid #ff0055; color: #ff77a9; font-size: 0.68rem; font-weight: 800; padding: 2px 8px; border-radius: 4px; text-transform: uppercase;">
+                                            <i class="fas fa-video mr-1"></i> Cinematic Drama
+                                        </span>
+                                        <span style="color: #ff0055; font-size: 0.7rem; font-weight: 800; font-family: monospace;">#Shorts</span>
+                                    </div>
+                                    <h4 style="color: #ffffff; font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; font-weight: 800; margin: 4px 0 8px 0; line-height: 1.35;">
+                                        They told her to give up Then this happened… ⚡ Part 2
+                                    </h4>
+                                    <p style="color: #94a3b8; font-size: 0.8rem; margin: 0; line-height: 1.4;">
+                                        High-stakes dramatic narrative sequence exploring unyielding resilience, intense emotional conflict, and unexpected triumph against impossible odds.
+                                    </p>
+                                </div>
+                                <div style="margin-top: 15px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.06);">
+                                    <a href="https://www.youtube.com/shorts/-wzMJXVE4HM" target="_blank" style="color: #ff77a9; font-size: 0.78rem; font-weight: 800; text-decoration: none; display: flex; align-items: center; justify-content: space-between;">
+                                        <span>Watch Short on YouTube</span>
+                                        <i class="fas fa-arrow-right text-xs"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Short 3: Sasha Vane - VALKYRIE -->
+                        <div class="studios-reel-box">
+                            <div style="position:relative; width:100%; padding-bottom:177.77%;">
+                                <iframe style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;" 
+                                        src="https://www.youtube.com/embed/0n-25fxonkU" 
+                                        title="Sasha Vane - VALKYRIE Official Video" 
+                                        frameborder="0" 
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                        allowfullscreen>
+                                </iframe>
+                            </div>
+                            <div style="padding: 18px; display: flex; flex-direction: column; justify-content: space-between; flex-grow: 1; background: rgba(10,12,22,0.85); border-top: 1px solid rgba(168,85,247,0.2);">
+                                <div>
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span style="background: rgba(0,210,255,0.2); border: 1px solid #00d2ff; color: #67e8f9; font-size: 0.68rem; font-weight: 800; padding: 2px 8px; border-radius: 4px; text-transform: uppercase;">
+                                            <i class="fas fa-bolt mr-1"></i> Album Music Video
+                                        </span>
+                                        <span style="color: #ff0055; font-size: 0.7rem; font-weight: 800; font-family: monospace;">#Shorts</span>
+                                    </div>
+                                    <h4 style="color: #ffffff; font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; font-weight: 800; margin: 4px 0 8px 0; line-height: 1.35;">
+                                        No white flags Only ashes ⚡ Sasha Vane — VALKYRIE Official Video
+                                    </h4>
+                                    <p style="color: #94a3b8; font-size: 0.8rem; margin: 0; line-height: 1.4;">
+                                        Mythic powerhouse battle track visualizer with soaring vocals, thunderous cinematic percussion, and uncompromising warrior spirit.
+                                    </p>
+                                </div>
+                                <div style="margin-top: 15px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.06);">
+                                    <a href="https://www.youtube.com/shorts/0n-25fxonkU" target="_blank" style="color: #67e8f9; font-size: 0.78rem; font-weight: 800; text-decoration: none; display: flex; align-items: center; justify-content: space-between;">
+                                        <span>Watch Short on YouTube</span>
+                                        <i class="fas fa-arrow-right text-xs"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
     </main>
 
     <footer>
-        <div class="flex justify-center gap-16 mb-20 text-3xl opacity-20">
-            <a href="https://www.youtube.com/@oilandgasDailyPost365" class="hover:opacity-100 hover:text-red-600 transition"><i class="fab fa-youtube"></i></a>
-            <a href="https://www.tiktok.com/@dailypost0365" class="hover:opacity-100 hover:text-white transition"><i class="fab fa-tiktok"></i></a>
-            <a href="#" class="hover:opacity-100 hover:text-blue-400 transition"><i class="fab fa-x-twitter"></i></a>
-            <a href="https://www.instagram.com/dailypost365cricketfootball/reels/" class="hover:opacity-100 hover:text-pink-500 transition"><i class="fab fa-instagram"></i></a>
-            <a href="https://www.linkedin.com/in/sumesh-mullath-prince2%C2%AE-9b163644/" class="hover:opacity-100 hover:text-blue-600 transition"><i class="fab fa-linkedin"></i></a>
+        <!-- YOUTUBE CHANNELS DIRECTORY -->
+        <div class="flex flex-wrap justify-center items-center gap-4 mb-10 text-xs">
+            <a href="https://www.youtube.com/@DailyPost365Studios" target="_blank" class="flex items-center gap-2 px-5 py-2.5 rounded-full border border-purple-500/40 bg-purple-900/20 text-purple-300 hover:text-white hover:border-purple-400 hover:bg-purple-900/40 transition font-bold" style="font-family:'Space Grotesk',sans-serif; text-decoration:none;">
+                <i class="fab fa-youtube text-red-500 text-base"></i>
+                <span>DailyPost365 Studios (Movies &amp; Music Albums)</span>
+                <i class="fas fa-external-link-alt text-[10px] opacity-60"></i>
+            </a>
+            <a href="https://www.youtube.com/@oilandgasDailyPost365" target="_blank" class="flex items-center gap-2 px-5 py-2.5 rounded-full border border-amber-500/40 bg-amber-900/20 text-amber-300 hover:text-white hover:border-amber-400 hover:bg-amber-900/40 transition font-bold" style="font-family:'Space Grotesk',sans-serif; text-decoration:none;">
+                <i class="fab fa-youtube text-amber-500 text-base"></i>
+                <span>Oil &amp; Gas Intelligence</span>
+                <i class="fas fa-external-link-alt text-[10px] opacity-60"></i>
+            </a>
+            <a href="https://www.youtube.com/@dailypost365cricketfootball" target="_blank" class="flex items-center gap-2 px-5 py-2.5 rounded-full border border-green-500/40 bg-green-900/20 text-green-300 hover:text-white hover:border-green-400 hover:bg-green-900/40 transition font-bold" style="font-family:'Space Grotesk',sans-serif; text-decoration:none;">
+                <i class="fab fa-youtube text-green-500 text-base"></i>
+                <span>Sports Telemetry &amp; Highlights</span>
+                <i class="fas fa-external-link-alt text-[10px] opacity-60"></i>
+            </a>
+        </div>
+
+        <div class="flex justify-center gap-12 mb-16 text-2xl opacity-40">
+            <a href="https://www.youtube.com/@DailyPost365Studios" target="_blank" class="hover:opacity-100 hover:text-red-500 transition" title="DailyPost365 Studios YouTube"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.youtube.com/@oilandgasDailyPost365" target="_blank" class="hover:opacity-100 hover:text-amber-500 transition" title="Oil & Gas YouTube"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.tiktok.com/@dailypost0365" target="_blank" class="hover:opacity-100 hover:text-white transition" title="TikTok"><i class="fab fa-tiktok"></i></a>
+            <a href="#" class="hover:opacity-100 hover:text-blue-400 transition" title="Twitter / X"><i class="fab fa-x-twitter"></i></a>
+            <a href="https://www.instagram.com/dailypost365cricketfootball/reels/" target="_blank" class="hover:opacity-100 hover:text-pink-500 transition" title="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/in/sumesh-mullath-prince2%C2%AE-9b163644/" target="_blank" class="hover:opacity-100 hover:text-blue-600 transition" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
             <a href="https://aistudio.instagram.com/ai/1203426195244577/" target="_blank" class="hover:opacity-100 text-[#39ff14] transition" title="DP365 AI Assistant"><i class="fas fa-robot"></i></a>
         </div>
         <div class="legal-shield">
-            LEGAL DISCLOSURE: DailyPost365 provides high-fidelity market intelligence and sports analysis for educational utility only. 
-            Cryptocurrency trading involves variable market risk. IPL Match Status provided for informational purposes via open sources. 
-            No licensed financial advice (VARA/SCA). V109.0 RESTORATION COMPLETE.
+            LEGAL DISCLOSURE: DailyPost365 provides high-fidelity market intelligence, cinematic media productions, and sports analysis for educational and entertainment utility. 
+            All movies, original video song albums, and visuals produced under @DailyPost365Studios. Cryptocurrency trading involves variable market risk. 
+            No licensed financial advice (VARA/SCA). V109.4 STUDIOS RESTORATION COMPLETE.
         </div>
     </footer>
 
@@ -1865,7 +2249,7 @@ CORE FUNCTION:
     (function() {
         var stats = [
             { id: 'stat-views',   target: '365M+',  numeric: 365,   suffix: 'M+' },
-            { id: 'stat-engines', target: '5',       numeric: 5,     suffix: '' },
+            { id: 'stat-engines', target: '6',       numeric: 6,     suffix: '' },
             { id: 'stat-markets', target: '15',      numeric: 15,    suffix: '' },
             { id: 'stat-uptime',  target: '99.9%',   numeric: 99.9,  suffix: '%' }
         ];
