@@ -805,10 +805,12 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         <nav class="flex flex-col gap-6 text-[11px] font-black uppercase tracking-[0.4em] text-gray-500 mt-auto">
             <a href="#" class="text-cyan-400">Terminal_Core</a>
             <a href="#nexus-hub" class="hover:text-white transition">Project_Nexus</a>
+            <a href="#crypto-news-section" class="hover:text-emerald-400 text-emerald-400 transition flex items-center gap-2"><i class="fab fa-youtube text-emerald-400"></i> Crypto_Channel</a>
             <a href="#studios-hub" class="text-purple-400 hover:text-white transition flex items-center gap-2"><i class="fas fa-film text-purple-400"></i> Studios_Cinema</a>
             <a href="#cricket-hub-container" class="hover:text-white transition">Cricket_Hub</a>
             <a href="#football-grid" class="hover:text-white transition">Football_Hub</a>
-            <a href="https://www.youtube.com/@DailyPost365Studios" target="_blank" class="text-red-500 hover:text-white transition flex items-center gap-2" title="DailyPost365 Studios YouTube"><i class="fab fa-youtube"></i> DP365 Studios</a>
+            <a href="https://www.youtube.com/@dailyposteducationalnews" target="_blank" class="text-emerald-400 hover:text-white transition flex items-center gap-2" title="Crypto YouTube Channel (@dailyposteducationalnews)"><i class="fab fa-youtube text-red-500"></i> Crypto YouTube</a>
+            <a href="https://www.youtube.com/@DailyPost365Studios" target="_blank" class="text-purple-400 hover:text-white transition flex items-center gap-2" title="DailyPost365 Studios YouTube"><i class="fab fa-youtube text-red-500"></i> DP365 Studios</a>
             <a href="https://aistudio.instagram.com/ai/1203426195244577/" target="_blank" class="text-[#39ff14] hover:text-white transition" style="text-shadow: 0 0 10px rgba(57,255,20,0.5);">DP365 AI Assistant</a>
         </nav>
     </aside>
@@ -866,6 +868,13 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 <div style="margin-bottom: 25px;">
                     <div class="premium-badge animate-pulse" style="display:inline-block; border-color:#FF0000; color:#fff; background:#FF0000; font-size:0.9rem; padding:4px 12px; font-weight:900; letter-spacing:0.1em; border-radius:4px;"><i class="fab fa-youtube"></i> Dailyposteducationalnews NEWS SECTOR</div>
                     <h3 style="margin:20px 0 15px 0; font-size:2.8rem; color:#39ff14; font-family:'Space Grotesk',sans-serif; font-weight:900; letter-spacing:-1px; text-transform:uppercase;">Dailyposteducationalnews MARKET UPDATES</h3>
+                    <div style="display:flex; justify-content:center; align-items:center; gap:12px; margin-top:15px; flex-wrap:wrap;">
+                        <a href="https://www.youtube.com/@dailyposteducationalnews" target="_blank" class="studios-btn studios-btn-yt" style="background: linear-gradient(135deg, #FF0000 0%, #15803d 100%); border: 1px solid #39ff14; box-shadow: 0 4px 20px rgba(57,255,20,0.3);">
+                            <i class="fab fa-youtube text-base"></i>
+                            <span>Visit Official Channel: @dailyposteducationalnews</span>
+                            <i class="fas fa-external-link-alt text-xs opacity-75"></i>
+                        </a>
+                    </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mt-10">
@@ -1530,6 +1539,11 @@ RULES:
     <footer>
         <!-- YOUTUBE CHANNELS DIRECTORY -->
         <div class="flex flex-wrap justify-center items-center gap-4 mb-10 text-xs">
+            <a href="https://www.youtube.com/@dailyposteducationalnews" target="_blank" class="flex items-center gap-2 px-5 py-2.5 rounded-full border border-green-500/40 bg-green-900/20 text-green-300 hover:text-white hover:border-green-400 hover:bg-green-900/40 transition font-bold" style="font-family:'Space Grotesk',sans-serif; text-decoration:none;">
+                <i class="fab fa-youtube text-red-500 text-base"></i>
+                <span>Crypto Market Intelligence (@dailyposteducationalnews)</span>
+                <i class="fas fa-external-link-alt text-[10px] opacity-60"></i>
+            </a>
             <a href="https://www.youtube.com/@DailyPost365Studios" target="_blank" class="flex items-center gap-2 px-5 py-2.5 rounded-full border border-purple-500/40 bg-purple-900/20 text-purple-300 hover:text-white hover:border-purple-400 hover:bg-purple-900/40 transition font-bold" style="font-family:'Space Grotesk',sans-serif; text-decoration:none;">
                 <i class="fab fa-youtube text-red-500 text-base"></i>
                 <span>DailyPost365 Studios (Movies &amp; Music Albums)</span>
@@ -1540,16 +1554,18 @@ RULES:
                 <span>Oil &amp; Gas Intelligence</span>
                 <i class="fas fa-external-link-alt text-[10px] opacity-60"></i>
             </a>
-            <a href="https://www.youtube.com/@dailypost365cricketfootball" target="_blank" class="flex items-center gap-2 px-5 py-2.5 rounded-full border border-green-500/40 bg-green-900/20 text-green-300 hover:text-white hover:border-green-400 hover:bg-green-900/40 transition font-bold" style="font-family:'Space Grotesk',sans-serif; text-decoration:none;">
+            <a href="https://www.youtube.com/@dailypost365cricketfootball" target="_blank" class="flex items-center gap-2 px-5 py-2.5 rounded-full border border-cyan-500/40 bg-cyan-900/20 text-cyan-300 hover:text-white hover:border-cyan-400 hover:bg-cyan-900/40 transition font-bold" style="font-family:'Space Grotesk',sans-serif; text-decoration:none;">
                 <i class="fab fa-youtube text-green-500 text-base"></i>
                 <span>Sports Telemetry &amp; Highlights</span>
                 <i class="fas fa-external-link-alt text-[10px] opacity-60"></i>
             </a>
         </div>
 
-        <div class="flex justify-center gap-12 mb-16 text-2xl opacity-40">
-            <a href="https://www.youtube.com/@DailyPost365Studios" target="_blank" class="hover:opacity-100 hover:text-red-500 transition" title="DailyPost365 Studios YouTube"><i class="fab fa-youtube"></i></a>
-            <a href="https://www.youtube.com/@oilandgasDailyPost365" target="_blank" class="hover:opacity-100 hover:text-amber-500 transition" title="Oil & Gas YouTube"><i class="fab fa-youtube"></i></a>
+        <div class="flex justify-center gap-10 mb-16 text-2xl opacity-40">
+            <a href="https://www.youtube.com/@dailyposteducationalnews" target="_blank" class="hover:opacity-100 hover:text-green-400 transition" title="Crypto Intelligence YouTube (@dailyposteducationalnews)"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.youtube.com/@DailyPost365Studios" target="_blank" class="hover:opacity-100 hover:text-red-500 transition" title="DailyPost365 Studios YouTube (@DailyPost365Studios)"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.youtube.com/@oilandgasDailyPost365" target="_blank" class="hover:opacity-100 hover:text-amber-500 transition" title="Oil & Gas YouTube (@oilandgasDailyPost365)"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.youtube.com/@dailypost365cricketfootball" target="_blank" class="hover:opacity-100 hover:text-cyan-400 transition" title="Sports YouTube (@dailypost365cricketfootball)"><i class="fab fa-youtube"></i></a>
             <a href="https://www.tiktok.com/@dailypost0365" target="_blank" class="hover:opacity-100 hover:text-white transition" title="TikTok"><i class="fab fa-tiktok"></i></a>
             <a href="#" class="hover:opacity-100 hover:text-blue-400 transition" title="Twitter / X"><i class="fab fa-x-twitter"></i></a>
             <a href="https://www.instagram.com/dailypost365cricketfootball/reels/" target="_blank" class="hover:opacity-100 hover:text-pink-500 transition" title="Instagram"><i class="fab fa-instagram"></i></a>
