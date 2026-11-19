@@ -1,14 +1,15 @@
 # Vercel Free Tier (Hobby) Deployment Ignore Configuration
-# Ensures ONLY lightweight static web files are deployed (< 250 KB total)
-# Prevents large PDFs, MP4 videos, PNGs, and Python engines from consuming Vercel Fast Data Transfer
+# Ensures ONLY lightweight static web files + ultra-compressed WebP 3D textures (~357 KB total) are deployed
+# Excludes all heavy PDFs (42 MB), MP4 videos (17.8 MB), raw PNGs (5.3 MB), and Python engines
 
-# Heavy binary, video, and image files (replaced by 0 KB procedural Canvas/WebGL visuals)
+# Heavy binary, video, and raw PNG image files
 *.pdf
 **/*.pdf
 data/*.pdf
 *.mp4
 **/*.mp4
-assets/
+assets/videos/
+assets/isometric/
 images/
 
 # Motion graphics & local dev folders
