@@ -1,0 +1,46 @@
+# Vercel Free Tier (Hobby) Deployment Ignore Configuration
+# Ensures ONLY lightweight static web files are deployed (< 250 KB total)
+# Prevents large PDFs, MP4 videos, PNGs, and Python engines from consuming Vercel Fast Data Transfer
+
+# Heavy binary, video, and image files (replaced by 0 KB procedural Canvas/WebGL visuals)
+*.pdf
+**/*.pdf
+data/*.pdf
+*.mp4
+**/*.mp4
+assets/
+images/
+
+# Motion graphics & local dev folders
+dp365-motion-graphics/
+out/
+web/
+
+# Python virtual environments, scripts, and runtime caches
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+agents/
+crypto_engine/
+scripts/
+dailypost.py
+deploy_to_github.py
+genius_cli.py
+upload_images.py
+patch*.py
+
+# Repo & internal metadata not needed by Vercel CDN
+.github/
+.agent/
+.agents/
+data/origin_*.html
+data/master_vault.json
+data/index.html
+stitch-config.json
+status
+joule_cache.json
+.env
+.env.*
