@@ -836,18 +836,34 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             max-height: 220px; overflow-y: auto; white-space: pre-wrap; line-height: 1.65; text-align: left;
         }
 
-        /* PROCEDURAL HERO BANNERS (0 KB BANDWIDTH, 100% COPYRIGHT-FREE) */
+        /* FULL-ON 3D HERO BANNERS (COMPRESSED WEBP + THREE.JS 3D WEBGL DEPTH, 100% COPYRIGHT-FREE) */
         .video-banner-container {
-            width: 100%; height: 340px; border-radius: 20px; margin: 32px 0 24px 0;
-            border: 1px solid rgba(255,255,255,0.09); background: #030712;
-            overflow: hidden; position: relative; box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            width: 100%; height: 390px; border-radius: 22px; margin: 32px 0 24px 0;
+            border: 1px solid rgba(255,255,255,0.12); background: #02060e;
+            overflow: hidden; position: relative; box-shadow: 0 24px 50px rgba(0,0,0,0.75);
+            perspective: 1000px;
+        }
+        .hero-3d-art {
+            position: absolute; inset: -4%; width: 108%; height: 108%;
+            object-fit: cover; object-position: center 42%;
+            opacity: 0.92; filter: contrast(1.08) saturate(1.12);
+            transform: scale(1.03);
+            transition: transform 0.25s ease-out;
+            animation: hero-3d-float 16s ease-in-out infinite alternate;
+            will-change: transform;
+        }
+        @keyframes hero-3d-float {
+            0%   { transform: scale(1.03) translate3d(0, 0, 0); }
+            50%  { transform: scale(1.08) translate3d(-0.8%, -1.2%, 0); }
+            100% { transform: scale(1.05) translate3d(0.8%, 0.6%, 0); }
         }
         .hero-canvas {
             position: absolute; inset: 0; width: 100%; height: 100%; display: block;
+            z-index: 3; pointer-events: none; mix-blend-mode: screen;
         }
         .video-banner-overlay {
             position: absolute; inset: 0;
-            background: linear-gradient(to top, rgba(1,4,9,0.92) 8%, rgba(1,4,9,0.28) 55%, rgba(1,4,9,0.15) 100%);
+            background: linear-gradient(to top, rgba(1,4,9,0.92) 6%, rgba(1,4,9,0.22) 52%, rgba(1,4,9,0.18) 100%);
             z-index: 5; pointer-events: none;
         }
         .hero-iso-text {
@@ -1079,16 +1095,17 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             </div>
         </header>
 
-        <!-- CRYPTO HERO BANNER (0 KB PROCEDURAL CANVAS — NEVER UNAVAILABLE, 100% COPYRIGHT-FREE) -->
-        <div class="video-banner-container reveal">
+        <!-- CRYPTO HERO BANNER (FULL-ON 3D LIQUID-GLASS BTC + THREE.JS WEBGL DEPTH) -->
+        <div class="video-banner-container reveal hero-3d-tilt">
+            <img class="hero-3d-art" src="assets/webp/btc.webp" alt="3D Liquid-Glass Monolithic Bitcoin Market Pulse" fetchpriority="high" decoding="async">
             <canvas id="canvas-hero-crypto" class="hero-canvas"></canvas>
             <div class="video-banner-overlay"></div>
             <div class="hero-iso-text">
-                <div style="display:inline-flex; align-items:center; gap:6px; background:rgba(57,255,20,0.12); border:1px solid rgba(57,255,20,0.4); color:#39ff14; padding:3px 10px; border-radius:4px; font-size:0.68rem; font-weight:900; letter-spacing:0.15em; margin-bottom:10px; text-transform:uppercase;">
-                    <i class="fas fa-bolt"></i> LIVE MARKET PULSE ENGINE
+                <div style="display:inline-flex; align-items:center; gap:6px; background:rgba(57,255,20,0.14); border:1px solid rgba(57,255,20,0.45); color:#39ff14; padding:3px 10px; border-radius:4px; font-size:0.68rem; font-weight:900; letter-spacing:0.15em; margin-bottom:10px; text-transform:uppercase;">
+                    <i class="fas fa-bolt"></i> LIVE 3D MARKET PULSE
                 </div>
                 <h3 class="hero-iso-title" style="color:#39ff14;">BTC (Dailyposteducationalnews): The Market Pulse</h3>
-                <p class="hero-iso-desc">Real-time procedural market telemetry canvas reflecting high-frequency liquidity sweeps, support baselines, and live cryptocurrency momentum.</p>
+                <p class="hero-iso-desc">Liquid-glass monolithic bitcoin asset reflecting high-end materials. Emits ambient green and red pulses visualizing live volatile market trends.</p>
             </div>
         </div>
 
@@ -1193,13 +1210,14 @@ RULES:
                     </div>
                 </div>
 
-                <!-- OIL & GAS HERO BANNER (0 KB PROCEDURAL CANVAS — 100% COPYRIGHT-FREE) -->
-                <div class="video-banner-container reveal" style="grid-column:1 / -1; margin:16px 0 8px 0;">
+                <!-- OIL & GAS HERO BANNER (FULL-ON 3D SUBSEA TREE XT-09 + THREE.JS WEBGL DEPTH) -->
+                <div class="video-banner-container reveal hero-3d-tilt" style="grid-column:1 / -1; margin:16px 0 8px 0;">
+                    <img class="hero-3d-art" src="assets/webp/oil_gas.webp" alt="3D Subsea Tree Assembly XT-09 Cybernetic Gold" loading="lazy" decoding="async" style="object-position:center 38%;">
                     <canvas id="canvas-hero-oilgas" class="hero-canvas"></canvas>
                     <div class="video-banner-overlay"></div>
                     <div class="hero-iso-text">
                         <h3 class="hero-iso-title" style="color:#f59e0b;">Oil &amp; Gas: The Molecular Precision Suite</h3>
-                        <p class="hero-iso-desc">Procedural subsea manifold &amp; cryogenic fluid dynamics visualization engineered in Cybernetic Gold and Arctic Cyan telemetry channels.</p>
+                        <p class="hero-iso-desc">Cinematic 2.5D subsea tree assembly rendering. Fluid dynamics visualized via &lsquo;Cybernetic Gold&rsquo; pulsing through polished carbon fiber channels.</p>
                     </div>
                 </div>
 
@@ -1240,13 +1258,14 @@ RULES:
             </div>
         </section>
 
-        <!-- CRICKET HERO BANNER (0 KB PROCEDURAL CANVAS — REPLACED 12.16 MB MP4!) -->
-        <div class="video-banner-container reveal">
+        <!-- CRICKET HERO BANNER (FULL-ON 3D ISOMETRIC VELOCITY + THREE.JS WEBGL DEPTH) -->
+        <div class="video-banner-container reveal hero-3d-tilt">
+            <img class="hero-3d-art" src="assets/webp/cricket.webp" alt="3D Isometric Cricket Velocity Focus" loading="lazy" decoding="async" style="object-position:center 48%;">
             <canvas id="canvas-hero-cricket" class="hero-canvas"></canvas>
             <div class="video-banner-overlay"></div>
             <div class="hero-iso-text">
                 <h3 class="hero-iso-title" style="color:#ffffff;">Cricket: The Velocity Focus</h3>
-                <p class="hero-iso-desc">Procedural stadium kinetic telemetry mapping high-velocity seam trajectories, radar sweeps, and verified international match intelligence.</p>
+                <p class="hero-iso-desc">Hyper-realistic cinematic sequence mapping extreme kinetic energy impact events on a gridless minimalist pitch architecture.</p>
             </div>
         </div>
 
@@ -1326,13 +1345,14 @@ RULES:
             </div>
         </section>
 
-        <!-- FOOTBALL HERO BANNER (0 KB PROCEDURAL CANVAS — REPLACED 5.60 MB MP4!) -->
-        <div class="video-banner-container reveal" style="margin-top:48px;">
+        <!-- FOOTBALL HERO BANNER (FULL-ON 3D GEOMETRIC TACTICAL + THREE.JS WEBGL DEPTH) -->
+        <div class="video-banner-container reveal hero-3d-tilt" style="margin-top:48px;">
+            <img class="hero-3d-art" src="assets/webp/football.webp" alt="3D Isometric Football Tactical Flow" loading="lazy" decoding="async" style="object-position:center 45%;">
             <canvas id="canvas-hero-football" class="hero-canvas"></canvas>
             <div class="video-banner-overlay"></div>
             <div class="hero-iso-text">
                 <h3 class="hero-iso-title" style="color:#e2e8f0;">Football: The Geometric Tactical Flow</h3>
-                <p class="hero-iso-desc">Procedural 2.5D tactical pitch network mapping passing lanes, expected-goal trajectories, and verified European league scoreboards.</p>
+                <p class="hero-iso-desc">Abstract 2.5D matte slate avatars interacting across architectural floors, mapping perfect arcs with precision white data-ribbons.</p>
             </div>
         </div>
 
@@ -1691,187 +1711,24 @@ RULES:
         });
     }
 
-    // ==========================================================
-    // PROCEDURAL 2D HERO CANVASES (0 KB BANDWIDTH, 100% COPYRIGHT-FREE)
-    // Automatically pause when scrolled offscreen or tab is hidden
-    // ==========================================================
-    function initProceduralHero(canvasId, drawFn) {
-        var canvas = document.getElementById(canvasId);
-        if (!canvas) return;
-        var ctx = canvas.getContext('2d');
-        var visible = true;
-        var w = 0, h = 0;
-
-        function resize() {
-            var rect = canvas.parentElement.getBoundingClientRect();
-            var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-            w = Math.max(300, rect.width);
-            h = Math.max(200, rect.height);
-            canvas.width = w * dpr;
-            canvas.height = h * dpr;
-            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        }
-        resize();
-        window.addEventListener('resize', resize, { passive: true });
-
-        if ('IntersectionObserver' in window) {
-            var io = new IntersectionObserver(function(entries) {
-                visible = entries[0].isIntersecting;
-            }, { threshold: 0.05 });
-            io.observe(canvas);
-        }
-
-        var t0 = performance.now();
-        function frame(now) {
-            requestAnimationFrame(frame);
-            if (!visible || document.hidden) return;
-            drawFn(ctx, w, h, (now - t0) * 0.001);
-        }
-        requestAnimationFrame(frame);
-    }
-
     window.addEventListener('DOMContentLoaded', function() {
-        // 1. Crypto Market Pulse Hero Canvas
-        initProceduralHero('canvas-hero-crypto', function(ctx, w, h, t) {
-            ctx.fillStyle = '#030a0c';
-            ctx.fillRect(0, 0, w, h);
-            // Subtle perspective grid
-            ctx.strokeStyle = 'rgba(57, 255, 20, 0.07)';
-            ctx.lineWidth = 1;
-            for (var x = (t * 25) % 48; x < w; x += 48) {
-                ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
-            }
-            for (var y = 0; y < h; y += 48) {
-                ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
-            }
-            // Monolithic glowing Bitcoin pulse rings
-            var cx = w * 0.78, cy = h * 0.45;
-            for (var r = 0; r < 4; r++) {
-                var rad = ((t * 32 + r * 42) % 170) + 18;
-                var alpha = Math.max(0, 1 - rad / 188) * 0.45;
-                ctx.strokeStyle = 'rgba(57, 255, 20,' + alpha.toFixed(3) + ')';
-                ctx.lineWidth = 2;
-                ctx.beginPath(); ctx.arc(cx, cy, rad, 0, Math.PI * 2); ctx.stroke();
-            }
-            // Live market waveform
-            ctx.beginPath();
-            for (var px = 0; px <= w; px += 6) {
-                var py = h * 0.52 + Math.sin(px * 0.015 + t * 2.2) * 28 + Math.cos(px * 0.04 - t * 1.4) * 14;
-                if (px === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
-            }
-            ctx.strokeStyle = 'rgba(57, 255, 20, 0.75)';
-            ctx.lineWidth = 2.2;
-            ctx.stroke();
-            // Secondary cyan EMA ribbon
-            ctx.beginPath();
-            for (var px2 = 0; px2 <= w; px2 += 8) {
-                var py2 = h * 0.55 + Math.sin(px2 * 0.011 + t * 1.3 + 1.2) * 22;
-                if (px2 === 0) ctx.moveTo(px2, py2); else ctx.lineTo(px2, py2);
-            }
-            ctx.strokeStyle = 'rgba(0, 210, 255, 0.4)';
-            ctx.lineWidth = 1.5;
-            ctx.stroke();
-        });
-
-        // 2. Oil & Gas Molecular Precision Hero Canvas
-        initProceduralHero('canvas-hero-oilgas', function(ctx, w, h, t) {
-            ctx.fillStyle = '#07090e';
-            ctx.fillRect(0, 0, w, h);
-            for (var i = 0; i < 6; i++) {
-                var yBase = h * (0.2 + i * 0.13);
-                ctx.beginPath();
-                for (var x = 0; x <= w; x += 10) {
-                    var y = yBase + Math.sin(x * 0.012 + t * (1.2 + i * 0.15) + i) * 18;
-                    if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-                }
-                ctx.strokeStyle = i % 2 === 0 ? 'rgba(245, 158, 11, 0.45)' : 'rgba(0, 210, 255, 0.35)';
-                ctx.lineWidth = 2;
-                ctx.stroke();
-                // Flowing telemetry packet dot
-                var dotX = ((t * (95 + i * 22) + i * 140) % (w + 40)) - 20;
-                var dotY = yBase + Math.sin(dotX * 0.012 + t * (1.2 + i * 0.15) + i) * 18;
-                ctx.fillStyle = i % 2 === 0 ? '#fbbf24' : '#38bdf8';
-                ctx.beginPath(); ctx.arc(dotX, dotY, 4, 0, Math.PI * 2); ctx.fill();
-            }
-        });
-
-        // 3. Cricket Velocity Focus Hero Canvas
-        initProceduralHero('canvas-hero-cricket', function(ctx, w, h, t) {
-            ctx.fillStyle = '#030b08';
-            ctx.fillRect(0, 0, w, h);
-            // Stadium floodlight beams
-            var grad = ctx.createRadialGradient(w * 0.8, 0, 10, w * 0.8, 0, w * 0.7);
-            grad.addColorStop(0, 'rgba(57, 255, 20, 0.22)');
-            grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-            ctx.fillStyle = grad;
-            ctx.fillRect(0, 0, w, h);
-            // Pitch arc trajectories
-            for (var k = 0; k < 4; k++) {
-                var prog = (t * 0.45 + k * 0.25) % 1;
-                ctx.beginPath();
-                ctx.moveTo(w * 0.08, h * 0.78);
-                ctx.quadraticCurveTo(w * (0.45 + k * 0.05), h * (0.08 + k * 0.09), w * 0.92, h * 0.68);
-                ctx.strokeStyle = 'rgba(57, 255, 20, 0.22)';
-                ctx.lineWidth = 1.6;
-                ctx.stroke();
-                // Kinetic ball spark
-                var inv = 1 - prog;
-                var bx = inv * inv * (w * 0.08) + 2 * inv * prog * (w * (0.45 + k * 0.05)) + prog * prog * (w * 0.92);
-                var by = inv * inv * (h * 0.78) + 2 * inv * prog * (h * (0.08 + k * 0.09)) + prog * prog * (h * 0.68);
-                ctx.fillStyle = k === 0 ? '#ff3b3b' : '#ccff00';
-                ctx.beginPath(); ctx.arc(bx, by, 4.5, 0, Math.PI * 2); ctx.fill();
-            }
-        });
-
-        // 4. Football Geometric Tactical Flow Hero Canvas
-        initProceduralHero('canvas-hero-football', function(ctx, w, h, t) {
-            ctx.fillStyle = '#040a10';
-            ctx.fillRect(0, 0, w, h);
-            // Tactical pitch lines
-            ctx.strokeStyle = 'rgba(148, 163, 184, 0.14)';
-            ctx.lineWidth = 1.5;
-            ctx.strokeRect(w * 0.06, h * 0.12, w * 0.88, h * 0.76);
-            ctx.beginPath(); ctx.moveTo(w * 0.5, h * 0.12); ctx.lineTo(w * 0.5, h * 0.88); ctx.stroke();
-            ctx.beginPath(); ctx.arc(w * 0.5, h * 0.5, h * 0.22, 0, Math.PI * 2); ctx.stroke();
-            // Animated tactical nodes & passing vectors
-            var pts = [
-                [0.2, 0.35], [0.35, 0.62], [0.48, 0.32], [0.64, 0.58], [0.78, 0.35], [0.85, 0.52]
-            ].map(function(p, idx) {
-                return [
-                    w * p[0] + Math.sin(t * 1.1 + idx) * 18,
-                    h * p[1] + Math.cos(t * 0.9 + idx * 1.7) * 14
-                ];
+        // ==========================================================
+        // INTERACTIVE 3D PERSPECTIVE TILT ON HERO BANNERS
+        // ==========================================================
+        document.querySelectorAll('.hero-3d-tilt').forEach(function(box) {
+            var art = box.querySelector('.hero-3d-art');
+            if (!art) return;
+            box.addEventListener('mousemove', function(e) {
+                var r = box.getBoundingClientRect();
+                var nx = ((e.clientX - r.left) / r.width - 0.5) * 2;
+                var ny = ((e.clientY - r.top) / r.height - 0.5) * 2;
+                art.style.animation = 'none';
+                art.style.transform = 'scale(1.09) rotateY(' + (nx * 4.5).toFixed(2) + 'deg) rotateX(' + (-ny * 3.5).toFixed(2) + 'deg) translate3d(' + (-nx * 10).toFixed(1) + 'px,' + (-ny * 8).toFixed(1) + 'px, 0)';
+            }, { passive: true });
+            box.addEventListener('mouseleave', function() {
+                art.style.transform = 'scale(1.04)';
+                art.style.animation = 'hero-3d-float 16s ease-in-out infinite alternate';
             });
-            ctx.strokeStyle = 'rgba(57, 255, 20, 0.45)';
-            ctx.lineWidth = 1.6;
-            ctx.beginPath();
-            pts.forEach(function(p, idx) { if (idx === 0) ctx.moveTo(p[0], p[1]); else ctx.lineTo(p[0], p[1]); });
-            ctx.stroke();
-            pts.forEach(function(p) {
-                ctx.fillStyle = '#39ff14';
-                ctx.beginPath(); ctx.arc(p[0], p[1], 4.5, 0, Math.PI * 2); ctx.fill();
-            });
-        });
-
-        // 5. DailyPost365 Studios Cinema & Audio Spectrum Hero Canvas
-        initProceduralHero('canvas-hero-studios', function(ctx, w, h, t) {
-            ctx.fillStyle = '#090414';
-            ctx.fillRect(0, 0, w, h);
-            var g1 = ctx.createRadialGradient(w * 0.75, h * 0.35, 10, w * 0.75, h * 0.35, w * 0.5);
-            g1.addColorStop(0, 'rgba(168, 85, 247, 0.32)');
-            g1.addColorStop(0.5, 'rgba(255, 0, 85, 0.14)');
-            g1.addColorStop(1, 'rgba(0,0,0,0)');
-            ctx.fillStyle = g1;
-            ctx.fillRect(0, 0, w, h);
-            // Audio spectrum bars
-            var bars = 42;
-            var bw = w / bars;
-            for (var i = 0; i < bars; i++) {
-                var amp = (Math.sin(t * 3.2 + i * 0.45) * 0.5 + 0.5) * (Math.cos(t * 1.7 - i * 0.2) * 0.5 + 0.5);
-                var bh = 14 + amp * (h * 0.42);
-                ctx.fillStyle = i % 2 === 0 ? 'rgba(192, 132, 252, 0.28)' : 'rgba(255, 0, 85, 0.24)';
-                ctx.fillRect(i * bw + 3, h - bh, Math.max(2, bw - 6), bh);
-            }
         });
 
         // ==========================================================
@@ -1972,35 +1829,185 @@ RULES:
         initTradingView();
 
         // ==========================================================
-        // THREE.JS PROCEDURAL WEBGL LAYERS (0 KB TEXTURES, VIEWPORT-PAUSED)
+        // FULL-ON 3D THREE.JS WEBGL ENGINE (RESTORED 3D DEPTH + WEBP OPTIMIZED)
         // ==========================================================
         function initThreeScenes() {
-            if (typeof THREE === 'undefined') { setTimeout(initThreeScenes, 300); return; }
+            if (typeof THREE === 'undefined') { setTimeout(initThreeScenes, 250); return; }
 
-            // 1. Background Neural Vortex (pure procedural particles, zero PNG textures)
+            var texLoader = new THREE.TextureLoader();
+
+            // Helper: 3D Volumetric Hero Overlay Stage (orbiting 3D wireframes + 3D particles + mouse parallax)
+            function mount3DHeroStage(canvasId, opts) {
+                var cv = document.getElementById(canvasId);
+                if (!cv) return;
+                var visible = false;
+                new IntersectionObserver(function(e) { visible = e[0].isIntersecting; }, { threshold: 0.05 }).observe(cv);
+
+                var sc = new THREE.Scene();
+                var cam = new THREE.PerspectiveCamera(58, (cv.clientWidth || 800) / (cv.clientHeight || 390), 0.1, 1000);
+                cam.position.z = 52;
+                var ren = new THREE.WebGLRenderer({ canvas: cv, alpha: true, antialias: true, powerPreference: 'high-performance' });
+                ren.setSize(cv.clientWidth || 800, cv.clientHeight || 390);
+                ren.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
+
+                var mouse = { x: 0, y: 0 };
+                cv.parentElement.addEventListener('mousemove', function(e) {
+                    var r = cv.getBoundingClientRect();
+                    mouse.x = ((e.clientX - r.left) / r.width) * 2 - 1;
+                    mouse.y = -((e.clientY - r.top) / r.height) * 2 + 1;
+                }, { passive: true });
+
+                // 3D Volumetric Particle Cloud flying through Z-depth
+                var pCount = window.innerWidth < 768 ? 220 : (opts.count || 420);
+                var pPos = new Float32Array(pCount * 3);
+                var pCol = new Float32Array(pCount * 3);
+                var c1 = new THREE.Color(opts.c1);
+                var c2 = new THREE.Color(opts.c2);
+                var c3 = new THREE.Color(opts.c3 || opts.c1);
+                for (var i = 0; i < pCount; i++) {
+                    pPos[i * 3] = (Math.random() - 0.5) * 180;
+                    pPos[i * 3 + 1] = (Math.random() - 0.5) * 95;
+                    pPos[i * 3 + 2] = (Math.random() - 0.5) * 120;
+                    var col = i % 3 === 0 ? c1 : (i % 3 === 1 ? c2 : c3);
+                    pCol[i * 3] = col.r; pCol[i * 3 + 1] = col.g; pCol[i * 3 + 2] = col.b;
+                }
+                var pGeo = new THREE.BufferGeometry();
+                pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+                pGeo.setAttribute('color', new THREE.BufferAttribute(pCol, 3));
+                var particles = new THREE.Points(pGeo, new THREE.PointsMaterial({
+                    size: opts.size || 1.7, vertexColors: true, transparent: true, opacity: 0.85, blending: THREE.AdditiveBlending
+                }));
+                sc.add(particles);
+
+                // 3D Wireframe Geometric Core + Orbital Rings
+                var coreGroup = new THREE.Group();
+                coreGroup.position.set(opts.offsetX || 18, opts.offsetY || 2, -10);
+                var ring1 = new THREE.Mesh(
+                    new THREE.TorusGeometry(opts.ringR || 20, 0.28, 12, 64),
+                    new THREE.MeshBasicMaterial({ color: opts.c1, wireframe: true, transparent: true, opacity: 0.34, blending: THREE.AdditiveBlending })
+                );
+                var ring2 = new THREE.Mesh(
+                    new THREE.TorusGeometry((opts.ringR || 20) * 1.28, 0.2, 10, 64),
+                    new THREE.MeshBasicMaterial({ color: opts.c2, wireframe: true, transparent: true, opacity: 0.24, blending: THREE.AdditiveBlending })
+                );
+                ring2.rotation.x = Math.PI / 3;
+                coreGroup.add(ring1);
+                coreGroup.add(ring2);
+
+                if (opts.poly === 'icosa') {
+                    coreGroup.add(new THREE.Mesh(
+                        new THREE.IcosahedronGeometry(11, 1),
+                        new THREE.MeshBasicMaterial({ color: opts.c1, wireframe: true, transparent: true, opacity: 0.28, blending: THREE.AdditiveBlending })
+                    ));
+                } else if (opts.poly === 'octa') {
+                    coreGroup.add(new THREE.Mesh(
+                        new THREE.OctahedronGeometry(13, 1),
+                        new THREE.MeshBasicMaterial({ color: opts.c1, wireframe: true, transparent: true, opacity: 0.32, blending: THREE.AdditiveBlending })
+                    ));
+                }
+                sc.add(coreGroup);
+
+                window.addEventListener('resize', function() {
+                    if (!cv.clientWidth || !cv.clientHeight) return;
+                    cam.aspect = cv.clientWidth / cv.clientHeight;
+                    cam.updateProjectionMatrix();
+                    ren.setSize(cv.clientWidth, cv.clientHeight);
+                }, { passive: true });
+
+                function tick() {
+                    requestAnimationFrame(tick);
+                    if (!visible || document.hidden) return;
+                    cam.position.x += (mouse.x * 14 - cam.position.x) * 0.05;
+                    cam.position.y += (mouse.y * 10 - cam.position.y) * 0.05;
+                    cam.lookAt(0, 0, 0);
+
+                    ring1.rotation.z += 0.005;
+                    ring1.rotation.x += 0.003;
+                    ring2.rotation.y -= 0.006;
+                    ring2.rotation.z += 0.002;
+                    coreGroup.rotation.y += 0.003;
+
+                    var pa = pGeo.attributes.position.array;
+                    for (var n = 0; n < pCount; n++) {
+                        pa[n * 3 + 2] += opts.speed || 0.45;
+                        if (pa[n * 3 + 2] > 55) pa[n * 3 + 2] = -70;
+                    }
+                    pGeo.attributes.position.needsUpdate = true;
+                    ren.render(sc, cam);
+                }
+                tick();
+            }
+
+            // 1. Background Palantir-Grade 3D Neural Network Vortex (Connected Nodes + 3 Streams)
             var bgCanvas = document.getElementById('vortex-canvas');
             if (bgCanvas) {
                 var scene = new THREE.Scene();
-                scene.fog = new THREE.FogExp2(0x010409, 0.008);
+                scene.fog = new THREE.FogExp2(0x010409, 0.0075);
                 var camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
                 camera.position.z = 60;
-                var renderer = new THREE.WebGLRenderer({ canvas: bgCanvas, alpha: true, antialias: false, powerPreference: 'low-power' });
+                var renderer = new THREE.WebGLRenderer({ canvas: bgCanvas, alpha: true, antialias: true, powerPreference: 'high-performance' });
                 renderer.setSize(window.innerWidth, window.innerHeight);
-                renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
 
-                var isMobile = window.innerWidth < 768;
-                var nodeCount = isMobile ? 280 : 650;
+                var mouseV = new THREE.Vector3(0, 0, 0);
+                var targetV = new THREE.Vector3(0, 0, 0);
+                var scrollY = window.scrollY;
+                window.addEventListener('mousemove', function(e) {
+                    targetV.x = ((e.clientX / window.innerWidth) * 2 - 1) * 45;
+                    targetV.y = -((e.clientY / window.innerHeight) * 2 - 1) * 35;
+                }, { passive: true });
+                window.addEventListener('scroll', function() { scrollY = window.scrollY; }, { passive: true });
+
+                var isMob = window.innerWidth < 768;
+                var nodeCount = isMob ? 300 : 750;
+                var nodePositions = [];
                 var posArr = new Float32Array(nodeCount * 3);
                 for (var i = 0; i < nodeCount; i++) {
-                    posArr[i * 3] = (Math.random() - 0.5) * 220;
-                    posArr[i * 3 + 1] = (Math.random() - 0.5) * 220;
-                    posArr[i * 3 + 2] = (Math.random() - 0.5) * 100 - 15;
+                    var nx = (Math.random() - 0.5) * 230;
+                    var ny = (Math.random() - 0.5) * 230;
+                    var nz = (Math.random() - 0.5) * 100 - 10;
+                    posArr[i * 3] = nx; posArr[i * 3 + 1] = ny; posArr[i * 3 + 2] = nz;
+                    nodePositions.push(new THREE.Vector3(nx, ny, nz));
                 }
-                var geo = new THREE.BufferGeometry();
-                geo.setAttribute('position', new THREE.BufferAttribute(posArr, 3));
-                var mat = new THREE.PointsMaterial({ color: 0x38bdf8, size: 1.4, transparent: true, opacity: 0.38, blending: THREE.AdditiveBlending });
-                var pts = new THREE.Points(geo, mat);
-                scene.add(pts);
+                var edgePositions = [];
+                for (var a = 0; a < nodeCount; a++) {
+                    for (var b = a + 1; b < nodeCount; b++) {
+                        if (nodePositions[a].distanceTo(nodePositions[b]) < 22) {
+                            edgePositions.push(nodePositions[a].x, nodePositions[a].y, nodePositions[a].z, nodePositions[b].x, nodePositions[b].y, nodePositions[b].z);
+                        }
+                    }
+                }
+                var edgeGeo = new THREE.BufferGeometry();
+                edgeGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(edgePositions), 3));
+                var nodeGeo = new THREE.BufferGeometry();
+                nodeGeo.setAttribute('position', new THREE.BufferAttribute(posArr, 3));
+
+                var networkGroup = new THREE.Group();
+                networkGroup.add(new THREE.LineSegments(edgeGeo, new THREE.LineBasicMaterial({ color: 0x3b82f6, transparent: true, opacity: 0.08, blending: THREE.AdditiveBlending })));
+                networkGroup.add(new THREE.Points(nodeGeo, new THREE.PointsMaterial({ color: 0x38bdf8, size: 1.5, transparent: true, opacity: 0.45, blending: THREE.AdditiveBlending })));
+                scene.add(networkGroup);
+
+                function makeStream(hex, cnt) {
+                    var grp = new THREE.Group();
+                    for (var s = 0; s < cnt; s++) {
+                        var pts = [];
+                        var cx = (Math.random() - 0.5) * 160, cy = (Math.random() - 0.5) * 160, cz = (Math.random() - 0.5) * 60;
+                        for (var k = 0; k < 4; k++) {
+                            pts.push(new THREE.Vector3(cx, cy, cz));
+                            cx += (Math.random() - 0.5) * 35; cy += (Math.random() - 0.5) * 35; cz += (Math.random() - 0.5) * 15;
+                        }
+                        var curve = new THREE.CatmullRomCurve3(pts);
+                        grp.add(new THREE.Line(
+                            new THREE.BufferGeometry().setFromPoints(curve.getPoints(40)),
+                            new THREE.LineBasicMaterial({ color: hex, transparent: true, opacity: 0.14, blending: THREE.AdditiveBlending })
+                        ));
+                    }
+                    return grp;
+                }
+                var sCrypto = makeStream(0x00FFCC, 6);
+                var sEnergy = makeStream(0xFFB300, 5);
+                var sSports = makeStream(0x8A2BE2, 5);
+                scene.add(sCrypto); scene.add(sEnergy); scene.add(sSports);
 
                 window.addEventListener('resize', function() {
                     camera.aspect = window.innerWidth / window.innerHeight;
@@ -2008,59 +2015,105 @@ RULES:
                     renderer.setSize(window.innerWidth, window.innerHeight);
                 }, { passive: true });
 
+                var clock = new THREE.Clock();
                 function animBg() {
                     requestAnimationFrame(animBg);
                     if (document.hidden) return;
-                    pts.rotation.y += 0.0005;
-                    pts.rotation.x += 0.0002;
+                    var t = clock.getElapsedTime();
+                    mouseV.lerp(targetV, 0.04);
+                    networkGroup.rotation.y = Math.sin(t * 0.05) * 0.12;
+                    networkGroup.rotation.x = Math.cos(t * 0.05) * 0.1;
+                    networkGroup.position.y = scrollY * 0.025;
+                    sCrypto.position.x = Math.sin(t * 0.12) * 6;
+                    sEnergy.rotation.z = t * 0.012;
+                    sSports.position.z = Math.sin(t * 0.18) * 6;
+                    camera.position.x += (mouseV.x * 0.12 - camera.position.x) * 0.05;
+                    camera.position.y += (mouseV.y * 0.12 - camera.position.y) * 0.05;
+                    camera.lookAt(0, 0, 0);
                     renderer.render(scene, camera);
                 }
                 animBg();
             }
 
-            // 2. Dedicated City Network 3D Engine (pure procedural wireframe globe + streams)
+            // 2. Full-on 3D Hero WebGL Overlays (layered over compressed WebP 3D artworks)
+            mount3DHeroStage('canvas-hero-crypto', { c1: 0x39ff14, c2: 0xffb300, c3: 0xff3355, count: 420, ringR: 22, offsetX: 0, speed: 0.5 });
+            mount3DHeroStage('canvas-hero-oilgas', { c1: 0xffb300, c2: 0x00d2ff, c3: 0xffd700, count: 440, ringR: 21, poly: 'icosa', offsetX: 16, speed: 0.55 });
+            mount3DHeroStage('canvas-hero-cricket', { c1: 0x39ff14, c2: 0xccff00, c3: 0xffffff, count: 280, ringR: 18, offsetX: 20, speed: 0.6 });
+            mount3DHeroStage('canvas-hero-football', { c1: 0x39ff14, c2: 0x94a3b8, c3: 0xffffff, count: 280, ringR: 19, offsetX: 18, speed: 0.45 });
+            mount3DHeroStage('canvas-hero-studios', { c1: 0xc084fc, c2: 0xff0055, c3: 0x38bdf8, count: 480, ringR: 22, poly: 'octa', offsetX: 18, speed: 0.5 });
+
+            // 3. Dedicated Global City Network 3D Engine (Restored Full 3D + 86KB WebP texture + mouse parallax)
             var cnCanvas = document.getElementById('city-network-canvas');
             if (cnCanvas) {
                 var cnVisible = false;
                 new IntersectionObserver(function(e) { cnVisible = e[0].isIntersecting; }, { threshold: 0.05 }).observe(cnCanvas);
                 var cnScene = new THREE.Scene();
-                var cnCamera = new THREE.PerspectiveCamera(60, cnCanvas.clientWidth / (cnCanvas.clientHeight || 1), 0.1, 1000);
+                var cnCamera = new THREE.PerspectiveCamera(60, (cnCanvas.clientWidth || 800) / (cnCanvas.clientHeight || 360), 0.1, 1000);
                 cnCamera.position.z = 50;
-                var cnRenderer = new THREE.WebGLRenderer({ canvas: cnCanvas, alpha: true, antialias: true });
-                cnRenderer.setSize(cnCanvas.clientWidth, cnCanvas.clientHeight);
-                cnRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+                var cnRenderer = new THREE.WebGLRenderer({ canvas: cnCanvas, alpha: true, antialias: true, powerPreference: 'high-performance' });
+                cnRenderer.setSize(cnCanvas.clientWidth || 800, cnCanvas.clientHeight || 360);
+                cnRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
+
+                var cnMouse = new THREE.Vector3(0, 0, 0);
+                cnCanvas.parentElement.addEventListener('mousemove', function(e) {
+                    var rect = cnCanvas.getBoundingClientRect();
+                    cnMouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+                    cnMouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+                }, { passive: true });
+
+                texLoader.load('assets/webp/city_network.webp', function(tex) {
+                    var aspect = tex.image.width / tex.image.height;
+                    var plane = new THREE.Mesh(
+                        new THREE.PlaneGeometry(115 * aspect, 115),
+                        new THREE.MeshBasicMaterial({ map: tex, transparent: true, opacity: 0.72, blending: THREE.AdditiveBlending, depthWrite: false })
+                    );
+                    plane.position.z = -30;
+                    cnScene.add(plane);
+                });
 
                 var lGeo = new THREE.BufferGeometry();
-                var lCount = 260;
+                var lCount = 360;
                 var lPos = new Float32Array(lCount * 6);
                 for (var j = 0; j < lCount; j++) {
-                    var x = (Math.random() - 0.5) * 180;
-                    var y = (Math.random() - 0.5) * 110;
-                    var z = (Math.random() - 0.5) * 80 - 10;
-                    lPos[j * 6] = x; lPos[j * 6 + 1] = y; lPos[j * 6 + 2] = z;
-                    lPos[j * 6 + 3] = x; lPos[j * 6 + 4] = y + Math.random() * 14 + 5; lPos[j * 6 + 5] = z;
+                    var lx = (Math.random() - 0.5) * 200;
+                    var ly = (Math.random() - 0.5) * 120;
+                    var lz = (Math.random() - 0.5) * 100 - 10;
+                    lPos[j * 6] = lx; lPos[j * 6 + 1] = ly; lPos[j * 6 + 2] = lz;
+                    lPos[j * 6 + 3] = lx; lPos[j * 6 + 4] = ly + Math.random() * 15 + 5; lPos[j * 6 + 5] = lz;
                 }
                 lGeo.setAttribute('position', new THREE.BufferAttribute(lPos, 3));
-                cnScene.add(new THREE.LineSegments(lGeo, new THREE.LineBasicMaterial({ color: 0x39ff14, transparent: true, opacity: 0.42 })));
+                cnScene.add(new THREE.LineSegments(lGeo, new THREE.LineBasicMaterial({ color: 0x39ff14, transparent: true, opacity: 0.5, blending: THREE.AdditiveBlending })));
+
                 var globe = new THREE.Mesh(
-                    new THREE.SphereGeometry(20, 18, 18),
-                    new THREE.MeshBasicMaterial({ color: 0x00ffff, wireframe: true, transparent: true, opacity: 0.22 })
+                    new THREE.SphereGeometry(18, 18, 18),
+                    new THREE.MeshBasicMaterial({ color: 0x00ffff, wireframe: true, transparent: true, opacity: 0.22, blending: THREE.AdditiveBlending })
                 );
-                globe.position.z = -18;
+                globe.position.z = -20;
                 cnScene.add(globe);
+
+                window.addEventListener('resize', function() {
+                    if (!cnCanvas.clientWidth || !cnCanvas.clientHeight) return;
+                    cnCamera.aspect = cnCanvas.clientWidth / cnCanvas.clientHeight;
+                    cnCamera.updateProjectionMatrix();
+                    cnRenderer.setSize(cnCanvas.clientWidth, cnCanvas.clientHeight);
+                }, { passive: true });
 
                 function cnAnim() {
                     requestAnimationFrame(cnAnim);
                     if (!cnVisible || document.hidden) return;
-                    globe.rotation.y += 0.004;
+                    cnCamera.position.x += (cnMouse.x * 24 - cnCamera.position.x) * 0.05;
+                    cnCamera.position.y += (cnMouse.y * 24 - cnCamera.position.y) * 0.05;
+                    cnCamera.lookAt(0, 0, 0);
+                    globe.rotation.y += 0.003;
                     globe.rotation.x += 0.002;
                     var arr = lGeo.attributes.position.array;
                     for (var k = 0; k < lCount; k++) {
-                        arr[k * 6 + 1] += 0.28;
-                        arr[k * 6 + 4] += 0.28;
-                        if (arr[k * 6 + 1] > 55) {
-                            arr[k * 6 + 1] = -55;
-                            arr[k * 6 + 4] = -55 + Math.random() * 14 + 5;
+                        var spd = 0.2 + (k % 3) * 0.1;
+                        arr[k * 6 + 1] += spd;
+                        arr[k * 6 + 4] += spd;
+                        if (arr[k * 6 + 1] > 60) {
+                            arr[k * 6 + 1] = -60;
+                            arr[k * 6 + 4] = -60 + Math.random() * 15 + 5;
                         }
                     }
                     lGeo.attributes.position.needsUpdate = true;
@@ -2069,50 +2122,82 @@ RULES:
                 cnAnim();
             }
 
-            // 3. Dedicated Oil & Gas 3D Pipeline Engine (pure procedural crystal + gold/cyan field)
+            // 4. Dedicated Oil & Gas 3D Pipeline Telemetry Engine (Restored Full 3D + 11KB WebP + 750 particles + mouse parallax)
             var ogCanvas = document.getElementById('oil-gas-canvas');
             if (ogCanvas) {
                 var ogVisible = false;
                 new IntersectionObserver(function(e) { ogVisible = e[0].isIntersecting; }, { threshold: 0.05 }).observe(ogCanvas);
                 var ogScene = new THREE.Scene();
-                var ogCamera = new THREE.PerspectiveCamera(60, ogCanvas.clientWidth / (ogCanvas.clientHeight || 1), 0.1, 1000);
+                var ogCamera = new THREE.PerspectiveCamera(60, (ogCanvas.clientWidth || 800) / (ogCanvas.clientHeight || 360), 0.1, 1000);
                 ogCamera.position.z = 50;
-                var ogRenderer = new THREE.WebGLRenderer({ canvas: ogCanvas, alpha: true, antialias: true });
-                ogRenderer.setSize(ogCanvas.clientWidth, ogCanvas.clientHeight);
-                ogRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+                var ogRenderer = new THREE.WebGLRenderer({ canvas: ogCanvas, alpha: true, antialias: true, powerPreference: 'high-performance' });
+                ogRenderer.setSize(ogCanvas.clientWidth || 800, ogCanvas.clientHeight || 360);
+                ogRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
 
-                var pCount = 450;
+                var ogMouse = new THREE.Vector3(0, 0, 0);
+                ogCanvas.parentElement.addEventListener('mousemove', function(e) {
+                    var rect = ogCanvas.getBoundingClientRect();
+                    ogMouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+                    ogMouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+                }, { passive: true });
+
+                texLoader.load('assets/webp/oil_corridor.webp', function(tex) {
+                    var aspect = tex.image.width / tex.image.height;
+                    var plane = new THREE.Mesh(
+                        new THREE.PlaneGeometry(120 * aspect, 120),
+                        new THREE.MeshBasicMaterial({ map: tex, transparent: true, opacity: 0.65, blending: THREE.AdditiveBlending, depthWrite: false })
+                    );
+                    plane.position.z = -30;
+                    ogScene.add(plane);
+                });
+
+                var pCount = 750;
                 var pPos = new Float32Array(pCount * 3);
                 var pCol = new Float32Array(pCount * 3);
                 var cGold = new THREE.Color(0xFFD700), cCyan = new THREE.Color(0x00FFCC);
                 for (var m = 0; m < pCount; m++) {
-                    pPos[m * 3] = (Math.random() - 0.5) * 220;
-                    pPos[m * 3 + 1] = (Math.random() - 0.5) * 110;
-                    pPos[m * 3 + 2] = (Math.random() - 0.5) * 140;
-                    var mc = m % 2 === 0 ? cGold : cCyan;
+                    pPos[m * 3] = (Math.random() - 0.5) * 250;
+                    pPos[m * 3 + 1] = (Math.random() - 0.5) * 120;
+                    pPos[m * 3 + 2] = (Math.random() - 0.5) * 150;
+                    var mc = Math.random() > 0.5 ? cGold : cCyan;
                     pCol[m * 3] = mc.r; pCol[m * 3 + 1] = mc.g; pCol[m * 3 + 2] = mc.b;
                 }
                 var pGeo = new THREE.BufferGeometry();
                 pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
                 pGeo.setAttribute('color', new THREE.BufferAttribute(pCol, 3));
-                ogScene.add(new THREE.Points(pGeo, new THREE.PointsMaterial({ size: 1.8, vertexColors: true, transparent: true, opacity: 0.85, blending: THREE.AdditiveBlending })));
+                ogScene.add(new THREE.Points(pGeo, new THREE.PointsMaterial({ size: 1.8, vertexColors: true, transparent: true, opacity: 0.9, blending: THREE.AdditiveBlending })));
 
                 var crystal = new THREE.Mesh(
-                    new THREE.IcosahedronGeometry(16, 1),
-                    new THREE.MeshBasicMaterial({ color: 0xFFD700, wireframe: true, transparent: true, opacity: 0.28 })
+                    new THREE.IcosahedronGeometry(15, 1),
+                    new THREE.MeshBasicMaterial({ color: 0xFFD700, wireframe: true, transparent: true, opacity: 0.28, blending: THREE.AdditiveBlending })
                 );
                 crystal.position.z = -15;
                 ogScene.add(crystal);
 
+                window.addEventListener('resize', function() {
+                    if (!ogCanvas.clientWidth || !ogCanvas.clientHeight) return;
+                    ogCamera.aspect = ogCanvas.clientWidth / ogCanvas.clientHeight;
+                    ogCamera.updateProjectionMatrix();
+                    ogRenderer.setSize(ogCanvas.clientWidth, ogCanvas.clientHeight);
+                }, { passive: true });
+
                 function ogAnim() {
                     requestAnimationFrame(ogAnim);
                     if (!ogVisible || document.hidden) return;
+                    ogCamera.position.x += (ogMouse.x * 24 - ogCamera.position.x) * 0.05;
+                    ogCamera.position.y += (ogMouse.y * 24 - ogCamera.position.y) * 0.05;
+                    ogCamera.lookAt(0, 0, 0);
                     crystal.rotation.x += 0.002;
                     crystal.rotation.y += 0.004;
                     var pa = pGeo.attributes.position.array;
+                    var tNow = Date.now() * 0.001;
                     for (var n = 0; n < pCount; n++) {
-                        pa[n * 3 + 2] += 0.7;
-                        if (pa[n * 3 + 2] > 50) pa[n * 3 + 2] = -140;
+                        pa[n * 3] += Math.sin(tNow + n) * 0.05;
+                        pa[n * 3 + 2] += 0.8 + (n % 5) * 0.1;
+                        if (pa[n * 3 + 2] > 50) {
+                            pa[n * 3 + 2] = -150;
+                            pa[n * 3] = (Math.random() - 0.5) * 250;
+                        }
                     }
                     pGeo.attributes.position.needsUpdate = true;
                     ogRenderer.render(ogScene, ogCamera);
@@ -2397,6 +2482,34 @@ if __name__ == "__main__":
                     with open(local_fp, "r", encoding="utf-8") as f:
                         sync_text_file(repo, rel_path, f.read(), msg)
 
-        print(f"[AUDIT] {ENGINE_VERSION} | Zero heavy binaries uploaded | All free-tier guards active.")
+            # 3. Sync ultra-compressed WebP 3D hero/background textures (~357 KB total, SHA-checked)
+            webp_dir = os.path.join(base_dir, "assets", "webp")
+            if os.path.exists(webp_dir):
+                for webp_file in sorted(os.listdir(webp_dir)):
+                    if not webp_file.endswith(".webp"):
+                        continue
+                    remote_webp = f"assets/webp/{webp_file}"
+                    local_webp = os.path.join(webp_dir, webp_file)
+                    try:
+                        with open(local_webp, "rb") as wf:
+                            raw_bytes = wf.read()
+                        local_sha = compute_git_sha(raw_bytes)
+                        try:
+                            rf = repo.get_contents(remote_webp, ref="main")
+                            if rf.sha != local_sha:
+                                repo.update_file(remote_webp, f"[3D WEBP] Update {webp_file}", raw_bytes, rf.sha)
+                                print(f"[OK] {remote_webp} updated on GitHub.")
+                            else:
+                                print(f"[SKIP] {remote_webp} unchanged.")
+                        except github.GithubException as ge:
+                            if ge.status == 404:
+                                repo.create_file(remote_webp, f"[3D WEBP] Upload {webp_file}", raw_bytes)
+                                print(f"[OK] {remote_webp} created on GitHub.")
+                            else:
+                                print(f"[WARN] Could not sync {remote_webp}: {ge}")
+                    except Exception as exc:
+                        print(f"[WARN] Could not sync {remote_webp}: {exc}")
+
+        print(f"[AUDIT] {ENGINE_VERSION} | Full 3D WebP + Three.js WebGL | All free-tier guards active.")
     except Exception as e:
         print(f"[ERROR] DEPLOYMENT REJECTED: {str(e)}")
